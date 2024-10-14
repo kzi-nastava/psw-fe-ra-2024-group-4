@@ -1,0 +1,30 @@
+<div id="equipment">
+    <p>Tours</p>
+    <hr>
+    <div id="equipment-details">
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Opis</th>
+                    <th>Tezina</th>
+                    <th>Cena</th>
+                    <th>Status</th>
+                    <th>Tagovi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tr of tours">
+                    <td>{{tr.name}}</td>
+                    <td>{{tr.description}}</td>
+                    <td>{{tr.difficulty}}</td>
+                    <td>{{tr.price}}</td>
+                    <td>{{ tr.status === 0 ? 'Draft' : 'Published' }}</td>
+                    <td>{{ getTagNames(tr.tags).join(', ') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
