@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KeypointsComponent } from './keypoints/keypoints.component';
-
-
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { KeypointFormComponent } from './keypoint-form/keypoint-form.component';
+import { AdministrationModule } from "../administration/administration.module";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    KeypointsComponent
+    KeypointsComponent,
+    KeypointFormComponent
   ],
   imports: [
-    CommonModule
-  ],
+    CommonModule,
+    MaterialModule,
+    AdministrationModule,
+    ReactiveFormsModule
+],
   exports: [
-    KeypointsComponent
+    KeypointsComponent,
+    KeypointFormComponent
   ]
 })
 export class TourAuthoringModule { }

@@ -1,7 +1,8 @@
-<div>
-    <h1>My Key points</h1>
+<h1>My Keypoints</h1>
+<div class="mykeypoints-container">
+    
 
-    <table>
+    <table class="keypoints-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -10,6 +11,8 @@
                 <th>Latitude</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +23,24 @@
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.image }}</td>
+                <td>
+                    <button color="accent" (click)="deleteKeypoint(item.id || 0)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+                <td>
+                    <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
             </tr>
+            <tr><button color="primary" (click)="onAddClicked()"  mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button></tr>
         </tbody>
     </table>
+    <div class="keypoints-form-container">
+        <xp-keypoint-form *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint"></xp-keypoint-form>
+    </div>
+  
 </div>

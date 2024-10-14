@@ -1,5 +1,5 @@
 export interface KeyPoint {
-    id: number;
+    id?: number;
     name: string;
     longitude: number;
     latitude: number;

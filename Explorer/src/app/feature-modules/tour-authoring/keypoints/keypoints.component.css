@@ -32,3 +32,16 @@ tbody tr.active-row {
     font-weight: bold;
     color: #3f51b5;
 }
+
+.mykeypoints-container{
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4%;
+}
+
+.keypoint-form-div{
+    display: flex;
+    flex-direction: column;
+}

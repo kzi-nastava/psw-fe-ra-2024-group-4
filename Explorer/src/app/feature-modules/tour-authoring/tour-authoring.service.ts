@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeyPoint } from './model/keypoint.model';
 import { Observable } from 'rxjs';
+import { environment } from 'src/env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,18 @@ export class TourAuthoringService {
   }
 
   getKeyPoints(userId: number): Observable<KeyPoint[]> {
-    return this.http.get<KeyPoint[]>('https://localhost:44333/api/keypointaddition/keypoint/getbyuser/' + userId);
+    return this.http.get<KeyPoint[]>(environment.apiHost + 'keypointaddition/keypoint/getbyuser/' + userId);
+  }
+
+  createKeyPoint(keypoint: KeyPoint): Observable<KeyPoint>{
+    return this.http.post<KeyPoint>(environment.apiHost + 'keypointaddition/keypoint', keypoint);
+  }
+
+  updateKeyPoint(keypoint: KeyPoint): Observable<KeyPoint>{
+    return this.http.put<KeyPoint>(environment.apiHost + 'keypointaddition/keypoint/' + keypoint.id, keypoint);
+  }
+
+  deleteKeyPoint(id: number): Observable<KeyPoint>{
+    return this.http.delete<KeyPoint>(environment.apiHost + 'keypointaddition/keypoint/' + id);
   }
 }

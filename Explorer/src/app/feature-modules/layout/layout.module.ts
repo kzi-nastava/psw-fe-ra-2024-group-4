@@ -6,7 +6,6 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { RouterModule } from '@angular/router';
 import { MykeypointsComponent } from './mykeypoints/mykeypoints.component';
 import { TourAuthoringModule } from "../tour-authoring/tour-authoring.module";
-import { KeypointsComponent } from '../tour-authoring/keypoints/keypoints.component';
 
 @NgModule({
   declarations: [

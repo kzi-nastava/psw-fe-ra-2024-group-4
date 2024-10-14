@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { KeypointsComponent } from '../../tour-authoring/keypoints/keypoints.component';
 
 @Component({
   selector: 'xp-mykeypoints',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./mykeypoints.component.css']
 })
 export class MykeypointsComponent {
+  
 
 }
