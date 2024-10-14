@@ -16,7 +16,7 @@ import { environment } from "src/env/environment";
         return this.http.get<Tour[]>(`${environment.apiHost}author/tour/${id}`);
       }
   
-    addTour(tour: Tour[]): Observable<Tour[]> {
-      return this.http.post<Tour[]>(environment.apiHost + 'author/tour', tour);
+    addTour(tour: Tour): Observable<Tour> {
+      return this.http.post<Tour>(environment.apiHost + 'author/tour', tour);
     }
   }
