@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ToursForAuthorComponent } from './tours-for-author/tours-for-author.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TourAuthoringModule } from '../tour-authoring/tour-authoring.module';
 
 
 
@@ -11,7 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TourAuthoringModule
   ],
   exports: [
     ToursForAuthorComponent

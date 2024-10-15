@@ -4,6 +4,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { KeyPoint } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Tour } from '../model/tour.model';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -14,8 +15,13 @@ export class KeypointFormComponent implements OnInit {
   keyPoints: KeyPoint[] = [];
 
   @Output() keypointsUpdated = new EventEmitter<null>();
+  @Output() tourKeypointsUpdated = new EventEmitter<null>();
+  @Output() tourUpdated = new EventEmitter<null>();
+
   @Input() keypoint: KeyPoint;
   @Input() shouldEdit: boolean = false;
+  @Input() shouldAddKeypoint: boolean = false;
+  @Input() tourToAdd: Tour;
 
   user: User | undefined;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
@@ -76,8 +82,27 @@ export class KeypointFormComponent implements OnInit {
          next: (_) => {
             this.keypointsUpdated.emit();
             this.keyPoints.length += 1;
+
+            if(this.shouldAddKeypoint && this.user)
+              {
+      
+              
+                this.service.addKeyPointToTour(this.tourToAdd.id, keypoint.id, this.user.id).subscribe({
+                  next: (result: Tour) => { 
+                    
+                  },
+                  error: (err: any) => console.log(err)
+                })
+          
+              }
+
          }
       });
+
+      
+     
+
+     
 
     
     }

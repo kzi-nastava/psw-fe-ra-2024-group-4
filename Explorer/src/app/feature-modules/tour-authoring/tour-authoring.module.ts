@@ -12,12 +12,14 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { TourDetailsComponent } from './tour-details/tour-details.component';
 
 @NgModule({
   declarations: [
     KeypointsComponent,
     KeypointFormComponent,
-    CreateTourComponent
+    CreateTourComponent,
+    TourDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { MatSelectModule } from '@angular/material/select';
   exports: [
     KeypointsComponent,
     KeypointFormComponent,
-    CreateTourComponent
+    CreateTourComponent,
+    TourDetailsComponent
   ]
 })
 export class TourAuthoringModule { }

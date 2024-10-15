@@ -23,11 +23,7 @@
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.image }}</td>
-                <td>
-                    <button color="accent" (click)="deleteKeypoint(item.id || 0)" mat-icon-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
+              
                 <td>
                     <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
                         <mat-icon>edit</mat-icon>
