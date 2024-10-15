@@ -15,6 +15,7 @@ import { ManageTourEquipmentComponent } from './manage-tour-equipment/manage-tou
 
 @NgModule({
   declarations: [CreateTourComponent, NecessaryEquipmentComponent, ManageTourEquipmentComponent],
+
   imports: [
     CommonModule,
     MaterialModule,
@@ -23,6 +24,7 @@ import { ManageTourEquipmentComponent } from './manage-tour-equipment/manage-tou
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+
     MatOptionModule,
     MatCheckboxModule,
     MatSelectModule,
