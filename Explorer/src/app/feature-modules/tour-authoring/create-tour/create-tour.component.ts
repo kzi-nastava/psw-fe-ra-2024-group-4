@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Router } from '@angular/router';
 
 export enum TourTags {
   Cycling = 0,
@@ -40,7 +41,7 @@ export class CreateTourComponent  implements OnChanges {
   .map((tag, index) => ({ index, label: tag }));
 
 
-  constructor(private service: TourService, private authService: AuthService) {
+  constructor(private service: TourService, private authService: AuthService, private router: Router) {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
@@ -80,7 +81,9 @@ export class CreateTourComponent  implements OnChanges {
     };
     console.log(tour);
     this.service.addTour(tour).subscribe({
-      next: () => { this.tourUpdated.emit() }
+      next: () => { this.tourUpdated.emit();
+        this.router.navigate(['/author-tours']);
+       }
     });
   } }
   onTagChange(event: MatCheckboxChange, index: number): void {

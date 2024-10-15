@@ -5,13 +5,15 @@ import { TourService } from '../../tour-authoring/tour.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
   styleUrls: ['./tours-for-author.component.css'],
 })
-export class ToursForAuthorComponent implements OnInit { 
+export class ToursForAuthorComponent implements OnInit {
+ 
   tours: Tour[] = [];
   user: User | null = null;
 
@@ -33,7 +35,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private service: TourService, private authService: AuthService) { }
+  constructor(private service: TourService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -63,5 +65,9 @@ export class ToursForAuthorComponent implements OnInit {
   getTagNames(tags: number[]): string[] {
     return tags.map(tagId => this.tourTagMap[tagId]).filter(tag => tag !== undefined);
   }
+  onAddClicked() {
+    this.router.navigate(['/create-tour']);
+    }
+
   
 }
