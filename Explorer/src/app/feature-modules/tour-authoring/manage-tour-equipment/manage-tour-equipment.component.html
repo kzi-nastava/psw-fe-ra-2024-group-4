@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Izmeni listu opreme</h2>
+<mat-dialog-content>
+  <div id="equipment">
+    <div id="equipment-details">
+      <div *ngFor="let eq of equipment" class="equipment-item">
+        <label>
+          <input type="checkbox" id="{{eq.id}}" name="{{eq.name}}" [(ngModel)]="eq.selected"> 
+          <span class="name">{{eq.name}}</span>
+        </label>
+        <p class="description">{{eq.description}}</p>
+      </div>
+    </div>
+    <button class="save-btn" (click)="saveChanges()">Sačuvaj izmene</button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Odustani</button>
+</mat-dialog-actions>

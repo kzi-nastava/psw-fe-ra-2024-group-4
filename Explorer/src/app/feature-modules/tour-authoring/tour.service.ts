@@ -22,6 +22,23 @@ import { environment } from "src/env/environment";
     }
 
     getEquipment(): Observable<PagedResults<Equipment>> {
-      return this.http.get<PagedResults<Equipment>>('https://localhost:44333/api/author/equipment?page=0&pageSize=0')
+      return this.http.get<PagedResults<Equipment>>('https://localhost:44333/api/author/equipment?page=0&pageSize=0') 
+    }
+
+    getTourEquipment(id: number): Observable<PagedResults<Equipment>> {
+      return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'author/tour/tourEquipment/' + id);  
+    }
+    
+
+    getTour(id: Number): Observable<Tour> {
+      return this.http.get<Tour>('https://localhost:44333/api/author/tour/' + id);
+    }
+
+    addTourEquipment(equipmentId: number, tour: Tour): Observable<Tour> { 
+      return this.http.post<Tour>('https://localhost:44333/api/author/tour/' + tour.id + '/equipment/' + equipmentId, tour);
+    }
+
+    removeEquipmentFromTour(equipmentId: number, tourId: number): Observable<Tour> {
+      return this.http.delete<Tour>(`https://localhost:44333/api/author/tour/${tourId}/equipment/${equipmentId}`);
     }
   }
