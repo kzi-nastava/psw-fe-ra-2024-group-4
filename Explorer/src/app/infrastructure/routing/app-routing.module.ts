@@ -6,13 +6,17 @@ import { EquipmentComponent } from 'src/app/feature-modules/administration/equip
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { ClubDetailsComponent } from 'src/app/feature-modules/administration/club-details/club-details.component';
+import { InfoComponent } from 'src/app/feature-modules/person.info/info/info.component'; 
+
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
-  {path: 'clubDetails', component: ClubDetailsComponent, canActivate: [AuthGuard],}
+  {path: 'clubDetails', component: ClubDetailsComponent, canActivate: [AuthGuard],},
+  { path: 'profile', component: InfoComponent }
+
 ];
 
 @NgModule({
