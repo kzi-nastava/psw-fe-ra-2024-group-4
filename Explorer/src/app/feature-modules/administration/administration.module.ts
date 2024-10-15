@@ -6,6 +6,9 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClubInvitationComponent } from './club-invitation/club-invitation.component';
 import { ClubDetailsComponent } from './club-details/club-details.component';
+import { ClubComponent } from './club/club.component';
+import { ClubFormComponent } from './club-form/club-form.component';
+
 
 
 
@@ -15,6 +18,9 @@ import { ClubDetailsComponent } from './club-details/club-details.component';
     EquipmentComponent,
     ClubInvitationComponent,
     ClubDetailsComponent
+    ClubComponent,
+    ClubFormComponent
+
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,9 @@ import { ClubDetailsComponent } from './club-details/club-details.component';
     EquipmentFormComponent,
     ClubInvitationComponent,
     ClubDetailsComponent
+    ClubComponent,
+    ClubFormComponent
+
   ]
 })
 export class AdministrationModule { }

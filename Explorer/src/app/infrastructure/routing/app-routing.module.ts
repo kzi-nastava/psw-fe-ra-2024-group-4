@@ -7,6 +7,9 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { ClubDetailsComponent } from 'src/app/feature-modules/administration/club-details/club-details.component';
 import { InfoComponent } from 'src/app/feature-modules/person.info/info/info.component'; 
+import { ClubComponent } from 'src/app/feature-modules/administration/club/club.component';
+
+
 
 
 const routes: Routes = [
@@ -15,7 +18,9 @@ const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'clubDetails', component: ClubDetailsComponent, canActivate: [AuthGuard],},
-  { path: 'profile', component: InfoComponent }
+  { path: 'profile', component: InfoComponent },
+  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],}
+  
 
 ];
 

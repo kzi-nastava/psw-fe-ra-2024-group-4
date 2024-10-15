@@ -4,8 +4,12 @@ import { Equipment } from './model/equipment.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+<<<<<<< HEAD
 import { Member } from './model/member.model';
 import { ClubInvitation } from './model/club-invitation.model';
+=======
+import { Club } from './model/club.model';
+>>>>>>> 1de10ffae8f55e1dbb3a7c1c9da2d9551ff8da91
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +34,7 @@ export class AdministrationService {
     return this.http.put<Equipment>(environment.apiHost + 'administration/equipment/' + equipment.id, equipment);
   }
 
+<<<<<<< HEAD
   getMembers(clubId: number): Observable<Member[]> {
     
     return this.http.get<Member[]>(`https://localhost:44333/api/club/active-users/${clubId}`);
@@ -54,3 +59,10 @@ export class AdministrationService {
     return this.http.get<Club>(`https://localhost:44333/api/club/${clubId}`);
   }*/
 }
+=======
+  getAllClubs():Observable<PagedResults<Club>>{
+    return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
+  }
+
+}
+>>>>>>> 1de10ffae8f55e1dbb3a7c1c9da2d9551ff8da91
