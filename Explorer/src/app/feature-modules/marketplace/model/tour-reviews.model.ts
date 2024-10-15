@@ -1,10 +1,10 @@
-export interface tourReview{
-    id: number,
+export interface TourReview{
+    id?: number,
     idTour: number,
     idTourist: number,
     rating: number,
     comment: string,
     dateTour: Date,
     dateComment: Date,
-    images: []
+    images: string[]
 }

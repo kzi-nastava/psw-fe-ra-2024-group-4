@@ -12,6 +12,8 @@ import { MarketplaceModule } from './feature-modules/marketplace/marketplace.mod
 import { TourAuthoringModule } from './feature-modules/tour-authoring/tour-authoring.module';
 import { TourExecutionModule } from './feature-modules/tour-execution/tour-execution.module';
 import { AuthModule } from './infrastructure/auth/auth.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 
@@ -31,7 +33,9 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
     TourAuthoringModule,
     TourExecutionModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {

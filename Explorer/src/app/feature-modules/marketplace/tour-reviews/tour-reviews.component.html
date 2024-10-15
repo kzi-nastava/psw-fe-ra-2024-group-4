@@ -13,6 +13,7 @@
                     <th>Date Of Attendance</th>
                     <th>Date Of Review</th>
                     <th>Image Paths</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,12 +25,23 @@
                     <td>{{tr.dateTour}}</td>
                     <td>{{tr.dateComment}}</td>
                     <td>{{tr.images}}</td>
+                    <td>
+                        <button color="primary" (click)="onEditClicked(tr)" mat-icon-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button color="accent" (click)="deleteTourReview(tr)" mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
                 </tr>
+                <tr><button color="primary" (click)="onAddClicked()" mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                </button></tr>
             </tbody>
         </table>
     </div>
     <div>
-        <!---->
+        <xp-tour-review-form *ngIf="shouldRenderEquipmentForm" (tourReviewUpdated)="getTourReviews()" [tourReview]="selectedTourReview" [shouldEdit]="shouldEdit"></xp-tour-review-form> 
     </div>
     </div>
 </div>

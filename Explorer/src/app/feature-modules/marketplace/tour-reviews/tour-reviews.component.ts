@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { tourReview } from '../model/tour-reviews.model';
+import { TourReview } from '../model/tour-reviews.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
@@ -11,11 +11,18 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 export class TourReviewsComponent implements OnInit{
   constructor(private service: MarketplaceService) { }
   
-  tourReviews : tourReview[]
+  tourReviews : TourReview[] = [];
+  selectedTourReview : TourReview;
+  shouldEdit: boolean = false;
+  shouldRenderEquipmentForm: boolean = false;
 
   ngOnInit(): void {
+    this.getTourReviews()
+  }
+
+  getTourReviews(): void{
     this.service.getTourReviews().subscribe({
-      next:(result: PagedResults<tourReview>) => {
+      next:(result: PagedResults<TourReview>) => {
         this.tourReviews = result.results;
       },
       error:(err:any) => {
@@ -23,5 +30,24 @@ export class TourReviewsComponent implements OnInit{
       }
 
     })
+  }
+
+  deleteTourReview(tourReview: TourReview) : void{
+    this.service.deleteTourReview(tourReview).subscribe({
+      next: () => {
+        this.getTourReviews();
+      },
+    })
+  }
+
+  onAddClicked() : void{
+    this.shouldRenderEquipmentForm = true;
+    this.shouldEdit = false;
+  }
+
+  onEditClicked(tourReview: TourReview): void{
+    this.shouldEdit = true;
+    this.shouldRenderEquipmentForm = true;
+    this.selectedTourReview = tourReview;
   }
 }
