@@ -1,0 +1,27 @@
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Request id</th>
+            <th>Club id</th>
+            <th>Member id</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cr of clubRequests">
+            <td>{{cr.id}}</td>
+            <td>{{cr.clubId}}</td>
+            <td>{{cr.userId}}</td>
+            <td>    <span *ngIf="cr.status === 0">PENDING</span>
+                <span *ngIf="cr.status === 1">ACCEPTED</span>
+                <span *ngIf="cr.status === 2">DENIED</span></td>
+            <td >
+                <button *ngIf="cr.status === 0" class="accept">Accept</button>
+                <button *ngIf="cr.status === 0" class="decline">Decline</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
