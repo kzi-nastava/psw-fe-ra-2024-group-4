@@ -4,6 +4,7 @@ import { Equipment } from './model/equipment.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Club } from './model/club.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class AdministrationService {
 
   updateEquipment(equipment: Equipment): Observable<Equipment> {
     return this.http.put<Equipment>(environment.apiHost + 'administration/equipment/' + equipment.id, equipment);
+  }
+
+  getAllClubs():Observable<PagedResults<Club>>{
+    return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
   }
 
 }
