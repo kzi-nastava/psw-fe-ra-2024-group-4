@@ -5,6 +5,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ClubJoinRequest } from './model/club-join-request.model';
+import { Club } from './model/club.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,10 @@ export class AdministrationService {
   }
 
   addClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
-    return this.http.post<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest', request);
+    return this.http.post<ClubJoinRequest>('https://localhost:44333/api/clubJoinRequest', request);
+  }
+  getAllClubs():Observable<PagedResults<Club>>{
+    return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
   }
 
 }
