@@ -61,3 +61,9 @@
     cursor: pointer;
     border-radius: 5px;
   }
+
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 20px; 
+}

@@ -65,9 +65,9 @@ export class ToursForAuthorComponent implements OnInit {
   getTagNames(tags: number[]): string[] {
     return tags.map(tagId => this.tourTagMap[tagId]).filter(tag => tag !== undefined);
   }
+
   onAddClicked() {
     this.router.navigate(['/create-tour']);
-    }
-
+  }
   
 }
