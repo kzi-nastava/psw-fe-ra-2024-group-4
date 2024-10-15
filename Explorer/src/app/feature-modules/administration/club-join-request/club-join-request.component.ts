@@ -30,5 +30,33 @@ export class ClubJoinRequestComponent implements OnInit {
     })
   }
 
+  acceptRequest(request: any){
+    console.log(request);
+    request.status = 1;
+    this.service.updateClubJoinRequest(request).subscribe({
+      next: ()=>{
+
+      },
+      error: () => {
+
+      }
+    })
+   // this.getRequests();
+  }
+
+  denyRequest(request: any){
+    console.log(request);
+    request.status = 2;
+    this.service.updateClubJoinRequest(request).subscribe({
+      next: ()=>{
+
+      },
+      error: () => {
+
+      }
+    })
+    //this.getRequests();
+  }
+
 
 }

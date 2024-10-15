@@ -34,5 +34,12 @@ export class AdministrationService {
     return this.http.get<PagedResults<ClubJoinRequest>>(environment.apiHost + 'clubJoinRequest');
   }
 
+  updateClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
+    return this.http.put<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest/' + request.id, request);
+  }
+
+  addClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
+    return this.http.post<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest', request);
+  }
 
 }
