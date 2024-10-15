@@ -1,7 +1,7 @@
 export interface ClubInvitation{
     id?: number;
-    ownerId: number;
+    userId: number;
     memberId: number;
     clubId: number;
-    status: string;
+    status: number;
 }

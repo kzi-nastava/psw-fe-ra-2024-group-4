@@ -4,6 +4,8 @@ import { Equipment } from './model/equipment.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Member } from './model/member.model';
+import { ClubInvitation } from './model/club-invitation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +30,27 @@ export class AdministrationService {
     return this.http.put<Equipment>(environment.apiHost + 'administration/equipment/' + equipment.id, equipment);
   }
 
+  getMembers(clubId: number): Observable<Member[]> {
+    
+    return this.http.get<Member[]>(`https://localhost:44333/api/club/active-users/${clubId}`);
+
+  }
+  getMembersForInvite(clubId: number): Observable<Member[]> {
+   
+   return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/eligible-users`);
+
+  }
+  sendClubInvitation(invitation: ClubInvitation): Observable<void> {
+    return this.http.post<void>(`https://localhost:44333/api/clubInvitation`, invitation);
+  }
+  getNextClubInvitationId(): Observable<number> {
+    
+    return this.http.get<number>(`https://localhost:44333/api/clubInvitation/next-id`);
+  }
+  getInvitationsByClubId(clubId: number): Observable<ClubInvitation[]> {
+    return this.http.get<ClubInvitation[]>(`https://localhost:44333/api/clubInvitation/club/${clubId}/invitations`);
+  }
+ /* getClubById(clubId: number): Observable<Club> {
+    return this.http.get<Club>(`https://localhost:44333/api/club/${clubId}`);
+  }*/
 }
