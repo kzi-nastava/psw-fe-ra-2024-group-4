@@ -15,7 +15,9 @@ export class PostComponent implements OnInit{
   posts: Post[]=[];
   shouldRenderForm: boolean =false;
   shouldEdit: boolean=false;
+  selectedPostId: number | null = null
   user:User | null=null;
+  shouldRenderCommentForm: boolean = false;
 
   constructor(private service: BlogService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
@@ -42,6 +44,10 @@ export class PostComponent implements OnInit{
     this.shouldEdit=false;
     this.shouldRenderForm=true;
     console.log('kliknuto');
+  }
+  onCommentClicked(postId: number): void {
+    this.selectedPostId = postId;  // Sačuvaj ID odabranog posta
+    this.shouldRenderCommentForm = true;  // Prikaži formu za komentare
   }
 }
 

@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
   {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard],
     children: [
-      { path: 'comment', component: CommentComponent },
+      { path: 'comments/:postId', component: CommentComponent },
     ]
   }
 

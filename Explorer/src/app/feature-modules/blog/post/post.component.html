@@ -26,7 +26,7 @@
                             <button color="accent"  mat-icon-button>
                                 <mat-icon>delete</mat-icon>
                             </button>
-                            <button *ngIf="user && user.role==='tourist'" color="warn" [routerLink]="['comment']" mat-icon-button>
+                            <button *ngIf="user && user.role==='tourist'" color="warn" [routerLink]="['/blogPost/comments', post.id]"  mat-icon-button>
                                 <mat-icon>comment</mat-icon>
                               </button>
                         

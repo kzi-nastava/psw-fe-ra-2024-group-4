@@ -1,12 +1,16 @@
 <form [formGroup]="commentForm">
     <div>
-        <mat-form-field>
-            <mat-label>Text</mat-label>
-            <input matInput formControlName="text" type="text"/>
-        </mat-form-field>
-   
-<button mat-raised-button type="submit" color="primary" (click)="addComment()">Add</button>
-
-
+      <mat-form-field>
+        <mat-label>Text</mat-label>
+        <input matInput formControlName="text" type="text"/>
+       
+        <mat-error *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
+          Tekst komentara ne može biti prazan!
+        </mat-error>
+      </mat-form-field>
+  
+      <button *ngIf="!shouldEdit" mat-raised-button type="submit" color="primary" (click)="addComment()" [disabled]="commentForm.invalid">Dodaj</button>
+      <button *ngIf="shouldEdit" mat-raised-button type="submit" color="primary" (click)="updateComment()" [disabled]="commentForm.invalid">Ažuriraj</button>
     </div>
-</form>
+  </form>
+  
