@@ -12,14 +12,6 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  getPosts() : Observable<PagedResults<Post>>{
-     return this.http.get<PagedResults<Post>>(environment.apiHost+ 'postmanagement/post')
-  }
-  
-  addPost(post: Post): Observable<Post>{
-    return this.http.post<Post>(environment.apiHost+'postmanagement/post',post);
-  }
-
   getComment(): Observable<PagedResults<Comment>>{
     return this.http.get<PagedResults<Comment>>('https://localhost:44333/api/comments/comment');
    }

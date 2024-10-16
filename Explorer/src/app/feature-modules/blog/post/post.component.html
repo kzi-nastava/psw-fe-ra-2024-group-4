@@ -6,30 +6,41 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Created At</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let post of posts">
+                        <div class="image-container">
+                            <ng-container *ngIf="post.imageUrl; else noImage">
+                                <img 
+                                    [src]="post.imageUrl" 
+                                    alt="{{ post.title }} image" 
+                                    class="post-image"
+                                    (error)="post.imageUrl = ''" 
+                                />
+                            </ng-container>
+                            <ng-template #noImage>
+                                <div class="no-image-placeholder">{{ post.title }}</div>
+                            </ng-template>
+                        </div>
                         <td>{{ post.title }}</td>
-                        <td>{{ post.description }}</td>
+                        <td> <markdown>{{ post.description }}</markdown></td>
                         <td>{{ post.createdAt | date: 'short' }}</td>
-                        <td>{{ post.status }}</td>
                         <td>
-                            <button color="primary" mat-icon-button>
+                            <button color="primary" (click)="onEditClicked(post)" mat-icon-button>
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button color="accent"  mat-icon-button>
+                            <button color="accent" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
                                 <mat-icon>delete</mat-icon>
                             </button>
                             <button *ngIf="user && user.role==='tourist'" color="warn" [routerLink]="['comment']" mat-icon-button>
                                 <mat-icon>comment</mat-icon>
-                              </button>
-                        
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -43,7 +54,7 @@
             </table>
         </div>
         <div>
-            <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" (postUpdated)="getPosts()"></xp-post-form>
+            <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
         </div>
         <router-outlet></router-outlet>
     </div>
