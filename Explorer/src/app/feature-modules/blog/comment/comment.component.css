@@ -32,3 +32,9 @@ tbody tr.active-row {
     font-weight: bold;
     color: #3f51b5;
 }
+div {
+    width: 400px;
+    display:flex;
+    gap: 20px;
+    flex-direction: column;
+}

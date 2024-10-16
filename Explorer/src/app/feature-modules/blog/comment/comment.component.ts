@@ -14,13 +14,17 @@ export class CommentComponent implements OnInit {
   constructor(private service: BlogService ){}
 
   ngOnInit(): void {
-    this.service.getComment().subscribe({
-      next: (result: PagedResults<Comment>) => {
-        //console.log(result);
-       this.comment = result.results;
+    this.getComment();
+    }
+
+    getComment():void{
+      this.service.getComment().subscribe({
+        next: (result: PagedResults<Comment>) => {
+          //console.log(result);
+         this.comment = result.results;
       },
-      error: (err: any) => {
-        console.log(err)
+      error: () => {
+        
       }
     })
   }
