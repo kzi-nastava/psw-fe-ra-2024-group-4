@@ -8,7 +8,7 @@ import { ClubInvitationComponent } from './club-invitation/club-invitation.compo
 import { ClubDetailsComponent } from './club-details/club-details.component';
 import { ClubComponent } from './club/club.component';
 import { ClubFormComponent } from './club-form/club-form.component';
-
+import { RouterModule } from '@angular/router';
 
 
 
@@ -17,7 +17,7 @@ import { ClubFormComponent } from './club-form/club-form.component';
     EquipmentFormComponent,
     EquipmentComponent,
     ClubInvitationComponent,
-    ClubDetailsComponent
+    ClubDetailsComponent,
     ClubComponent,
     ClubFormComponent
 
@@ -25,13 +25,14 @@ import { ClubFormComponent } from './club-form/club-form.component';
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
     ClubInvitationComponent,
-    ClubDetailsComponent
+    ClubDetailsComponent,
     ClubComponent,
     ClubFormComponent
 

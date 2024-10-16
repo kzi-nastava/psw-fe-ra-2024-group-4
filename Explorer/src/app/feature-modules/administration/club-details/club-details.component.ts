@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { ClubInvitation } from '../model/club-invitation.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'xp-club-details',
@@ -18,12 +19,23 @@ export class ClubDetailsComponent implements OnInit{
   invitations: ClubInvitation[] = [];
   user: User | null = null;
   errorMessage: string | null = null;
-  clubId: number = 2;
+  clubId!: number;
   userId: number = 2;
-  constructor(private service: AdministrationService, private authService: AuthService, private router: Router){}
+  constructor(private service: AdministrationService, private authService: AuthService, private router: Router, private route: ActivatedRoute){}
 
 
       ngOnInit(): void {
+
+        this.route.paramMap.subscribe((params) => {
+          const id = params.get('clubid');
+          if (id) {
+            this.clubId = +id;  
+            console.log('Fetched clubId:', this.clubId);
+            
+            this.loadClubData();  
+          }
+        });
+
         this.authService.user$.subscribe((user) => {
           this.user = user; 
           console.log(user);
@@ -56,7 +68,18 @@ export class ClubDetailsComponent implements OnInit{
 
         this.fetchInvitations();
       }
-
+      private loadClubData(): void {
+        this.service.getMembers(this.clubId).subscribe({
+          next: (members: Member[]) => {
+            console.log('Members:', members);
+            this.members = members;
+          },
+          error: () => {
+            this.errorMessage = 'Error fetching members.';
+            console.error('Error fetching members');
+          }
+        });
+      }
       private fetchInvitations(): void {
         this.service.getInvitationsByClubId(this.clubId).subscribe({
           next: (invitations: ClubInvitation[]) => {
