@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../post.service';
+import { BlogService } from '../blog.service';
 import { Post } from '../model/post.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
@@ -11,10 +11,15 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 export class PostComponent implements OnInit{
 
   posts: Post[]=[];
+  shouldRenderForm: boolean =false;
+  shouldEdit: boolean=false;
 
-  constructor(private service: PostService){}
+  constructor(private service: BlogService){}
 
   ngOnInit(): void {
+    this.getPosts();
+  }
+  getPosts():void{
     this.service.getPosts().subscribe({
       next:(result:PagedResults<Post>)=>{
         this.posts=result.results;
@@ -24,4 +29,11 @@ export class PostComponent implements OnInit{
       }
     })
   }
+
+  onAddClicked():void{
+    this.shouldEdit=false;
+    this.shouldRenderForm=true;
+    console.log('kliknuto');
+  }
 }
+

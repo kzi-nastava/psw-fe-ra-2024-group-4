@@ -8,11 +8,15 @@ import { Post } from './model/post.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class BlogService {
 
   constructor(private http: HttpClient) { }
 
   getPosts() : Observable<PagedResults<Post>>{
      return this.http.get<PagedResults<Post>>(environment.apiHost+ 'postmanagement/post')
+  }
+  addPost(post: Post): Observable<Post>{
+    return this.http.post<Post>(environment.apiHost+'postmanagement/post',post);
+
   }
 }

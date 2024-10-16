@@ -20,23 +20,30 @@
                         <td>{{ post.createdAt | date: 'short' }}</td>
                         <td>{{ post.status }}</td>
                         <td>
-                            <button color="accent"  mat-icon-button>
-                                <mat-icon>delete</mat-icon>
-                            </button>
                             <button color="primary" mat-icon-button>
                                 <mat-icon>edit</mat-icon>
                             </button>
+                            <button color="accent"  mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button color="warn" mat-icon-button>
+                                <mat-icon>comment</mat-icon>
+                              </button>
+                        
                         </td>
                     </tr>
                     <tr>
                         <td colspan="5">
-                            <button color="primary" mat-icon-button>
+                            <button color="primary" (click)="onAddClicked()" mat-icon-button>
                                 <mat-icon>add</mat-icon>
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" (postUpdated)="getPosts()"></xp-post-form>
         </div>
     </div>
 </div>

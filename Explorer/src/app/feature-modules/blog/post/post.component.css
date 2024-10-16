@@ -1,9 +1,9 @@
-#equipment {
+#post {
     margin-top: 20px;
     margin-left: 20px;
 }
 
-#equipment-details {
+#post-details {
     display: flex;
     flex-direction: row;
     gap: 50px;
