@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { Post } from '../model/post.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-post',
@@ -13,8 +15,14 @@ export class PostComponent implements OnInit{
   posts: Post[]=[];
   shouldRenderForm: boolean =false;
   shouldEdit: boolean=false;
+  user:User | null=null;
 
-  constructor(private service: BlogService){}
+  constructor(private service: BlogService,private authService: AuthService){
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+    });
+  }
 
   ngOnInit(): void {
     this.getPosts();

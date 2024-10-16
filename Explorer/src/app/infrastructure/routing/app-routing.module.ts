@@ -13,8 +13,12 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
-  {path:'blogPost', component:PostComponent, canActivate:[AuthGuard]},
-  {path: 'comment', component: CommentComponent},
+  {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard],
+    children: [
+      { path: 'comment', component: CommentComponent },
+    ]
+  }
+
 ];
 
 @NgModule({
