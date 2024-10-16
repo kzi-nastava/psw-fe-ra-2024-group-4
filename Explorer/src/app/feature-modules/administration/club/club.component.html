@@ -12,7 +12,7 @@
                     </div>
                     <div class="club-image-container">
                         <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />
-                        <button *ngIf="user && user.role === 'tourist'" class="custom-button" [routerLink]="['/clubDetails', cl.id]">
+                         <button *ngIf="user && user.role === 'tourist'" class="custom-button" [routerLink]="['/clubDetails', cl.id]">
                             Club Details
                           </button>
                     </div>

@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
   selector: 'xp-club',
   templateUrl: './club.component.html',
   styleUrls: ['./club.component.css']
-})
+}) 
 export class ClubComponent implements OnInit {
   user: User | null = null;
   club:Club[]=[];

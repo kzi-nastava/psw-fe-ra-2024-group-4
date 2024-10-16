@@ -12,6 +12,7 @@ table {
     overflow: hidden; /* Sakrij delove koji izlaze iz okvira */
 }
 
+
 th {
     background-color: lightblue; /* Svetloplava pozadina za header */
     color: darkblue; /* Tamna boja teksta za header */

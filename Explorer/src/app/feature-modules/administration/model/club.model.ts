@@ -5,5 +5,4 @@ export interface Club{
     image:string,
     userId?:number,
     userIds: number[] | null; 
-
 }

@@ -23,7 +23,6 @@ export class ClubDetailsComponent implements OnInit{
   userId: number = 2;
   constructor(private service: AdministrationService, private authService: AuthService, private router: Router, private route: ActivatedRoute){}
 
-
       ngOnInit(): void {
 
         this.route.paramMap.subscribe((params) => {

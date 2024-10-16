@@ -11,7 +11,6 @@ import { ClubFormComponent } from './club-form/club-form.component';
 import { RouterModule } from '@angular/router';
 
 
-
 @NgModule({
   declarations: [
     EquipmentFormComponent,
