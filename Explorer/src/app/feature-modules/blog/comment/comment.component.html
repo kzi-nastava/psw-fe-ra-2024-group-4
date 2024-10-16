@@ -1,0 +1,27 @@
+<div>
+
+    <table>
+      <thead>
+        <tr>
+            <th>Tekst</th>
+     
+        </tr>
+
+      </thead> 
+      
+      <tbody>
+        <tr *ngFor="let c of comment">
+
+            <td>{{c.text}}</td>
+           
+        </tr>
+
+     
+
+      </tbody>
+    </table>
+    <div>
+      <xp-comment-form (commentUpdated)="getComment()" ></xp-comment-form>
+    </div>
+   
+</div>

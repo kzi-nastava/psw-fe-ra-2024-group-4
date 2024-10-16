@@ -1,0 +1,12 @@
+<form [formGroup]="commentForm">
+    <div>
+        <mat-form-field>
+            <mat-label>Text</mat-label>
+            <input matInput formControlName="text" type="text"/>
+        </mat-form-field>
+   
+<button mat-raised-button type="submit" color="primary" (click)="addComment()">Add</button>
+
+
+    </div>
+</form>
