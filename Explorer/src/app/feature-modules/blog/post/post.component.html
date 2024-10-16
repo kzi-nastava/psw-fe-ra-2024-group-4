@@ -1,0 +1,42 @@
+<div id="posts">
+    <p>Blog Posts</p>
+    <hr>
+    <div id="post-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let post of posts">
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.description }}</td>
+                        <td>{{ post.createdAt | date: 'short' }}</td>
+                        <td>{{ post.status }}</td>
+                        <td>
+                            <button color="accent"  mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button color="primary" mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button color="primary" mat-icon-button>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
