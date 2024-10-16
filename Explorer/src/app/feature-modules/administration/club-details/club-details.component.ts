@@ -79,6 +79,21 @@ export class ClubDetailsComponent implements OnInit{
           }
         });
       }
+
+      removeMember(memberId: number): void {
+        this.service.deleteMember(memberId, this.clubId, this.userId).subscribe({
+          next: () => {
+            // Ukloni člana iz lokalnog niza
+            this.members = this.members.filter(member => member.id !== memberId);
+            console.log(`Member with id ${memberId} removed successfully.`);
+          },
+          error: () => {
+            this.errorMessage = 'Error removing member.';
+            console.error('Error removing member');
+          }
+        });
+      }
+
       private fetchInvitations(): void {
         this.service.getInvitationsByClubId(this.clubId).subscribe({
           next: (invitations: ClubInvitation[]) => {

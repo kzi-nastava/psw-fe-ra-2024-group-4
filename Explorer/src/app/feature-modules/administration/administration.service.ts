@@ -56,6 +56,9 @@ export class AdministrationService {
   getClubById(clubId: number): Observable<Club> {
     return this.http.get<Club>(`https://localhost:44333/api/club/${clubId}`);
   }
+  deleteMember(memberId: number, clubId: number, userId: number): Observable<void> {
+    return this.http.delete<void>(`https://localhost:44333/api/club/member/${memberId}/${clubId}/${userId}`);
+  }
 
 
   getAllClubs():Observable<PagedResults<Club>>{

@@ -1,5 +1,26 @@
 <h1>CLUB DETAILS</h1>
 
+<h2>Club Members</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Member Username</th>
+            <th></th> 
+        </tr>
+    </thead>
+    <tbody *ngIf="members && members.length > 0; else noMembers">
+        <tr *ngFor="let member of members">
+            <td>{{ member.username }}</td>
+            <td> <button  (click)="removeMember(member.id)">Remove member</button></td> 
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noMembers>
+    <p>No members found.</p>
+</ng-template>
+
+
 <h2>Invite Members to join club</h2>
 <table>
     <thead>
