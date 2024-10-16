@@ -6,13 +6,15 @@ import { EquipmentComponent } from 'src/app/feature-modules/administration/equip
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { MykeypointsComponent } from 'src/app/feature-modules/layout/mykeypoints/mykeypoints.component';
+import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
-  {path: 'mykeypoints', component: MykeypointsComponent}
+  {path: 'mykeypoints', component: MykeypointsComponent},
+  {path: 'object-view', component: ObjectViewComponent}
 ];
 
 @NgModule({

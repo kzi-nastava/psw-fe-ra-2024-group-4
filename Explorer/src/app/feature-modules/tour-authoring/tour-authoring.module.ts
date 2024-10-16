@@ -5,11 +5,13 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { KeypointFormComponent } from './keypoint-form/keypoint-form.component';
 import { AdministrationModule } from "../administration/administration.module";
 import { ReactiveFormsModule } from '@angular/forms';
+import { ObjectComponent } from './object/object.component';
 
 @NgModule({
   declarations: [
     KeypointsComponent,
-    KeypointFormComponent
+    KeypointFormComponent,
+    ObjectComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 ],
   exports: [
     KeypointsComponent,
-    KeypointFormComponent
+    KeypointFormComponent,
+    ObjectComponent
   ]
 })
 export class TourAuthoringModule { }
