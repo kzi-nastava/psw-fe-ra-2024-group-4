@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
+
 @Component({
   selector: 'xp-object',
   templateUrl: './object.component.html',
@@ -16,6 +17,10 @@ export class ObjectComponent implements OnInit {
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   ngOnInit(): void {
+    this.getObjects();
+  }
+
+  getObjects(): void{
     this.service.getObjects().subscribe({
       next: (result: PagedResults<TourObject>) => {
         this.objects = result.results; 

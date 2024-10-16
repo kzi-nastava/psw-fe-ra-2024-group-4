@@ -19,6 +19,10 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<TourObject>>(environment.apiHost + 'objectaddition/object');
   }
 
+  addObject(object: TourObject): Observable<KeyPoint> {
+    return this.http.post<TourObject>(environment.apiHost +'objectaddition/object/', object);
+  }
+
   getKeyPoints(userId: number): Observable<KeyPoint[]> {
     return this.http.get<KeyPoint[]>(environment.apiHost + 'keypointaddition/keypoint/getbyuser/' + userId);
   }
