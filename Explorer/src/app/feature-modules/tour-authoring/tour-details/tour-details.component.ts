@@ -5,6 +5,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { MarketplaceModule } from '../../marketplace/marketplace.module';
+import { KeypointFormComponent } from '../keypoint-form/keypoint-form.component';
 
 @Component({
   selector: 'xp-tour-details',
@@ -15,7 +16,7 @@ export class TourDetailsComponent implements OnInit {
 
   @Input() tour: Tour;
   @Output() tourUpdated = new EventEmitter<null>();
-
+  
   keyPoints: KeyPoint[] = [];
   previuslyCreatedKeyPoints: KeyPoint[] = [];
   previouslyCreatedKeyPointIds: number[] = [];
@@ -101,9 +102,9 @@ export class TourDetailsComponent implements OnInit {
     if(this.user)
     {
      
-      this.service.addKeyPointToTour(tourid, keypoint.id, this.user.id).subscribe({
+      this.service.addKeyPointToTour(this.tour, keypoint.id).subscribe({
         next: (result: Tour) => { 
-          
+          this.tourUpdated.emit();
         },
         error: (err: any) => console.log(err)
       })
@@ -118,5 +119,12 @@ export class TourDetailsComponent implements OnInit {
     this.shouldAddKeypoint = true;
   }
 
+  notifyKeypointAdded(addedKeypoint: KeyPoint) : void
+  {
+      this.keyPoints.push(addedKeypoint);
+    
+ 
+
+  }
   
 }

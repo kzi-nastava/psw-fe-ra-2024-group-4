@@ -41,3 +41,9 @@ tbody tr.active-row {
     margin-top: 2%;
 }
 
+.add-createdkp-tour-div{
+    display: flex;
+    gap: 1%;
+    align-items: center;
+    
+}

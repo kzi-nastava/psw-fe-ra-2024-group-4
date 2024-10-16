@@ -15,9 +15,9 @@ export class KeypointFormComponent implements OnInit {
   keyPoints: KeyPoint[] = [];
 
   @Output() keypointsUpdated = new EventEmitter<null>();
-  @Output() tourKeypointsUpdated = new EventEmitter<null>();
   @Output() tourUpdated = new EventEmitter<null>();
-
+  @Output() keypointAdded = new EventEmitter<KeyPoint>();
+  
   @Input() keypoint: KeyPoint;
   @Input() shouldEdit: boolean = false;
   @Input() shouldAddKeypoint: boolean = false;
@@ -87,9 +87,9 @@ export class KeypointFormComponent implements OnInit {
               {
       
               
-                this.service.addKeyPointToTour(this.tourToAdd.id, keypoint.id, this.user.id).subscribe({
+                this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
                   next: (result: Tour) => { 
-                    
+                    this.keypointAdded.emit(keypoint);
                   },
                   error: (err: any) => console.log(err)
                 })

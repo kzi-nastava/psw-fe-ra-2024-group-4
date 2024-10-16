@@ -52,6 +52,7 @@ export class ToursForAuthorComponent implements OnInit {
   }
 
   getTours(id: number): void {
+    
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
@@ -77,12 +78,15 @@ export class ToursForAuthorComponent implements OnInit {
   }
 
   getUpdatedTours(): void{
+    
+  
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
 
       if(user !== null && user.role === 'author')
       {
+
         this.getTours(user.id);
       }
     });

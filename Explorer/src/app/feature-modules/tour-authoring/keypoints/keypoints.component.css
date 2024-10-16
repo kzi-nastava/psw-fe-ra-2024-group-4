@@ -4,6 +4,7 @@ table {
     font-family: sans-serif;
     min-width: 300px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 50%;
 }
 
 thead tr {
@@ -41,8 +42,19 @@ tbody tr.active-row {
     gap: 4%;
 }
 
-.keypoint-form-div{
+.keypoint-form-container{
     display: flex;
-    flex-direction: column;
+
 }
 
+.mykeypoints-page{
+    display: flex;
+    
+    width: 160%;
+
+}
+
+h1{
+    margin-top: 1%;
+    text-align: center;
+}

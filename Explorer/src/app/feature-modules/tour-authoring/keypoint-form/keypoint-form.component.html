@@ -22,7 +22,7 @@
             <mat-label>ImageUrl</mat-label>
             <input matInput formControlName="image" type="text"/>
         </mat-form-field>
-        <button mat-raised-button  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
+        <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
         <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
     </div>
 </form>

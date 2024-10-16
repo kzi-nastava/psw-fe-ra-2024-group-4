@@ -34,8 +34,8 @@ export class TourAuthoringService {
     return this.http.get<KeyPoint>(environment.apiHost + 'keypointaddition/keypoint/getbyid/' + id);
   }
 
-  addKeyPointToTour(tourid: number | undefined = -1, keypointid: number | undefined = -1, userid: number)
+  addKeyPointToTour(tour: Tour, keypointid: number | undefined = -1)
   {
-    return this.http.post<Tour>(environment.apiHost + 'author/tour/' + tourid + '/keypointaddition/' + keypointid + '/' + userid, keypointid);
+    return this.http.put<Tour>(environment.apiHost + 'author/tour/keypointaddition/' +  keypointid, tour);
   }
 }
