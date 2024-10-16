@@ -1,0 +1,22 @@
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ac of account">
+                <td>{{ac.username}}</td>
+                <td>{{ac.password}}</td>
+                <td>{{ac.role}}</td>
+                <td>{{ac.email}}</td>
+                <td>{{ac.isActive}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
