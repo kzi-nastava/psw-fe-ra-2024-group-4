@@ -6,22 +6,22 @@
         <table>
             <thead>
                 <tr>
+                    
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Difficulty</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Tags</th>
                     <th><button color="primary" (click)="onAddClicked()" mat-icon-button>
                         <mat-icon>add</mat-icon>
                     </button></th>
-                    <th>Naziv</th>
-                    <th>Opis</th>
-                    <th>Tezina</th>
-                    <th>Cena</th>
-                    <th>Status</th>
-                    <th>Tagovi</th>
-                    <th></th>
                     
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let tr of tours">
-                    <td></td>
+                    
                     <td>{{tr.name}}</td>
                     <td>{{tr.description}}</td>
                     <td>{{tr.difficulty}}</td>
