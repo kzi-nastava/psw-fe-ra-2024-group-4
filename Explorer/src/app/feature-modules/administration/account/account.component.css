@@ -1,9 +1,9 @@
-#equipment {
+#account {
     margin-top: 20px;
     margin-left: 20px;
 }
 
-#equipment-details {
+#account-details {
     display: flex;
     flex-direction: row;
     gap: 50px;

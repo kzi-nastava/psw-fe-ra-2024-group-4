@@ -1,4 +1,7 @@
-<div>
+<div id="account">
+    <p>Accounts</p>
+    <hr>
+    <div id="account-details">
     <table>
         <thead>
             <tr>
@@ -7,6 +10,7 @@
                 <th>Role</th>
                 <th>Email</th>
                 <th>Is Active</th>
+                <th>Deactivate account</th>
             </tr>
         </thead>
         <tbody>
@@ -16,6 +20,11 @@
                 <td>{{ac.role}}</td>
                 <td>{{ac.email}}</td>
                 <td>{{ac.isActive}}</td>
+                <td>
+                    <button color="primary" (click)="onBlockClicked(ac)" mat-icon-button [disabled]="!ac.isActive">
+                        <mat-icon>Deactivate</mat-icon>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
