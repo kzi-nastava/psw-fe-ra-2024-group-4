@@ -15,6 +15,7 @@
                     <th>Cena</th>
                     <th>Status</th>
                     <th>Tagovi</th>
+                    <th></th>
                     
                 </tr>
             </thead>
@@ -27,10 +28,14 @@
                     <td>{{tr.price}}</td>
                     <td>{{ tr.status === 0 ? 'Draft' : 'Published' }}</td>
                     <td>{{ getTagNames(tr.tags).join(', ') }}</td>
+                    <td><button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button></td>
                     
                 </tr>
             </tbody>
         </table>
     </div>
+    </div>
+    <div class="tourDetails">
+        <xp-tour-details *ngIf = "shouldViewTour" (tourUpdated)="getUpdatedTours()" [tour] = "selectedTour"></xp-tour-details>
     </div>
 </div>

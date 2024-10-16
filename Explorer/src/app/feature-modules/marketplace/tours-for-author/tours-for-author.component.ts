@@ -16,6 +16,8 @@ export class ToursForAuthorComponent implements OnInit {
  
   tours: Tour[] = [];
   user: User | null = null;
+  selectedTour: Tour;
+  shouldViewTour: boolean = false;
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -50,6 +52,7 @@ export class ToursForAuthorComponent implements OnInit {
   }
 
   getTours(id: number): void {
+    
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
@@ -68,6 +71,31 @@ export class ToursForAuthorComponent implements OnInit {
 
   onAddClicked() {
     this.router.navigate(['/create-tour']);
+
   }
+    
+
+  viewTourDetails(tour: Tour){
+    this.selectedTour = tour;
+    this.shouldViewTour = true;
+  }
+
+  getUpdatedTours(): void{
+    
+  
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+
+      if(user !== null && user.role === 'author')
+      {
+
+        this.getTours(user.id);
+      }
+    });
+    
+
+  }
+
   
 }

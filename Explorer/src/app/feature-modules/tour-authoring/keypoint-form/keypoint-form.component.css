@@ -1,0 +1,4 @@
+.keypoint-form-div{
+    display: flex;
+    flex-direction: column;
+}
