@@ -5,6 +5,7 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './account/account.component';
+import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 
 
 
@@ -12,7 +13,8 @@ import { AccountComponent } from './account/account.component';
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
-    AccountComponent
+    AccountComponent,
+    AppReviewTableComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { AccountComponent } from './account/account.component';
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
-    AccountComponent
+    AccountComponent,
+    AppReviewTableComponent
   ]
 })
 export class AdministrationModule { }

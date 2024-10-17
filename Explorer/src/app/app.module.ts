@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './feature-modules/layout/layout.module';
@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,10 @@ import { MatButtonModule } from '@angular/material/button';
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
-    TourAuthoringModule
+    TourAuthoringModule,
     
+    PersonInfoModule,
+    FormsModule
   ],
   providers: [
     {

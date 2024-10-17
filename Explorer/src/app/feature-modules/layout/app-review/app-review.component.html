@@ -1,0 +1,18 @@
+<form [formGroup]="appReviewForm">
+    <div *ngIf="shouldEdit">
+      <mat-form-field>
+        <mat-label>Grade</mat-label>
+        <input matInput formControlName="grade" type="number" min="1" max="5" step="1" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Comment</mat-label>
+        <textarea matInput formControlName="comment"></textarea>
+      </mat-form-field>
+      <button color="primary" type="submit" (click)="addReview()" mat-raised-button>Done</button>
+    </div>
+  </form>
+   
+  <div *ngIf="!shouldEdit" class="review-display" >
+    <p><strong>Grade:</strong> {{ appReviewForm.value.grade }}</p>
+    <p *ngIf="appReviewForm.value.comment"><strong>Comment:</strong> {{ appReviewForm.value.comment }}</p>
+  </div>

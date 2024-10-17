@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Equipment } from './model/equipment.model';
+import { AppReview } from './model/appreview.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -36,4 +37,8 @@ export class AdministrationService {
   blockAccount(account: Account): Observable<Account> {
     return this.http.put<Account>(environment.apiHost + 'administration/account/block',account);
   } 
+  getAppReviews(): Observable<PagedResults<AppReview>> {
+    return this.http.get<PagedResults<AppReview>>(environment.apiHost + 'administration/appReview')
+  }
+
 }
