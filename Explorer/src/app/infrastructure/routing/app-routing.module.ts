@@ -7,6 +7,7 @@ import { AppReviewTableComponent } from 'src/app/feature-modules/administration/
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
+import { InfoComponent } from 'src/app/feature-modules/person.info/info/info.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
-  {path: 'reviewApp', component: AppReviewComponent,canActivate: []}
+  {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
+  { path: 'profile', component: InfoComponent }
 ];
 
 @NgModule({
