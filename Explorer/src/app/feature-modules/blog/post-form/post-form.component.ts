@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BlogService } from '../blog.service';
+import { CommentService } from '../comment.service';
 import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Post } from '../model/post.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -24,7 +24,7 @@ export class PostFormComponent implements OnChanges{
     }
   }
 
-  constructor(private service: BlogService,private authService: AuthService){
+  constructor(private service: CommentService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);

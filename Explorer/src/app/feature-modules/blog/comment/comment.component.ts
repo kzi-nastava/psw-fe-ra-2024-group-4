@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Comment } from '../model/comment.model';
-import { BlogService } from '../blog.service';
+import { CommentService } from '../comment.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class CommentComponent implements OnInit {
   shouldEdit: boolean ;
   postId: number;
   
-  constructor(private service: BlogService, private route: ActivatedRoute ){}
+  constructor( private service: CommentService, private route: ActivatedRoute ){}
 
   ngOnInit(): void {
       

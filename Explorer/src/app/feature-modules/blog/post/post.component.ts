@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogService } from '../blog.service';
+import { CommentService } from '../comment.service';
 import { Post } from '../model/post.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -19,7 +19,7 @@ export class PostComponent implements OnInit{
   user:User | null=null;
   shouldRenderCommentForm: boolean = false;
 
-  constructor(private service: BlogService,private authService: AuthService){
+  constructor( private service: CommentService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);

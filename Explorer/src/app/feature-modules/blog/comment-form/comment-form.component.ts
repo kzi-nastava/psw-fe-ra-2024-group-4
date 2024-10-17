@@ -1,6 +1,6 @@
 import { Component, EventEmitter,Input, OnChanges, OnInit, Output, SimpleChanges  } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BlogService } from '../blog.service';
+import { CommentService } from '../comment.service';
 import { Comment } from '../model/comment.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -18,7 +18,7 @@ export class CommentFormComponent implements OnChanges {
   userId: number = 0;
   @Input() postId: number;
 
-  constructor(private service: BlogService, private authService: AuthService){ }
+  constructor(private service: CommentService, private authService: AuthService){ }
 
   commentForm= new FormGroup({
     text: new FormControl('', [Validators.required]),
@@ -33,7 +33,7 @@ export class CommentFormComponent implements OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void{
+  ngOnChanges(): void{
    this.commentForm.reset();
     if(this.shouldEdit){
       this.commentForm.patchValue(this.comment);
@@ -62,6 +62,7 @@ export class CommentFormComponent implements OnChanges {
       next: (_) => {
         console.log("uspjesno")
         this.commentUpdated.emit()
+        this.commentForm.reset();
       }
     });
   }
@@ -82,6 +83,7 @@ export class CommentFormComponent implements OnChanges {
     this.service.updateComment(comment).subscribe({
       next: (_) => {
         this.commentUpdated.emit()
+        this.commentForm.reset();
 
       }
 
