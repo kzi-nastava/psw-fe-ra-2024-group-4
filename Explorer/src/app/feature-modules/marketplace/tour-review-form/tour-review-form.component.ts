@@ -42,7 +42,7 @@ export class TourReviewFormComponent implements OnChanges {
       comment: this.tourReviewForm.value.comment || '',
       dateTour: new Date(Date.now()),
       dateComment: new Date(Date.now()),
-      images: [this.tourReviewForm.value.images || ''] || []
+      images: [this.tourReviewForm.value.images || '']
     }
 
     this.service.addTourReview(tourReview).subscribe({
@@ -60,7 +60,7 @@ export class TourReviewFormComponent implements OnChanges {
       comment: this.tourReviewForm.value.comment || '',
       dateTour: new Date(Date.now()),
       dateComment: new Date(Date.now()),
-      images: [this.tourReviewForm.value.images || ''] || []
+      images: [this.tourReviewForm.value.images || '']
     }
     tourReview.id = this.tourReview.id;
     tourReview.idTour = this.tourReview.idTour;
