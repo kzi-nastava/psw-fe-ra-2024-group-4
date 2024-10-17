@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'author-tours', component: ToursForAuthorComponent},
   {path: 'create-tour', component: CreateTourComponent},
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
-
+  
 ];
 
 @NgModule({
