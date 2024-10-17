@@ -1,0 +1,22 @@
+table {
+    width: 80vw; 
+    margin: 5vh auto;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: blue; 
+    color: white; 
+    padding: 1.5vh;
+    text-align: center;
+}
+
+td {
+    padding: 1vh; 
+    border-bottom: 2px solid darkblue; 
+    text-align: center;
+}
+
+tbody tr:hover {
+    background-color: lightblue;
+}
