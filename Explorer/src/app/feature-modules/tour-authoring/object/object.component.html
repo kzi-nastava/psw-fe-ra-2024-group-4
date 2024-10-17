@@ -1,0 +1,31 @@
+<h1>My Objects</h1>
+<div class="myobjects-container">
+    <table class="objects-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of objects">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.image }}</td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    <xp-object-form (objectCreated)="getObjects()"></xp-object-form>
+</div>

@@ -4,6 +4,8 @@ import { KeyPoint } from './model/keypoint.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Tour } from './model/tour.model';
+import { TourObject } from './model/object.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,14 @@ export class TourAuthoringService {
 
   constructor(private http: HttpClient) { 
     
+  }
+
+  getObjects(): Observable<PagedResults<TourObject>> {
+    return this.http.get<PagedResults<TourObject>>(environment.apiHost + 'objectaddition/object');
+  }
+
+  addObject(object: TourObject): Observable<KeyPoint> {
+    return this.http.post<TourObject>(environment.apiHost +'objectaddition/object/', object);
   }
 
   getKeyPoints(userId: number): Observable<KeyPoint[]> {

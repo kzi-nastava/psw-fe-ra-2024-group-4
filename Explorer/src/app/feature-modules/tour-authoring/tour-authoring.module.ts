@@ -20,8 +20,12 @@ import { ManageTourEquipmentComponent } from './manage-tour-equipment/manage-tou
 import { TourDetailsComponent } from './tour-details/tour-details.component';
 
 // Import Other Modules
-import { AdministrationModule } from '../administration/administration.module';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { AdministrationModule } from "../administration/administration.module";
+import { ObjectComponent } from './object/object.component';
+import { ObjectFormComponent } from './object-form/object-form.component';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -31,10 +35,16 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
     CreateTourComponent,
     NecessaryEquipmentComponent,
     ManageTourEquipmentComponent,
-    TourDetailsComponent
+    TourDetailsComponent,
+    ObjectComponent,
+    ObjectFormComponent
   ],
   imports: [
     // Import necessary modules
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -57,7 +67,8 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
     CreateTourComponent,
     NecessaryEquipmentComponent,
     ManageTourEquipmentComponent,
-    TourDetailsComponent
+    TourDetailsComponent,
+    ObjectComponent
   ]
 })
 export class TourAuthoringModule { }

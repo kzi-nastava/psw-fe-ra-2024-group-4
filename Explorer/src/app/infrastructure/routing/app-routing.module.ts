@@ -11,6 +11,7 @@ import {ToursForAuthorComponent } from 'src/app/feature-modules/marketplace/tour
 import { CreateTourComponent } from 'src/app/feature-modules/tour-authoring/create-tour/create-tour.component';
 import { NecessaryEquipmentComponent } from 'src/app/feature-modules/tour-authoring/necessary-equipment/necessary-equipment.component';
 
+import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -22,7 +23,7 @@ const routes: Routes = [
   {path: 'author-tours', component: ToursForAuthorComponent},
   {path: 'create-tour', component: CreateTourComponent},
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
-  
+  {path: 'object-view', component: ObjectViewComponent}
 ];
 
 @NgModule({
