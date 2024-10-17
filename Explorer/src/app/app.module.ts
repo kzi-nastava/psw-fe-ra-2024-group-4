@@ -14,6 +14,8 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { ProblemComponent } from './feature-modules/marketplace/problem/problem.component';
+import { HomeComponent } from './feature-modules/layout/home/home.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
     TourAuthoringModule,
     TourExecutionModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpClientModule,
+    LayoutModule
   ],
   providers: [
     {
