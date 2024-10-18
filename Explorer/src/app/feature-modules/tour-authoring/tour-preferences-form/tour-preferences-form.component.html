@@ -1,0 +1,34 @@
+<form [formGroup]="tourPreferenceForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="weightPreference">Weight Preference:</label>
+      <input id="weightPreference" formControlName="weightPreference" type="number" />
+    </div>
+  
+    <div>
+      <label for="walkingRating">Walking Rating:</label>
+      <input id="walkingRating" formControlName="walkingRating" type="number" />
+    </div>
+  
+    <div>
+      <label for="bikeRating">Bike Rating:</label>
+      <input id="bikeRating" formControlName="bikeRating" type="number" />
+    </div>
+  
+    <div>
+      <label for="carRating">Car Rating:</label>
+      <input id="carRating" formControlName="carRating" type="number" />
+    </div>
+  
+    <div>
+      <label for="boatRating">Boat Rating:</label>
+      <input id="boatRating" formControlName="boatRating" type="number" />
+    </div>
+  
+    <div>
+      <label for="tags">Tags (comma-separated):</label>
+      <input id="tags" formControlName="tags" type="text" />
+    </div>
+  
+    <button type="submit" [disabled]="tourPreferenceForm.invalid">Save Preference</button>
+  </form>
+  

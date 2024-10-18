@@ -6,7 +6,8 @@ export enum TransportMode {
   }
   
   export interface TourPreference {
-
+    id: number;
+    touristId: number;
     weightPreference: number;
     walkingRating: number;
     bikeRating: number;

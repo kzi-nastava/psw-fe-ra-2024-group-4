@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TourPreferenceService } from '../tour-preference.service';
 import { TourPreference, TransportMode } from '../../../shared/model/tour-preference.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tour-preferences',
