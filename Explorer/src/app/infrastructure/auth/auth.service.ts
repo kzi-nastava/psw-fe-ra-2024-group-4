@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { Registration } from './model/registration.model';
 })
 export class AuthService {
   user$ = new BehaviorSubject<User>({username: "", id: 0, role: "" });
+  @Output() userLoggedIn = new EventEmitter<void>();
 
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorage,
@@ -27,6 +28,7 @@ export class AuthService {
         tap((authenticationResponse) => {
           this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
           this.setUser();
+          this.userLoggedIn.emit();
         })
       );
   }
@@ -70,4 +72,10 @@ export class AuthService {
     };
     this.user$.next(user);
   }
+
+  isLoggedIn(): boolean{
+    const user = this.user$.value;
+    return user && user.id > 0;
+  }
+
 }

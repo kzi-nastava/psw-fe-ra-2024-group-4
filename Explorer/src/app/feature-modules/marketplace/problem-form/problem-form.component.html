@@ -1,0 +1,21 @@
+<form [formGroup]="problemForm">
+    <div>
+        <mat-form-field>
+            <mat-label>Category</mat-label>
+            <input matInput formControlName="category" type="text"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          formControlName="description"
+          cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Priority</mat-label>
+            <input matInput formControlName="priority" type="text"/>
+        </mat-form-field>
+        <button  color="primary" type="submit" (click)="addProblem()" mat-raised-button>Done</button>
+    </div>
+</form>

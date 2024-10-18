@@ -1,5 +1,5 @@
 export interface Problem{
-    id: number,
+    id?: number,
     userId: number,
     tourId: number,
     description: string,
