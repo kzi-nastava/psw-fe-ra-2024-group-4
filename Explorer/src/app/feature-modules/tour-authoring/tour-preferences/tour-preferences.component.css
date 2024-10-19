@@ -20,3 +20,20 @@ td {
 tbody tr:hover {
     background-color: lightblue;
 }
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+button{
+    background-color: blue;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+    
+}
+button tr:hover{
+    background-color: red;
+}

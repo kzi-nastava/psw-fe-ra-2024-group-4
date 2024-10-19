@@ -8,12 +8,9 @@ import {jwtDecode } from 'jwt-decode';
 })
 
 
-export class TourPreferenceService {
+export class TourPreferenceService{
 
-  private apiUrl = 'https://localhost:44333/api/tourist/preference/preferences';
-  private updateUrl = 'https://localhost:44333/api/preference/';
-
-  
+  private apiUrl = 'https://localhost:44333/api/tourist/preference/preferences';  
 
   constructor(private http: HttpClient) { }
 
@@ -21,15 +18,15 @@ export class TourPreferenceService {
     return this.http.get<TourPreference[]>(this.apiUrl);
   }
   savePreference(preference: TourPreference) {
-    const token =localStorage.getItem('token');
+    const token =localStorage.getItem('access-token');
     if(token){
       const decodedToken: any = jwtDecode(token);
       console.log(decodedToken);
-      const touristId = decodedToken.Id;
+      const touristId = decodedToken.id;
       if (preference.id) {
-        return this.http.put(`/api/tourist/preference/${touristId}`, preference); // Update preference
+        return this.http.put(`https://localhost:44333/api/tourist/preference/${touristId}`, preference); // Update preference
       } else {
-        return this.http.post(`/api/tourist/preference/${touristId}`, preference); // Add new preference
+        return this.http.post(`https://localhost:44333/api/tourist/preference/${touristId}`, preference); // Add new preference
       }
     } else {
       throw new Error('Token not found');

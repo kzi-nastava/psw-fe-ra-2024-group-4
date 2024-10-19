@@ -1,27 +1,52 @@
-form {
-    display: flex;
-    align-self: center;
-    justify-content:space-between;
-    flex-direction: column;
-    width: 500px;
-    margin: 0 auto;
-  }
-  
-  div {
-    margin-bottom: 1vh;
-  }
-  
-  button {
-    align-self: center;
-    padding: 1vh 2px;
-    background-color: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-  
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px; 
+  margin: 0 auto; 
+  padding: 20px;
+  border: 1px solid #ccc; 
+  border-radius: 10px;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; 
+  width: 100%;
+}
+
+.form-group label {
+  margin-bottom: 5px; 
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; 
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+}
