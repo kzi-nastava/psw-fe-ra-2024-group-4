@@ -1,4 +1,4 @@
-<form [formGroup]="commentForm">
+<form *ngIf="showCommentForm" [formGroup]="commentForm">
     <div>
       <mat-form-field>
         <mat-label>Text</mat-label>
@@ -13,4 +13,5 @@
       <button *ngIf="shouldEdit" mat-raised-button type="submit" color="primary" (click)="updateComment()" [disabled]="commentForm.invalid">Ažuriraj</button>
     </div>
   </form>
+  
   

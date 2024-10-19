@@ -46,8 +46,8 @@ export class PostComponent implements OnInit{
     console.log('kliknuto');
   }
   onCommentClicked(postId: number): void {
-    this.selectedPostId = postId;  // Sačuvaj ID odabranog posta
-    this.shouldRenderCommentForm = true;  // Prikaži formu za komentare
+    this.selectedPostId = postId;  
+    this.shouldRenderCommentForm = true;  
   }
 }
 

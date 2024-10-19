@@ -3,7 +3,8 @@ import { Comment } from '../model/comment.model';
 import { CommentService } from '../comment.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ActivatedRoute } from '@angular/router';
-
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 @Component({
   selector: 'xp-comment',
   templateUrl: './comment.component.html',
@@ -15,14 +16,18 @@ export class CommentComponent implements OnInit {
   shouldRenderCommentForm: boolean=false ;
   shouldEdit: boolean ;
   postId: number;
+  currentUser: User;
   
-  constructor( private service: CommentService, private route: ActivatedRoute ){}
+  constructor( private service: CommentService, private route: ActivatedRoute,private authService: AuthService ){}
 
   ngOnInit(): void {
       
       this.route.params.subscribe(params => {
       this.postId = +params['postId']; 
       this.getCommentByPost(this.postId); 
+    });
+    this.authService.user$.subscribe(user => {
+      this.currentUser = user;
     });
     }
 

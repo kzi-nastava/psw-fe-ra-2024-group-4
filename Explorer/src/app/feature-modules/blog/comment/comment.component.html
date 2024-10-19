@@ -6,6 +6,8 @@
             <th>Tekst</th>
             <th>Vreme kreiranja</th>
             <th>Vreme azuriranja</th>
+            <th>Autor</th>
+            <th>Uloga</th>
             <th></th>
         </tr>
 
@@ -17,7 +19,8 @@
             <td>{{c.text}}</td>
             <td>{{c.createdAt | date: 'short'}}</td>
             <td>{{c.updatedAt | date: 'short'}}</td>
-           
+           <td>{{currentUser.username}}</td>
+           <td>{{currentUser.role}}</td>
             <td>
               
               <button color="primary" (click)="onEditClicked(c)" mat-icon-button>

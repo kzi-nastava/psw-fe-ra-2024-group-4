@@ -16,7 +16,9 @@ export class CommentFormComponent implements OnChanges {
   @Input() comment: Comment;
   @Input() shouldEdit: boolean = false;
   userId: number = 0;
+  showCommentForm: boolean = true;
   @Input() postId: number;
+
 
   constructor(private service: CommentService, private authService: AuthService){ }
 
@@ -37,6 +39,7 @@ export class CommentFormComponent implements OnChanges {
    this.commentForm.reset();
     if(this.shouldEdit){
       this.commentForm.patchValue(this.comment);
+      this.showCommentForm = true;
     }
       
     
@@ -63,6 +66,7 @@ export class CommentFormComponent implements OnChanges {
         console.log("uspjesno")
         this.commentUpdated.emit()
         this.commentForm.reset();
+        this.showCommentForm = false;
       }
     });
   }
@@ -84,7 +88,7 @@ export class CommentFormComponent implements OnChanges {
       next: (_) => {
         this.commentUpdated.emit()
         this.commentForm.reset();
-
+        this.showCommentForm = false;
       }
 
     })
