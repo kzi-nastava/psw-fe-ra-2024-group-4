@@ -17,11 +17,20 @@ export class TourPreferenceService{
   getPreferences(): Observable<TourPreference[]> {
     return this.http.get<TourPreference[]>(this.apiUrl);
   }
+  getTourPreference(): Observable<TourPreference | null> {
+    const token = localStorage.getItem('access-token');
+    if(token){
+      const decodedToken : any = jwtDecode(token);
+      const touristId = decodedToken.id;
+      return this.http.get<TourPreference | null>(`https://localhost:44333/api/tourist/preference/${touristId}`);
+    } else{
+      throw new Error('Token not found');
+    }
+  }
   savePreference(preference: TourPreference) {
     const token =localStorage.getItem('access-token');
     if(token){
       const decodedToken: any = jwtDecode(token);
-      console.log(decodedToken);
       const touristId = decodedToken.id;
       if (preference.id) {
         return this.http.put(`https://localhost:44333/api/tourist/preference/${touristId}`, preference); // Update preference

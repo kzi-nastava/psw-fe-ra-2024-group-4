@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TourPreferenceService } from '../tour-preference.service';
 import { TourPreference } from '../../../shared/model/tour-preference.model';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,11 +15,13 @@ export class TourPreferencesFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private tourPreferenceService: TourPreferenceService
+    private tourPreferenceService: TourPreferenceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadExistingPreference();
   }
 
   initializeForm(): void {
@@ -29,8 +31,35 @@ export class TourPreferencesFormComponent implements OnInit {
       bikeRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
       carRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
       boatRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
-      tags: ['']
+      tags: [''],
+      id: [null],
+      touristId: [null]
     });
+  }
+  loadExistingPreference() : void {
+    this.tourPreferenceService.getTourPreference().subscribe({
+      next: (preference: TourPreference | null) => {
+        if(preference){
+          this.tourPreferenceForm.patchValue({
+            weightPreference: preference.weightPreference,
+            walkingRating: preference.walkingRating,
+            bikeRating: preference.bikeRating,
+            carRating: preference.carRating,
+            boatRating: preference.boatRating,
+            tags: preference.tags.join(', '),
+            id: preference.id,
+            touristId: preference.touristId
+          });
+        }
+        console.log('Preference that is loaded from db for current user', preference);
+      },
+      error: (err) => {
+        console.error('Error loading preference:',err);
+        if(err.error && err.error.errors){
+          console.error('Validation errors: ' , err.error.errors);
+        }
+      }
+    })
   }
 
   onSubmit(): void {
@@ -44,7 +73,7 @@ export class TourPreferencesFormComponent implements OnInit {
       this.tourPreferenceService.savePreference(tourPreference).subscribe({
         next: () => {
           alert('Tour preference saved successfully!');
-          this.tourPreferenceForm.reset(); // Reset the form
+          this.router.navigate(['tour-preferences']);
         },
         error: (err) => {
           console.error('Error saving preference:', err);
