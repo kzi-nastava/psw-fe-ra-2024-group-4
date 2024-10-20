@@ -1,0 +1,76 @@
+<div  class="tourDetailsDiv">
+    <h1>{{tour.name}}</h1>
+    <p>{{tour.description}}</p>
+
+    <h2>Tour Keypoints</h2>
+
+
+    <div class="add-createdkp-tour-div">
+   
+    <table  class="keypoints-table">
+        <thead>
+            <tr>
+                
+                <th>Name</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of keyPoints">
+                
+                <td>{{ item.name }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.description }}</td>
+                <td><img [src]="item.image" alt="Item Image" height="100"></td>
+                <td>
+                   
+                </td>
+               
+            </tr>
+            <tr><button class="create-new-btn" (click) = "onCreateNew()" color="primary"  mat-flat-button>
+               Create new
+            </button></tr>
+        </tbody>
+    </table>
+  <div class="form-div"> <xp-keypoint-form (keypointAdded) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint"></xp-keypoint-form></div>
+</div>
+    <button class="add-existing-btn" (click)="onAddExistingClicked()" color="accent" mat-raised-button>Add existing</button>
+
+    <table *ngIf="shouldAddExisting" class="keypoints-table">
+        <thead>
+            <tr>
+               
+                <th>Name</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of previuslyCreatedKeyPoints">
+                
+                <td>{{ item.name }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.description }}</td>
+                <td><img [src]="item.image" alt="Item Image" height="100"></td>
+                <td>
+                    <button class="create-new-btn" color="primary"  mat-flat-button (click) = "addKeypointToTour(item)">
+                        Add
+                     </button>
+                </td>
+               
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+

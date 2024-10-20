@@ -14,11 +14,16 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -33,6 +38,8 @@ import { PersonInfoModule } from './feature-modules/person.info/person.info.modu
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
+    TourAuthoringModule,
+    
     PersonInfoModule,
     FormsModule
 

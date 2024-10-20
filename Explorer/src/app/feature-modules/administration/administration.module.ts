@@ -9,6 +9,9 @@ import { ClubDetailsComponent } from './club-details/club-details.component';
 import { ClubComponent } from './club/club.component';
 import { ClubFormComponent } from './club-form/club-form.component';
 import { RouterModule } from '@angular/router';
+import { AccountComponent } from './account/account.component';
+import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
+
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import { RouterModule } from '@angular/router';
     ClubInvitationComponent,
     ClubDetailsComponent,
     ClubComponent,
-    ClubFormComponent
+    ClubFormComponent,
+    AccountComponent,
+    AppReviewTableComponent
 
   ],
   imports: [
@@ -33,7 +38,9 @@ import { RouterModule } from '@angular/router';
     ClubInvitationComponent,
     ClubDetailsComponent,
     ClubComponent,
-    ClubFormComponent
+    ClubFormComponent,
+    AccountComponent,
+    AppReviewTableComponent
 
   ]
 })

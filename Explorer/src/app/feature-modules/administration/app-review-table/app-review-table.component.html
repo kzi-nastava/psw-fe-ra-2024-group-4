@@ -1,0 +1,31 @@
+<div id="appReviews">
+    <p>App Reviews</p>
+    <hr>
+    <div id="appReviews-details">
+        <div>
+            <table>
+                <thead>
+                  <tr>
+                    <th>UserId</th>
+                    <th>Grade</th>
+                    <th>Date</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let review of reviews">
+                    <td>{{ review.userId }}</td>
+                    <td>{{ review.grade }}</td>
+                    <td>{{ review.creationTime | date:'short' }}</td>
+                    <td class="comment-row">{{ review.comment }}</td>
+                  </tr>
+                
+                </tbody>
+            </table>
+    
+        </div>
+    </div>
+</div>
+
+
+  
