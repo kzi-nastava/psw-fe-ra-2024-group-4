@@ -23,13 +23,14 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     CommonModule,
     MaterialModule,
     RouterModule,
-    TourAuthoringModule
+    TourAuthoringModule,
+    ReactiveFormsModule
 ],
   exports: [
     NavbarComponent,
     HomeComponent,
     MykeypointsComponent,
-    ReactiveFormsModule,
+ 
     AppReviewComponent
   ],
   
