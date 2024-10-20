@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
+import { CommentService } from '../comment.service';
 import { Post } from '../model/post.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -15,10 +16,12 @@ export class PostComponent implements OnInit{
   posts: Post[]=[];
   shouldRenderForm: boolean =false;
   shouldEdit: boolean=false;
+  selectedPostId: number | null = null
   user:User | null=null;
   selectedPost: Post;
+  shouldRenderCommentForm: boolean = false;
 
-  constructor(private service: PostService,private authService: AuthService){
+  constructor( private comService: CommentService,private service: PostService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
@@ -56,6 +59,10 @@ export class PostComponent implements OnInit{
         this.getPosts();
       }
     })
+  }
+  onCommentClicked(postId: number): void {
+    this.selectedPostId = postId;  
+    this.shouldRenderCommentForm = true;  
   }
 }
 

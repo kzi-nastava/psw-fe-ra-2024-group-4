@@ -1,0 +1,64 @@
+<h1>CLUB DETAILS</h1>
+
+<h2>Club Members</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Member Username</th>
+            <th></th> 
+        </tr>
+    </thead>
+    <tbody *ngIf="members && members.length > 0; else noMembers">
+        <tr *ngFor="let member of members">
+            <td>{{ member.username }}</td>
+            <td> <button  (click)="removeMember(member.id)">Remove member</button></td> 
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noMembers>
+    <p>No members found.</p>
+</ng-template>
+
+
+<h2>Invite Members to join club</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Member Username</th>
+            <th></th> 
+        </tr>
+    </thead>
+    <tbody *ngIf="membersForInvite && membersForInvite.length > 0; else noMembersForInvite">
+        <tr *ngFor="let memberForInvite of membersForInvite">
+            <td>{{ memberForInvite.username }}</td>
+            <td>
+                <button (click)="sendClubInvitation(memberForInvite.id)">Send Club Invitation</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noMembersForInvite>
+    <p>No members found.</p>
+</ng-template>
+
+<h2>Proccessing club invitations</h2>
+<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Club ID</th>
+        <th>Member ID</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invitation of invitations">
+        <td>{{ invitation.id }}</td>
+        <td>{{ invitation.clubId }}</td>
+        <td>{{ getMemberName(invitation.memberId) }}</td>
+        <td>PROCCESSING</td>
+      </tr>
+    </tbody>
+  </table>
