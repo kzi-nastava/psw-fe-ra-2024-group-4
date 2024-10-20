@@ -1,0 +1,45 @@
+
+<div class="mykeypoints-page">
+
+<div class="mykeypoints-container">
+    
+
+    <table class="keypoints-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of keyPoints">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.description }}</td>
+                <td><img [src]="item.image" alt="Item Image" height="100"></td>
+              
+                <td>
+                    <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr><button color="primary" (click)="onAddClicked()"  mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button></tr>
+        </tbody>
+    </table>
+    <div class="keypoints-form-container">
+        <xp-keypoint-form *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint"></xp-keypoint-form>
+    </div>
+  
+</div>
+</div>

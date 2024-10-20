@@ -5,7 +5,15 @@
             <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
             <button color="primary" mat-raised-button [routerLink]="['home']">Home</button>
+            <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['mykeypoints']">My Keypoints</button>
+            <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['object-view']">Objects</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
+            <button *ngIf="user && (user.role === 'author' || user.role==='tourist')"color="primary" mat-raised-button [routerLink]="['blogPost']">Blog</button>
+            <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['account']">Manage users</button>
+            <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['appReviews']">App Reviews</button>
+            <button *ngIf="user && (user.role === 'tourist' || user.role === 'author') && user.username !== ''"color="primary" mat-raised-button [routerLink]="['reviewApp']">Review App</button>
+            <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button [routerLink]="['profile']">Profile</button>
+
             <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['clubJoinRequest']">Club Requests</button>
 
         </div>

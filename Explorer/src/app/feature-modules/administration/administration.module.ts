@@ -5,8 +5,13 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClubJoinRequestComponent } from './club-join-request/club-join-request.component';
+import { ClubInvitationComponent } from './club-invitation/club-invitation.component';
+import { ClubDetailsComponent } from './club-details/club-details.component';
 import { ClubComponent } from './club/club.component';
 import { ClubFormComponent } from './club-form/club-form.component';
+import { RouterModule } from '@angular/router';
+import { AccountComponent } from './account/account.component';
+import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 
 
 
@@ -15,19 +20,30 @@ import { ClubFormComponent } from './club-form/club-form.component';
     EquipmentFormComponent,
     EquipmentComponent,
     ClubJoinRequestComponent,
+    ClubInvitationComponent,
+    ClubDetailsComponent,
     ClubComponent,
-    ClubFormComponent
+    ClubFormComponent,
+    AccountComponent,
+    AppReviewTableComponent
+
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
+    ClubInvitationComponent,
+    ClubDetailsComponent,
     ClubComponent,
-    ClubFormComponent
+    ClubFormComponent,
+    AccountComponent,
+    AppReviewTableComponent
+
   ]
 })
 export class AdministrationModule { }

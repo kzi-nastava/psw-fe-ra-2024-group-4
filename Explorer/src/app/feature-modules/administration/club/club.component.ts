@@ -6,46 +6,50 @@ import { ClubJoinRequest } from '../model/club-join-request.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { catchError } from 'rxjs';
+
 @Component({
   selector: 'xp-club',
   templateUrl: './club.component.html',
   styleUrls: ['./club.component.css']
-})
+}) 
 export class ClubComponent implements OnInit {
 
-  club:Club[]=[];
   user: User | null = null;
+  club: Club[] = [];
+  selectedClub:Club;
+  shouldRenderClubForm: boolean = false;
+  shouldEdit: boolean = false;
+  currentUserId: number | null = null;
+
   clubJoinRequests: ClubJoinRequest[] = [];
   userRequestCache: { [key: number]: boolean } = {};
   userIsOwner: {[key: number]: boolean } = {};
   userIsMember: {[key: number]: boolean } = {};
-  constructor(private service:AdministrationService,
-              private authService: AuthService){
-                this.authService.user$.subscribe((user) => {
-                  this.user = user; 
-                  console.log(user);
-                  console.log(this.userRequestCache);
-                  
-                });
-  };
 
+  constructor(private service: AdministrationService, private authService: AuthService) {}
 
-  ngOnInit():void{
-    console.log('on init requests: ', this.userRequestCache);
-    // throw new Error('Method not implemented');
+  ngOnInit(): void {
+    this.getAllClubs();
+    this.authService.user$.subscribe((user: User | null) => {
+      this.currentUserId = user ? user.id : null; 
+      this.user = user;
+      console.log(user);
+
+    });
+  }
+
+  getAllClubs(): void {
     this.service.getAllClubs().subscribe({
-      next:(result:PagedResults<Club>)=>{
-        this.club=result.results
-        //this.populateUserRequestCache();
+      next: (result: PagedResults<Club>) => {
+        this.club = result.results;
         this.onInitCacheFill();
       },
-      error:(err:any)=>{
-        console.log(err)
+      error: (err: any) => {
+        console.log(err);
       }
     });
     this.getClubJoinRequests();
   }
-
 
   getClubJoinRequests(){
     this.service.getClubJoinRequests().subscribe({
@@ -148,8 +152,17 @@ export class ClubComponent implements OnInit {
     //this.populateUserRequestCache();
   }
 
+  onAddClicked(): void {
+    this.shouldRenderClubForm = true; 
+  }
 
-
-
-
+  onEditClicked(club: Club): void {
+    this.selectedClub=club;
+    this.shouldRenderClubForm = true;
+    this.shouldEdit=true;
+  }
+  onFormClosed(): void {
+    this.shouldRenderClubForm = false; 
+    this.shouldEdit = false; 
+  }
 }

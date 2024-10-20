@@ -1,0 +1,22 @@
+<div *ngIf="infoPerson">
+    <h2>Edit Profile</h2>
+    <form (ngSubmit)="updateProfile()">
+        <label for="name">Name:</label>
+        <input id="name" [(ngModel)]="infoPerson.name" name="name" required>
+
+        <label for="surname">Surname:</label>
+        <input id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
+
+        <label for="profilePicture">Profile Picture URL:</label>
+        <input id="profilePicture" [(ngModel)]="infoPerson.profilePicture" name="profilePicture">
+
+        <label for="biography">Biography:</label>
+        <textarea id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
+
+        <label for="motto">Motto:</label>
+        <input id="motto" [(ngModel)]="infoPerson.motto" name="motto">
+
+        <br><button type="submit">Save Changes</button>
+    </form>
+</div>
+

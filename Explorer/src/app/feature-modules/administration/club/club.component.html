@@ -1,24 +1,40 @@
-<div class="club-table-container">
-    <table class="club-table">
-        <thead>
-            <h1 class="club_h1">Clubs</h1>
-        </thead>
-        <tbody>
-            <div class="club-list-container">
-                <div class="club-card" *ngFor="let cl of club">
-                    <div class="club-info">
-                        <h3>{{ cl.name }}</h3>
-                        <p>{{ cl.description }}</p>
-                        <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === false && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="join-button" (click)="addClubJoinRequest(cl)">Join</button>
-                        <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === true && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="cancel-button" (click)="cancelClubJoinRequest(cl)">Cancel</button>
-                        <button *ngIf="cl.id!== undefined && userIsOwner[cl.id]" class="owner-button">Owner</button>
-                        <button *ngIf="cl.id!== undefined && userIsMember[cl.id] && !userIsOwner[cl.id]" class="owner-button">Member</button>
-                    </div>
-                    <div class="club-image-container">
-                        <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />
-                    </div>
+<div class="club-layout-container">
+    <div class="club-table-container">
+        <h1 class="club_h1">Clubs</h1>
+        <button class="custom-button" (click)="onAddClicked()">Add Club</button> 
+        <div class="club-list-container">
+            <div class="club-card" *ngFor="let cl of club">
+                <div class="club-info">
+                    <h3>{{ cl.name }}</h3>
+                    <p>{{ cl.description }}</p>
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === false && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="join-button" (click)="addClubJoinRequest(cl)">Join</button>
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === true && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="cancel-button" (click)="cancelClubJoinRequest(cl)">Cancel</button>
+                    <button *ngIf="cl.id!== undefined && userIsOwner[cl.id]" class="owner-button">Owner</button>
+                    <button *ngIf="cl.id!== undefined && userIsMember[cl.id] && !userIsOwner[cl.id]" class="owner-button">Member</button>
+
                 </div>
+                <div class="club-image-container">
+                    <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />
+                </div>
+                <div class="club-action-buttons" style="margin-left: 20px;">
+                    <button *ngIf="cl.userId === currentUserId" (click)="onEditClicked(cl)" class="custom-button">Edit</button>
+                    
+                <button  class="custom-button" [routerLink]="['/clubDetails', cl.id]">
+                                    Club Details
+                                </button>
+                </div>
+                
             </div>
-        </tbody>
-    </table>
+        </div>
+    </div>
+
+    <div class="club-form-container">
+        <xp-club-form 
+            (clubUpdated)="getAllClubs()" 
+            (formClosed)="onFormClosed()" 
+            *ngIf="shouldRenderClubForm" 
+            [club]="selectedClub" 
+            [shouldEdit]="shouldEdit">
+        </xp-club-form>
+    </div>
 </div>
