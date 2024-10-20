@@ -30,7 +30,8 @@ export class MapComponent {
     );
     tiles.addTo(this.map);
 
-    this.registerOnClick();
+    //this.registerOnClick();
+  //  this.setRoute();
   }
 
   ngAfterViewInit(): void {
@@ -69,6 +70,21 @@ export class MapComponent {
       error: () => {},
     });
   }
+
+  setRoute(): void {
+    const routeControl = L.Routing.control({
+      waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
+      router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'})
+    }).addTo(this.map);
+
+    routeControl.on('routesfound', function(e) {
+      var routes = e.routes;
+      var summary = routes[0].summary;
+      alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+  }
+
+  
 
  
 
