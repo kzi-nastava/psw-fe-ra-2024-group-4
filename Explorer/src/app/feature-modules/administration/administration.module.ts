@@ -4,13 +4,17 @@ import { EquipmentFormComponent } from './equipment-form/equipment-form.componen
 import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './account/account.component';
+import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 
 
 
 @NgModule({
   declarations: [
     EquipmentFormComponent,
-    EquipmentComponent
+    EquipmentComponent,
+    AccountComponent,
+    AppReviewTableComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +23,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     EquipmentComponent,
-    EquipmentFormComponent
+    EquipmentFormComponent,
+    AccountComponent,
+    AppReviewTableComponent
   ]
 })
 export class AdministrationModule { }
