@@ -12,11 +12,6 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 export class CommentService {
 
   constructor(private http: HttpClient) { }
-
-  getComment(): Observable<PagedResults<Comment>>{
-    return this.http.get<PagedResults<Comment>>('https://localhost:44333/api/comments/comment');
-   }
-
   
    addComment(comment: Comment): Observable<Comment> {
     return this.http.post<Comment>('https://localhost:44333/api/comments/comment',comment);
@@ -32,5 +27,7 @@ export class CommentService {
       return this.http.get<PagedResults<Comment>>(`https://localhost:44333/api/comments/comment?id=${postId}&page=${page}&pageSize=${pageSize}`);
     }
   
-   
+   getPosts():Observable<PagedResults<Post>>{
+    return this.http.get<PagedResults<Post>>(environment.apiHost+"comments/comment/posts");
+   }
 }

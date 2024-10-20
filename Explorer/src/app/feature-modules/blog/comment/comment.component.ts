@@ -5,6 +5,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { PostService } from '../post.service';
 @Component({
   selector: 'xp-comment',
   templateUrl: './comment.component.html',
@@ -18,31 +19,19 @@ export class CommentComponent implements OnInit {
   postId: number;
   currentUser: User;
   
-  constructor( private service: CommentService, private route: ActivatedRoute,private authService: AuthService ){}
+  constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService ){}
 
   ngOnInit(): void {
       
       this.route.params.subscribe(params => {
       this.postId = +params['postId']; 
+      this.authService.user$.subscribe(user => {
+        this.currentUser = user;
+      });
       this.getCommentByPost(this.postId); 
-    });
-    this.authService.user$.subscribe(user => {
-      this.currentUser = user;
     });
     }
 
- 
-    
-    getComment():void{
-      this.service.getComment().subscribe({
-        next: (result: PagedResults<Comment>) => {
-        this.comment = result.results;
-      },
-      error: () => {
-        
-      }
-    })
-  }
   onEditClicked(comment: Comment): void{
     this.shouldEdit = true;
     this.selectedComment=comment;
@@ -68,7 +57,8 @@ this.service.deleteComment(comment).subscribe({
  }
 
  getCommentByPost(postId: number): void {
-  this.service.getCommentByPost(postId,0,0).subscribe({
+  const serviceToUse = this.currentUser.role==='tourist' ? this.service : this.postService;
+  serviceToUse.getCommentByPost(postId,0,0).subscribe({
     next: (result: PagedResults<Comment>) => {
       this.comment = result.results;
     }
