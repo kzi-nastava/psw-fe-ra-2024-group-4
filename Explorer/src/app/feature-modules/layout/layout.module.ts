@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { MykeypointsComponent } from './mykeypoints/mykeypoints.component';
 import { TourAuthoringModule } from "../tour-authoring/tour-authoring.module";
 import { ObjectViewComponent } from './object-view/object-view.component';
+import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     MykeypointsComponent,
     ObjectViewComponent,
    
-    AppReviewComponent
+    AppReviewComponent,
+         LandingBlogComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     NavbarComponent,
     HomeComponent,
     MykeypointsComponent,
- 
+    LandingBlogComponent,
     AppReviewComponent
   ],
   

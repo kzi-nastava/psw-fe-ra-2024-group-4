@@ -1,0 +1,82 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 75%;
+    padding: 10px;
+    height: 100vh;
+}
+
+header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.main-blog {
+    border-radius: 5px;
+    position: relative;
+    height: 100%; /* Take full remaining height */
+    width: 55%; /* Adjusted to fit alongside the scroll list */
+}
+
+.main-blog p {
+    margin-top: 20px;
+    max-width: fit-content;
+}
+
+.main-image {
+    padding: 0; /* Remove padding to avoid affecting the image */
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    height: 60vh; /* Ensures the image takes the full height */
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+    object-position: center; /* Centers the image */
+}
+
+.scroll-list {
+    flex: 0 0 40%; /* Takes 40% of the container */
+    padding: 20px;
+    border-radius: 5px;
+    height: 80vh; /* Fixed height for the scrollable area */
+    overflow-y: auto; /* Enables vertical scrolling */
+}
+
+/* Scrollbar styles */
+.scroll-list::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    background-color: transparent; /* Background color of the scrollbar track */
+}
+
+.scroll-list::-webkit-scrollbar-thumb {
+    background-color: #aaa; /* Color of the scrollbar handle */
+    border-radius: 10px; /* Rounded corners for the scrollbar handle */
+    border: 2px solid transparent; /* Add a transparent border for spacing */
+}
+
+.scroll-list::-webkit-scrollbar-thumb:hover {
+    background-color: #777; /* Color of the handle when hovered */
+}
+
+.scroll-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.scroll-list li {
+    padding: 10px;
+}
