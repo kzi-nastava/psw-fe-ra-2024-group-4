@@ -1,0 +1,21 @@
+<form [formGroup]="postForm">
+    <div>
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" type="text"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="3"
+            formControlName="description"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Image URL</mat-label>
+            <input matInput formControlName="imageUrl" type="text"/>
+        </mat-form-field>
+        <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addPost()" mat-raised-button>Done</button>
+    </div>
+</form>

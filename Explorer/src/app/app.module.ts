@@ -23,6 +23,7 @@ import { PersonInfoModule } from './feature-modules/person.info/person.info.modu
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,

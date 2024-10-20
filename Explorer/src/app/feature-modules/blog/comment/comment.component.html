@@ -1,0 +1,45 @@
+<div>
+
+    <table>
+      <thead>
+        <tr>
+            <th>Tekst</th>
+            <th>Vreme kreiranja</th>
+            <th>Vreme azuriranja</th>
+            <th>Autor</th>
+            <th>Uloga</th>
+            <th></th>
+        </tr>
+
+      </thead> 
+      
+      <tbody>
+        <tr *ngFor="let c of comment">
+
+            <td>{{c.text}}</td>
+            <td>{{c.createdAt | date: 'short'}}</td>
+            <td>{{c.updatedAt | date: 'short'}}</td>
+           <td>{{currentUser.username}}</td>
+           <td>{{currentUser.role}}</td>
+            <td>
+              
+              <button color="primary" (click)="onEditClicked(c)" mat-icon-button>
+                  <mat-icon>edit</mat-icon>
+              </button>
+              <button  color="acent" (click)="deleteComment(c)"  mat-icon-button>
+                <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr><button color="primary" (click)="onAddClicked()" mat-icon-button>
+          <mat-icon>add</mat-icon>
+      </button></tr>
+     
+
+      </tbody>
+    </table>
+    <div>
+      <xp-comment-form *ngIf="shouldRenderCommentForm"  (commentUpdated)="getCommentByPost(postId)"  [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+    </div>
+   
+</div>
