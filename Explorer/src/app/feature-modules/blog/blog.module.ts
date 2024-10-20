@@ -7,6 +7,7 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     MaterialModule,
     ReactiveFormsModule,
     RouterModule,
+    MarkdownModule.forRoot(),
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule
