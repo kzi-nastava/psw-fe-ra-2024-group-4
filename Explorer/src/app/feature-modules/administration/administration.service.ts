@@ -42,8 +42,20 @@ export class AdministrationService {
   addClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
     return this.http.post<ClubJoinRequest>('https://localhost:44333/api/clubJoinRequest', request);
   }
+
+  deleteClubJoinRequest(id: number): Observable<ClubJoinRequest>{
+    return this.http.delete<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest/' + id);
+  }
+
   getAllClubs():Observable<PagedResults<Club>>{
     return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
+  }
+  userRequestExists(clubId: number, userId:number){
+    return this.http.get<boolean>(environment.apiHost + 'clubJoinRequest/' + clubId + '/' + userId);
+  }
+
+  addMember(memberId: number, clubId: number, userId: number): Observable<void> {
+    return this.http.get<void>(`https://localhost:44333/api/club/member/${memberId}/${clubId}/${userId}`);
   }
 
 }

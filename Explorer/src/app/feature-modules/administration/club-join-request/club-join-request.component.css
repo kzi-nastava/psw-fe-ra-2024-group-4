@@ -28,16 +28,19 @@ td {
 button {
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 5% 5%;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 5%;
     font-size: 16px;
+    text-align: center;
 }
 
 button.accept {
     background-color: green;
+    width: 45%;
 }
 
 button.decline {
     background-color: red;
+    width: 45%;
 }

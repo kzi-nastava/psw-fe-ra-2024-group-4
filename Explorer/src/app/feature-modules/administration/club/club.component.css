@@ -73,3 +73,22 @@
     border-radius: 5px; 
     cursor: pointer; 
 }
+.cancel-button{
+    align-self: flex-end; 
+    background-color: rgb(245, 108, 108); 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.owner-button{
+    align-self: flex-end; 
+    background-color: rgb(253, 250, 73); 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
