@@ -110,7 +110,7 @@ export class ClubDetailsComponent implements OnInit{
           sendClubInvitation(memberId: number): void {
             this.service.getNextClubInvitationId().subscribe((nextId: number) => {
               const invitation: ClubInvitation = {
-                id: nextId,
+               // id: nextId,
                 clubId: this.clubId,
                 memberId: memberId,
                 userId: this.userId,
