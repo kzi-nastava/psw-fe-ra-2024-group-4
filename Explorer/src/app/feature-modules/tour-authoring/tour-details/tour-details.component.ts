@@ -25,6 +25,7 @@ export class TourDetailsComponent implements OnInit {
   shouldAddExisting: boolean = false;
   shouldCreateNew: boolean = false;
   shouldAddKeypoint: boolean = false;
+  registerObj: boolean = false;
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -117,6 +118,7 @@ export class TourDetailsComponent implements OnInit {
   {
     this.shouldCreateNew = true;
     this.shouldAddKeypoint = true;
+    this.registerObj = true;
   }
 
   notifyKeypointAdded(addedKeypoint: KeyPoint) : void

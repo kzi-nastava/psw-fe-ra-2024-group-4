@@ -15,7 +15,7 @@ export class MapComponent {
   @Input() selectedLongitude: number;
   @Input() selectedTourPoints: KeyPoint[];
 
-  @Input() creatingNew: boolean = false;
+  @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
 
   @Output() latitudeChanged = new EventEmitter<number>();
@@ -44,14 +44,14 @@ export class MapComponent {
     tiles.addTo(this.map);
 
     
-    if(!this.creatingNew)
+    if(this.registeringObject)
     { 
       this.registerOnClick();
 
     }
     if(this.showingTour)
-      this.setRoute(this.selectedTourPoints);
-    
+   {   this.setRoute(this.selectedTourPoints);
+   }
 
   }
 

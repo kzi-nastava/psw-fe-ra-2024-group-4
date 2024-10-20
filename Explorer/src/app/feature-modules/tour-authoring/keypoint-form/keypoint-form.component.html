@@ -32,5 +32,5 @@
 </div>
 
 <div class="map-container" >
-    <xp-map  [creatingNew] = "shouldEdit" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)"></xp-map>
+    <xp-map  [registeringObject] = "registeringObj" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)"></xp-map>
 </div>

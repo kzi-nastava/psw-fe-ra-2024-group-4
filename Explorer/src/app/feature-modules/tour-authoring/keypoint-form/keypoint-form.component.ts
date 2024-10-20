@@ -22,6 +22,8 @@ export class KeypointFormComponent implements OnInit {
   @Input() shouldEdit: boolean = false;
   @Input() shouldAddKeypoint: boolean = false;
   @Input() tourToAdd: Tour;
+  
+  @Input() registeringObj: boolean = false;
 
   latitude: number = 0.0;
   longitude: number = 0.0;
@@ -38,6 +40,17 @@ export class KeypointFormComponent implements OnInit {
       this.service.getKeyPoints(this.user.id).subscribe({
         next: (result: KeyPoint[]) => { this.keyPoints = result; },
         error: (err: any) => console.log(err)
+      })
+    }
+
+    if(this.shouldEdit)
+    {
+      this.keypointForm.patchValue({
+        name: this.keypoint.name,
+        longitude: this.keypoint.longitude,
+        latitude: this.keypoint.latitude,
+        description: this.keypoint.description,
+        image: this.keypoint.image,
       })
     }
 
@@ -134,7 +147,10 @@ export class KeypointFormComponent implements OnInit {
 
   updateKeyPoint(): void{
 
-    alert("uslo");
+   
+   
+
+   
     if(this.user)
     {
       const keypoint: KeyPoint = {
