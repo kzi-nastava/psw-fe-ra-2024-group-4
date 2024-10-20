@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import { MapService } from './map.service';
 
 @Component({
   selector: 'xp-map',
@@ -10,7 +11,7 @@ export class MapComponent {
 
    private map: any;
 
-  constructor() {}
+   constructor(private mapService: MapService) {}
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -28,10 +29,48 @@ export class MapComponent {
       }
     );
     tiles.addTo(this.map);
+
+    this.registerOnClick();
   }
 
   ngAfterViewInit(): void {
+    let DefaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
   }
+
+  registerOnClick(): void {
+    this.map.on('click', (e: any) => {
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+        //console.log(res.display_name);
+      });
+      /*console.log(
+        'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+      );*/
+      new L.Marker([lat, lng]).addTo(this.map);
+    });
+  }
+
+  search(): void {
+    this.mapService.search('Strazilovska 19, Novi Sad').subscribe({
+      next: (result) => {
+        //console.log(result);
+        L.marker([result[0].lat, result[0].lon])
+          .addTo(this.map)
+          .bindPopup('Pozdrav iz Strazilovske 19.')
+          .openPopup();
+      },
+      error: () => {},
+    });
+  }
+
+ 
+
 
 }
