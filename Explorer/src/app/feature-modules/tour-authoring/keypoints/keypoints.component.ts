@@ -16,6 +16,8 @@ export class KeypointsComponent implements OnInit {
   shouldRenderKeyPointForm: boolean = false;
   shouldEdit: boolean = false;
   selectedKeyPoint: KeyPoint;
+ 
+ 
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -44,6 +46,7 @@ export class KeypointsComponent implements OnInit {
   onAddClicked(): void {
     this.shouldEdit = false;
     this.shouldRenderKeyPointForm = true;
+   
   }
 
   onEditClicked(keypoint: KeyPoint): void {

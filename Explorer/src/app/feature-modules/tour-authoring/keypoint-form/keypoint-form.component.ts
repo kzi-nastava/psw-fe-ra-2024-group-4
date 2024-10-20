@@ -23,6 +23,9 @@ export class KeypointFormComponent implements OnInit {
   @Input() shouldAddKeypoint: boolean = false;
   @Input() tourToAdd: Tour;
 
+  latitude: number = 0.0;
+  longitude: number = 0.0;
+
   user: User | undefined;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -41,6 +44,7 @@ export class KeypointFormComponent implements OnInit {
  
   }
 
+
  
   keypointForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -50,9 +54,27 @@ export class KeypointFormComponent implements OnInit {
     image: new FormControl('', [Validators.required])
   })
 
+  setLongitude(newLongitude: number): void{
+    
+    this.longitude = newLongitude;
+    this.keypointForm.patchValue({
+      longitude: newLongitude
+    });
+  }
+
+  setLatitude(newLatitude: number): void{
+  
+    this.latitude = newLatitude;
+    this.keypointForm.patchValue({
+      latitude: newLatitude
+    });
+  }
+
   
 
+
   createKeyPoint(): void {
+   
 
     if(this.user){
       this.service.getKeyPoints(this.user.id).subscribe({

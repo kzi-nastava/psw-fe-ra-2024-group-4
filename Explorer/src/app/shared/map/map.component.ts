@@ -1,6 +1,8 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
+import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/keypoint-form/keypoint-form.component';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
 
 @Component({
   selector: 'xp-map',
@@ -8,6 +10,17 @@ import { MapService } from './map.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent {
+
+  @Input() selectedLatitude: number;
+  @Input() selectedLongitude: number;
+  @Input() selectedTourPoints: KeyPoint[];
+
+  @Input() creatingNew: boolean = false;
+  @Input() showingTour: boolean = false;
+
+  @Output() latitudeChanged = new EventEmitter<number>();
+  @Output() longitudeChanged = new EventEmitter<number>();
+
 
    private map: any;
 
@@ -30,8 +43,16 @@ export class MapComponent {
     );
     tiles.addTo(this.map);
 
-    //this.registerOnClick();
-  //  this.setRoute();
+    
+    if(!this.creatingNew)
+    { 
+      this.registerOnClick();
+
+    }
+    if(this.showingTour)
+      this.setRoute(this.selectedTourPoints);
+    
+
   }
 
   ngAfterViewInit(): void {
@@ -43,8 +64,13 @@ export class MapComponent {
     this.initMap();
   }
 
+
+
   registerOnClick(): void {
+    
+    
     this.map.on('click', (e: any) => {
+      
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
@@ -55,6 +81,9 @@ export class MapComponent {
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );*/
       new L.Marker([lat, lng]).addTo(this.map);
+      
+      this.latitudeChanged.emit(lat);
+      this.longitudeChanged.emit(lng);
     });
   }
 
@@ -71,9 +100,10 @@ export class MapComponent {
     });
   }
 
-  setRoute(): void {
+  setRoute(keyPoints: KeyPoint[]): void {
+    const waypoints = keyPoints.map(point => L.latLng(point.latitude, point.longitude));
     const routeControl = L.Routing.control({
-      waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
+      waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'})
     }).addTo(this.map);
 
