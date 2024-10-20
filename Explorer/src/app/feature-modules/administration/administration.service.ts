@@ -65,5 +65,13 @@ export class AdministrationService {
     return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
   }
 
+  addClub(club:Club):Observable<Club>{
+    return this.http.post<Club>(environment.apiHost+'club',club)
+  }
+  updateClub(club: Club): Observable<Club> {
+    return this.http.put<Club>(environment.apiHost + 'club/' + club.id, club);
+  }
+
+
 }
 

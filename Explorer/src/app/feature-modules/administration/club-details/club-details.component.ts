@@ -20,7 +20,7 @@ export class ClubDetailsComponent implements OnInit{
   user: User | null = null;
   errorMessage: string | null = null;
   clubId!: number;
-  userId: number = 2;
+  userId: number;
   constructor(private service: AdministrationService, private authService: AuthService, private router: Router, private route: ActivatedRoute){}
 
       ngOnInit(): void {
@@ -37,7 +37,9 @@ export class ClubDetailsComponent implements OnInit{
 
         this.authService.user$.subscribe((user) => {
           this.user = user; 
+          console.log('PROVERA');
           console.log(user);
+          this.userId = user.id;
     
         });
         console.log('Fetching members for clubId:', this.clubId); 
