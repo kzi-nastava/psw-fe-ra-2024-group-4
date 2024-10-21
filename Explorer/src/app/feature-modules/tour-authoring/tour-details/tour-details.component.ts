@@ -130,6 +130,10 @@ export class TourDetailsComponent implements OnInit {
 
   }
 
+  notifyTourUpdated(): void{
+    this.tourUpdated.emit();
+  }
+
   showMapForTour(tour: any) {
     console.log('xdd');
     console.log(tour);

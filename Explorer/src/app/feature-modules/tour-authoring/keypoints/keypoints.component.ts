@@ -28,6 +28,9 @@ export class KeypointsComponent implements OnInit {
   }
 
   getKeyPoints() : void {
+
+    this.shouldEdit = false;
+    this.shouldRenderKeyPointForm = false;
     this.authService.user$.subscribe(user => {
       this.user = user;
     });

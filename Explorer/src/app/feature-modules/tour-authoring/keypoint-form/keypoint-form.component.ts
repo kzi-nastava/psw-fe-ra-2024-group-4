@@ -125,6 +125,7 @@ export class KeypointFormComponent implements OnInit {
                 this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
                   next: (result: Tour) => { 
                     this.keypointAdded.emit(keypoint);
+                    this.tourUpdated.emit();
                   },
                   error: (err: any) => console.log(err)
                 })
