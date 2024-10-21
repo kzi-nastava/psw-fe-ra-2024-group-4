@@ -37,22 +37,29 @@ tbody tr.active-row {
 .mykeypoints-container{
     margin-top: 2vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4%;
+    gap: 5%;
+    width: 100%;
 }
 
 .keypoint-form-container{
     display: flex;
+    
 
 }
 
 .mykeypoints-page{
     display: flex;
+    justify-content: center;
     
     width: 160%;
+    
 
 }
+
+
 
 h1{
     margin-top: 1%;

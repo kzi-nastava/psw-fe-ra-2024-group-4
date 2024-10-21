@@ -16,7 +16,7 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     NavbarComponent,
     MykeypointsComponent,
     ObjectViewComponent,
-   
+    
     AppReviewComponent
   ],
   imports: [
@@ -30,7 +30,6 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     NavbarComponent,
     HomeComponent,
     MykeypointsComponent,
- 
     AppReviewComponent
   ],
   
