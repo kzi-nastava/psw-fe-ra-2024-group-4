@@ -32,7 +32,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
                "./node_modules/leaflet/dist/leaflet.css",
-               "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+               "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
+              "src/custom-theme.scss",
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -104,6 +106,8 @@
     }
   },
   "cli": {
+    
     "analytics": false
+
   }
 }
