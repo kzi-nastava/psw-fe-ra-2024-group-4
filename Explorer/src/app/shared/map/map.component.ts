@@ -23,6 +23,7 @@ export class MapComponent {
 
 
    private map: any;
+   private currentMarker: L.Marker | null = null; 
 
    constructor(private mapService: MapService) {}
 
@@ -68,7 +69,7 @@ export class MapComponent {
 
   registerOnClick(): void {
     
-    
+   
     this.map.on('click', (e: any) => {
       
       const coord = e.latlng;
@@ -80,7 +81,12 @@ export class MapComponent {
       /*console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );*/
-      new L.Marker([lat, lng]).addTo(this.map);
+
+      if (this.currentMarker) {
+        this.map.removeLayer(this.currentMarker);
+    }
+
+      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
       
       this.latitudeChanged.emit(lat);
       this.longitudeChanged.emit(lng);
