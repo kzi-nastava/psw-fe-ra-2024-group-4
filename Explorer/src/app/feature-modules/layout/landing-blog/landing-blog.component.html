@@ -5,36 +5,16 @@
     <div class="content">
         <div class="main-blog">
             <div class="main-image">
-                <img [src]="mainBlog.imageUrl" alt="Main Blog Image">
+                <img [src]="mainBlog?.imageUrl" alt="Main Blog Image">
             </div>
             <p>Description</p>
         </div>
         <div class="scroll-list">
             <ul>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
-                <li>Blog</li>
+                <li *ngFor="let blog of blogs" class="blog-card">
+                    <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
+                    <span class="blog-title">{{ blog.title }}</span>
+                  </li>
             </ul>
         </div>
     </div>

@@ -33,7 +33,7 @@ header {
 }
 
 .main-image {
-    padding: 0; /* Remove padding to avoid affecting the image */
+    padding: 0; 
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -53,6 +53,7 @@ header {
     border-radius: 5px;
     height: 80vh; /* Fixed height for the scrollable area */
     overflow-y: auto; /* Enables vertical scrolling */
+    height: 80vh;
 }
 
 /* Scrollbar styles */
@@ -77,6 +78,22 @@ header {
     margin: 0;
 }
 
-.scroll-list li {
-    padding: 10px;
+.blog-card {
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 15px; /* Space between blog cards */
+    padding: 10px; /* Space inside the card */
+    padding-top: 0px;
+}
+
+.blog-image {
+    width: 15vw; /* Fixed width for images */
+    height: 22vh; /* Fixed height for images */
+    border-radius: 5px; /* Optional: rounded corners for images */
+    margin-right: 10px; /* Space between image and title */
+}
+
+.blog-title {
+    font-size: 16px; /* Font size for the blog title */
+    font-weight: bold; /* Make the title bold */
 }
