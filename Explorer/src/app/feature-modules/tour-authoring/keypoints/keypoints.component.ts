@@ -47,18 +47,28 @@ export class KeypointsComponent implements OnInit {
   }
 
   onAddClicked(): void {
-    this.shouldEdit = false;
-    this.shouldRenderKeyPointForm = true;
-    this.registeringObj = true;
+    if(this.shouldRenderKeyPointForm)
+      this.shouldRenderKeyPointForm = false;
+   
+    setTimeout(() => {
+      this.shouldEdit = false; 
+      this.shouldRenderKeyPointForm = true;
+      this.registeringObj = true; 
+    }, 200);
    
   }
 
   onEditClicked(keypoint: KeyPoint): void {
  
+    if(this.shouldRenderKeyPointForm)
+      this.shouldRenderKeyPointForm = false;
+
+    setTimeout(() => {
     this.selectedKeyPoint = keypoint;
     this.shouldRenderKeyPointForm = true;
     this.shouldEdit = true;
     this.registeringObj = true;
+  }, 200);
   }
 
   deleteKeypoint(id: number): void{
