@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter,SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/keypoint-form/keypoint-form.component';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
+import { TourObject } from 'src/app/feature-modules/tour-authoring/model/object.model';
 
 @Component({
   selector: 'xp-map',
@@ -14,6 +15,7 @@ export class MapComponent {
   @Input() selectedLatitude: number;
   @Input() selectedLongitude: number;
   @Input() selectedTourPoints: KeyPoint[];
+  @Input() objects: TourObject[] = [];
 
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
@@ -24,6 +26,13 @@ export class MapComponent {
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
+
+   private redIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png', 
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
 
    constructor(private mapService: MapService) {}
 
@@ -59,10 +68,18 @@ export class MapComponent {
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['objects'] && this.map) {
+      this.plotExistingObjects(); 
+    }
   }
 
 
@@ -76,11 +93,11 @@ export class MapComponent {
       const lat = coord.lat;
       const lng = coord.lng;
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        //console.log(res.display_name);
+        console.log(res.display_name);
       });
-      /*console.log(
+      console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-      );*/
+      );
 
       if (this.currentMarker) {
         this.map.removeLayer(this.currentMarker);
@@ -91,6 +108,7 @@ export class MapComponent {
       this.latitudeChanged.emit(lat);
       this.longitudeChanged.emit(lng);
     });
+    this.plotExistingObjects();
   }
 
   search(): void {
@@ -117,6 +135,14 @@ export class MapComponent {
       var routes = e.routes;
       var summary = routes[0].summary;
       alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+  }
+  private plotExistingObjects(): void {
+    console.log(this.objects);
+    this.objects.forEach((obj: TourObject) => {
+      L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
+        .addTo(this.map)
+        .bindPopup(`<strong>${obj.name}</strong><br>${obj.description}`);
     });
   }
 

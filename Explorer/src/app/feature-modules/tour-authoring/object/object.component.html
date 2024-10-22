@@ -27,8 +27,15 @@
             
         </tbody>
     </table>
-    <xp-object-form (objectCreated)="getObjects()"></xp-object-form>
+    <xp-object-form [latitude]="selectedLatitude" 
+                    [longitude]="selectedLongitude"
+                    (objectCreated)="getObjects()"></xp-object-form>
 </div>
 <div class="map-container">
-    <xp-map></xp-map>
+    <xp-map 
+    (latitudeChanged)="updateLatitude($event)" 
+    (longitudeChanged)="updateLongitude($event)"
+    [objects] = 'objects' 
+    [registeringObject]="true">
+    </xp-map>
 </div>

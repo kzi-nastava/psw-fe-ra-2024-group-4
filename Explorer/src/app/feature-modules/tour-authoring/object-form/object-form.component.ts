@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { TourObject } from '../model/object.model';
@@ -12,8 +12,14 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
   styleUrls: ['./object-form.component.css']
 })
 export class ObjectFormComponent implements OnInit {
-
+  
   @Output() objectCreated = new EventEmitter<null>();
+
+  @Input() latitude: number | null = null;
+  @Input() longitude: number | null = null;
+
+  
+
   user: User | undefined;
   constructor (private service: TourAuthoringService, private authService: AuthService) {} 
 
@@ -21,16 +27,36 @@ export class ObjectFormComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+    if (this.latitude !== null) {
+      this.objectForm.controls['latitude'].setValue(this.latitude);
+    }
+    if (this.longitude !== null) {
+      this.objectForm.controls['longitude'].setValue(this.longitude);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['latitude'] && changes['latitude'].currentValue !== undefined) {
+      this.objectForm.controls['latitude'].setValue(changes['latitude'].currentValue);
+    }
+
+    if (changes['longitude'] && changes['longitude'].currentValue !== undefined) {
+      this.objectForm.controls['longitude'].setValue(changes['longitude'].currentValue);
+    }
   }
 
   objectForm = new FormGroup({
     name: new FormControl('', [Validators.required]),          
-    longitude: new FormControl('', [Validators.required]),    
-    latitude: new FormControl('', [Validators.required]),      
+    longitude: new FormControl(0.0, [Validators.required]),    
+    latitude: new FormControl(0.0, [Validators.required]),      
     description: new FormControl('', [Validators.required]),
     image: new FormControl(''),                              
     category: new FormControl('', [Validators.required])      
   });
+
+  
+
+
 
   getCategoryValue(): number {
     const category = this.objectForm.value.category;
@@ -80,6 +106,7 @@ export class ObjectFormComponent implements OnInit {
       this.service.addObject(object).subscribe({
         next: (_) => {
           this.objectCreated.emit();
+          this.objectForm.reset();
         },
         error: (err) => {
           console.log('Error adding object:', err);
