@@ -1,18 +1,18 @@
 <div (mouseleave)="closeAllMenus()" class="toolbar-container">
     <mat-toolbar color="primary">
         <div class="links-container">
-            <a color="primary" mat-raised-button [routerLink]="['home']" style="margin-right: 3vh;">Logo</a>
+            <a mat-raised-button [routerLink]="['home']" style="margin-right: 3vh;">Logo</a>
 
             <div class="links">
-                <a mat-raised-button color="accent" class="hover-icon" 
+                <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openToursMenu()">
                     Tours <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
                 </a>
-                <a mat-raised-button color="accent" class="hover-icon" 
+                <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openBlogsMenu()">Blogs
                    <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
                 </a>
-                <a mat-raised-button color="accent" class="hover-icon" 
+                <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openClubsMenu()">Clubs
                    <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
                 </a>
@@ -20,8 +20,8 @@
         </div>
 
         <div id="buttons">
-            <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
-            <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
+            <button *ngIf="user && user.username === ''"  mat-raised-button color="accent" [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== ''"  mat-raised-button color="accent" (click)="onLogout()">Logout</button>
         </div>
 
         <div class="user-content" *ngIf="user && (user.role === 'tourist' || user.role === 'author')">
