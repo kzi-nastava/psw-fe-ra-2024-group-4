@@ -26,7 +26,8 @@ import { LandingBlogComponent } from './landing-blog/landing-blog.component';
     FirstPageComponent,
     AppReviewComponent,
     AppReviewComponent,
-         LandingBlogComponent
+         LandingBlogComponent,
+    AppReviewComponent
 
   ],
   imports: [

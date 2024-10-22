@@ -18,13 +18,14 @@ import { CreateTourComponent } from './create-tour/create-tour.component';
 import { NecessaryEquipmentComponent } from './necessary-equipment/necessary-equipment.component';
 import { ManageTourEquipmentComponent } from './manage-tour-equipment/manage-tour-equipment.component';
 import { TourDetailsComponent } from './tour-details/tour-details.component';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 // Import Other Modules
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { AdministrationModule } from "../administration/administration.module";
 import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MapForTourComponent } from './map-for-tour/map-for-tour.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatButtonModule } from '@angular/material/button';
     ManageTourEquipmentComponent,
     TourDetailsComponent,
     ObjectComponent,
-    ObjectFormComponent
+    ObjectFormComponent,
+    MapForTourComponent
   ],
   imports: [
     // Import necessary modules
@@ -50,6 +52,7 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MaterialModule,
     AdministrationModule,
+    SharedModule,
 
     // Material-specific modules
     MatFormFieldModule,

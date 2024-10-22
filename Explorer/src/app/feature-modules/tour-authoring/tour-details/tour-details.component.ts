@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Tour } from '../model/tour.model';
 import { KeyPoint } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
@@ -15,6 +15,7 @@ import { KeypointFormComponent } from '../keypoint-form/keypoint-form.component'
 export class TourDetailsComponent implements OnInit {
 
   @Input() tour: Tour;
+  @Input() tourKeypoints: KeyPoint[] = [];
   @Output() tourUpdated = new EventEmitter<null>();
   
   keyPoints: KeyPoint[] = [];
@@ -25,6 +26,8 @@ export class TourDetailsComponent implements OnInit {
   shouldAddExisting: boolean = false;
   shouldCreateNew: boolean = false;
   shouldAddKeypoint: boolean = false;
+  registerObj: boolean = false;
+  shouldDisplayMap: boolean = false;
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -33,10 +36,11 @@ export class TourDetailsComponent implements OnInit {
     this.getTourKeyPoints();
     
   }
+ 
 
   getTourKeyPoints() : void {
-    this.keyPointIds = this.tour.keyPointIds || [];
-   
+    /*this.keyPointIds = this.tour.keyPointIds || [];
+    alert(this.keyPointIds.length);
     this.keyPointIds.forEach(id => {
       this.service.getKeyPointById(id).subscribe({
         next: (result: KeyPoint) => {
@@ -48,7 +52,8 @@ export class TourDetailsComponent implements OnInit {
     })
 
     this.keyPoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
-
+*/
+this.keyPoints = this.tourKeypoints;
     
 
   }
@@ -117,6 +122,7 @@ export class TourDetailsComponent implements OnInit {
   {
     this.shouldCreateNew = true;
     this.shouldAddKeypoint = true;
+    this.registerObj = true;
   }
 
   notifyKeypointAdded(addedKeypoint: KeyPoint) : void
@@ -125,6 +131,20 @@ export class TourDetailsComponent implements OnInit {
     
  
 
+  }
+
+  notifyTourUpdated(): void{
+    this.tourUpdated.emit();
+  }
+
+  showMapForTour(tour: any) {
+    console.log('xdd');
+    console.log(tour);
+    console.log(tour.keyPointIds);
+    this.shouldDisplayMap = true;
+  }
+  closeMapForTour() {
+    this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
   }
   
 }

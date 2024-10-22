@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -41,11 +42,13 @@ import { PersonInfoModule } from './feature-modules/person.info/person.info.modu
     TourAuthoringModule,
     
     PersonInfoModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
+
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS, 
       useClass: JwtInterceptor,
       multi: true,
     },

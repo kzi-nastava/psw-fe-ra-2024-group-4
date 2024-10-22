@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommentService } from '../comment.service';
+import { PostService } from '../post.service';
 import { Post } from '../model/post.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { CommentService } from '../comment.service';
 
 @Component({
   selector: 'xp-post',
@@ -17,9 +18,10 @@ export class PostComponent implements OnInit{
   shouldEdit: boolean=false;
   selectedPostId: number | null = null
   user:User | null=null;
+  selectedPost: Post;
   shouldRenderCommentForm: boolean = false;
 
-  constructor( private service: CommentService,private authService: AuthService){
+  constructor(private service: PostService,private comService: CommentService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
@@ -29,21 +31,38 @@ export class PostComponent implements OnInit{
   ngOnInit(): void {
     this.getPosts();
   }
-  getPosts():void{
-    this.service.getPosts().subscribe({
-      next:(result:PagedResults<Post>)=>{
-        this.posts=result.results;
+  getPosts(): void {
+    const serviceToUse = this.user?.role === 'author' ? this.service : this.comService;
+  
+    serviceToUse.getPosts().subscribe({
+      next: (result: PagedResults<Post>) => {
+        this.posts = result.results;
+        this.shouldRenderForm = false;
       },
-      error(err:any){
+      error: (err: any) => {
         console.log(err);
       }
-    })
+    });
   }
+  
+  
 
+  onEditClicked(post:Post):void{
+      this.selectedPost=post;
+      this.shouldRenderForm=true;
+      this.shouldEdit=true;
+  }
   onAddClicked():void{
     this.shouldEdit=false;
     this.shouldRenderForm=true;
     console.log('kliknuto');
+  }
+  onDeletePostClicked(id: number):void{
+    this.service.deletePost(id).subscribe({
+      next:()=>{
+        this.getPosts();
+      }
+    })
   }
   onCommentClicked(postId: number): void {
     this.selectedPostId = postId;  

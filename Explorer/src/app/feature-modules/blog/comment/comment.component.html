@@ -19,19 +19,19 @@
             <td>{{c.text}}</td>
             <td>{{c.createdAt | date: 'short'}}</td>
             <td>{{c.updatedAt | date: 'short'}}</td>
-           <td>{{currentUser.username}}</td>
-           <td>{{currentUser.role}}</td>
+           <td>{{c.username}}</td>
+           
             <td>
               
-              <button color="primary" (click)="onEditClicked(c)" mat-icon-button>
+              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onEditClicked(c)" mat-icon-button>
                   <mat-icon>edit</mat-icon>
               </button>
-              <button  color="acent" (click)="deleteComment(c)"  mat-icon-button>
+              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="acent" (click)="deleteComment(c)"  mat-icon-button>
                 <mat-icon>delete</mat-icon>
             </button>
           </td>
         </tr>
-        <tr><button color="primary" (click)="onAddClicked()" mat-icon-button>
+        <tr><button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onAddClicked()" mat-icon-button>
           <mat-icon>add</mat-icon>
       </button></tr>
      

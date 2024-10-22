@@ -1,3 +1,4 @@
+<div class="form-map-container">
 <form  [formGroup] = "keypointForm">
 
     <div class="keypoint-form-div">
@@ -25,4 +26,11 @@
         <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
         <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
     </div>
+   
 </form>
+
+</div>
+
+<div class="map-container" >
+    <xp-map  [registeringObject] = "registeringObj" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)"></xp-map>
+</div>

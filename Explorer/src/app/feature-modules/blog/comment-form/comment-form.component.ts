@@ -49,14 +49,15 @@ export class CommentFormComponent implements OnChanges {
   addComment(): void{
     const currentDate = new Date().toISOString();
     console.log(this.commentForm.value)
-
+    this.authService.user$.subscribe((user: User) => {
     const comment: Comment = {
      
       text: this.commentForm.value.text || "",
       createdAt: currentDate,  
       updatedAt: currentDate ,
       userId: this.userId,
-      postId: this.postId
+      postId: this.postId,
+      username: user.username
       
       
     } ;
@@ -69,17 +70,20 @@ export class CommentFormComponent implements OnChanges {
         this.showCommentForm = false;
       }
     });
+  });
   }
 
   updateComment(): void{
     const currentDate = new Date().toISOString();
+    this.authService.user$.subscribe((user: User) => {
     const comment: Comment = {
      
       text: this.commentForm.value.text || "",
       createdAt: currentDate,  
       updatedAt: currentDate ,
       userId: this.userId,
-      postId: this.postId
+      postId: this.postId,
+      username: user.username
       
       
     } ;
@@ -91,7 +95,8 @@ export class CommentFormComponent implements OnChanges {
         this.showCommentForm = false;
       }
 
-    })
+    });
+  });
   }
 
 

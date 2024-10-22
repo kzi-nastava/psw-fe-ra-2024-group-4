@@ -1,21 +1,36 @@
-<form [formGroup]="postForm">
+<form [formGroup]="postForm" (ngSubmit)="shouldEdit ? updatePost() : addPost()">
     <div>
-        <mat-form-field>
-            <mat-label>Title</mat-label>
-            <input matInput formControlName="title" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Description</mat-label>
-            <textarea matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="3"
-            formControlName="description"
-            cdkAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Image URL</mat-label>
-            <input matInput formControlName="imageUrl" type="text"/>
-        </mat-form-field>
-        <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addPost()" mat-raised-button>Done</button>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" type="text" />
+      </mat-form-field>
+      <div *ngIf="titleInvalid" class="error-message">
+        Title is required.
+      </div>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="3"
+                  formControlName="description"
+                  cdkAutosizeMaxRows="5"
+                  (input)="updatePreview()"></textarea>
+      </mat-form-field>
+      <div *ngIf="descriptionInvalid" class="error-message">
+        Description is required.
+      </div>
+      <div class="markdown-preview">
+        <markdown [data]="postForm.get('description')?.value"></markdown>
     </div>
-</form>
+
+      <mat-form-field>
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="imageUrl" type="text" placeholder="Enter image URL" />
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">
+        {{ shouldEdit ? 'Update' : 'Done' }}
+      </button>
+    </div>
+  
+  </form>
+  
