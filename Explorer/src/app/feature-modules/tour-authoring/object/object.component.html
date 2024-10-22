@@ -24,7 +24,9 @@
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>
-                    <button mat-button (click)="editObject(item)">Edit</button>
+                    <button mat-button (click)="editObject(item)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
                 </td>
             </tr>
             

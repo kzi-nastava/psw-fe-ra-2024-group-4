@@ -27,7 +27,12 @@ export class ObjectComponent implements OnInit {
     
     this.service.getObjects().subscribe({
       next: (result: PagedResults<TourObject>) => {
-        this.objects = result.results; 
+        this.objects = result.results;
+        this.objects = this.objects.sort((a, b) => {
+          const idA = a?.id ?? 0; // If a.id is undefined, use 0 as a fallback
+          const idB = b?.id ?? 0; // If b.id is undefined, use 0 as a fallback
+          return idA - idB;
+        }); 
       },
       error: (err: any) => {
         console.log(err);

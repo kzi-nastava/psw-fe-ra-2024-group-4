@@ -30,9 +30,9 @@
         <input matInput formControlName="latitude" type="number" required/>
       </mat-form-field>
 
-      <button type="submit">
+      <button type="submit" color="primary" mat-raised-button>
         {{ objectToEdit ? 'Update Object' : 'Create Object' }}
       </button>
-      <button mat-button type="button" (click)="resetForm()">Cancel</button>
+      <button mat-button type="button" (click)="resetForm()" mat-raised-button color="accent">Cancel</button>
     </div>
   </form>
