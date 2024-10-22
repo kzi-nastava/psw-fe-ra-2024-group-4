@@ -22,4 +22,32 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     this.authService.logout();
   }
+
+  isToursMenuOpen = false;
+  isBlogsMenuOpen = false;
+  isClubsMenuOpen = false;
+  
+  openToursMenu() {
+      this.isToursMenuOpen = true;
+      this.isBlogsMenuOpen = false; // Close blogs menu
+      this.isClubsMenuOpen = false; // Close clubs menu
+  }
+  
+  openBlogsMenu() {
+      this.isBlogsMenuOpen = true;
+      this.isToursMenuOpen = false; // Close tours menu
+      this.isClubsMenuOpen = false; // Close clubs menu
+  }
+  
+  openClubsMenu() {
+      this.isClubsMenuOpen = true;
+      this.isToursMenuOpen = false; // Close tours menu
+      this.isBlogsMenuOpen = false; // Close blogs menu
+  }
+  
+  closeAllMenus() {
+      this.isToursMenuOpen = false;
+      this.isBlogsMenuOpen = false;
+      this.isClubsMenuOpen = false;
+  }
 }

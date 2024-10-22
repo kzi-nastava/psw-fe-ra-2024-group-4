@@ -9,6 +9,9 @@ import { RouterModule } from '@angular/router';
 import { MykeypointsComponent } from './mykeypoints/mykeypoints.component';
 import { TourAuthoringModule } from "../tour-authoring/tour-authoring.module";
 import { ObjectViewComponent } from './object-view/object-view.component';
+import { FirstPageComponent } from './first-page/first-page.component';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @NgModule({
   declarations: [
@@ -16,15 +19,17 @@ import { ObjectViewComponent } from './object-view/object-view.component';
     NavbarComponent,
     MykeypointsComponent,
     ObjectViewComponent,
-   
-    AppReviewComponent
+    FirstPageComponent,
+    AppReviewComponent,
+
   ],
   imports: [
     CommonModule,
     MaterialModule,
     RouterModule,
     TourAuthoringModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatMenuModule
 ],
   exports: [
     NavbarComponent,
