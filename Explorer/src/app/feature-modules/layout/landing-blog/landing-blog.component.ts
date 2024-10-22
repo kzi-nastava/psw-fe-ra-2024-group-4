@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Post, Status } from '../../blog/model/post.model';
+import { Post, BlogStatus } from '../../blog/model/post.model';
 import { CommentService } from '../../blog/comment.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -56,7 +56,7 @@ export class LandingBlogComponent implements OnInit {
         description: `Description for blog post ${i + 1}`,
         createdAt: new Date(),
         imageUrl: this.genericImage,
-        status: Status.Published,  // Assuming Published status
+        status: BlogStatus.Published,  // Assuming Published status
         userId: 1
       };
       
