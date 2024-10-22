@@ -17,7 +17,7 @@ export class KeypointsComponent implements OnInit {
   shouldEdit: boolean = false;
   selectedKeyPoint: KeyPoint;
   registeringObj: boolean = false;
- 
+  
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
