@@ -5,6 +5,7 @@ import { AppReview } from './model/appreview.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { ClubJoinRequest } from './model/club-join-request.model';
 import { Member } from './model/member.model';
 import { ClubInvitation } from './model/club-invitation.model';
 import { Club } from './model/club.model';
@@ -63,8 +64,32 @@ export class AdministrationService {
   }
 
 
+  //joinrequests
+  getClubJoinRequests(): Observable<PagedResults<ClubJoinRequest>>{
+    return this.http.get<PagedResults<ClubJoinRequest>>(environment.apiHost + 'clubJoinRequest');
+  }
+
+  updateClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
+    return this.http.put<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest/' + request.id, request);
+  }
+
+  addClubJoinRequest(request: ClubJoinRequest): Observable<ClubJoinRequest>{
+    return this.http.post<ClubJoinRequest>('https://localhost:44333/api/clubJoinRequest', request);
+  }
+
+  deleteClubJoinRequest(id: number): Observable<ClubJoinRequest>{
+    return this.http.delete<ClubJoinRequest>(environment.apiHost + 'clubJoinRequest/' + id);
+  }
+
   getAllClubs():Observable<PagedResults<Club>>{
     return this.http.get<PagedResults<Club>>('https://localhost:44333/api/club');
+  }
+  userRequestExists(clubId: number, userId:number){
+    return this.http.get<boolean>(environment.apiHost + 'clubJoinRequest/' + clubId + '/' + userId);
+  }
+
+  addMember(memberId: number, clubId: number, userId: number): Observable<void> {
+    return this.http.get<void>(`https://localhost:44333/api/club/member/${memberId}/${clubId}/${userId}`);
   }
 
   addClub(club:Club):Observable<Club>{

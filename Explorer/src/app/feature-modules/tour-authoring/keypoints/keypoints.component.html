@@ -38,7 +38,7 @@
         </tbody>
     </table>
     <div class="keypoints-form-container">
-        <xp-keypoint-form *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint"></xp-keypoint-form>
+        <xp-keypoint-form *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
     </div>
   
 </div>

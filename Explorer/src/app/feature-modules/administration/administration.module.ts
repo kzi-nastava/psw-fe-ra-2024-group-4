@@ -4,6 +4,7 @@ import { EquipmentFormComponent } from './equipment-form/equipment-form.componen
 import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClubJoinRequestComponent } from './club-join-request/club-join-request.component';
 import { ClubInvitationComponent } from './club-invitation/club-invitation.component';
 import { ClubDetailsComponent } from './club-details/club-details.component';
 import { ClubComponent } from './club/club.component';
@@ -18,6 +19,7 @@ import { AppReviewTableComponent } from './app-review-table/app-review-table.com
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
+    ClubJoinRequestComponent,
     ClubInvitationComponent,
     ClubDetailsComponent,
     ClubComponent,

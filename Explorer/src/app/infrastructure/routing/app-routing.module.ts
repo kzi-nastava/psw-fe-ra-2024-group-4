@@ -6,6 +6,7 @@ import { EquipmentComponent } from 'src/app/feature-modules/administration/equip
 import { AppReviewTableComponent } from 'src/app/feature-modules/administration/app-review-table/app-review-table.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { ClubJoinRequestComponent } from 'src/app/feature-modules/administration/club-join-request/club-join-request.component';
 import { ClubDetailsComponent } from 'src/app/feature-modules/administration/club-details/club-details.component';
 import { InfoComponent } from 'src/app/feature-modules/person.info/info/info.component'; 
 import { ClubComponent } from 'src/app/feature-modules/administration/club/club.component';
@@ -48,9 +49,12 @@ const routes: Routes = [
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
-  { path: 'profile', component: InfoComponent }
+  { path: 'profile', component: InfoComponent },
 
 
+  {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
+  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],}
+  
 ];
 
 @NgModule({

@@ -7,6 +7,11 @@
                 <div class="club-info">
                     <h3>{{ cl.name }}</h3>
                     <p>{{ cl.description }}</p>
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === false && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="join-button" (click)="addClubJoinRequest(cl)">Join</button>
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === true && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="cancel-button" (click)="cancelClubJoinRequest(cl)">Cancel</button>
+                    <button *ngIf="cl.id!== undefined && userIsOwner[cl.id]" class="owner-button">Owner</button>
+                    <button *ngIf="cl.id!== undefined && userIsMember[cl.id] && !userIsOwner[cl.id]" class="owner-button">Member</button>
+
                 </div>
                 <div class="club-image-container">
                     <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />

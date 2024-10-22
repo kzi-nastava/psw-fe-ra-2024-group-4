@@ -90,7 +90,7 @@ export class ToursForAuthorComponent implements OnInit {
       if(user !== null && user.role === 'author')
       {
 
-        this.getTours(user.id);
+          window.location.reload();
       }
     });
     

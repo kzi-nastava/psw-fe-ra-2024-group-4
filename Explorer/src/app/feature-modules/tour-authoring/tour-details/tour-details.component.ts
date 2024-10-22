@@ -25,6 +25,8 @@ export class TourDetailsComponent implements OnInit {
   shouldAddExisting: boolean = false;
   shouldCreateNew: boolean = false;
   shouldAddKeypoint: boolean = false;
+  registerObj: boolean = false;
+  shouldDisplayMap: boolean = false;
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -117,6 +119,7 @@ export class TourDetailsComponent implements OnInit {
   {
     this.shouldCreateNew = true;
     this.shouldAddKeypoint = true;
+    this.registerObj = true;
   }
 
   notifyKeypointAdded(addedKeypoint: KeyPoint) : void
@@ -125,6 +128,20 @@ export class TourDetailsComponent implements OnInit {
     
  
 
+  }
+
+  notifyTourUpdated(): void{
+    this.tourUpdated.emit();
+  }
+
+  showMapForTour(tour: any) {
+    console.log('xdd');
+    console.log(tour);
+    console.log(tour.keyPointIds);
+    this.shouldDisplayMap = true;
+  }
+  closeMapForTour() {
+    this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
   }
   
 }
