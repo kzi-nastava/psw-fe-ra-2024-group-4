@@ -14,11 +14,12 @@ import { PostComponent } from 'src/app/feature-modules/blog/post/post.component'
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { AccountComponent } from 'src/app/feature-modules/administration/account/account.component';
 import { MykeypointsComponent } from 'src/app/feature-modules/layout/mykeypoints/mykeypoints.component';
-import {ToursForAuthorComponent } from 'src/app/feature-modules/marketplace/tours-for-author/tours-for-author.component';
+import { ToursForAuthorComponent } from 'src/app/feature-modules/marketplace/tours-for-author/tours-for-author.component';
 import { CreateTourComponent } from 'src/app/feature-modules/tour-authoring/create-tour/create-tour.component';
 import { NecessaryEquipmentComponent } from 'src/app/feature-modules/tour-authoring/necessary-equipment/necessary-equipment.component';
 import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
+import { PersonEquipmentComponent } from 'src/app/feature-modules/person.info/person-equipment/person-equipment.component';
 
 
 
@@ -27,7 +28,6 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
-
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
   {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard],
     children: [
@@ -37,9 +37,8 @@ const routes: Routes = [
 
 
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
-
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
-  { path: 'profile', component: InfoComponent },
+  {path: 'profile', component: InfoComponent },
   {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   {path: 'mykeypoints', component: MykeypointsComponent},
@@ -49,12 +48,10 @@ const routes: Routes = [
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
-  { path: 'profile', component: InfoComponent },
-
-
+  {path: 'profile', component: InfoComponent },
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
-  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],}
-  
+  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
+  {path: 'touristEquipment', component: PersonEquipmentComponent},
 ];
 
 @NgModule({
