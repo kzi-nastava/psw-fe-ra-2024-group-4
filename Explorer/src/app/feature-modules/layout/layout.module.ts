@@ -9,8 +9,12 @@ import { RouterModule } from '@angular/router';
 import { MykeypointsComponent } from './mykeypoints/mykeypoints.component';
 import { TourAuthoringModule } from "../tour-authoring/tour-authoring.module";
 import { ObjectViewComponent } from './object-view/object-view.component';
+
 import { FirstPageComponent } from './first-page/first-page.component';
 import { MatMenuModule } from '@angular/material/menu';
+
+
+import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 
 
 @NgModule({
@@ -21,6 +25,8 @@ import { MatMenuModule } from '@angular/material/menu';
     ObjectViewComponent,
     FirstPageComponent,
     AppReviewComponent,
+    AppReviewComponent,
+         LandingBlogComponent
 
   ],
   imports: [
@@ -35,7 +41,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NavbarComponent,
     HomeComponent,
     MykeypointsComponent,
- 
+    LandingBlogComponent,
     AppReviewComponent
   ],
   

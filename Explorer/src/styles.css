@@ -3,5 +3,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+    --primary-color: #fbfafa;
+    --secondary-color: #f8c0b9;
+    --third-color: #e8e7ce;
+    --fourth-color: #A1B6D8;
+    --highlight-color: #e55d40;
+    --font-family: 'Poppy', sans-serif;
+    --background-color: #fbfafa;
+    --text-color: #333;
+}
+
+[color="primary"] {
+    background-color: var(--primary-color) !important;
+}
+
+[color="accent"] {
+    background-color: var(--highlight-color) !important;
+}
+
+header {
+    padding: 0;
+}

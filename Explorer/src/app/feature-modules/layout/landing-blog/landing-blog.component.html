@@ -1,0 +1,21 @@
+<div class="container">
+    <header>
+        <h1>Blogs</h1>
+    </header>
+    <div class="content">
+        <div class="main-blog">
+            <div class="main-image">
+                <img [src]="mainBlog?.imageUrl" alt="Main Blog Image">
+            </div>
+            <p>Description</p>
+        </div>
+        <div class="scroll-list">
+            <ul>
+                <li *ngFor="let blog of blogs" class="blog-card">
+                    <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
+                    <span class="blog-title">{{ blog.title }}</span>
+                  </li>
+            </ul>
+        </div>
+    </div>
+</div>
