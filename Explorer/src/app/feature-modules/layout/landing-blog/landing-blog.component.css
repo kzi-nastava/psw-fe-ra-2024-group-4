@@ -3,6 +3,12 @@
     justify-content: center;
 }
 
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 2rem; 
+}
+
 .container {
     width: 75%;
     padding: 10px;
@@ -30,6 +36,9 @@ header {
 .main-blog p {
     margin-top: 20px;
     max-width: fit-content;
+    font-size: 1.1rem;
+    text-indent: 30px;
+    font-family: Montserrat;
 }
 
 .main-image {

@@ -1,21 +1,24 @@
 <div class="container">
     <header>
-        <h1>Blogs</h1>
+        <h1> View our Blogs</h1>
     </header>
     <div class="content">
         <div class="main-blog">
             <div class="main-image">
                 <img [src]="mainBlog?.imageUrl" alt="Main Blog Image">
             </div>
-            <p>Description</p>
+            <p>Discover a world of insights and inspiration in our blog! From travel tips and hidden gems to creative lifestyle hacks and the latest trends, our blog is your go-to source for fresh ideas and expert advice. Whether you're looking to embark on a new adventure or enhance your daily routine, we've got something for everyone. Dive in and let curiosity lead the way!</p>
+
         </div>
         <div class="scroll-list">
             <ul>
                 <li *ngFor="let blog of blogs" class="blog-card">
                     <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
-                    <span class="blog-title">{{ blog.title }}</span>
+                    <span class="blog-title">{{ mainBlog?.title }}</span>
                   </li>
             </ul>
         </div>
     </div>
+    <mat-icon class="account-icon"  [routerLink]="['reviewApp']">star</mat-icon>
+    <span class="user-text" style="text-align: center;" >RATE US</span>
 </div>

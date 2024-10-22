@@ -1,5 +1,5 @@
 mat-toolbar {
-    background: linear-gradient(to bottom, #F3D0D7, #ffffff);
+    background: linear-gradient(to bottom, #F3D0D7, #fbfafa);
     color: black;
     padding: 10px 20px;
     height: 11vh;
@@ -66,7 +66,7 @@ a[mat-raised-button]:hover {
 
 button {
     background-color: #3f51b5;
-    color: white;
+    color: #fbfafa;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -109,12 +109,13 @@ button:hover {
 
 .menu-container {
     width: 100vw; /* Full width of the viewport */
-    position: absolute; /* Position it below the toolbar */
+    position: fixed; /* Position it below the toolbar */
     top: 11vh; /* Adjust based on your toolbar height */
-    background-color: white;
+    background-color: #fbfafa;
     padding: 10px 0; /* Padding for top and bottom */
     z-index: 100; /* Ensure it appears above other content */
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start; /* Align content to the top-left */
     padding: 20px; /* Add padding around the container */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -150,6 +151,8 @@ button:hover {
 .menu-list-container {
     display: flex;
     align-items: center; /* Vertically align the list with the header */
+    margin-left: 5vh;
+    font-family: 'Poppins', sans-serif;
 }
 
 .menu-list {
@@ -158,6 +161,7 @@ button:hover {
     margin: 0;
     display: flex;
     flex-direction: column; /* Stack the list items vertically */
+    
 }
 
 .menu-list li {
@@ -167,13 +171,17 @@ button:hover {
 .menu-list li a {
     text-decoration: none;
     font-size: 1rem;
-    color: #007BFF;
-    padding: 8px 15px;
+    padding: 8px 0px;
     transition: color 0.3s ease;
+    font-size: 1.1rem;
+    color: #6A0AD4;
 }
 
 .menu-list li a:hover {
-    color: #0056b3; /* Darker blue on hover */
+   
+        transform: translateY(-2px);
+        color: #303f9f;
+    
 }
 
 
@@ -182,6 +190,8 @@ button:hover {
     width: 1vh;
     margin: 0 5vh; /* Spacing between header and list */
 }
+
+
 
 
 
