@@ -28,6 +28,6 @@ export class CommentService {
     }
   
    getPosts():Observable<PagedResults<Post>>{
-    return this.http.get<PagedResults<Post>>(environment.apiHost+"comments/comment/posts");
+    return this.http.get<PagedResults<Post>>(`https://localhost:44333/api/comments/comment/posts/`);
    }
 }
