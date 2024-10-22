@@ -17,6 +17,7 @@ export class ObjectFormComponent implements OnInit {
 
   @Input() latitude: number | null = null;
   @Input() longitude: number | null = null;
+  @Input() objectToEdit: TourObject | null = null;
 
   
 
@@ -33,7 +34,19 @@ export class ObjectFormComponent implements OnInit {
     if (this.longitude !== null) {
       this.objectForm.controls['longitude'].setValue(this.longitude);
     }
+    if(this.objectToEdit){
+      this.objectForm.patchValue({
+        name: this.objectToEdit.name,
+          description: this.objectToEdit.description,
+          image: this.objectToEdit.image,
+          category: this.getCategoryString(this.objectToEdit.category),
+          longitude: this.objectToEdit.longitude,
+          latitude: this.objectToEdit.latitude,
+      });
+    }
+    
   }
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['latitude'] && changes['latitude'].currentValue !== undefined) {
@@ -43,6 +56,20 @@ export class ObjectFormComponent implements OnInit {
     if (changes['longitude'] && changes['longitude'].currentValue !== undefined) {
       this.objectForm.controls['longitude'].setValue(changes['longitude'].currentValue);
     }
+    if(this.objectToEdit){
+      if (changes['objectToEdit'] && changes['objectToEdit'].currentValue) {
+        console.log('objectToEdit.category: ',this.objectToEdit.category);
+        this.objectForm.patchValue({
+          name: this.objectToEdit.name,
+          description: this.objectToEdit.description,
+          image: this.objectToEdit.image,
+          category: this.getCategoryString(this.objectToEdit.category),
+          longitude: this.objectToEdit.longitude,
+          latitude: this.objectToEdit.latitude,
+        });
+      }
+    }
+    
   }
 
   objectForm = new FormGroup({
@@ -54,14 +81,25 @@ export class ObjectFormComponent implements OnInit {
     category: new FormControl('', [Validators.required])      
   });
 
+  getCategoryString(categoryId: number): string{
+    switch(categoryId){
+      case 0:
+        return 'WC';
+      case 1:
+        return 'Restaurant';
+      case 2:
+        return 'Parking';
+      case 3:
+        return 'Other';
+      default:
+        return '';
+    }
+  }
+
+  getCategoryValue(category?: string): number {
+    const categoryValue = category ?? this.objectForm.value.category;
   
-
-
-
-  getCategoryValue(): number {
-    const category = this.objectForm.value.category;
-  
-    switch (category) {
+    switch (categoryValue) {
       case 'WC':
         return 0;
       case 'Restaurant':
@@ -106,13 +144,38 @@ export class ObjectFormComponent implements OnInit {
       this.service.addObject(object).subscribe({
         next: (_) => {
           this.objectCreated.emit();
-          this.objectForm.reset();
+          this.resetForm();
         },
         error: (err) => {
           console.log('Error adding object:', err);
         }
       });
     });
+  }
+  editObject(): void {
+    if (this.objectToEdit) {
+      this.objectToEdit.name = this.objectForm.value.name || '';
+      this.objectToEdit.description = this.objectForm.value.description || '';
+      this.objectToEdit.image = this.objectForm.value.image || '';
+      this.objectToEdit.category = this.getCategoryValue();
+      this.objectToEdit.longitude = Number(this.objectForm.value.longitude) || 0;
+      this.objectToEdit.latitude = Number(this.objectForm.value.latitude) || 0;
+  
+      this.service.updateObject(this.objectToEdit).subscribe({
+        next: () => {
+          this.objectCreated.emit();
+          window.location.reload();
+        },
+        error: (err) => {
+          console.log('Error updating object: ', err);
+        }
+      });
+    }
+  }
+  
+  resetForm(): void{
+    this.objectForm.reset();
+    this.objectToEdit = null;
   }
   
 }

@@ -23,13 +23,17 @@
                 <td>{{ item.category }}</td>
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
+                <td>
+                    <button mat-button (click)="editObject(item)">Edit</button>
+                </td>
             </tr>
             
         </tbody>
     </table>
     <xp-object-form [latitude]="selectedLatitude" 
                     [longitude]="selectedLongitude"
-                    (objectCreated)="getObjects()"></xp-object-form>
+                    (objectCreated)="getObjects()"
+                    [objectToEdit]="selectedObject"></xp-object-form>
 </div>
 <div class="map-container">
     <xp-map 

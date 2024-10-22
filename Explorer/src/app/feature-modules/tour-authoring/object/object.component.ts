@@ -13,6 +13,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 })
 export class ObjectComponent implements OnInit {
   objects: TourObject[] = [];
+  selectedObject: TourObject | null = null;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   selectedLatitude: number | null = null;
@@ -27,7 +28,6 @@ export class ObjectComponent implements OnInit {
     this.service.getObjects().subscribe({
       next: (result: PagedResults<TourObject>) => {
         this.objects = result.results; 
-        console.log('Gathered objects: ',this.objects);
       },
       error: (err: any) => {
         console.log(err);
@@ -41,6 +41,9 @@ export class ObjectComponent implements OnInit {
   updateLatitude(newLatitude: number): void{
     this.selectedLatitude = newLatitude;
     
+  }
+  editObject(item: TourObject): void{
+    this.selectedObject = item;
   }
 
   /*objects: TourObject[] = [

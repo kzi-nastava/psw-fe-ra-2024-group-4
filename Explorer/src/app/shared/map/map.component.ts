@@ -92,12 +92,12 @@ export class MapComponent {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-      this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        console.log(res.display_name);
-      });
-      console.log(
-        'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-      );
+      // this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+      //   console.log(res.display_name);
+      // });
+      // console.log(
+      //   'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+      // );
 
       if (this.currentMarker) {
         this.map.removeLayer(this.currentMarker);
@@ -138,13 +138,13 @@ export class MapComponent {
     });
   }
   private plotExistingObjects(): void {
-    console.log(this.objects);
     this.objects.forEach((obj: TourObject) => {
       L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
         .addTo(this.map)
         .bindPopup(`<strong>${obj.name}</strong><br>${obj.description}`);
     });
   }
+  
 
   
 
