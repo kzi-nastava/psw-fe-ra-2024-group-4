@@ -19,8 +19,8 @@
             <td>{{c.text}}</td>
             <td>{{c.createdAt | date: 'short'}}</td>
             <td>{{c.updatedAt | date: 'short'}}</td>
-           <td>{{currentUser.username}}</td>
-           <td>{{currentUser.role}}</td>
+           <td>{{c.username}}</td>
+           
             <td>
               
               <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onEditClicked(c)" mat-icon-button>
