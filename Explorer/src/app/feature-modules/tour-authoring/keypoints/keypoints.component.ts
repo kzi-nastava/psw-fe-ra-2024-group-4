@@ -51,9 +51,8 @@ export class KeypointsComponent implements OnInit {
 
   }
 
-  getImagePath(image: string)
+  getImage(image: string)
   {
-    
     return environment.webroot + image;
   }
 

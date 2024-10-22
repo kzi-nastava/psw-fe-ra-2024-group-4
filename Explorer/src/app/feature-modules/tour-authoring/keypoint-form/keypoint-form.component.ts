@@ -67,8 +67,7 @@ export class KeypointFormComponent implements OnInit {
     latitude: new FormControl(0.0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
-    base64: new FormControl('', [Validators.required])
-    
+    imageBase64: new FormControl('')
   })
 
   setLongitude(newLongitude: number): void{
@@ -113,8 +112,7 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: ""
-
+        imageBase64: this.keypointForm.value.imageBase64 || "" //ovde je bio problem
       }
 
       
@@ -165,7 +163,7 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: ""
+        imageBase64: this.keypointForm.value.imageBase64 || "" //nisam dirala jer je update
         
       }
       keypoint.id = this.keypoint.id;
@@ -178,23 +176,16 @@ export class KeypointFormComponent implements OnInit {
   }
 
  
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-        const file = input.files[0];
+  onFileSelected(event: any){
+        const file:File = event.target.files[0];
         const reader = new FileReader();
-
-        // Kada se fajl učita, postavlja base64 string u formu
         reader.onload = () => {
             this.imageBase64 = reader.result as string;
             this.keypointForm.patchValue({
-                base64: this.imageBase64 // Postavljamo base64 string u formu
+              imageBase64: this.imageBase64
             });
         };
-
-        reader.readAsDataURL(file); // Učitavanje fajla kao Data URL (Base64)
-    }
+        reader.readAsDataURL(file); 
 }
   
 
