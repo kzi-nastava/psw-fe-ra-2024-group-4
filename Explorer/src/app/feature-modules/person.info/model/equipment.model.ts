@@ -1,5 +1,5 @@
 export interface Equipment{
-    id?: number,
+    id: number,
     name: string,
     description: string
 }

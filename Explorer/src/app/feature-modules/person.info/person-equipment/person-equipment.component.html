@@ -8,11 +8,15 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let  eq of  equipment">
-                <td><input type="checkbox"></td>
+            <tr *ngFor="let eq of equipment">
+                <td>
+                  <input type="checkbox" 
+                         (change)="onCheckboxChange(eq.id, $event)">
+                </td>
                 <td>{{eq.name}}</td>
                 <td>{{eq.description}}</td>
             </tr>
         </tbody>
     </table>
+    <button (click)="saveChanges()">Save changes</button>
 </div>
