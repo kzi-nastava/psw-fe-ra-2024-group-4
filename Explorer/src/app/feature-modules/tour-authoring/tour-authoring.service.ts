@@ -48,4 +48,8 @@ export class TourAuthoringService {
   {
     return this.http.put<Tour>(environment.apiHost + 'author/tour/keypointaddition/' +  keypointid, tour);
   }
+
+  getNextKeypointId(userId: number) : Observable<number>{
+    return this.http.get<number>(environment.apiHost + 'keypointaddition/keypoint/next-id/' + userId);
+  }
 }
