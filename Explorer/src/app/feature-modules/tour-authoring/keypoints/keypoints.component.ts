@@ -3,6 +3,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { KeyPoint } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-keypoints',
@@ -17,13 +18,16 @@ export class KeypointsComponent implements OnInit {
   shouldEdit: boolean = false;
   selectedKeyPoint: KeyPoint;
   registeringObj: boolean = false;
- 
+  image: string;
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   ngOnInit(): void {
    
     this.getKeyPoints();
+    
+
+    
     
   }
 
@@ -36,11 +40,21 @@ export class KeypointsComponent implements OnInit {
     { 
 
       this.service.getKeyPoints(this.user.id).subscribe({
-      next: (result: KeyPoint[]) => { this.keyPoints = result; },
+      next: (result: KeyPoint[]) => { this.keyPoints = result; 
+
+        this.image = this.keyPoints[0].image;
+   
+      },
       error: (err: any) => console.log(err)
     })
   }
 
+  }
+
+  getImagePath(image: string)
+  {
+    
+    return environment.webroot + image;
   }
 
   onAddClicked(): void {

@@ -27,7 +27,8 @@ export class KeypointFormComponent implements OnInit {
 
   latitude: number = 0.0;
   longitude: number = 0.0;
-
+  selectedFile: File | null = null;
+  imageBase64: string;
   user: User | undefined;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -51,6 +52,7 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
         image: this.keypoint.image,
+        
       })
     }
 
@@ -64,7 +66,9 @@ export class KeypointFormComponent implements OnInit {
     longitude: new FormControl(0.0, [Validators.required]),
     latitude: new FormControl(0.0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required])
+    image: new FormControl('', [Validators.required]),
+    base64: new FormControl('', [Validators.required])
+    
   })
 
   setLongitude(newLongitude: number): void{
@@ -108,7 +112,8 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypointForm.value.latitude || 0.0,
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
-        userId: this.user.id || -1
+        userId: this.user.id || -1,
+        imageBase64: ""
 
       }
 
@@ -159,7 +164,8 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypointForm.value.latitude || 0.0,
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
-        userId: this.user.id || -1
+        userId: this.user.id || -1,
+        imageBase64: ""
         
       }
       keypoint.id = this.keypoint.id;
@@ -171,6 +177,25 @@ export class KeypointFormComponent implements OnInit {
   
   }
 
+ 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        // Kada se fajl učita, postavlja base64 string u formu
+        reader.onload = () => {
+            this.imageBase64 = reader.result as string;
+            this.keypointForm.patchValue({
+                base64: this.imageBase64 // Postavljamo base64 string u formu
+            });
+        };
+
+        reader.readAsDataURL(file); // Učitavanje fajla kao Data URL (Base64)
+    }
+}
   
 
 }
