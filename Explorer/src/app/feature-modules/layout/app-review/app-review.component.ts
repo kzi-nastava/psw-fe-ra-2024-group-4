@@ -66,7 +66,6 @@ export class AppReviewComponent implements OnChanges {
           }
         });
       } else {
-        alert('Invalid role.')
       }
      
     } else {

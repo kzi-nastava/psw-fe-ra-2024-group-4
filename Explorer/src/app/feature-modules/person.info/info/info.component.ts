@@ -50,7 +50,7 @@ export class InfoComponent implements OnInit {
         }
       });
     } else {
-      alert('Invalid role.')
+      
     }
     
   }
@@ -75,7 +75,6 @@ export class InfoComponent implements OnInit {
         }
       });
     } else {
-      alert('Invalid role.')
     }
     
   }
