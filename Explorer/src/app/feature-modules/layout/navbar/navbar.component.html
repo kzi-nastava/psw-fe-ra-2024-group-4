@@ -29,6 +29,10 @@
             <mat-icon class="account-icon" >account_circle</mat-icon>
             <span class="user-text">account</span>
         </div>
+        <div class="user-content" [routerLink]="['account']" *ngIf="user && (user.role === 'administrator')"  >  
+            <mat-icon class="account-icon" >account_circle</mat-icon>
+            <span class="user-text">accounts</span>
+        </div>
     </mat-toolbar>
 
 
