@@ -24,6 +24,10 @@ export class ProblemComponent implements OnInit{
     this.authService.userLoggedIn.subscribe(()=>{
       this.checkIfLoggedIn();
    })
+   this.authService.userLoggedOut.subscribe(()=>{
+      this.showProblemForm = false; 
+      this.isLoggedIn=false;
+   })
   }
 
   checkIfLoggedIn(): void{

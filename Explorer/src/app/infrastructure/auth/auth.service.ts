@@ -16,6 +16,7 @@ import { Registration } from './model/registration.model';
 export class AuthService {
   user$ = new BehaviorSubject<User>({username: "", id: 0, role: "" });
   @Output() userLoggedIn = new EventEmitter<void>();
+  @Output() userLoggedOut = new EventEmitter<void>();
 
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorage,
@@ -48,6 +49,7 @@ export class AuthService {
     this.router.navigate(['/home']).then(_ => {
       this.tokenStorage.clear();
       this.user$.next({username: "", id: 0, role: "" });
+      this.userLoggedOut.emit();
       }
     );
   }
