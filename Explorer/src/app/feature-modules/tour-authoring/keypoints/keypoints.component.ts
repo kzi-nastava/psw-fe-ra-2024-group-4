@@ -17,7 +17,7 @@ export class KeypointsComponent implements OnInit {
   shouldEdit: boolean = false;
   selectedKeyPoint: KeyPoint;
   registeringObj: boolean = false;
- 
+  
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -28,6 +28,9 @@ export class KeypointsComponent implements OnInit {
   }
 
   getKeyPoints() : void {
+
+    this.shouldEdit = false;
+    this.shouldRenderKeyPointForm = false;
     this.authService.user$.subscribe(user => {
       this.user = user;
     });

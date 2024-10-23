@@ -24,6 +24,7 @@ import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/ap
 
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
@@ -34,9 +35,6 @@ const routes: Routes = [
       { path: 'comments/:postId', component: CommentComponent },
     ]
   },
-
-
-  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
 
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   { path: 'profile', component: InfoComponent },
@@ -49,11 +47,7 @@ const routes: Routes = [
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
-  { path: 'profile', component: InfoComponent },
-
-
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
-  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],}
   
 ];
 

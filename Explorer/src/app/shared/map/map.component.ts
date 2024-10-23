@@ -4,6 +4,8 @@ import { MapService } from './map.service';
 import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/keypoint-form/keypoint-form.component';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
 import { TourObject } from 'src/app/feature-modules/tour-authoring/model/object.model';
+import { waitForAsync } from '@angular/core/testing';
+
 
 @Component({
   selector: 'xp-map',
@@ -26,6 +28,7 @@ export class MapComponent {
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
+   private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
 
    private redIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png', 
@@ -36,6 +39,8 @@ export class MapComponent {
 
    constructor(private mapService: MapService) {}
 
+
+   
   private initMap(): void {
     this.map = L.map('map', {
       center: [45.2396, 19.8227],
@@ -60,10 +65,24 @@ export class MapComponent {
 
     }
     if(this.showingTour)
-   {   this.setRoute(this.selectedTourPoints);
-   }
+    {  
+
+      
+     /* if (!this.selectedTourPoints || this.selectedTourPoints.length === 0) {
+        console.warn('No key points available to drawwwww.');
+        return; // Izlazi ako nema key pointova
+      }*/
+       this.setRoute(this.selectedTourPoints); //xd
+       console.log("Kljucne tacke poslate:");
+       console.log(this.selectedTourPoints);
+       console.log("SHOWING ROUTES");
+      // this.drawRoute(this.selectedTourPoints);
+    }
 
   }
+
+  
+
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -124,11 +143,15 @@ export class MapComponent {
     });
   }
 
-  setRoute(keyPoints: KeyPoint[]): void {
+  async setRoute(keyPoints: KeyPoint[]) {
+    await new Promise(resolve => setTimeout(resolve, 500));
+   // console.log("Setting route!");
+   // console.log("tacke iz setRoute:");
+   // console.log(keyPoints);
     const waypoints = keyPoints.map(point => L.latLng(point.latitude, point.longitude));
     const routeControl = L.Routing.control({
       waypoints: waypoints,
-      router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'})
+      router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
     }).addTo(this.map);
 
     routeControl.on('routesfound', function(e) {
@@ -145,6 +168,12 @@ export class MapComponent {
     });
   }
   
+
+  drawRoute(keyPoints: KeyPoint[]): void{
+    keyPoints.forEach(keyPoint =>{
+     // const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
+    });
+  }
 
   
 
