@@ -4,6 +4,7 @@ import { CommentService } from '../../blog/comment.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-landing-blog',
@@ -12,10 +13,13 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 })
 export class LandingBlogComponent implements OnInit {
 
+  
   genericImage: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6raU10dijlmB2SobtTOlXvlwOe55tE0LjQ&s"
   blogs: Post[] = [];
   mainBlog: Post | undefined;
   user: User | undefined;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   /*
   constructor( private service: CommentService,private authService: AuthService){
@@ -28,6 +32,9 @@ export class LandingBlogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBlogs();
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   getBlogs(): void {
