@@ -28,6 +28,8 @@ export class KeypointFormComponent implements OnInit {
   latitude: number = 0.0;
   longitude: number = 0.0;
 
+  shouldEditKp: boolean = false;
+
   user: User | undefined;
   nextId: number = 0;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
@@ -46,6 +48,8 @@ export class KeypointFormComponent implements OnInit {
 
     if(this.shouldEdit)
     {
+     
+      this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
         longitude: this.keypoint.longitude,

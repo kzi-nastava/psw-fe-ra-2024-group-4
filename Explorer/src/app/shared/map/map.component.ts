@@ -25,10 +25,13 @@ export class MapComponent {
   @Output() latitudeChanged = new EventEmitter<number>();
   @Output() longitudeChanged = new EventEmitter<number>();
 
+  @Input() shouldEditKp: boolean = false;
+   @Input() selectedKeypoint: KeyPoint;
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
    private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
+
 
    private redIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png', 
@@ -37,9 +40,10 @@ export class MapComponent {
     popupAnchor: [1, -34],
   });
 
+
    constructor(private mapService: MapService) {}
 
-
+   
    
   private initMap(): void {
     this.map = L.map('map', {
@@ -59,11 +63,18 @@ export class MapComponent {
     tiles.addTo(this.map);
 
     
-    if(this.registeringObject)
+    if(this.registeringObject && !this.shouldEditKp)
     { 
       this.registerOnClick();
 
     }
+
+    if(this.registeringObject && this.shouldEditKp)
+      { 
+        this.showPoint();
+        this.registerOnClick();
+  
+      }
     if(this.showingTour)
     {  
 
@@ -102,6 +113,10 @@ export class MapComponent {
   }
 
 
+  showPoint() : void
+  {
+    this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude]).addTo(this.map);
+  }
 
   registerOnClick(): void {
     
