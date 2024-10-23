@@ -1,22 +1,32 @@
 <div *ngIf="infoPerson">
     <h2>Edit Profile</h2>
     <form (ngSubmit)="updateProfile()">
-        <label for="name">Name:</label>
-        <input id="name" [(ngModel)]="infoPerson.name" name="name" required>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput id="name" [(ngModel)]="infoPerson.name" name="name" required>
+        </mat-form-field>
 
-        <label for="surname">Surname:</label>
-        <input id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
+        <mat-form-field appearance="fill">
+            <mat-label>Surname</mat-label>
+            <input matInput id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
+        </mat-form-field>
 
-        <label for="profilePicture">Profile Picture URL:</label>
-        <input id="profilePicture" [(ngModel)]="infoPerson.profilePicture" name="profilePicture">
+        <mat-form-field appearance="fill">
+            <mat-label>Profile Picture URL</mat-label>
+            <input matInput id="profilePicture" [(ngModel)]="infoPerson.profilePicture" name="profilePicture">
+        </mat-form-field>
 
-        <label for="biography">Biography:</label>
-        <textarea id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
+        <mat-form-field appearance="fill">
+            <mat-label>Biography</mat-label>
+            <textarea matInput id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
+        </mat-form-field>
 
-        <label for="motto">Motto:</label>
-        <input id="motto" [(ngModel)]="infoPerson.motto" name="motto">
+        <mat-form-field appearance="fill">
+            <mat-label>Motto</mat-label>
+            <input matInput id="motto" [(ngModel)]="infoPerson.motto" name="motto">
+        </mat-form-field>
 
-        <br><button type="submit">Save Changes</button>
+        <br>
+        <button mat-raised-button color="primary" type="submit">Save Changes</button>
     </form>
 </div>
-
