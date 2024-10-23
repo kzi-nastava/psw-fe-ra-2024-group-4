@@ -27,26 +27,50 @@ export class AppReviewComponent implements OnChanges {
  
   loadAppReview(): void {
     if (this.user !== null) {
-      this.service.getReview(this.user.id).subscribe({
-        next: (result: AppReview) => {
-          if (result) {
-            this.appReviewForm.patchValue({
-              grade: result.grade,
-              comment: result.comment || ''
-            });
-            this.shouldEdit = false;
-          } else {
+      if(this.user.role === 'tourist') {
+        this.service.getTouristReview(this.user.id).subscribe({
+          next: (result: AppReview) => {
+            if (result) {
+              this.appReviewForm.patchValue({
+                grade: result.grade,
+                comment: result.comment || ''
+              });
+              this.shouldEdit = false;
+            } else {
+              this.appReviewForm.reset(); 
+              this.shouldEdit = true;
+            }
+          },
+          error: () => {
             this.appReviewForm.reset(); 
             this.shouldEdit = true;
           }
-        },
-        error: () => {
-          this.appReviewForm.reset(); 
-          this.shouldEdit = true;
-        }
-      });
+        });
+      } else if(this.user.role === 'author') {
+        this.service.getAuthorReview(this.user.id).subscribe({
+          next: (result: AppReview) => {
+            if (result) {
+              this.appReviewForm.patchValue({
+                grade: result.grade,
+                comment: result.comment || ''
+              });
+              this.shouldEdit = false;
+            } else {
+              this.appReviewForm.reset(); 
+              this.shouldEdit = true;
+            }
+          },
+          error: () => {
+            this.appReviewForm.reset(); 
+            this.shouldEdit = true;
+          }
+        });
+      } else {
+        alert('Invalid role.')
+      }
+     
     } else {
-      //ulogujte se da biste videli svoju occenu i neki go back
+      alert('You must be logged in.')
     }
   }
 
@@ -66,39 +90,40 @@ export class AppReviewComponent implements OnChanges {
 
   addReview(): void {
     if(this.user != null) {
-      const appReview: AppReview = {
-        id: this.user?.id,
-        userId: this.user?.id,
-        creationTime: new Date(),
-        grade: this.appReviewForm.value.grade || 0,
-        comment: this.appReviewForm.value.comment || "",
-      };
-      this.service.addReview(appReview).subscribe({
-        next: () => { 
-          this.appReviewUpdated.emit();
-          this.loadAppReview();
-         }
-      });
+      if(this.user.role === 'tourist') {
+        const appReview: AppReview = {
+          id: this.user?.id,
+          userId: this.user?.id,
+          creationTime: new Date(),
+          grade: this.appReviewForm.value.grade || 0,
+          comment: this.appReviewForm.value.comment || "",
+        };
+        this.service.addTouristReview(appReview).subscribe({
+          next: () => { 
+            this.appReviewUpdated.emit();
+            this.loadAppReview();
+           }
+        });
+      } else if(this.user.role === 'author') {
+        const appReview: AppReview = {
+          id: this.user?.id,
+          userId: this.user?.id,
+          creationTime: new Date(),
+          grade: this.appReviewForm.value.grade || 0,
+          comment: this.appReviewForm.value.comment || "",
+        };
+        this.service.addAuthorReview(appReview).subscribe({
+          next: () => { 
+            this.appReviewUpdated.emit();
+            this.loadAppReview();
+           }
+        });
+      }      
     }
     
   }
 
   
-  updateReview(): void {
-    if(this.user != null) {
-      const appReview: AppReview = {
-        id: this.user?.id,
-        userId: this.user?.id,
-        creationTime: new Date(),
-        grade: this.appReviewForm.value.grade || 0,
-        comment: this.appReviewForm.value.comment || "",
-      };
-      //appReview.id = this.addReview.id;
-      this.service.updateReview(appReview).subscribe({
-        next: () => { this.appReviewUpdated.emit();}
-      });
-    }
-    
-  }
+  
 
 }
