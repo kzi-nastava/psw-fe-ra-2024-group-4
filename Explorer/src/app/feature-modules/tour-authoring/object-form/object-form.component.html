@@ -1,20 +1,20 @@
-<form [formGroup]="objectForm">
+<form [formGroup]="objectForm" (ngSubmit)="objectToEdit ? editObject() : addObject()">
     <div class="object-form-div">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" type="text" />
+        <input matInput formControlName="name" type="text" required/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Description</mat-label>
-        <input matInput formControlName="description" type="text" />
+        <input matInput formControlName="description" type="text" required/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>ImageUrl</mat-label>
-        <input matInput formControlName="image" type="text" />
+        <input matInput formControlName="image" type="text" required/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Category</mat-label>
-        <mat-select formControlName="category">
+        <mat-select formControlName="category" required>
           <mat-option value="WC">WC</mat-option>
           <mat-option value="Restaurant">Restaurant</mat-option>
           <mat-option value="Parking">Parking</mat-option>
@@ -23,14 +23,16 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Longitude</mat-label>
-        <input matInput formControlName="longitude" type="number" />
+        <input matInput formControlName="longitude" type="number" required/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Latitude</mat-label>
-        <input matInput formControlName="latitude" type="number" />
+        <input matInput formControlName="latitude" type="number" required/>
       </mat-form-field>
 
-      <button mat-raised-button type="submit" color="primary" (click)="addObject()">Create Object</button>
+      <button type="submit" color="primary" mat-raised-button>
+        {{ objectToEdit ? 'Update Object' : 'Create Object' }}
+      </button>
+      <button mat-button type="button" (click)="resetForm()" mat-raised-button color="accent">Cancel</button>
     </div>
   </form>
- 
