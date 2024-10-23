@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
@@ -18,4 +18,6 @@ export class HomeComponent {
       this.user = user; 
     });
   }
+
+  
 }
