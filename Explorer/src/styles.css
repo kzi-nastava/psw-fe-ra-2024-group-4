@@ -10,11 +10,11 @@ body {
 
 
 :root {
-    --primary-color: #F3D0D7;
-    --secondary-color: #f8c0b9;
-    --third-color: #e8e7ce;
-    --fourth-color: #A1B6D8;
-    --highlight-color: #e540ae;
+    --primary-color: #E8B8C0;
+    --secondary-color: #E8A7AF;
+    --third-color: #f2e6e9;
+    --fourth-color: #e540ae;
+    --highlight-color: #9b2735;
     --font-family: 'Poppy', sans-serif;
     --background-color: #fbfafa;
     --text-color-dark: #333;
@@ -42,7 +42,7 @@ body {
 }
 
 header h1, header h2, header h3, header h4, header h5, header h6 {
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Poppins', sans-serif !important;
     font-size: xx-large !important;
     margin-bottom: 2vh !important;
 }

@@ -21,8 +21,8 @@
         </div>
         
         <div id="buttons">
-            <button *ngIf="user && user.username === ''"  mat-raised-button color="warn" [routerLink]="['login']">Login</button>
-            <button *ngIf="user && user.username !== ''"  mat-raised-button color="warn" (click)="onLogout()">Logout</button>
+            <button *ngIf="user && user.username === ''"  mat-raised-button color="accent" [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== ''"  mat-raised-button color="accent" (click)="onLogout()">Logout</button>
         </div>
         
         <div class="user-content" [routerLink]="['profile']" *ngIf="user && (user.role === 'tourist' || user.role === 'author')"  >  
