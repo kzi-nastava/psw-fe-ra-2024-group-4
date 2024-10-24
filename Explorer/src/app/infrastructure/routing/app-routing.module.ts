@@ -19,9 +19,7 @@ import { CreateTourComponent } from 'src/app/feature-modules/tour-authoring/crea
 import { NecessaryEquipmentComponent } from 'src/app/feature-modules/tour-authoring/necessary-equipment/necessary-equipment.component';
 import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
-
-
-
+import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -49,6 +47,8 @@ const routes: Routes = [
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
   
+  {path: 'tourReviews', component: TourReviewsComponent},
+  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],}
 ];
 
 @NgModule({

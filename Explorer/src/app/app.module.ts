@@ -12,14 +12,10 @@ import { MarketplaceModule } from './feature-modules/marketplace/marketplace.mod
 import { TourAuthoringModule } from './feature-modules/tour-authoring/tour-authoring.module';
 import { TourExecutionModule } from './feature-modules/tour-execution/tour-execution.module';
 import { AuthModule } from './infrastructure/auth/auth.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
-import { ProblemComponent } from './feature-modules/marketplace/problem/problem.component';
-import { HomeComponent } from './feature-modules/layout/home/home.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
 import {MatDialogModule} from '@angular/material/dialog';
 
@@ -44,7 +40,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     TourAuthoringModule,    
     PersonInfoModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {
