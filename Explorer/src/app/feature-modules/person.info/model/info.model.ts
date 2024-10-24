@@ -1,9 +1,13 @@
+import { Equipment } from "./equipment.model";
+
 export interface PersonInfo {
     id: number;
     userId: number;
     name: string;
     surname: string;
-    profilePicture: string;
+    imageUrl: string;
     biography: string;
     motto: string;
+    imageBase64: string;
+    equipment: number[];
 }

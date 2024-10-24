@@ -6,12 +6,13 @@ form {
     border-radius: 5px; 
     background-color: #f9f9f9; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }
 
 h2 {
     text-align: center; 
     color: #333 !important;
-    margin-top: 80px;
+    margin-top: 20px; /* Smanjen razmak za bolji izgled */
 }
 
 button {
@@ -22,15 +23,44 @@ button {
     border-radius: 3px; 
     cursor: pointer; 
     font-size: 16px; 
-    margin: 5%;
-    margin-left: 5%;
+    margin: 10px; /* Smanjen razmak */
 }
 
 button:hover {
     background-color: #45a049; 
 }
 
-button {
-    background-color: #4CAF50 !important; 
-    color: white !important;
+img {
+    display: block; 
+    margin: 10px auto; 
+    max-width: 60%; /* Prilagođavanje slike */
+    height: auto; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+.mat-label {
+    margin-bottom: 5px; 
+    display: block; 
+    font-weight: bold; 
+}
+
+.user-profile-container {
+    display: flex; /* Koristi flex za raspored */
+    justify-content: space-between; /* Prostor između profila i forme */
+    align-items: flex-start; /* Poravnanje na vrhu */
+    margin: 20px auto; /* Centriranje kontejnera */
+}
+
+.user-profile, .edit-profile {
+    flex: 1; /* Ujednačavanje prostora */
+    padding: 20px; /* Unutrašnji razmak */
+    border: 1px solid #ccc; /* Opcionalno */
+    border-radius: 5px; /* Zaobljeni ivici */
+    background-color: #f9f9f9; /* Pozadinska boja */
+    margin: 10px; /* Razmak između sekcija */
+}
+
+.user-profile img {
+    margin-top: 10px; 
 }
