@@ -123,9 +123,13 @@ img {
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
     background-color: #f2edf692;
     border-radius: 10px;
-    margin: auto; 
+    margin: 10px; 
     width: 400px;    
     padding: 20px; 
     border: 1px solid #ffbbbb82;
+}
+
+mat-form-field{
+    height: 70px
 }
 

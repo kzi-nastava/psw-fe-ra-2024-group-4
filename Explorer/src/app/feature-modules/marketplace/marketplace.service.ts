@@ -18,6 +18,11 @@ export class MarketplaceService {
     return this.http.get<PagedResults<Problem>>(environment.apiHost + 'problem');
   }
 
+  getProblemsByTouristId(id:number): Observable<PagedResults<Problem>>{
+    return this.http.get<PagedResults<Problem>>(environment.apiHost + 'problem/byUser'+id);
+  }
+
+
   deleteProblem(id: number): Observable<Problem>{
     return this.http.delete<Problem>(environment.apiHost + 'problem' + id);
   }
@@ -43,4 +48,6 @@ export class MarketplaceService {
   deleteTourReview(tourReview : TourReview): Observable<TourReview>{
     return this.http.delete<TourReview>(environment.apiHost + 'tourReviewing/tourReview/' + tourReview.id);
   }
+
+  
 }

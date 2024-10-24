@@ -3,6 +3,8 @@ import { Problem } from '../model/problem.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'xp-problem',
@@ -16,10 +18,15 @@ export class ProblemComponent implements OnInit{
   shoudAdd: boolean=false;
   isLoggedIn: boolean=false;
   showProblemForm: boolean=false;
+  user: User;
 
-  constructor(private service: MarketplaceService, private authService: AuthService){}
+  constructor(private service: MarketplaceService, private authService: AuthService){  }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe((user: User) => {
+      this.user = user;
+      this.checkIfLoggedIn(); // Ensure to check login status after user data is fetched
+    });
     this.checkIfLoggedIn();
     this.authService.userLoggedIn.subscribe(()=>{
       this.checkIfLoggedIn();
@@ -46,15 +53,19 @@ export class ProblemComponent implements OnInit{
     })
   }
 
-  getProblems():void{
-    this.service.getProblems().subscribe({
-      next: (result: PagedResults<Problem>)=>{
-        this.problems=result.results;
-      },
-      error: (err: any)=>{
-        console.log(err);
-      }
-    })
+  getProblems(): void {
+    if (!this.user) {
+      console.warn('User is undefined, cannot fetch problems.');
+      return;
+    }
+      this.service.getProblems().subscribe({
+        next: (result: PagedResults<Problem>) => {
+          this.problems = result.results;
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
   }
 
   onAddClick(): void{

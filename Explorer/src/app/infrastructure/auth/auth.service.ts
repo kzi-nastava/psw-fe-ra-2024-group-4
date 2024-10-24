@@ -80,4 +80,8 @@ export class AuthService {
     return user && user.id > 0;
   }
 
+  public getUser(): BehaviorSubject<User>{
+    return this.user$;
+  }
+
 }
