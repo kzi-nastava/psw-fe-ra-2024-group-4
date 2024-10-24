@@ -25,11 +25,17 @@ import { AdministrationModule } from "../administration/administration.module";
 import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MapForTourComponent } from './map-for-tour/map-for-tour.component';
+import { MapForTourComponent } from './map-for-tour/map-for-tour.component';import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
+import { TourPreferencesFormComponent } from './tour-preferences-form/tour-preferences-form.component';
+import { RouterModule } from '@angular/router';
+
 
 
 @NgModule({
   declarations: [
+    TourPreferencesComponent,
+    TourPreferencesFormComponent,
+  
     // Declare all components
     KeypointsComponent,
     KeypointFormComponent,
@@ -53,6 +59,7 @@ import { MapForTourComponent } from './map-for-tour/map-for-tour.component';
     MaterialModule,
     AdministrationModule,
     SharedModule,
+    RouterModule,
 
     // Material-specific modules
     MatFormFieldModule,

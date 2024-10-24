@@ -24,7 +24,13 @@ import { PersonEquipmentComponent } from 'src/app/feature-modules/person.info/pe
 
 
 
+import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
+import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
+import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
+
+
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
@@ -34,6 +40,7 @@ const routes: Routes = [
       { path: 'comments/:postId', component: CommentComponent },
     ]
   },
+
 
 
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
@@ -48,10 +55,11 @@ const routes: Routes = [
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
-  {path: 'profile', component: InfoComponent },
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
-  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
   {path: 'touristEquipment', component: PersonEquipmentComponent},
+  {path: 'tourReviews', component: TourReviewsComponent},
+  {path: 'tour-preferences', component: TourPreferencesComponent },
+  {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
 ];
 
 @NgModule({

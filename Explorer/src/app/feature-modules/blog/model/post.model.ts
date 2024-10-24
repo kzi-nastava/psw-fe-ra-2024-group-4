@@ -4,10 +4,11 @@ export interface Post{
     description: string,
     createdAt:Date,
     imageUrl?: string,
-    status: Status,
-    userId: number
+    status: BlogStatus,
+    userId: number,
+    imageBase64: string
 }
-export enum Status{
+export enum BlogStatus{
     Draft=0,
     Published=1,
     Closed=2

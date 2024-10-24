@@ -28,7 +28,15 @@ export class KeypointFormComponent implements OnInit {
   latitude: number = 0.0;
   longitude: number = 0.0;
 
+  selectedFile: File | null = null;
+  imageBase64: string;
+
+
+  shouldEditKp: boolean = false;
+
+
   user: User | undefined;
+  nextId: number = 0;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   ngOnInit(): void {
@@ -45,12 +53,15 @@ export class KeypointFormComponent implements OnInit {
 
     if(this.shouldEdit)
     {
+     
+      this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
         longitude: this.keypoint.longitude,
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
         image: this.keypoint.image,
+        
       })
     }
 
@@ -64,7 +75,8 @@ export class KeypointFormComponent implements OnInit {
     longitude: new FormControl(0.0, [Validators.required]),
     latitude: new FormControl(0.0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required])
+    image: new FormControl('', [Validators.required]),
+    imageBase64: new FormControl('')
   })
 
   setLongitude(newLongitude: number): void{
@@ -99,17 +111,27 @@ export class KeypointFormComponent implements OnInit {
         error: (err: any) => console.log(err)
       })
 
+      this.service.getNextKeypointId(this.user.id).subscribe({
+        next: (result: number) => {this.nextId = result;
+          //alert(this.nextId);
+        
+    
+
+      if(this.user)
+      {
+        
+      
 
       const keypoint: KeyPoint = {
 
-        id: this.keyPoints.length + 1,
+        id: this.nextId,
         name: this.keypointForm.value.name || "",
         longitude: this.keypointForm.value.longitude || 0.0,
         latitude: this.keypointForm.value.latitude || 0.0,
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
-        userId: this.user.id || -1
-
+        userId: this.user.id || -1,
+        imageBase64: this.keypointForm.value.imageBase64 || "" //ovde je bio problem
       }
 
       
@@ -134,6 +156,10 @@ export class KeypointFormComponent implements OnInit {
 
          }
       });
+    }
+
+    }
+  });
 
       
      
@@ -160,7 +186,8 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypointForm.value.latitude || 0.0,
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
-        userId: this.user.id || -1
+        userId: this.user.id || -1,
+        imageBase64: this.keypointForm.value.imageBase64 || "" //nisam dirala jer je update
         
       }
       keypoint.id = this.keypoint.id;
@@ -172,6 +199,18 @@ export class KeypointFormComponent implements OnInit {
   
   }
 
+ 
+  onFileSelected(event: any){
+        const file:File = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.imageBase64 = reader.result as string;
+            this.keypointForm.patchValue({
+              imageBase64: this.imageBase64
+            });
+        };
+        reader.readAsDataURL(file); 
+}
   
 
 }

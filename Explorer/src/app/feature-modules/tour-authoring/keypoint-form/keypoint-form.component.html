@@ -19,10 +19,13 @@
             <mat-label>Description</mat-label>
             <input matInput formControlName="description" type="text"/>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>ImageUrl</mat-label>
-            <input matInput formControlName="image" type="text"/>
-        </mat-form-field>
+        
+            <input
+              type="file"
+              (change)="onFileSelected($event)"/>
+            <mat-label>Upload Image</mat-label>
+         
+        
         <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
         <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
     </div>
@@ -32,5 +35,5 @@
 </div>
 
 <div class="map-container" >
-    <xp-map  [registeringObject] = "registeringObj" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)"></xp-map>
+    <xp-map [shouldEditKp] = "shouldEditKp" [selectedKeypoint]="keypoint"  [registeringObject] = "registeringObj" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)"></xp-map>
 </div>

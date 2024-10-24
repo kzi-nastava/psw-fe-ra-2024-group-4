@@ -1,7 +1,6 @@
-
 form {
     max-width: 400px; 
-    margin: 20px auto; 
+    margin: 5px auto; 
     padding: 20px; 
     border: 1px solid #ccc; 
     border-radius: 5px; 
@@ -11,28 +10,9 @@ form {
 
 h2 {
     text-align: center; 
-    color: #333;
+    color: #333 !important;
+    margin-top: 80px;
 }
-
-
-label {
-    display: block; 
-    margin-bottom: 5px; 
-    font-weight: bold;
-    color: #555; 
-}
-
-input[type="text"],
-input[type="url"],
-textarea {
-    width: 100%; 
-    padding: 10px; 
-    margin-bottom: 15px; 
-    border: 1px solid #ccc; 
-    border-radius: 3px; 
-    box-sizing: border-box; 
-}
-
 
 button {
     background-color: #4CAF50;
@@ -46,7 +26,11 @@ button {
     margin-left: 5%;
 }
 
-
 button:hover {
     background-color: #45a049; 
+}
+
+button {
+    background-color: #4CAF50 !important; 
+    color: white !important;
 }

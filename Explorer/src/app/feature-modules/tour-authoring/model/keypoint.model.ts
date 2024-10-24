@@ -6,4 +6,5 @@ export interface KeyPoint {
     description: string;
     image: string;
     userId: number;
+    imageBase64: string;
 }

@@ -1,0 +1,32 @@
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Weight Preference</th>
+        <th>Walking Rating</th>
+        <th>Bike Rating</th>
+        <th>Car Rating</th>
+        <th>Boat Rating</th>
+        <th>Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pref of preferences">
+        <td>{{pref.id}}</td>
+        <td>{{ pref.weightPreference }}</td>
+        <td>{{ pref.walkingRating }}</td>
+        <td>{{ pref.bikeRating }}</td>
+        <td>{{ pref.carRating }}</td>
+        <td>{{ pref.boatRating }}</td> 
+        <td>{{ pref.tags.join(', ') }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="button-container">
+    <button color="accent" mat-raised-button [routerLink]="['/tour-preferences-form']">tourPreferences form</button>
+  </div>
+  
+  
+</div>

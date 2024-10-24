@@ -16,36 +16,26 @@
                 <tbody>
                     <tr *ngFor="let post of posts">
                         <div class="image-container">
-                            <ng-container *ngIf="post.imageUrl; else noImage">
-                                <img 
-                                    [src]="post.imageUrl" 
-                                    alt="{{ post.title }} image" 
-                                    class="post-image"
-                                    (error)="post.imageUrl = ''" 
-                                />
-                            </ng-container>
-                            <ng-template #noImage>
-                                <div class="no-image-placeholder">{{ post.title }}</div>
-                            </ng-template>
+                            <td><img [src]="getImage(post.imageUrl)" alt="post.title" height="100"></td>
                         </div>
                         <td>{{ post.title }}</td>
                         <td> <markdown>{{ post.description }}</markdown></td>
                         <td>{{ post.createdAt | date: 'short' }}</td>
                         <td>
-                            <button color="primary" (click)="onEditClicked(post)" mat-icon-button>
+                            <button *ngIf="user && user.role==='author'" color="primary" (click)="onEditClicked(post)" mat-icon-button>
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button color="accent" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
+                            <button *ngIf="user && user.role==='author'" color="accent" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
                                 <mat-icon>delete</mat-icon>
                             </button>
-                            <button *ngIf="user && user.role==='tourist'" color="warn" [routerLink]="['/blogPost/comments', post.id]"  mat-icon-button>
+                            <button color="warn" [routerLink]="['/blogPost/comments', post.id]"  mat-icon-button>
                                 <mat-icon>comment</mat-icon>
                             </button>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="5">
-                            <button color="primary" (click)="onAddClicked()" mat-icon-button>
+                            <button *ngIf="user && user.role==='author'" color="primary" (click)="onAddClicked()" mat-icon-button>
                                 <mat-icon>add</mat-icon>
                             </button>
                         </td>

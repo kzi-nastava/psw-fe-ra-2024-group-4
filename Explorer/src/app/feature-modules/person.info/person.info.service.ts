@@ -12,12 +12,20 @@ export class PersonInfoService {
 
   constructor(private http: HttpClient) { }
 
-  getPersonInfo(personId: number): Observable<PersonInfo> {
-    return this.http.get<PersonInfo>(`${environment.apiHost}person/${personId}`);
+  getTouristInfo(personId: number): Observable<PersonInfo> {
+    return this.http.get<PersonInfo>(`${environment.apiHost}tourist/person/${personId}`);
   }
 
-  updatePersonInfo(info: PersonInfo): Observable<PersonInfo> {
-    return this.http.put<PersonInfo>(`${environment.apiHost}person/${info.id}`, info);
+  updateTouristInfo(info: PersonInfo): Observable<PersonInfo> {
+    return this.http.put<PersonInfo>(`${environment.apiHost}tourist/person/${info.id}`, info);
+  }
+
+  getAuthorInfo(personId: number): Observable<PersonInfo> {
+    return this.http.get<PersonInfo>(`${environment.apiHost}author/person/${personId}`);
+  }
+
+  updateAuthorInfo(info: PersonInfo): Observable<PersonInfo> {
+    return this.http.put<PersonInfo>(`${environment.apiHost}author/person/${info.id}`, info);
   }
 
   getEquipment(): Observable<PagedResults<Equipment>> {
