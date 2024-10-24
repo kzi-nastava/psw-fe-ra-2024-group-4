@@ -1,0 +1,35 @@
+<form [formGroup]="postForm" (ngSubmit)="shouldEdit ? updatePost() : addPost()">
+    <div>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" type="text" />
+      </mat-form-field>
+      <div *ngIf="titleInvalid" class="error-message">
+        Title is required.
+      </div>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="3"
+                  formControlName="description"
+                  cdkAutosizeMaxRows="5"
+                  (input)="updatePreview()"></textarea>
+      </mat-form-field>
+      <div *ngIf="descriptionInvalid" class="error-message">
+        Description is required.
+      </div>
+      <div class="markdown-preview">
+        <markdown [data]="postForm.get('description')?.value"></markdown>
+    </div>
+    <input
+    type="file"
+    (change)="onFileSelected($event)"/>
+  <mat-label>Upload Image</mat-label>
+      <button mat-raised-button type="submit" color="primary">
+        {{ shouldEdit ? 'Update' : 'Done' }}
+      </button>
+    </div>
+  
+  </form>
+  

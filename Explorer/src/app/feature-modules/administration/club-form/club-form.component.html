@@ -1,0 +1,30 @@
+<form [formGroup]="clubForm" (ngSubmit)="shouldEdit ? updateClub() : addClub()">
+    <div>
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" type="text" />
+        </mat-form-field>
+        <div *ngIf="nameInvalid" class="error-message">
+            Name is required and cannot contain numbers.
+        </div>
+        
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      formControlName="description"
+                      cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <div *ngIf="descriptionInvalid" class="error-message">
+            Description is required and cannot contain numbers.
+        </div>
+            <mat-label>Image</mat-label>
+            <input
+            type="file"
+            (change)="onFileSelected($event)"/>
+        <button mat-raised-button type="submit" color="primary">
+            {{ shouldEdit ? 'Update' : 'Done' }}
+        </button>
+    </div>
+</form>

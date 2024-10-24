@@ -1,0 +1,48 @@
+<div id="tour-reviews">
+    <p>Tour Reviews</p>
+    <hr>
+    <div id="tour-reviews-details">
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id of Tour</th>
+                    <th>Id of Tourist</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date Of Attendance</th>
+                    <th>Date Of Review</th>
+                    <th>Image Paths</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tr of tourReviews">
+                    <td>{{tr.idTour}}</td>
+                    <td>{{tr.idTourist}}</td>
+                    <td>{{tr.rating}}</td>
+                    <td>{{tr.comment}}</td>
+                    <td>{{tr.dateTour}}</td>
+                    <td>{{tr.dateComment}}</td>
+                    <td>{{tr.images}}</td>
+                    <td>
+                        <button color="primary" (click)="onEditClicked(tr)" mat-icon-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button color="accent" (click)="deleteTourReview(tr)" mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr><button color="primary" (click)="onAddClicked()" mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                </button></tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <xp-tour-review-form *ngIf="shouldRenderEquipmentForm" (tourReviewUpdated)="getTourReviews()" [tourReview]="selectedTourReview" [shouldEdit]="shouldEdit"></xp-tour-review-form> 
+    </div>
+    </div>
+</div>
+

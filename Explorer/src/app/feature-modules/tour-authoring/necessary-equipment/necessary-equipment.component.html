@@ -1,0 +1,23 @@
+<div id="equipment">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <p>Neophodna oprema</p>
+        <button class="edit-button" (click)="openEditDialog(equipment)">Izmeni</button>
+    </div>
+    <hr>
+    <div id="equipment-details">
+        <table>
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Opis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let eq of equipment">
+                    <td>{{eq.name}}</td>
+                    <td>{{eq.description}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

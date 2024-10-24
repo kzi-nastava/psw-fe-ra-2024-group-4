@@ -1,0 +1,31 @@
+<div id="account">
+    <p>Accounts</p>
+    <hr>
+    <div id="account-details">
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Is Active</th>
+                <th>Deactivate account</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ac of account">
+                <td>{{ac.username}}</td>
+                <td>{{ac.password}}</td>
+                <td>{{ac.role}}</td>
+                <td>{{ac.email}}</td>
+                <td>{{ac.isActive}}</td>
+                <td>
+                    <button color="primary" (click)="onBlockClicked(ac)" mat-icon-button [disabled]="!ac.isActive">
+                        <mat-icon>Deactivate</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

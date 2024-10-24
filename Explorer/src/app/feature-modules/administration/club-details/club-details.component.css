@@ -1,0 +1,50 @@
+/* Stilizacija naslova */
+h2 {
+    color: darkblue; /* Tamnoplava boja za naslov */
+    margin-bottom: 15px; /* Razmak ispod naslova */
+}
+
+/* Stilizacija tabele */
+table {
+    width: 100%; /* Širina tabele na 100% */
+    border-collapse: collapse; /* Spoji ivice */
+    border-radius: 10px; /* Zaobljeni uglovi */
+    overflow: hidden; /* Sakrij delove koji izlaze iz okvira */
+}
+
+
+th {
+    background-color: lightblue; /* Svetloplava pozadina za header */
+    color: darkblue; /* Tamna boja teksta za header */
+    padding: 10px; /* Razmak unutar ćelija */
+    text-align: left; /* Poravnanje teksta levo */
+}
+
+td {
+    border: 2px solid darkblue; /* Tamno plava boja ivica ćelija */
+    padding: 10px; /* Razmak unutar ćelija */
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Svetla pozadina na hover */
+}
+
+
+button {
+    background-color: rgba(255, 0, 0, 0.7); /* Polu-prozirna crvena boja */
+    color: white; /* Bele slova */
+    border: none; /* Bez ivica */
+    border-radius: 8px; /* Zaobljene ivice */
+    padding: 10px 15px; /* Razmak unutar dugmeta */
+    cursor: pointer; /* Pokazivač ruke na hover */
+    transition: background-color 0.3s; /* Glatka promena boje pri hover */
+}
+
+button:hover {
+    background-color: rgba(255, 0, 0, 0.9); /* Tamnija crvena boja na hover */
+}
+h1{
+    color:darkblue;
+    align-items: center;
+    text-align: center;
+}

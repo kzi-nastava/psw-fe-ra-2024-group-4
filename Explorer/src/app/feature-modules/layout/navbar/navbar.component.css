@@ -1,10 +1,199 @@
-div {
-    width: 100%;
+mat-toolbar {
+    background: linear-gradient(to bottom, #F3D0D7, #fbfafa);
+    color: black;
+    padding: 10px 20px;
+    height: 11vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid pink;
+    z-index: 1;
+    position: relative;
+    top: 0;
+    width: 100%;
+    border-radius: 0%;
+}
+
+.links-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.links {
+    display: flex;
+    gap: 12px;
+}
+
+a[mat-raised-button] {
+    background-color: transparent;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+
+.hover-icon.active .icon-down {
+    opacity: 1; /* Show the icon if active */
+}
+
+.hover-icon .icon-down {
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
+
+.hover-icon:hover .icon-down {
+    opacity: 1; 
+}
+
+a[mat-raised-button]:hover {
+    transform: translateY(-2px);
+    color: #303f9f;
 }
 
 #buttons {
-    width: auto;
+    display: flex;
+    gap: 15px;
     margin-left: auto;
 }
+
+.user-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 5vh;
+    height: auto;
+    padding: 0; /* Remove padding to reduce extra space */
+    overflow: visible;
+    max-height: unset;
+    line-height: 1; /* Adjust line height to remove extra space */
+}
+
+.account-icon {
+    font-size: 6vh; /* Larger icon size */
+    line-height: 1; /* Ensure no extra space below the icon */
+    width: auto;
+    height: auto;
+}
+
+.user-text {
+    font-size: 1.7vh;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 0; /* Remove margin to bring the text closer to the icon */
+}
+
+.menu-container {
+    width: 100vw; /* Full width of the viewport */
+    position: fixed; /* Position it below the toolbar */
+    top: 11vh; /* Adjust based on your toolbar height */
+    background-color: #fbfafa;
+    padding: 10px 0; /* Padding for top and bottom */
+    z-index: 100; /* Ensure it appears above other content */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Align content to the top-left */
+    padding: 20px; /* Add padding around the container */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-header {
+    display: flex;
+    flex-direction: column; /* Stack the title and description vertically */
+    text-align: center;
+    align-items: center;
+    border-right: 2px solid black;
+    height: 30vh;
+}
+
+.menu-title {
+    font-size: 3rem; /* Make title bigger */
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    margin-bottom: 3vh; /* Spacing between title and description */
+    margin-top: 4vh;
+    
+}
+
+.menu-description {
+    font-size: 1.2rem; /* Make description bigger */
+    color: #666;
+    max-width: 20vw; /* Set a reasonable max-width for the description */
+    text-align: left; /* Align text left for readability */
+    margin-top: 3vh;
+}
+
+
+.menu-list-container {
+    display: flex;
+    align-items: center; /* Vertically align the list with the header */
+    margin-left: 5vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack the list items vertically */
+    
+}
+
+.menu-list li {
+    margin: 10px 0; /* Add spacing between list items */
+}
+
+.menu-list li a {
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 0px;
+    transition: color 0.3s ease;
+    font-size: 1.1rem;
+    color: #6A0AD4;
+}
+
+.menu-list li a:hover {
+   
+        transform: translateY(-2px);
+        color: #303f9f;
+    
+}
+
+
+.separator-line {
+    height: 100%;
+    width: 1vh;
+    margin: 0 5vh; /* Spacing between header and list */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
