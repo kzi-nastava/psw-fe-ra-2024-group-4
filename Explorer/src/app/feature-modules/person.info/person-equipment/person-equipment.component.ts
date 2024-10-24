@@ -4,7 +4,7 @@ import { PersonInfoService } from '../person.info.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PersonInfo } from '../model/info.model';
-
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'xp-person-equipment',
   templateUrl: './person-equipment.component.html',
@@ -41,12 +41,12 @@ export class PersonEquipmentComponent implements OnInit{
   }
 
   getPersonInfo(personId: number): void {
-    this.service.getPersonInfo(personId).subscribe({
+    this.service.getTouristInfo(personId).subscribe({
       next: (result: PersonInfo) => {
         this.person = result
       },
-      error: (err) => {
-        console.error('Error fetching person info:', err);  
+      error: (err:  HttpErrorResponse) => {
+        console.error('Error fetching person info:', err.message);  
       }
     });
   }
@@ -82,13 +82,13 @@ export class PersonEquipmentComponent implements OnInit{
 
   updatePersonEquipment(): void {
     
-    this.service.updatePersonInfo(this.person).subscribe({
+    this.service.updateTouristInfo(this.person).subscribe({
       next: () => {
         console.log('Person equipment updated successfully');
         console.log(this.person)
       },
-      error: (err) => {
-        console.error('Error updating person equipment:', err);
+      error: (err: HttpErrorResponse) => {
+        console.error('Error updating person equipment:', err.message);
       }
     });
   }
