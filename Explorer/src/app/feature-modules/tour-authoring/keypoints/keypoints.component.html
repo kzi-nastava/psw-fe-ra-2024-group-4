@@ -24,7 +24,9 @@
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
+
                 <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
+
               
                 <td>
                     <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
@@ -38,7 +40,7 @@
         </tbody>
     </table>
     <div class="keypoints-form-container">
-        <xp-keypoint-form *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
+        <xp-keypoint-form  *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
     </div>
   
 </div>

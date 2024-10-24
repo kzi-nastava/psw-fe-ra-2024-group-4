@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { environment } from 'src/env/environment';
 import { Post } from './model/post.model';
+import { Comment } from './model/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,8 @@ export class PostService {
  }
   deletePost(id: number):Observable<Post>{
     return this.http.delete<Post>(environment.apiHost+ 'postmanagement/post/'+id)
+  }
+  getCommentByPost(postId: number,page: number = 0, pageSize: number = 0): Observable<PagedResults<Comment>>{
+    return this.http.get<PagedResults<Comment>>(environment.apiHost+ `postmanagement/post/comments?id=${postId}&page=${page}&pageSize=${pageSize}`);
   }
 }

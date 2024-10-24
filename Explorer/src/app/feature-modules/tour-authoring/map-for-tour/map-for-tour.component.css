@@ -1,0 +1,17 @@
+.main {
+    position: fixed; /* Fiksira overlay na ekranu */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Poluprozirna pozadina */
+    z-index: 999; /* Ispod mape, iznad ostalih elemenata */
+}
+
+.map-container{
+    width: 80%;
+    height: 80%;
+    position: relative;
+    left: 10%;
+    top: 10%;
+}

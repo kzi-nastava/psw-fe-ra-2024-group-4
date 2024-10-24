@@ -1,0 +1,76 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 2rem; 
+}
+
+.container {
+    width: 75%;
+    padding: 10px;
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.main-blog {
+    border-radius: 5px;
+    position: relative;
+    height: 100%; /* Take full remaining height */
+    width: 55%; /* Adjusted to fit alongside the scroll list */
+}
+
+.main-blog p {
+    margin-top: 20px;
+    max-width: fit-content;
+    font-size: 1.1rem;
+    text-indent: 30px;
+    font-family: Montserrat;
+}
+
+.img-container {
+    height: 60vh; /* Ensures the image takes the full height */
+}
+
+.scroll-list {
+    flex: 0 0 40%; /* Takes 40% of the container */
+    padding: 20px;
+    border-radius: 5px;
+    height: 80vh; /* Fixed height for the scrollable area */
+    overflow-y: auto; /* Enables vertical scrolling */
+    height: 80vh;
+}
+
+.scroll-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.blog-card {
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 15px; /* Space between blog cards */
+    padding: 10px; /* Space inside the card */
+    padding-top: 0px;
+}
+
+.blog-image {
+    width: 15vw; /* Fixed width for images */
+    height: 22vh; /* Fixed height for images */
+    border-radius: 5px; /* Optional: rounded corners for images */
+    margin-right: 10px; /* Space between image and title */
+}
+
+.blog-title {
+    font-size: 16px; /* Font size for the blog title */
+    font-weight: bold; /* Make the title bold */
+}

@@ -10,26 +10,39 @@ import { MykeypointsComponent } from './mykeypoints/mykeypoints.component';
 import { TourAuthoringModule } from "../tour-authoring/tour-authoring.module";
 import { ObjectViewComponent } from './object-view/object-view.component';
 
+import { FirstPageComponent } from './first-page/first-page.component';
+import { MatMenuModule } from '@angular/material/menu';
+
+
+import { LandingBlogComponent } from './landing-blog/landing-blog.component';
+
+
 @NgModule({
   declarations: [
     HomeComponent,
     NavbarComponent,
     MykeypointsComponent,
     ObjectViewComponent,
-    
+    FirstPageComponent,
+    AppReviewComponent,
+    AppReviewComponent,
+         LandingBlogComponent,
     AppReviewComponent
+
   ],
   imports: [
     CommonModule,
     MaterialModule,
     RouterModule,
     TourAuthoringModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatMenuModule
 ],
   exports: [
     NavbarComponent,
     HomeComponent,
     MykeypointsComponent,
+    LandingBlogComponent,
     AppReviewComponent
   ],
   

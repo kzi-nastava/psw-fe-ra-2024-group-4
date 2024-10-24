@@ -19,11 +19,10 @@ import { CreateTourComponent } from 'src/app/feature-modules/tour-authoring/crea
 import { NecessaryEquipmentComponent } from 'src/app/feature-modules/tour-authoring/necessary-equipment/necessary-equipment.component';
 import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
-
-
-
+import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
@@ -34,9 +33,6 @@ const routes: Routes = [
       { path: 'comments/:postId', component: CommentComponent },
     ]
   },
-
-
-  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
 
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   { path: 'profile', component: InfoComponent },
@@ -49,12 +45,10 @@ const routes: Routes = [
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
   {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
-  { path: 'profile', component: InfoComponent },
-
-
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
-  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],}
   
+  {path: 'tourReviews', component: TourReviewsComponent},
+  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],}
 ];
 
 @NgModule({

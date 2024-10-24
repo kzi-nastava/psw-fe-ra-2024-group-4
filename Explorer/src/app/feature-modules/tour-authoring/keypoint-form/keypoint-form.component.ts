@@ -27,9 +27,16 @@ export class KeypointFormComponent implements OnInit {
 
   latitude: number = 0.0;
   longitude: number = 0.0;
+
   selectedFile: File | null = null;
   imageBase64: string;
+
+
+  shouldEditKp: boolean = false;
+
+
   user: User | undefined;
+  nextId: number = 0;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   ngOnInit(): void {
@@ -46,6 +53,8 @@ export class KeypointFormComponent implements OnInit {
 
     if(this.shouldEdit)
     {
+     
+      this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
         longitude: this.keypoint.longitude,
@@ -102,10 +111,20 @@ export class KeypointFormComponent implements OnInit {
         error: (err: any) => console.log(err)
       })
 
+      this.service.getNextKeypointId(this.user.id).subscribe({
+        next: (result: number) => {this.nextId = result;
+          //alert(this.nextId);
+        
+    
+
+      if(this.user)
+      {
+        
+      
 
       const keypoint: KeyPoint = {
 
-        id: this.keyPoints.length + 1,
+        id: this.nextId,
         name: this.keypointForm.value.name || "",
         longitude: this.keypointForm.value.longitude || 0.0,
         latitude: this.keypointForm.value.latitude || 0.0,
@@ -128,6 +147,7 @@ export class KeypointFormComponent implements OnInit {
                 this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
                   next: (result: Tour) => { 
                     this.keypointAdded.emit(keypoint);
+                    this.tourUpdated.emit();
                   },
                   error: (err: any) => console.log(err)
                 })
@@ -136,6 +156,10 @@ export class KeypointFormComponent implements OnInit {
 
          }
       });
+    }
+
+    }
+  });
 
       
      

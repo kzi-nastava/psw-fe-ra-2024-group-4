@@ -6,7 +6,10 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
-
+import { MatDialog } from '@angular/material/dialog';
+import { KeypointDialogComponent } from '../keypoint-dialog/keypoint-dialog.component';
+import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
+import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -18,6 +21,8 @@ export class ToursForAuthorComponent implements OnInit {
   user: User | null = null;
   selectedTour: Tour;
   shouldViewTour: boolean = false;
+  selectedKeypoints: KeyPoint[] = [];
+  
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -37,7 +42,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private service: TourService, private authService: AuthService, private router: Router) { }
+  constructor(private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -76,8 +81,31 @@ export class ToursForAuthorComponent implements OnInit {
     
 
   viewTourDetails(tour: Tour){
+  
     this.selectedTour = tour;
+    this.getTourKeyPoints();
+   
     this.shouldViewTour = true;
+  }
+
+  getTourKeyPoints() : void {
+    let keyPointIds = this.selectedTour.keyPointIds || [];
+   
+    keyPointIds.forEach(id => {
+      this.authorService.getKeyPointById(id).subscribe({
+        next: (result: KeyPoint) => {
+          
+          this.selectedKeypoints.push(result);
+        },
+        error: (err: any) => console.log(err)
+
+      })
+    })
+
+    this.selectedKeypoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
+  
+    
+
   }
 
   getUpdatedTours(): void{
@@ -89,12 +117,23 @@ export class ToursForAuthorComponent implements OnInit {
 
       if(user !== null && user.role === 'author')
       {
+       const dialogRef = this.dialog.open(KeypointDialogComponent, {
+          width: '20%',
+          height: '20%'
 
-        this.getTours(user.id);
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          window.location.reload();  // Reloads the entire page
+        });
       }
     });
     
 
+  }
+
+  refreshPage():void{
+    window.location.reload();
   }
 
   
