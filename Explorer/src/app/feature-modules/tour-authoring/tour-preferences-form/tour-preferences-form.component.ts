@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class TourPreferencesFormComponent implements OnInit {
   tourPreferenceForm!: FormGroup;
+  predefinedTags: string[] = ['Adventure', 'Nature', 'Culture', 'History', 'Food'];
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +25,8 @@ export class TourPreferencesFormComponent implements OnInit {
     this.loadExistingPreference();
   }
 
+  
+
   initializeForm(): void {
     this.tourPreferenceForm = this.fb.group({
       weightPreference: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
@@ -31,7 +34,7 @@ export class TourPreferencesFormComponent implements OnInit {
       bikeRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
       carRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
       boatRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
-      tags: [''],
+      tags: [[],Validators.required],
       id: [null],
       touristId: [null]
     });
@@ -46,12 +49,11 @@ export class TourPreferencesFormComponent implements OnInit {
             bikeRating: preference.bikeRating,
             carRating: preference.carRating,
             boatRating: preference.boatRating,
-            tags: preference.tags.join(', '),
+            tags: preference.tags,
             id: preference.id,
             touristId: preference.touristId
           });
         }
-        console.log('Preference that is loaded from db for current user', preference);
       },
       error: (err) => {
         console.error('Error loading preference:',err);
@@ -61,15 +63,29 @@ export class TourPreferencesFormComponent implements OnInit {
       }
     })
   }
+  onTagChange(event: any): void{
+    const tag = event.target.value;
+    const tagsArray: string[] = this.tourPreferenceForm.value.tags;
+    if(event.target.checked){
+      if(!tagsArray.includes(tag)){
+        tagsArray.push(tag);
+      }
+    }else{
+      const index = tagsArray.indexOf(tag);
+      if(index !== -1){
+        tagsArray.splice(index,1);
+      }
+    }
+    this.tourPreferenceForm.patchValue({tags: tagsArray});
+  }
 
   onSubmit(): void {
     if (this.tourPreferenceForm.valid) {
       const tourPreference: TourPreference = {
         ...this.tourPreferenceForm.value,
-        tags: this.tourPreferenceForm.value.tags.split(',').map((tag:string) => tag.trim())
+        //tags: this.tourPreferenceForm.value.tags
       };
 
-      // Call the service to save the tour preference (for either add or edit)
       this.tourPreferenceService.savePreference(tourPreference).subscribe({
         next: () => {
           alert('Tour preference saved successfully!');

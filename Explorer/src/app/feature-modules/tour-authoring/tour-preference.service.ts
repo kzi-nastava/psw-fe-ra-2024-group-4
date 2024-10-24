@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TourPreference } from '../../shared/model/tour-preference.model';
 import {jwtDecode } from 'jwt-decode';
+import { environment } from 'src/env/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,19 +11,20 @@ import {jwtDecode } from 'jwt-decode';
 
 export class TourPreferenceService{
 
-  private apiUrl = 'https://localhost:44333/api/tourist/preference/preferences';  
+  // private apiUrl = 'http://localhost:44333/api/tourist/preference';  
+  private apiUrl = `${environment.apiHost}tourist/preference`
 
   constructor(private http: HttpClient) { }
 
   getPreferences(): Observable<TourPreference[]> {
-    return this.http.get<TourPreference[]>(this.apiUrl);
+    return this.http.get<TourPreference[]>(`${this.apiUrl}/preferences`);
   }
   getTourPreference(): Observable<TourPreference | null> {
     const token = localStorage.getItem('access-token');
     if(token){
       const decodedToken : any = jwtDecode(token);
       const touristId = decodedToken.id;
-      return this.http.get<TourPreference | null>(`https://localhost:44333/api/tourist/preference/${touristId}`);
+      return this.http.get<TourPreference | null>(`${this.apiUrl}/${touristId}`);
     } else{
       throw new Error('Token not found');
     }
@@ -33,9 +35,9 @@ export class TourPreferenceService{
       const decodedToken: any = jwtDecode(token);
       const touristId = decodedToken.id;
       if (preference.id) {
-        return this.http.put(`https://localhost:44333/api/tourist/preference/${touristId}`, preference); // Update preference
+        return this.http.put(`${this.apiUrl}/${touristId}`, preference); // Update preference
       } else {
-        return this.http.post(`https://localhost:44333/api/tourist/preference/${touristId}`, preference); // Add new preference
+        return this.http.post(`${this.apiUrl}/${touristId}`, preference); // Add new preference
       }
     } else {
       throw new Error('Token not found');

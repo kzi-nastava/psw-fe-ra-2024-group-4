@@ -11,6 +11,17 @@
   border-radius: 10px;
 }
 
+.checkbox-container {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+.checkbox-item {
+  margin: 5px;
+  text-align: center;
+}
 
 .form-group {
   display: flex;
