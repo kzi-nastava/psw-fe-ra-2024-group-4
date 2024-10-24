@@ -1,0 +1,69 @@
+#equipment {
+    margin-top: 20px;
+    margin-left: 20px;
+    max-width: 500px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+  }
+  
+  #equipment-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .equipment-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-family: sans-serif;
+    cursor: pointer;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  hr {
+    width: min-content; 
+  }
+  
+  .name {
+    font-weight: bold;
+    color: #3f51b5;
+  }
+  
+  .description {
+    color: #888888;
+    font-size: 1em;
+    margin-top: 5px;
+  }
+  
+  p {
+    font-size: 20px;
+  }
+  
+  .save-btn {
+    padding: 5px 10px;
+    font-size: 15px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 20px; 
+}

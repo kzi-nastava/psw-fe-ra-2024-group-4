@@ -3,3 +3,19 @@ p {
     margin-top: 10px;
     font-size: 20px;
 }
+.custom-button {
+    background-color: #196fb5; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s; 
+}
+
+.component-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20vh; /* Adjust the value as needed */
+  }

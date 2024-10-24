@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './feature-modules/layout/layout.module';
@@ -16,10 +16,17 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { ProblemComponent } from './feature-modules/marketplace/problem/problem.component';
 import { HomeComponent } from './feature-modules/layout/home/home.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -34,12 +41,14 @@ import { HomeComponent } from './feature-modules/layout/home/home.component';
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
-    HttpClientModule,
-    LayoutModule
+    TourAuthoringModule,    
+    PersonInfoModule,
+    FormsModule,
+    MatDialogModule
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS, 
       useClass: JwtInterceptor,
       multi: true,
     },

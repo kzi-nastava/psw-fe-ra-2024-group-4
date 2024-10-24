@@ -1,0 +1,17 @@
+div {
+    width: 400px;
+    display:flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+.markdown-preview {
+    margin-top: 20px; /* Razmak od textarea */
+    padding: 10px;
+    border: 1px solid #ddd; /* Okvir */
+    border-radius: 4px; /* Zaobljeni uglovi */
+    background-color: #f9f9f9; /* Pozadina */
+}
