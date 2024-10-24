@@ -16,6 +16,7 @@ export class ClubFormComponent implements OnChanges {
   @Input() club: Club | null = null; 
   @Input() shouldEdit: boolean = false; 
   user: User | null = null;
+  imageBase64: string;
 
   constructor(private service: AdministrationService, private authService: AuthService) {
     this.authService.user$.subscribe((user) => {
@@ -26,7 +27,8 @@ export class ClubFormComponent implements OnChanges {
   clubForm = new FormGroup({
     name: new FormControl('', [Validators.required, this.noNumbers]),
     description: new FormControl('', [Validators.required, this.noNumbers]),
-    image: new FormControl('') 
+    image: new FormControl(''),
+    imageBase64: new FormControl('')
   });
 
   ngOnChanges(): void {
@@ -66,7 +68,8 @@ export class ClubFormComponent implements OnChanges {
         description: this.clubForm.value.description || "",
         image: this.clubForm.value.image || "",
         userId: this.user.id,  
-        userIds: [this.user.id]  
+        userIds: [this.user.id] ,
+        imageBase64: this.clubForm.value.imageBase64 || ""
       };
   
       this.service.addClub(club).subscribe({
@@ -97,7 +100,8 @@ export class ClubFormComponent implements OnChanges {
         description: this.clubForm.value.description || "",
         image: this.clubForm.value.image || "",
         userId: this.club.userId, 
-        userIds: this.club.userIds 
+        userIds: this.club.userIds,
+        imageBase64: this.clubForm.value.imageBase64 || "",
       };
 
       this.service.updateClub(club).subscribe({
@@ -112,4 +116,16 @@ export class ClubFormComponent implements OnChanges {
       });
     }
   }
+
+  onFileSelected(event: any){
+    const file:File = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        this.imageBase64 = reader.result as string;
+        this.clubForm.patchValue({
+          imageBase64: this.imageBase64
+        });
+    };
+    reader.readAsDataURL(file); 
+}
 }

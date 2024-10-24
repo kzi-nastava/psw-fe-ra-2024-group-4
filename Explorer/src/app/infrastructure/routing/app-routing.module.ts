@@ -21,6 +21,8 @@ import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
 import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
 import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/problem.component';
+import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
+import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -50,7 +52,9 @@ const routes: Routes = [
   
   {path: 'tourReviews', component: TourReviewsComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
-  {path: 'problem', component: ProblemComponent, canActivate: [AuthGuard]}
+  {path: 'problem', component: ProblemComponent, canActivate: [AuthGuard]},
+  {path: 'tour-preferences', component: TourPreferencesComponent },
+  {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
 ];
 
 @NgModule({

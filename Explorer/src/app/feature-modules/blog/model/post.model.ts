@@ -5,7 +5,8 @@ export interface Post{
     createdAt:Date,
     imageUrl?: string,
     status: BlogStatus,
-    userId: number
+    userId: number,
+    imageBase64: string
 }
 export enum BlogStatus{
     Draft=0,
