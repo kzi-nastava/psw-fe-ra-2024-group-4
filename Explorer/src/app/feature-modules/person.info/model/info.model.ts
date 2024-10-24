@@ -5,8 +5,12 @@ export interface PersonInfo {
     userId: number;
     name: string;
     surname: string;
-    profilePicture: string;
+    imageUrl: string;
     biography: string;
     motto: string;
+<<<<<<< Updated upstream
     equipment: number[];
+=======
+    imageBase64: string;
+>>>>>>> Stashed changes
 }
