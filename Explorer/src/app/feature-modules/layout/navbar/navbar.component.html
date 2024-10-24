@@ -77,8 +77,14 @@
             <ul class="menu-list">
                 <li><h1 >Feedback on the tour <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'tourist')"><a href="tourReviews">Leave a review</a></li>
-                <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Report a problem</a></li>
-                <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Set preferred tours</a></li>
+                <li *ngIf="user && (user.role === 'tourist')" ><a href="problem">Report a problem</a></li>
+                <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-preferences">Set preferred tours</a></li>
+            </ul>
+
+        </div>
+        <div class="menu-list-container" *ngIf="user && (user.role === 'administrator')" >
+            <ul class="menu-list">
+                <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>
             </ul>
 
         </div>
@@ -171,5 +177,3 @@
             
             <!-- Button for tourists and authors to access their profile -->
             <!-- <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button [routerLink]="['profile']">Profile</button> -->
-
-

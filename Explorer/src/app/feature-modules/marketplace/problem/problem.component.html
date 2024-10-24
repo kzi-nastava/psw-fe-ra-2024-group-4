@@ -15,13 +15,13 @@
                 <td>{{p.description}}</td>
                 <td>{{p.priority}}</td>
                 <td>{{p.time}}</td>
-                <td>
+                <td *ngIf="user.role == 'tourist'">
                     <button color="accent" (click)="p.id ? deleteProblem(p.id) : null" mat-icon-button>
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>   
             </tr>
-            <tr>
+            <tr *ngIf="user.role == 'tourist'">
                 <button color="primary" (click)="onAddClick()"  mat-icon-button>
                     <mat-icon>add</mat-icon>
                 </button>

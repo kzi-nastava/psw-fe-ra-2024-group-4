@@ -76,7 +76,7 @@ export class PostFormComponent implements OnChanges{
         status: this.post.status, 
         createdAt:this.post.createdAt, 
         userId: this.post.userId,
-        imageBase64: this.post.imageBase64
+        imageBase64: this.postForm.value.imageBase64 || ""
       };
       post.id=this.post.id;
       this.service.updatePost(post).subscribe({

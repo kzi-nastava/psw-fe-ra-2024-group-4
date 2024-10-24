@@ -1,32 +1,53 @@
-<div *ngIf="infoPerson">
-    <h2>Edit Profile</h2>
-    <form (ngSubmit)="updateProfile()">
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput id="name" [(ngModel)]="infoPerson.name" name="name" required>
-        </mat-form-field>
+<div *ngIf="infoPerson" class="user-profile-container">
+    <div class="user-profile">
+        <h2>User Profile</h2>
+        <div>
+            <p><strong>Name:</strong> {{ infoPerson.name }}</p>
+            <p><strong>Surname:</strong> {{ infoPerson.surname }}</p>
+            <p><strong>Biography:</strong> {{ infoPerson.biography }}</p>
+            <p><strong>Motto:</strong> {{ infoPerson.motto }}</p>
+            <p><strong>Profile picture:</strong></p>
+            <img *ngIf="infoPerson.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="{{ infoPerson.name }}" height="100">
+        </div>
+        
+        <button mat-raised-button color="primary" (click)="editMode = true">Edit</button>
+    </div>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Surname</mat-label>
-            <input matInput id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
-        </mat-form-field>
+    <div *ngIf="editMode" class="edit-profile">
+        <h2>Edit Profile</h2>
+        <form (ngSubmit)="updateProfile()">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput id="name" [(ngModel)]="infoPerson.name" name="name" required>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Profile Picture URL</mat-label>
-            <input matInput id="profilePicture" [(ngModel)]="infoPerson.profilePicture" name="profilePicture">
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Surname</mat-label>
+                <input matInput id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Biography</mat-label>
-            <textarea matInput id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
-        </mat-form-field>
+            <div>
+                <img *ngIf="imageBase64; else serverImage" [src]="imageBase64" alt="{{ infoPerson.name }}" height="30">
+                <ng-template #serverImage>
+                    <img *ngIf="infoPerson.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="{{ infoPerson.name }}" height="30">
+                </ng-template>
+            </div>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Motto</mat-label>
-            <input matInput id="motto" [(ngModel)]="infoPerson.motto" name="motto">
-        </mat-form-field>
+            <input type="file" (change)="onFileSelected($event)" />
 
-        <br>
-        <button mat-raised-button color="primary" type="submit">Save Changes</button>
-    </form>
+            <mat-form-field appearance="fill">
+                <mat-label>Biography</mat-label>
+                <textarea matInput id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Motto</mat-label>
+                <input matInput id="motto" [(ngModel)]="infoPerson.motto" name="motto">
+            </mat-form-field>
+
+            <br>
+            <button mat-raised-button color="primary" type="submit">Save Changes</button>
+            <button mat-button color="warn" (click)="editMode = false">Cancel</button>
+        </form>
+    </div>
 </div>

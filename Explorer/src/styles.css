@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
+html, body { height: 100%; }
 body { 
     margin: 0; 
     font-family: "Montserrat", sans-serif !important; 
@@ -123,12 +124,15 @@ img {
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
     background-color: #f2edf692;
     border-radius: 10px;
-    margin: auto; 
+    margin: 10px; 
     width: 400px;    
     padding: 20px; 
     border: 1px solid #ffbbbb82;
 }
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+mat-form-field{
+    height: 70px
+}
+
+
