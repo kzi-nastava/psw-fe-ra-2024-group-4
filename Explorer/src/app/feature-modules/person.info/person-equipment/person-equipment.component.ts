@@ -19,9 +19,10 @@ export class PersonEquipmentComponent implements OnInit{
     userId: 0,
     name: '',
     surname: '',
-    profilePicture: '',
+    imageUrl: '',
     biography: '',
     motto: '',
+    imageBase64: '',
     equipment: [] as number[]
   };
   

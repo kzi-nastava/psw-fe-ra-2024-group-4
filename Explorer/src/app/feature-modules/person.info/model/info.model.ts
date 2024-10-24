@@ -8,9 +8,6 @@ export interface PersonInfo {
     imageUrl: string;
     biography: string;
     motto: string;
-<<<<<<< Updated upstream
-    equipment: number[];
-=======
     imageBase64: string;
->>>>>>> Stashed changes
+    equipment: number[];
 }
