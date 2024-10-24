@@ -1,3 +1,5 @@
+import { Equipment } from "./equipment.model";
+
 export interface PersonInfo {
     id: number;
     userId: number;
@@ -6,4 +8,5 @@ export interface PersonInfo {
     profilePicture: string;
     biography: string;
     motto: string;
+    equipment: number[];
 }
