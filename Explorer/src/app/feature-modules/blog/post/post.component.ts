@@ -5,6 +5,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { CommentService } from '../comment.service';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-post',
@@ -67,6 +68,9 @@ export class PostComponent implements OnInit{
   onCommentClicked(postId: number): void {
     this.selectedPostId = postId;  
     this.shouldRenderCommentForm = true;  
+  }
+  getImage(imageUrl: string | undefined): string {
+    return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png'; // Provide a fallback image or empty string
   }
 }
 
