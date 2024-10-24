@@ -21,13 +21,17 @@
         </div>
         
         <div id="buttons">
-            <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
-            <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
+            <button *ngIf="user && user.username === ''"  mat-raised-button color="accent" [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== ''"  mat-raised-button color="accent" (click)="onLogout()">Logout</button>
         </div>
         
         <div class="user-content" [routerLink]="['profile']" *ngIf="user && (user.role === 'tourist' || user.role === 'author')"  >  
             <mat-icon class="account-icon" >account_circle</mat-icon>
             <span class="user-text">account</span>
+        </div>
+        <div class="user-content" [routerLink]="['account']" *ngIf="user && (user.role === 'administrator')"  >  
+            <mat-icon class="account-icon" >account_circle</mat-icon>
+            <span class="user-text">accounts</span>
         </div>
     </mat-toolbar>
 
@@ -72,7 +76,7 @@
         <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
             <ul class="menu-list">
                 <li><h1 >Feedback on the tour <i class="fas fa-arrow-right"></i></h1></li>
-                <li *ngIf="user && (user.role === 'tourist')"><a href="['/']">Leave a review</a></li>
+                <li *ngIf="user && (user.role === 'tourist')"><a href="tourReviews">Leave a review</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Report a problem</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Set preferred tours</a></li>
             </ul>

@@ -11,15 +11,32 @@ export class LayoutService {
 
   constructor(private http: HttpClient) { }
 
-  getReview(id: number): Observable<AppReview> {
-    return this.http.get<AppReview>(environment.apiHost + 'person/appReview/'+ id)
+
+  
+
+  //AppReviews
+
+  getTouristReview(id: number): Observable<AppReview> {
+    return this.http.get<AppReview>(environment.apiHost + 'tourist/appReview/'+ id)
   }
 
-  addReview(appReview: AppReview): Observable<AppReview> {
-    return this.http.post<AppReview>(environment.apiHost + 'person/appReview', appReview);
+  addTouristReview(appReview: AppReview): Observable<AppReview> {
+    return this.http.post<AppReview>(environment.apiHost + 'tourist/appReview', appReview);
   }
 
-  updateReview(appReview: AppReview): Observable<AppReview> {
-    return this.http.put<AppReview>(environment.apiHost + 'person/appReview/'+ appReview.userId, appReview);
+  updateTouristReview(appReview: AppReview): Observable<AppReview> {
+    return this.http.put<AppReview>(environment.apiHost + 'tourist/appReview/'+ appReview.userId, appReview);
+  }
+
+  getAuthorReview(id: number): Observable<AppReview> {
+    return this.http.get<AppReview>(environment.apiHost + 'author/appReview/'+ id)
+  }
+
+  addAuthorReview(appReview: AppReview): Observable<AppReview> {
+    return this.http.post<AppReview>(environment.apiHost + 'author/appReview', appReview);
+  }
+
+  updateAuthorReview(appReview: AppReview): Observable<AppReview> {
+    return this.http.put<AppReview>(environment.apiHost + 'author/appReview/'+ appReview.userId, appReview);
   }
 }

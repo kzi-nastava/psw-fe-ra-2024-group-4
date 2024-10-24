@@ -19,11 +19,10 @@
         <div *ngIf="descriptionInvalid" class="error-message">
             Description is required and cannot contain numbers.
         </div>
-        
-        <mat-form-field>
             <mat-label>Image</mat-label>
-            <input matInput formControlName="image" type="text" placeholder="Enter image URL" />
-        </mat-form-field>
+            <input
+            type="file"
+            (change)="onFileSelected($event)"/>
         <button mat-raised-button type="submit" color="primary">
             {{ shouldEdit ? 'Update' : 'Done' }}
         </button>

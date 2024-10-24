@@ -16,17 +16,7 @@
                 <tbody>
                     <tr *ngFor="let post of posts">
                         <div class="image-container">
-                            <ng-container *ngIf="post.imageUrl; else noImage">
-                                <img 
-                                    [src]="post.imageUrl" 
-                                    alt="{{ post.title }} image" 
-                                    class="post-image"
-                                    (error)="post.imageUrl = ''" 
-                                />
-                            </ng-container>
-                            <ng-template #noImage>
-                                <div class="no-image-placeholder">{{ post.title }}</div>
-                            </ng-template>
+                            <td><img [src]="getImage(post.imageUrl)" alt="post.title" height="100"></td>
                         </div>
                         <td>{{ post.title }}</td>
                         <td> <markdown>{{ post.description }}</markdown></td>

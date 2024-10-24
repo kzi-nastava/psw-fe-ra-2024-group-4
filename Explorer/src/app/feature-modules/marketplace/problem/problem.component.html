@@ -1,0 +1,33 @@
+<div id="problems" *ngIf="isLoggedIn">
+    <p>Problems</p>
+    <hr>
+    <div id="problem-details">
+    <table>
+        <thead>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Time</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of problems"> 
+                <td>{{p.category}}</td>
+                <td>{{p.description}}</td>
+                <td>{{p.priority}}</td>
+                <td>{{p.time}}</td>
+                <td>
+                    <button color="accent" (click)="p.id ? deleteProblem(p.id) : null" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>   
+            </tr>
+            <tr>
+                <button color="primary" (click)="onAddClick()"  mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                </button>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<xp-problem-form *ngIf="showProblemForm" (problemAdded)="onProblemAdded()" ></xp-problem-form>
+</div>

@@ -1,0 +1,41 @@
+<form [formGroup]="tourReviewForm">
+    <div>
+        <!--id: number,
+        idTour: number,
+        idTourist: number,
+        dateTour: Date,
+        dateComment: Date,-->
+        
+        <mat-form-field>
+            <mat-label>Rating</mat-label>
+            <input matInput formControlName="rating" type="number"/>
+            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('required')">
+                Rating is required
+            </mat-error>
+            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('min')">
+                Rating must be at least 1
+            </mat-error>
+            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('max')">
+                Rating must be no more than 5
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Comment</mat-label>
+          <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          formControlName="comment"
+          cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Images</mat-label>
+            <textarea matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            formControlName="images"
+            cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addTourReview()" mat-raised-button>Add</button>
+        <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateTourReview()" mat-raised-button>Update</button>   
+    </div>
+</form>

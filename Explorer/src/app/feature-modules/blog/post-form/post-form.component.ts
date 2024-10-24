@@ -18,6 +18,7 @@ export class PostFormComponent implements OnChanges{
    user:User | null=null;
   @Input() shouldEdit: boolean=false;
   renderedDescription: string = '';
+  imageBase64: string;
 
   ngOnChanges(): void {
     this.postForm.reset();
@@ -37,6 +38,7 @@ export class PostFormComponent implements OnChanges{
     title: new FormControl('',[Validators.required]),
     description: new FormControl('',[Validators.required]),
     imageUrl: new FormControl(''),
+    imageBase64: new FormControl('')
   })
 
   get titleInvalid(): boolean {
@@ -55,7 +57,8 @@ export class PostFormComponent implements OnChanges{
         imageUrl: this.postForm.value.imageUrl || "",
         status: 0, 
         createdAt: new Date(), 
-        userId: this.user.id 
+        userId: this.user.id,
+        imageBase64: this.postForm.value.imageBase64 || ""
       };
   
       this.service.addPost(post).subscribe({
@@ -72,7 +75,8 @@ export class PostFormComponent implements OnChanges{
         imageUrl: this.postForm.value.imageUrl || "",
         status: this.post.status, 
         createdAt:this.post.createdAt, 
-        userId: this.post.userId
+        userId: this.post.userId,
+        imageBase64: this.post.imageBase64
       };
       post.id=this.post.id;
       this.service.updatePost(post).subscribe({
@@ -84,4 +88,15 @@ export class PostFormComponent implements OnChanges{
     const description = this.postForm.get('description')?.value;
     this.renderedDescription = description ? marked(description) : ''; // Pretvaranje Markdown-a u HTML
   }
+  onFileSelected(event: any){
+    const file:File = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        this.imageBase64 = reader.result as string;
+        this.postForm.patchValue({
+          imageBase64: this.imageBase64
+        });
+    };
+    reader.readAsDataURL(file); 
+}
 }
