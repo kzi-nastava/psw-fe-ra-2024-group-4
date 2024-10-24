@@ -1,30 +1,134 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: "Montserrat", sans-serif !important; 
+    color: var(--text-color-dark);
+    text-align: left;
+}
 
 
 :root {
-    --primary-color: #fbfafa;
-    --secondary-color: #f8c0b9;
-    --third-color: #e8e7ce;
-    --fourth-color: #A1B6D8;
-    --highlight-color: #e540ae;
+    --primary-color: #E8B8C0;
+    --secondary-color: #E8A7AF;
+    --third-color: #f2e6e9;
+    --fourth-color: #e540ae;
+    --highlight-color: #9b2735;
     --font-family: 'Poppy', sans-serif;
     --background-color: #fbfafa;
-    --text-color: #333;
+    --text-color-dark: #333;
+    --text-color-light: var(--primary-color);
+}
+
+[color="background"] {
+    background-color: var(--background-color) !important;
 }
 
 [color="primary"] {
     background-color: var(--primary-color) !important;
 }
 
+[color="secondary"] {
+    background-color: var(--secondary-color) !important;
+}
+
 [color="accent"] {
+    background-color: var(--fourth-color) !important;
+}
+
+[color="warn"] {
     background-color: var(--highlight-color) !important;
 }
 
-header {
-    padding: 0;
+header h1, header h2, header h3, header h4, header h5, header h6 {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: xx-large !important;
+    margin-bottom: 2vh !important;
+}
+
+.container {
+    margin-top: 12vh !important;
+}
+
+button {
+    cursor: pointer !important;
+    border-radius: 10px !important;
+    border: 2px solid var(--secondary-color);
+    padding: 10px 20px;
+    transition: border-color 0.5s ease, background-color 0.5s ease !important;
+}
+
+button:hover {
+    border-color: var(--highlight-color);
+    background-color: var(--secondary-color);
+    transform: translateY(-2px) !important;
+}
+
+.primary {
+    background-color: var(--primary-color);
+    color: var(--text-color-dark);
+}
+
+.secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color-dark);
+}
+
+.accent {
+    background-color: var(--fourth-color);
+    color: var(--text-color-dark);
+}
+
+.warn {
+    background-color: var(--highlight-color);
+    color: var(--text-color-light);
+}
+
+img {
+    object-position: center !important;
+    object-fit: cover !important;
+    height: 100%;
+    width: 100%;
+}
+
+.img-container {
+    padding: 0 !important; 
+    border-radius: 5px !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* Scrollbar styles */
+.scroll-list::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    background-color: transparent; /* Background color of the scrollbar track */
+}
+
+.scroll-list::-webkit-scrollbar-thumb {
+    background-color: #aaa; /* Color of the scrollbar handle */
+    border-radius: 10px; /* Rounded corners for the scrollbar handle */
+    border: 2px solid transparent; /* Add a transparent border for spacing */
+}
+
+.scroll-list::-webkit-scrollbar-thumb:hover {
+    background-color: #777; /* Color of the handle when hovered */
+}
+
+.form-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    justify-content: center;
+    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+    background-color: #f2edf692;
+    border-radius: 10px;
+    margin: auto; 
+    width: 400px;    
+    padding: 20px; 
+    border: 1px solid #ffbbbb82;
 }
 
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -14,12 +14,15 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { ProblemComponent } from './feature-modules/marketplace/problem/problem.component';
+import { HomeComponent } from './feature-modules/layout/home/home.component';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { PersonInfoModule } from './feature-modules/person.info/person.info.module';
 import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -39,19 +42,23 @@ import {MatDialogModule} from '@angular/material/dialog';
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
-    TourAuthoringModule,
-    
+    TourAuthoringModule,    
     PersonInfoModule,
     FormsModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS, 
+      provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      multi: true,
+      multi: true
     },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' }
+    }
   ],
   bootstrap: [AppComponent]
 })

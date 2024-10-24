@@ -6,6 +6,7 @@ import { ClubJoinRequest } from '../model/club-join-request.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { catchError } from 'rxjs';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-club',
@@ -164,5 +165,9 @@ export class ClubComponent implements OnInit {
   onFormClosed(): void {
     this.shouldRenderClubForm = false; 
     this.shouldEdit = false; 
+  }
+
+  getImage(image: string): string {
+    return environment.webroot + image;
   }
 }

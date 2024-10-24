@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit ,Output} from '@angular/core';
 import {TourObject} from '../model/object.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -12,23 +12,43 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
   styleUrls: ['./object.component.css']
 })
 export class ObjectComponent implements OnInit {
-
   objects: TourObject[] = [];
+  selectedObject: TourObject | null = null;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
+
+  selectedLatitude: number | null = null;
+  selectedLongitude: number | null = null;
 
   ngOnInit(): void {
     this.getObjects();
   }
 
   getObjects(): void{
+    
     this.service.getObjects().subscribe({
       next: (result: PagedResults<TourObject>) => {
-        this.objects = result.results; 
+        this.objects = result.results;
+        this.objects = this.objects.sort((a, b) => {
+          const idA = a?.id ?? 0; // If a.id is undefined, use 0 as a fallback
+          const idB = b?.id ?? 0; // If b.id is undefined, use 0 as a fallback
+          return idA - idB;
+        }); 
       },
       error: (err: any) => {
         console.log(err);
       }
     })
+  }
+  updateLongitude(newLongitude: number): void{
+    this.selectedLongitude = newLongitude;
+    
+  }
+  updateLatitude(newLatitude: number): void{
+    this.selectedLatitude = newLatitude;
+    
+  }
+  editObject(item: TourObject): void{
+    this.selectedObject = item;
   }
 
   /*objects: TourObject[] = [

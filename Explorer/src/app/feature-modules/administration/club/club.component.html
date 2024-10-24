@@ -14,7 +14,8 @@
 
                 </div>
                 <div class="club-image-container">
-                    <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />
+                    <td><img [src]="getImage(cl.image)" alt="cl.name" height="100"></td>
+                   <!--- <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" /> -->
                 </div>
                 <div class="club-action-buttons" style="margin-left: 20px;">
                     <button *ngIf="cl.userId === currentUserId" (click)="onEditClicked(cl)" class="custom-button">Edit</button>

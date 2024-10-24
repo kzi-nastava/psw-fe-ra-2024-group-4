@@ -22,11 +22,10 @@
       <div class="markdown-preview">
         <markdown [data]="postForm.get('description')?.value"></markdown>
     </div>
-
-      <mat-form-field>
-        <mat-label>Image URL</mat-label>
-        <input matInput formControlName="imageUrl" type="text" placeholder="Enter image URL" />
-      </mat-form-field>
+    <input
+    type="file"
+    (change)="onFileSelected($event)"/>
+  <mat-label>Upload Image</mat-label>
       <button mat-raised-button type="submit" color="primary">
         {{ shouldEdit ? 'Update' : 'Done' }}
       </button>

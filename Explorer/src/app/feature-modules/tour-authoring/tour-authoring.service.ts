@@ -20,7 +20,7 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<TourObject>>(environment.apiHost + 'objectaddition/object');
   }
 
-  addObject(object: TourObject): Observable<KeyPoint> {
+  addObject(object: TourObject): Observable<TourObject> {
     return this.http.post<TourObject>(environment.apiHost +'objectaddition/object/', object);
   }
 
@@ -49,7 +49,12 @@ export class TourAuthoringService {
     return this.http.put<Tour>(environment.apiHost + 'author/tour/keypointaddition/' +  keypointid, tour);
   }
 
+  updateObject(object: TourObject): Observable<TourObject> {
+    return this.http.put<TourObject>(environment.apiHost + 'objectaddition/object/' + object.id, object);
+
+  }
   getNextKeypointId(userId: number) : Observable<number>{
     return this.http.get<number>(environment.apiHost + 'keypointaddition/keypoint/next-id/' + userId);
+  
   }
 }
