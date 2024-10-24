@@ -7,3 +7,38 @@ div {
 p {
     margin-top: 20px;
 }
+
+.form-style {
+    position: absolute; /* Omogućava centriranje pomoću transformacije */
+    top: 50%; /* Postavlja vrh forme na sredinu visine prozora */
+    left: 50%; /* Postavlja levu ivicu forme na sredinu širine prozora */
+    transform: translate(-50%, -50%);
+}
+
+a {
+    color: #972230; /* Boja linka */
+    text-decoration: none; /* Ukloni donju liniju */
+    margin-left: 0px;
+}
+
+a:hover {
+    text-decoration: underline; /* Donja linija na hover */
+}
+
+.dont-have-account {
+    display: inline; 
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.less-visible{
+    display:inline;
+    float:left;
+    opacity: 70%;
+}
+
+.sign-up{
+    display:inline;
+    float:left;
+    margin-left: 20px;
+}
