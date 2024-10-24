@@ -45,7 +45,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     TourAuthoringModule,    
     PersonInfoModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {
