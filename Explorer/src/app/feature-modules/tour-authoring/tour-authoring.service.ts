@@ -20,7 +20,7 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<TourObject>>(environment.apiHost + 'objectaddition/object');
   }
 
-  addObject(object: TourObject): Observable<KeyPoint> {
+  addObject(object: TourObject): Observable<TourObject> {
     return this.http.post<TourObject>(environment.apiHost +'objectaddition/object/', object);
   }
 
