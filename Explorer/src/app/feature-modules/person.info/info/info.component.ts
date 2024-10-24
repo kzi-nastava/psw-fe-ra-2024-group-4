@@ -59,19 +59,23 @@ export class InfoComponent implements OnInit {
     if(this.user?.role === 'tourist') {
       this.profileService.updateTouristInfo(this.infoPerson).subscribe({
         next: (response) => {
-          console.log('Profile updated successfully', response);     
+          console.log('Profile updated successfully', response); 
+          alert('Profile updated successfully!');
         },
         error: (err) => {
-          console.error('Error updating profile:', err);     
+          console.error('Error updating profile:', err);  
+          alert('Error updating profile. Please try again.');   
         }
       });
     } else if(this.user?.role === 'author') {
       this.profileService.updateAuthorInfo(this.infoPerson).subscribe({
         next: (response) => {
-          console.log('Profile updated successfully', response);     
+          console.log('Profile updated successfully', response);
+          alert('Profile updated successfully!');     
         },
         error: (err) => {
-          console.error('Error updating profile:', err);     
+          console.error('Error updating profile:', err);   
+          alert('Error updating profile. Please try again.');  
         }
       });
     } else {
