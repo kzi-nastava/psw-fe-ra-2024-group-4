@@ -58,6 +58,8 @@ export class ProblemComponent implements OnInit{
       console.warn('User is undefined, cannot fetch problems.');
       return;
     }
+    console.log(this.user.role);
+    if(this.user.role=='administrator'){
       this.service.getProblems().subscribe({
         next: (result: PagedResults<Problem>) => {
           this.problems = result.results;
@@ -66,6 +68,18 @@ export class ProblemComponent implements OnInit{
           console.log(err);
         }
       });
+    }
+    if(this.user.role=='tourist'){
+      this.service.getProblemsByTouristId(this.user.id).subscribe({
+        next: (result: Problem[]) => {
+          console.log(result);
+          this.problems = result;
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
   }
 
   onAddClick(): void{

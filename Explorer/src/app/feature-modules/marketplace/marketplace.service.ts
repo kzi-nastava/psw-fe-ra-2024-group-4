@@ -18,8 +18,9 @@ export class MarketplaceService {
     return this.http.get<PagedResults<Problem>>(environment.apiHost + 'problem');
   }
 
-  getProblemsByTouristId(id:number): Observable<PagedResults<Problem>>{
-    return this.http.get<PagedResults<Problem>>(environment.apiHost + 'problem/byUser'+id);
+  getProblemsByTouristId(id:number): Observable<Problem[]>{
+    console.log('hgh');
+    return this.http.get<Problem[]>(environment.apiHost + 'problem/byTourist/'+id);
   }
 
 
