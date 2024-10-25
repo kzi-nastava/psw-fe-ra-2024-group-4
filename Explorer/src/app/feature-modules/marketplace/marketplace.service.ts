@@ -25,7 +25,7 @@ export class MarketplaceService {
 
 
   deleteProblem(id: number): Observable<Problem>{
-    return this.http.delete<Problem>(environment.apiHost + 'problem' + id);
+    return this.http.delete<Problem>(environment.apiHost + 'problem/' + id);
   }
 
   addProblem(problem: Problem): Observable<Problem>{
