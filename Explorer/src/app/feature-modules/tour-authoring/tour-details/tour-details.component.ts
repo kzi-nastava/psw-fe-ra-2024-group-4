@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { MarketplaceModule } from '../../marketplace/marketplace.module';
 import { KeypointFormComponent } from '../keypoint-form/keypoint-form.component';
-
+import { environment } from 'src/env/environment';
 @Component({
   selector: 'xp-tour-details',
   templateUrl: './tour-details.component.html',
@@ -52,7 +52,7 @@ export class TourDetailsComponent implements OnInit {
       })
     })
 
-    this.keyPoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
+   // this.keyPoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
 
     
 
@@ -117,6 +117,12 @@ export class TourDetailsComponent implements OnInit {
 
     }
     
+  }
+
+  
+  getImage(image: string)
+  {
+    return environment.webroot + image;
   }
 
   onCreateNew()

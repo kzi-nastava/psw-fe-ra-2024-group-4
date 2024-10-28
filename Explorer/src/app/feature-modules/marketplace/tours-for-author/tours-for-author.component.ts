@@ -84,7 +84,7 @@ export class ToursForAuthorComponent implements OnInit {
 
    
   
-    setTimeout(() => {
+    
       this.selectedTour = tour;
       if(this.shouldViewTour == true)
         this.shouldViewTour = false;
@@ -96,7 +96,7 @@ export class ToursForAuthorComponent implements OnInit {
 
 
 
-    }, 200);
+   
    
   }
 
@@ -114,7 +114,7 @@ export class ToursForAuthorComponent implements OnInit {
       })
     })
 
-    this.selectedKeypoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
+   // this.selectedKeypoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
   
     
 
@@ -167,7 +167,7 @@ export class ToursForAuthorComponent implements OnInit {
         dialogRef.afterClosed().subscribe(() => {
           this.tours.forEach((t, index) => {
             if (t.id === tour.id) {
-                this.tours[index] = tour;  // Replace the existing tour directly
+                this.tours[index] = tour;  
             }
         });
         
