@@ -6,6 +6,7 @@ import { Problem } from './model/problem.model';
 import { environment } from 'src/env/environment';
 import { Equipment } from '../administration/model/equipment.model';
 import { TourReview } from './model/tour-reviews.model';
+import { ProblemComment } from './model/problem-comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,11 @@ export class MarketplaceService {
     return this.http.delete<TourReview>(environment.apiHost + 'tourReviewing/tourReview/' + tourReview.id);
   }
 
+  postProblemCommentAsTourist(comment : ProblemComment): Observable<Problem>{
+    return this.http.post<Problem>(environment.apiHost + 'problem/tourist/postComment', comment);
+  }
+  postProblemCommentAsAuthor(comment : ProblemComment): Observable<Problem>{
+    return this.http.post<Problem>(environment.apiHost + 'author/problem/postComment', comment);
+  }
   
 }
