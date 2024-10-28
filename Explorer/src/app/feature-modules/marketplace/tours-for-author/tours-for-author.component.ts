@@ -81,16 +81,28 @@ export class ToursForAuthorComponent implements OnInit {
     
 
   viewTourDetails(tour: Tour){
-  
-    this.selectedTour = tour;
-    this.getTourKeyPoints();
+
    
-    this.shouldViewTour = true;
+  
+    setTimeout(() => {
+      this.selectedTour = tour;
+      if(this.shouldViewTour == true)
+        this.shouldViewTour = false;
+    
+      setTimeout(() => {
+        this.getTourKeyPoints();
+         this.shouldViewTour = true;
+      }, 200);
+
+
+
+    }, 200);
+   
   }
 
   getTourKeyPoints() : void {
     let keyPointIds = this.selectedTour.keyPointIds || [];
-   
+   this.selectedKeypoints = [];
     keyPointIds.forEach(id => {
       this.authorService.getKeyPointById(id).subscribe({
         next: (result: KeyPoint) => {
@@ -124,7 +136,8 @@ export class ToursForAuthorComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(() => {
-          window.location.reload();  // Reloads the entire page
+        
+          
         });
       }
     });
@@ -136,5 +149,34 @@ export class ToursForAuthorComponent implements OnInit {
     window.location.reload();
   }
 
-  
+  notifyTourUpdated(tour: Tour):void
+  {
+    
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+
+      if(user !== null && user.role === 'author')
+      {
+       const dialogRef = this.dialog.open(KeypointDialogComponent, {
+          width: '20%',
+          height: '20%'
+
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          this.tours.forEach((t, index) => {
+            if (t.id === tour.id) {
+                this.tours[index] = tour;  // Replace the existing tour directly
+            }
+        });
+        
+          
+        });
+      }
+    });
+
+   
+
+  }
 }

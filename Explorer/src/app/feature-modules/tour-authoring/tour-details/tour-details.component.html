@@ -41,7 +41,7 @@
             </button></tr>
         </tbody>
     </table>
-  <div class="form-div"> <xp-keypoint-form (keypointAdded) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint" [registeringObj]="registerObj" (tourUpdated)="notifyTourUpdated()"></xp-keypoint-form></div>
+  <div class="form-div"> <xp-keypoint-form [tourKeyPoints]="keyPoints" (tourUpdated) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint" (tourUpdated)="notifyTourUpdated()" [registerObjRoute]="registerObjRoute"></xp-keypoint-form></div>
 </div>
     <button class="add-existing-btn" (click)="onAddExistingClicked()" color="accent" mat-raised-button>Add existing</button>
 

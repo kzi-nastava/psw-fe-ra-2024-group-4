@@ -15,15 +15,17 @@ export class KeypointFormComponent implements OnInit {
   keyPoints: KeyPoint[] = [];
 
   @Output() keypointsUpdated = new EventEmitter<null>();
-  @Output() tourUpdated = new EventEmitter<null>();
+  @Output() tourUpdated = new EventEmitter<Tour>();
   @Output() keypointAdded = new EventEmitter<KeyPoint>();
   
   @Input() keypoint: KeyPoint;
   @Input() shouldEdit: boolean = false;
   @Input() shouldAddKeypoint: boolean = false;
   @Input() tourToAdd: Tour;
-  
+  @Input() tourKeyPoints: KeyPoint[];
+
   @Input() registeringObj: boolean = false;
+  @Input() registerObjRoute: boolean = false;
 
   latitude: number = 0.0;
   longitude: number = 0.0;
@@ -46,7 +48,7 @@ export class KeypointFormComponent implements OnInit {
 
     if(this.user){
       this.service.getKeyPoints(this.user.id).subscribe({
-        next: (result: KeyPoint[]) => { this.keyPoints = result; },
+        next: (result: KeyPoint[]) => {  this.keyPoints = result; },
         error: (err: any) => console.log(err)
       })
     }
@@ -121,7 +123,7 @@ export class KeypointFormComponent implements OnInit {
       {
         
       
-
+     
       const keypoint: KeyPoint = {
 
         id: this.nextId,
@@ -142,12 +144,14 @@ export class KeypointFormComponent implements OnInit {
 
             if(this.shouldAddKeypoint && this.user)
               {
+                
       
               
                 this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
                   next: (result: Tour) => { 
                     this.keypointAdded.emit(keypoint);
-                    this.tourUpdated.emit();
+                    this.tourUpdated.emit(result);
+                    
                   },
                   error: (err: any) => console.log(err)
                 })
