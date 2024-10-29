@@ -10,6 +10,7 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { TourService } from '../../tour-authoring/tour.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-problem-ticket',
@@ -17,7 +18,7 @@ import { Tour } from '../../tour-authoring/model/tour.model';
   styleUrls: ['./problem-ticket.component.css']
 })
 export class ProblemTicketComponent implements OnInit {
-  @Input() problemm: Problem;
+  @Input() problem!: Problem;
   user: User | null = null;
   newCommentText: string = '';
   problem1: Problem; 
@@ -26,13 +27,15 @@ export class ProblemTicketComponent implements OnInit {
   roles: {[key: number]: String} = {}
   authorId: number = 0;
 
+
+
   newComment: ProblemComment = {
     problemId: 0,
     userId: 0,
     text: "",
     timeSent: new Date()
   }
-  problem : Problem = {
+  /*problem : Problem = {
     id: 5,
     userId: 1,
     tourId: 1,
@@ -54,9 +57,9 @@ export class ProblemTicketComponent implements OnInit {
         timeSent: new Date()
       },
     ],
-  };
+  };*/
 
-  constructor(private service: MarketplaceService, private authService: AuthService, private personInfoService: PersonInfoService, private tourService: TourService) {
+  constructor(private service: MarketplaceService, private authService: AuthService, private personInfoService: PersonInfoService, private tourService: TourService, private router: Router) {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       //console.log(this.user);
@@ -64,6 +67,11 @@ export class ProblemTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+    }, 200);
+    this.problem = history.state.problem;
+    //this.problem = this.problemm;
+    console.log('poslat problem', this.problem);
     this.setAuthorId();
     this.setRoles();
     this.setNames();
@@ -145,6 +153,10 @@ export class ProblemTicketComponent implements OnInit {
     })
     return authorId;
   }*/
+
+  returnToAll(): void{
+    this.router.navigate(['/problem']);
+  }
 
   setRoles(){
     this.roles[this.problem.userId] = 'Tourist';
