@@ -52,7 +52,12 @@ export class TourAuthoringService {
   updateObject(object: TourObject): Observable<TourObject> {
     return this.http.put<TourObject>(environment.apiHost + 'objectaddition/object/' + object.id, object);
 
+
   }
+
+  
+
+
   getNextKeypointId(userId: number) : Observable<number>{
     return this.http.get<number>(environment.apiHost + 'keypointaddition/keypoint/next-id/' + userId);
   

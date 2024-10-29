@@ -18,6 +18,7 @@ export class MapComponent {
   @Input() selectedLongitude: number;
   @Input() selectedTourPoints: KeyPoint[];
   @Input() objects: TourObject[] = [];
+  @Input() registerObjectRoute: boolean = false;
 
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
@@ -69,8 +70,17 @@ export class MapComponent {
 
     }
 
+    if(this.registerObjectRoute)
+    {
+      
+      this.setRoute(this.selectedTourPoints);
+      this.registerOnClick()
+     
+    }
+
     if(this.registeringObject && this.shouldEditKp)
       { 
+        
         this.showPoint();
         this.registerOnClick();
   
@@ -169,11 +179,11 @@ export class MapComponent {
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
     }).addTo(this.map);
 
-    routeControl.on('routesfound', function(e) {
+  /*  routeControl.on('routesfound', function(e) {
       var routes = e.routes;
       var summary = routes[0].summary;
       alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-    });
+    });*/
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
