@@ -5,6 +5,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-problem',
@@ -20,7 +21,7 @@ export class ProblemComponent implements OnInit{
   showProblemForm: boolean=false;
   user: User;
 
-  constructor(private service: MarketplaceService, private authService: AuthService){  }
+  constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user: User) => {
@@ -91,6 +92,11 @@ export class ProblemComponent implements OnInit{
   onProblemAdded(): void {
     this.getProblems();
     this.showProblemForm = false; 
+  }
+
+  openTicket(p: Problem) {
+    //console.log(p);
+    this.router.navigate(['/problem-ticket'], { state: { problem: p}});
   }
   
 
