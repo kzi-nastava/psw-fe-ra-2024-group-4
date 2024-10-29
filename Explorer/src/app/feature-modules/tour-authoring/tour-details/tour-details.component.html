@@ -43,37 +43,6 @@
     </table>
   <div class="form-div"> <xp-keypoint-form [tourKeyPoints]="keyPoints" (tourUpdated) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint" (tourUpdated)="notifyTourUpdated()" [registerObjRoute]="registerObjRoute"></xp-keypoint-form></div>
 </div>
-    <button class="add-existing-btn" (click)="onAddExistingClicked()" color="accent" mat-raised-button>Add existing</button>
-
-    <table *ngIf="shouldAddExisting" class="keypoints-table">
-        <thead>
-            <tr>
-               
-                <th>Name</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of previuslyCreatedKeyPoints">
-                
-                <td>{{ item.name }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.description }}</td>
-                <td><div class="imgContainer"><img [src]="getImage(item.image)" alt="Item Image" height="100"></div></td>
-                <td>
-                    <button class="create-new-btn" color="primary"  mat-flat-button (click) = "addKeypointToTour(item)">
-                        Add
-                     </button>
-                </td>
-               
-            </tr>
-            
-        </tbody>
-    </table>
+  
 </div>
 

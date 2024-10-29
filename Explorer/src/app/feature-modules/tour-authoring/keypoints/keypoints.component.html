@@ -34,14 +34,10 @@
                     </button>
                 </td>
             </tr>
-            <tr><button color="primary" (click)="onAddClicked()"  mat-icon-button>
-                <mat-icon>add</mat-icon>
-            </button></tr>
+           
         </tbody>
     </table>
-    <div class="keypoints-form-container">
-        <xp-keypoint-form  *ngIf="shouldRenderKeyPointForm" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint]="selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
-    </div>
+   
   
 </div>
 </div>
