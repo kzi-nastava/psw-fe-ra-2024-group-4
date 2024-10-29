@@ -8,5 +8,6 @@ export interface Problem{
     category: string,
     priority: number,
     time: Date,
+    isActive: boolean,
     comments: ProblemComment[]
 }

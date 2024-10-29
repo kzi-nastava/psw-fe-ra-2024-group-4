@@ -40,6 +40,7 @@ export class ProblemTicketComponent implements OnInit {
     description: 'Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema ',
     priority: 1,
     time: new Date(),
+    isActive: true,
     comments: [
       {
         problemId: 5,
