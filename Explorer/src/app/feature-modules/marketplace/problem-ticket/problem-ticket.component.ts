@@ -49,7 +49,7 @@ export class ProblemTicketComponent implements OnInit {
       },
       {
         problemId: 5,
-        userId: 2,
+        userId: 1,
         text: 'TestKomentar 2',
         timeSent: new Date()
       },
@@ -70,6 +70,9 @@ export class ProblemTicketComponent implements OnInit {
   }
 
   setAuthorId(){
+    if(this.user !== null && this.user.role==='author'){
+      this.authorId = this.user?.id;
+    }
     this.problem.comments.forEach(comment => {
       if(comment.userId !== this.problem.userId){
         this.authorId = comment.userId;
