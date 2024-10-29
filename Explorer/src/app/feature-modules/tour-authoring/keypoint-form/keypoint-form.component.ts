@@ -133,7 +133,8 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: this.keypointForm.value.imageBase64 || "" //ovde je bio problem
+        imageBase64: this.keypointForm.value.imageBase64 || "" ,//ovde je bio problem
+        tourId: this.tourToAdd.id || -1
       }
 
       
@@ -191,7 +192,8 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: this.keypointForm.value.imageBase64 || "" //nisam dirala jer je update
+        imageBase64: this.keypointForm.value.imageBase64 || "",
+        tourId: this.tourToAdd.id || -1 //nisam dirala jer je update
         
       }
       keypoint.id = this.keypoint.id;
