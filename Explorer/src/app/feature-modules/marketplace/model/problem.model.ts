@@ -1,3 +1,5 @@
+import { ProblemComment } from "./problem-comment.model";
+
 export interface Problem{
     id?: number,
     userId: number,
@@ -5,5 +7,6 @@ export interface Problem{
     description: string,
     category: string,
     priority: number,
-    time: Date
+    time: Date,
+    comments: ProblemComment[]
 }

@@ -4,6 +4,7 @@ import { MarketplaceService } from '../marketplace.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Problem } from '../model/problem.model';
+import { ProblemComment } from '../model/problem-comment.model';
 
 @Component({
   selector: 'xp-problem-form',
@@ -36,7 +37,8 @@ export class ProblemFormComponent {
         priority: parseInt(this.problemForm.value.priority ?? '0'),
         time: new Date(Date.now()),
         userId: this.user.id,
-        tourId: 1
+        tourId: 1,
+        comments: []
       };
 
       console.log("Problem to be sent:", problem);

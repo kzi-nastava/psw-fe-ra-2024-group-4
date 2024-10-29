@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="top-container">
+        <button class="return-button">Return</button>
+    </div>
+    <div class="main-container">
+        <div class="problem-info-section">
+            <div class="problem-info">
+                <p><strong>PROBLEM ID</strong></p>
+                <p>#{{problem.id}}</p>
+                <br>
+                <p><strong>CREATED BY</strong></p>
+                <p>{{userFullNames[problem.userId]}}</p>
+                <br>
+                <p><strong>CATEGORY</strong></p>
+                <p>{{problem.category}}</p>
+                <br>
+                <p><strong>PRIORITY</strong></p>
+                <p>{{problem.priority}}</p>
+                <br>
+                <p><strong>DATE CREATED</strong></p>
+                <p>{{problem.time | date: 'dd. MMMM yyyy. HH:mm'}}</p>
+                <br>
+                <p><strong>STATUS</strong></p>
+                <p>OPEN</p>
+                <br>
+            </div>  
+        </div>
+    
+    
+        <div class="comment-section">
+            <div class="problem-description-container">
+                <p><strong>PROBLEM DESCRIPTION</strong></p>
+                <p>{{problem.description}}</p>
+                <br>
+            </div>
+            <div class="comment" *ngFor="let comment of problem.comments">
+                <div class="comment-header">
+                  <div  class="profile-pic" >
+                  </div>
+                  <div class="commenter-info">
+                    <h4 class="commenter-name">{{ userFullNames[comment.userId] }}, {{roles[comment.userId]}}</h4>
+                    <span class="comment-date">{{ comment.timeSent | date: 'dd. MMMM yyyy. HH:mm' }}</span>
+                  </div>
+                </div>
+                <p class="comment-text">{{ comment.text }}</p> 
+            </div>
+            <div class="add-comment-container">
+                <p><strong>Add new comment:</strong></p>
+                <div class="new-comment-input-container">
+                  <textarea (input)="onCommentInput($event)" class="new-comment-text-input" type="text" placeholder="Write your comment here" [value]="newComment.text" >
+                  </textarea>
+                  <button class="submit-button" (click)="postComment()">Pošalji</button>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
