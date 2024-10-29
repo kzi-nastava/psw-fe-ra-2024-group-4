@@ -9,7 +9,7 @@
                 <p>#{{problem.id}}</p>
                 <br>
                 <p><strong>CREATED BY</strong></p>
-                <p>{{tourist?.username}}</p>
+                <p>{{userFullNames[problem.userId]}}</p>
                 <br>
                 <p><strong>CATEGORY</strong></p>
                 <p>{{problem.category}}</p>
@@ -38,7 +38,7 @@
                   <div  class="profile-pic" >
                   </div>
                   <div class="commenter-info">
-                    <h4 class="commenter-name">User {{ comment.userId }}, Role</h4>
+                    <h4 class="commenter-name">{{ userFullNames[comment.userId] }}, {{roles[comment.userId]}}</h4>
                     <span class="comment-date">{{ comment.timeSent | date: 'dd. MMMM yyyy. HH:mm' }}</span>
                   </div>
                 </div>
