@@ -19,7 +19,7 @@ export class MapComponent {
   @Input() selectedTourPoints: KeyPoint[];
   @Input() objects: TourObject[] = [];
   @Input() registerObjectRoute: boolean = false;
-
+  @Input() positionSimulatorActivated: boolean = false;
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
 
@@ -100,6 +100,11 @@ export class MapComponent {
       // this.drawRoute(this.selectedTourPoints);
     }
 
+    if(this.positionSimulatorActivated)
+    {
+      this.registerPosition();
+    }
+
   }
 
   
@@ -151,6 +156,33 @@ export class MapComponent {
       
       this.latitudeChanged.emit(lat);
       this.longitudeChanged.emit(lng);
+    });
+    this.plotExistingObjects();
+  }
+
+  registerPosition(): void {
+    
+   
+    this.map.on('click', (e: any) => {
+      
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      // this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+      //   console.log(res.display_name);
+      // });
+      // console.log(
+      //   'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+      // );
+
+      if (this.currentMarker) {
+        this.map.removeLayer(this.currentMarker);
+    }
+
+      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      
+      alert(lat)
+      alert(lng)
     });
     this.plotExistingObjects();
   }
