@@ -5,6 +5,10 @@ import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/ke
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
 import { TourObject } from 'src/app/feature-modules/tour-authoring/model/object.model';
 import { waitForAsync } from '@angular/core/testing';
+import { PositionSimulator } from 'src/app/feature-modules/tour-authoring/model/position-simulator.model';
+import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 
 @Component({
@@ -22,12 +26,18 @@ export class MapComponent {
   @Input() positionSimulatorActivated: boolean = false;
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
+  currentPosition: PositionSimulator;
 
   @Output() latitudeChanged = new EventEmitter<number>();
   @Output() longitudeChanged = new EventEmitter<number>();
+  @Output() touristPositionCreate = new EventEmitter<PositionSimulator>();
+  @Output() touristPositionUpdate = new EventEmitter<PositionSimulator>();
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+  
+   user: User;
+  
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -42,7 +52,7 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService) {}
+   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService) {}
 
    
    
@@ -99,12 +109,49 @@ export class MapComponent {
        console.log("SHOWING ROUTES");
       // this.drawRoute(this.selectedTourPoints);
     }
-
+   
+    this.getCurrentPosition();
     if(this.positionSimulatorActivated)
     {
+      
+     
+        
+      
       this.registerPosition();
     }
 
+  }
+
+  getCurrentPosition() : void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
+
+    if(this.user)
+    {
+
+      
+      this.service.getPositionByTourist(this.user.id).subscribe({
+        next: (result: PositionSimulator) => 
+        {
+          
+          this.currentPosition = result;
+          this.showCurrentPosition(this.currentPosition.longitude, this.currentPosition.latitude);
+          
+         
+        },
+        error: (err: any) => {
+          console.log("Error fetching position:", err);
+         
+      }
+       
+      })
+
+     
+  
+
+     
+    }
   }
 
   
@@ -131,6 +178,10 @@ export class MapComponent {
   showPoint() : void
   {
     this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude]).addTo(this.map);
+  }
+
+  showCurrentPosition(longitude: number, latitude: number){
+    this.currentMarker = new L.Marker([latitude, longitude]).addTo(this.map);
   }
 
   registerOnClick(): void {
@@ -168,12 +219,8 @@ export class MapComponent {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-      // this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-      //   console.log(res.display_name);
-      // });
-      // console.log(
-      //   'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-      // );
+      
+     
 
       if (this.currentMarker) {
         this.map.removeLayer(this.currentMarker);
@@ -181,8 +228,26 @@ export class MapComponent {
 
       this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
       
-      alert(lat)
-      alert(lng)
+      if(!this.currentPosition)
+        {
+          let newPosition: PositionSimulator = {
+            longitude: lng,
+            latitude: lng,
+            touristId: -1
+          } as PositionSimulator;
+          newPosition.longitude = lng;
+          newPosition.latitude = lat;
+         
+          this.touristPositionCreate.emit(newPosition);
+         
+        }
+        else
+        {
+          this.currentPosition.longitude = lng;
+          this.currentPosition.latitude = lat;
+          this.touristPositionUpdate.emit(this.currentPosition);
+        }
+     
     });
     this.plotExistingObjects();
   }
