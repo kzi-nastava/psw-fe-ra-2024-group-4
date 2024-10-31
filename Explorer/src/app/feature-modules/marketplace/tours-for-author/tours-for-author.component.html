@@ -13,10 +13,10 @@
                     <th>Price</th>
                     <th>Status</th>
                     <th>Tags</th>
+                    <th>Archive</th>
                     <th><button color="primary" (click)="onAddClicked()" mat-icon-button>
                         <mat-icon>add</mat-icon>
                     </button></th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -26,10 +26,32 @@
                     <td>{{tr.description}}</td>
                     <td>{{tr.difficulty}}</td>
                     <td>{{tr.price}}</td>
-                    <td>{{ tr.status === 0 ? 'Draft' : 'Published' }}</td>
-                    <td>{{ getTagNames(tr.tags).join(', ') }}</td>
-                    <td><button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button></td>
+                    <td>
+                        {{ 
+                            tr.status === 0 ? 'Draft' : 
+                            tr.status === 1 ? 'Published' : 
+                            tr.status === 2 ? 'Archived' : 
+                            '-' 
+                        }}
+                    </td>
                     
+                    <td>{{ getTagNames(tr.tags).join(', ') }}</td>
+                    <td>
+                        <ng-container *ngIf="tr.status === 2; else archiveButton">
+                            <button mat-icon-button color="primary" 
+                                (click)="reactivateTour(tr)">
+                                <mat-icon>replay</mat-icon> 
+                            </button>
+                        </ng-container>
+                        <ng-template #archiveButton>
+                            <button mat-icon-button color="primary" 
+                                [disabled]="tr.status !== 1"
+                                (click)="archiveTour(tr)">
+                                <mat-icon>archive</mat-icon> 
+                            </button>
+                        </ng-template>
+                    </td>                    
+                    <td><button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button></td>
                 </tr>
             </tbody>
         </table>
