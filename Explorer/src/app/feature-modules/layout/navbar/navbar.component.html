@@ -24,6 +24,13 @@
             <button *ngIf="user && user.username === ''"  mat-raised-button color="accent" [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''"  mat-raised-button color="accent" (click)="onLogout()">Logout</button>
         </div>
+
+        <div class="user-content" *ngIf="user && user.username !== ''">
+            <button mat-icon-button class="notification-button" [routerLink]="['notifications']">
+                <mat-icon class="notification-icon">notifications</mat-icon>
+            </button>
+        </div>
+        
         
         <div class="user-content" [routerLink]="['profile']" *ngIf="user && (user.role === 'tourist' || user.role === 'author')"  >  
             <mat-icon class="account-icon" >account_circle</mat-icon>
