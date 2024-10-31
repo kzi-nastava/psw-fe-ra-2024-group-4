@@ -60,7 +60,7 @@ export class ProblemComponent implements OnInit{
       return;
     }
     console.log(this.user.role);
-    if(this.user.role=='administrator'){
+    /*if(this.user.role=='administrator'){
       this.service.getProblems().subscribe({
         next: (result: PagedResults<Problem>) => {
           this.problems = result.results;
@@ -69,7 +69,28 @@ export class ProblemComponent implements OnInit{
           console.log(err);
         }
       });
-    }
+    }*/
+      if (this.user.role === 'administrator') {
+        this.service.getProblems().subscribe({
+          next: (result: PagedResults<Problem>) => {
+            const now = new Date();
+            // Prolazimo kroz probleme i označavamo one koji su aktivni i stariji od 5 dana
+            this.problems = result.results.map(problem => {
+              const reportedDate = new Date(problem.time);
+              const daysDifference = (now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24);
+    
+              // Ako je problem aktivan i stariji od 5 dana, obeležavamo ga kao "kasni"
+              return {
+                ...problem,
+                isLate: problem.isActive && daysDifference > 5
+              };
+            });
+          },
+          error: (err: any) => {
+            console.log(err);
+          }
+        });
+      }
     if(this.user.role=='tourist'){
       this.service.getProblemsByTouristId(this.user.id).subscribe({
         next: (result: Problem[]) => {

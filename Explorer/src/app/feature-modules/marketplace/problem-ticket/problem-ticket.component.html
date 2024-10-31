@@ -21,7 +21,7 @@
                 <p>{{problem.time | date: 'dd. MMMM yyyy. HH:mm'}}</p>
                 <br>
                 <p><strong>STATUS</strong></p>
-                <p>OPEN</p>
+                <p>{{problem.isActive ? 'OPEN' : 'CLOSED'}}</p>
                 <br>
             </div>  
         </div>
@@ -44,7 +44,7 @@
                 </div>
                 <p class="comment-text">{{ comment.text }}</p> 
             </div>
-            <div class="add-comment-container">
+            <div *ngIf="problem.isActive"  class="add-comment-container">
                 <p><strong>Add new comment:</strong></p>
                 <div class="new-comment-input-container">
                   <textarea (input)="onCommentInput($event)" class="new-comment-text-input" type="text" placeholder="Write your comment here" [value]="newComment.text" >
@@ -52,6 +52,25 @@
                   <button class="submit-button" (click)="postComment()">Pošalji</button>
                 </div>
               </div>
+              <div *ngIf="problem.isActive"  class="close-problem-container" >
+                <button class="close-problem-button"  (click)="toggleProblemStatus()">Close problem</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" *ngIf="isModalOpen" class="add-last-comment">
+        <div class="modal-content">
+            <p><strong>Add new comment before closing:</strong></p>
+            <textarea
+                (input)="onCommentInput($event)"
+                class="new-comment-text-input"
+                placeholder="Write your comment here"
+                [value]="newComment.text">
+            </textarea>
+            <div class="modal-buttons">
+                <button class="submit-button" (click)="submitAndClose()">Submit & Close</button>
+                <button class="cancel-button" (click)="closeModal()">Cancel</button>
+            </div>
         </div>
     </div>
 </div>

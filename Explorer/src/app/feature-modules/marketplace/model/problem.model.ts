@@ -9,5 +9,6 @@ export interface Problem{
     priority: number,
     time: Date,
     isActive: boolean,
-    comments: ProblemComment[]
+    comments: ProblemComment[],
+    isLate?: boolean
 }
