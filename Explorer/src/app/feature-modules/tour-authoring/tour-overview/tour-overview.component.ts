@@ -6,6 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
 import { KeyPoint } from '../model/keypoint.model';
 import { MapService } from 'src/app/shared/map/map.service';
+import { TourExecution } from '../model/tour-execution.model';
+import { TourExecutionService } from '../../tour-execution/tour-execution.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-overview',
@@ -14,13 +18,20 @@ import { MapService } from 'src/app/shared/map/map.service';
 })
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
+  user: User | null = null;
+  tourExecution: TourExecution;
   currentPage: 0;
   pageSize: 0;
   readonly dialog = inject(MatDialog);
+  isActive: boolean = false;
 
-  constructor(private tourOverviewService: TourOverviewService, private mapService: MapService) {}
+  constructor(private tourOverviewService: TourOverviewService, private mapService: MapService, private tourExecutionService: TourExecutionService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+    });
     this.loadTours();
   }
 
@@ -47,6 +58,24 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
+  }
+
+  startTour(tourId: number): void {
+
+    this.tourExecution.locationId = 20;
+    this.tourExecution.tourId = tourId;
+    this.tourExecution.status = 0;
+    this.tourExecution.touristId = this.user?.id;
+
+    this.tourExecutionService.startTourExecution(this.tourExecution).subscribe({
+      next: (data: TourExecution) => {
+        console.log('Tours loaded:', data);
+        this.isActive = true;
+      },
+      error: (err) => {
+        console.error('Error creating execution:', err);
+      }
+    });
   }
 
   openReviews(tourId: number): void {

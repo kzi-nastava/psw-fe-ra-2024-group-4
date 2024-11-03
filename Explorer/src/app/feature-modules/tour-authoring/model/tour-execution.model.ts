@@ -1,7 +1,7 @@
 export interface TourExecution {
     id?: number;
     tourId: number;
-    touristId: number;
+    touristId?: number;
     locationId?: number;
     lastActivicy?: Date;
     status: number;

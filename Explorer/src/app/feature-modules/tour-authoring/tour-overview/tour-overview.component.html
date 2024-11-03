@@ -21,6 +21,9 @@
             </mat-card-content>
 
             <mat-card-actions align="end">
+                <button *ngIf="!isActive" mat-button style="margin-right: 5vh;" (click)="startTour(t.tourId)">START TOUR</button>
+                <button *ngIf="isActive" mat-button style="margin-right: 5vh;" >COMPLETE TOUR</button>
+                <button *ngIf="isActive" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
                 <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
                 <button mat-button>BUY</button>
             </mat-card-actions>
