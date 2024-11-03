@@ -25,6 +25,12 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>
+
+                <td *ngIf="p.isLate">
+                    <button color="warn" (click)="showAlert(p)" mat-icon-button>
+                        <mat-icon>error</mat-icon>
+                    </button>
+                </td>
  
             </tr>
             <tr *ngIf="user.role == 'tourist'">

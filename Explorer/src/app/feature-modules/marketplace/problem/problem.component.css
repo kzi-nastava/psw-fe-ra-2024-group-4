@@ -51,9 +51,8 @@ tbody tr.active-row {
 .late-problem {
 
     color: red;                 
-    font-weight: bold;  
-    text-shadow: 0 0 5px rgba(248, 2, 2, 0.7), 
-    0 0 10px rgba(249, 9, 9, 0.5); 
+    font-weight: bold !important;  
+    /*text-shadow: 0 0 5px rgba(248, 2, 2, 0.7), 0 0 10px rgba(249, 9, 9, 0.5); */
    
 }
 .note {
