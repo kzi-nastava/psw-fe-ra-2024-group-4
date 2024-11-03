@@ -1,0 +1,9 @@
+.container {
+    height: 80vh;
+    width: 60vw;
+}
+
+mat-card {
+    width: auto;
+    height: 20;
+}

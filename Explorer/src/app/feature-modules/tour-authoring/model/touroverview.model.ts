@@ -2,13 +2,12 @@ import { TourReview } from "../../marketplace/model/tour-reviews.model";
 import { KeyPoint } from "./keypoint.model";
 
 export interface TourOverview {
-    id?: number;
-    name?: string;
-    imgUrl?: string;
-    description?: string;
-    difficulty?: number;
-    tags?: string[];
-    firstkeypoint?: KeyPoint;
+    tourId: number;
+    tourName: string;
+    tourDescription: string;
+    tourDifficulty: number;
+    tags: string[];
+    firstKeyPoint: KeyPoint;
     reviews?: TourReview[];
     rating?: number;
 }
