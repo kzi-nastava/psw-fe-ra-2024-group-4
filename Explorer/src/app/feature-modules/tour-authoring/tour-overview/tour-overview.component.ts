@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TourOverview } from '../model/touroverview.model';
 import { TourOverviewService } from '../tour-overview.service';
 import { Touroverview } from '../model/model/touroverview.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { MatDialog } from '@angular/material/dialog';
+import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
+import { KeyPoint } from '../model/keypoint.model';
 
 // Pomocna za dizaj kartice
 const pom: TourOverview = {
@@ -48,6 +51,7 @@ export class TourOverviewComponent implements OnInit {
   temp: TourOverview = pom;
   currentPage: 0;
   pageSize: 0;
+  readonly dialog = inject(MatDialog);
 
   constructor(private tourOverviewService: TourOverviewService) {}
 
@@ -59,7 +63,7 @@ export class TourOverviewComponent implements OnInit {
     this.tourOverviewService.getAllWithoutReviews().subscribe({
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
-        this.tours = data.results; // Assuming your API returns a 'results' property
+        this.tours = data.results;
       },
       error: (err) => {
         console.error('Error loading tours:', err);
@@ -78,5 +82,14 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
+  }
+
+  openReviews(tourId: number, firstKeyPoint: KeyPoint): void {
+    this.dialog.open(TourOverviewDetailsComponent, {
+      data: {
+        firstKeyPoint: firstKeyPoint,
+        tourId: tourId
+      },
+    });
   }
 }

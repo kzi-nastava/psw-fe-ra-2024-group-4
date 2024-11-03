@@ -4,6 +4,7 @@ import { environment } from 'src/env/environment';
 import { TourOverview } from './model/touroverview.model';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { TourReview } from '../marketplace/model/tour-reviews.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,9 @@ export class TourOverviewService {
 
   getAllWithoutReviews(): Observable<PagedResults<TourOverview>> {
     return this.http.get<PagedResults<TourOverview>>(`${this.apiUrl}`);
+  }
+
+  getReviewsByTourId(tourId: number): Observable<PagedResults<TourReview>> {
+    return this.http.get<PagedResults<TourReview>>(`${this.apiUrl}/${tourId}`);
   }
 }

@@ -10,14 +10,17 @@
                 </mat-card-subtitle>
             </mat-card-header>
 
-            <img mat-card-image src="">
+            <div class="img-container">
+                <img mat-card-image [src]="t.imgUrl" alt="{{ t.name }}">
+            </div>
 
             <mat-card-content>
                 <p>{{ t.description }}</p>
+                <!-- TODO: Dodati mapu -->
             </mat-card-content>
 
-            <mat-card-actions>
-                <button mat-button>SEE REVIEWS</button>
+            <mat-card-actions align="end">
+                <button mat-button (click)="openReviews(t.id, t.firstkeypoint)">SEE REVIEWS</button>
                 <button mat-button>BUY</button>
             </mat-card-actions>
         </mat-card>
