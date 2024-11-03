@@ -10,6 +10,5 @@ export interface Tour {
     price: number;
     userId: number;
     equipmentIds: number[] | null; 
-    keyPointIds: number[] | null; 
     keyPoints: KeyPoint[];
   }

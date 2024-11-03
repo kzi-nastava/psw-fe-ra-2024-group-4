@@ -131,19 +131,7 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      if(user !== null && user.role === 'author')
-      {
-       const dialogRef = this.dialog.open(KeypointDialogComponent, {
-          width: '20%',
-          height: '20%'
-
-        });
-
-        dialogRef.afterClosed().subscribe(() => {
-        
-          
-        });
-      }
+     
     });
     
 
@@ -160,7 +148,7 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      if(user !== null && user.role === 'author')
+    /*  if(user !== null && user.role === 'author')
       {
        const dialogRef = this.dialog.open(KeypointDialogComponent, {
           width: '20%',
@@ -177,7 +165,7 @@ export class ToursForAuthorComponent implements OnInit {
         
           
         });
-      }
+      }*/
     });
 
    
