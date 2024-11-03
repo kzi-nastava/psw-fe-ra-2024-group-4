@@ -1,4 +1,6 @@
+<header>
 <h1>Create tour</h1>
+</header>
 <div class="container">
     <form [formGroup]="tourForm">
         <div>
@@ -23,7 +25,7 @@
     </form>
 
     <div class="tags-container">
-        <h2>Select Tags</h2>
+        <header><h3>Select Tags</h3></header>
         <mat-selection-list>
             <div *ngFor="let tag of tourTags; let index = index">
                 <mat-checkbox 

@@ -11,8 +11,8 @@ body {
 
 
 :root {
-    --primary-color: #E8B8C0;
-    --secondary-color: #E8A7AF;
+    --primary-color: #e8a7b2;
+    --secondary-color: #e8949d;
     --third-color: #f2e6e9;
     --fourth-color: #e540ae;
     --highlight-color: #9b2735;
@@ -42,11 +42,22 @@ body {
     background-color: var(--highlight-color) !important;
 }
 
-header h1, header h2, header h3, header h4, header h5, header h6 {
+header h1, header h2 {
     font-family: 'Poppins', sans-serif !important;
     font-size: xx-large !important;
     margin-bottom: 2vh !important;
+    margin-top: 3vh !important;
+    font-weight: 500 !important;
 }
+header h3, header h4, header h5, header h6 {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: x-large !important;
+    margin-bottom: 2vh !important;
+    margin-top: 3vh !important;
+    font-weight: 500 !important;
+}
+
+
 
 .container {
     margin-top: 12vh !important;
