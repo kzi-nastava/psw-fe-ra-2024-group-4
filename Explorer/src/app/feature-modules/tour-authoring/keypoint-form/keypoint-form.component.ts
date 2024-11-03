@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, HostListener, ViewChild, ElementRef} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -14,6 +14,9 @@ import { Tour } from '../model/tour.model';
 export class KeypointFormComponent implements OnInit {
   keyPoints: KeyPoint[] = [];
 
+
+  @ViewChild('map') map!: ElementRef;
+
   @Output() keypointsUpdated = new EventEmitter<null>();
   @Output() tourUpdated = new EventEmitter<Tour>();
   @Output() keypointAdded = new EventEmitter<KeyPoint>();
@@ -27,6 +30,13 @@ export class KeypointFormComponent implements OnInit {
   @Input() registeringObj: boolean = false;
   @Input() registerObjRoute: boolean = false;
 
+
+  x = 0;
+  y = 0;
+  startX = 0;
+  startY = 0;
+  mapWidth = 700;  
+  mapHeight = 600; 
   latitude: number = 0.0;
   longitude: number = 0.0;
 
@@ -35,7 +45,7 @@ export class KeypointFormComponent implements OnInit {
 
 
   shouldEditKp: boolean = false;
-
+  isFormVisible: boolean = false;
 
   user: User | undefined;
   nextId: number = 0;
@@ -48,7 +58,11 @@ export class KeypointFormComponent implements OnInit {
 
     if(this.user){
       this.service.getKeyPoints(this.user.id).subscribe({
-        next: (result: KeyPoint[]) => {  this.keyPoints = result; },
+        next: (result: KeyPoint[]) => {
+            this.keyPoints = result; 
+            this.adjustMap();
+            this.adjustForm(0);
+          },
         error: (err: any) => console.log(err)
       })
     }
@@ -80,6 +94,23 @@ export class KeypointFormComponent implements OnInit {
     image: new FormControl('', [Validators.required]),
     imageBase64: new FormControl('')
   })
+
+
+  //ugasi onaj gore desno prozor sto smara kad iscrtava rutu ona skretanja/km itd
+  adjustMap(){
+    const leafletTopDiv = document.querySelector('.leaflet-control-container') as HTMLElement;
+    if (leafletTopDiv) {
+        leafletTopDiv.style.display = 'none'; 
+    }
+  }
+
+  adjustForm(opacity: any){
+    const form = document.querySelector('.form-map-container') as HTMLElement;
+    if(form){
+      form.style.opacity = opacity;
+    }
+   }
+
 
   setLongitude(newLongitude: number): void{
     
@@ -216,7 +247,45 @@ export class KeypointFormComponent implements OnInit {
             });
         };
         reader.readAsDataURL(file); 
-}
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+    this.isFormVisible=false;
+    this.adjustMap();
+    this.adjustForm(0);
+  }
+
+  // Metoda koja se pokreće na mouseup i proverava da li je reč o kliku
+  onMouseUp(event: MouseEvent) {
+    const endX = event.clientX;
+    const endY = event.clientY;
+
+    // Ako je razdaljina između start i end koordinata mala, tretiraj kao klik
+    if (Math.abs(endX - this.startX) < 5 && Math.abs(endY - this.startY) < 5) {
+      this.x = endX + 20 + window.scrollX;
+      this.y = endY + 100 + window.scrollY - 200;
+      this.isFormVisible = true;
+      this.adjustForm(1);
+    }
+  }
+
+  //ako je kliknuto van mape zatvorice formu
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent){
+    console.log(event);
+    const target = event.target as HTMLElement;
+    const isInsideMap = target.closest('.map-container');
+    const isInsideForm = target.closest('.keypoint-form-div')
+    if(!isInsideMap){
+      this.isFormVisible = false;
+    }
+    if(isInsideForm){
+      this.isFormVisible = true;
+    }
+  }
+
   
 
 }
