@@ -7,6 +7,7 @@ import { environment } from 'src/env/environment';
 import { Equipment } from '../administration/model/equipment.model';
 import { TourReview } from './model/tour-reviews.model';
 import { ProblemComment } from './model/problem-comment.model';
+import { Tour } from '../tour-authoring/model/tour.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,23 @@ export class MarketplaceService {
   }
   postProblemCommentAsAuthor(comment : ProblemComment): Observable<Problem>{
     return this.http.post<Problem>(environment.apiHost + 'author/problem/postComment', comment);
+  }
+
+  updateProblemStatus(id: number, isActive: boolean): Observable<Problem> {
+    return this.http.put<Problem>(environment.apiHost + `problem/updateStatus/${id}`, isActive);
+  }
+  closedProblemStatus(id: number, isActive: boolean): Observable<Problem> {
+    return this.http.put<Problem>(environment.apiHost + `problem/close/${id}`, isActive);
+  }
+  deleteTour(id: number): Observable<Tour> {
+    return this.http.delete<Tour>(environment.apiHost + `admin/tour/${id}`);
+  }
+  deleteProblemWithTour(id: number): Observable<Problem>{
+    return this.http.delete<Problem>(environment.apiHost + `problem/admin/${id}`);
+  }
+
+  getProblemById(id: number): Observable<Problem> {
+    return this.http.get<Problem>(environment.apiHost + `problem/find/${id}`);
   }
   
 }

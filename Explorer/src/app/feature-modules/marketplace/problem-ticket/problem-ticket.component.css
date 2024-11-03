@@ -118,3 +118,29 @@
     color: white;
     cursor: pointer;
 }
+
+.close-problem-button {
+    margin-top: 30px; /* Razmak između input polja i dugmeta */
+    margin-left: 150px;
+    padding: 5px 10px; /* Padding za dugme */
+    height: 40px; /* Da bude iste visine kao input */
+    border: none;
+    border-radius: 5px;
+    background-color: #f8c2ff; /* Plava boja za dugme */
+    color: white;
+    cursor: pointer;
+}
+.add-last-comment{
+    /*width: 50%; 
+    height: 75px;   
+    padding: 5px;*/
+   /* border: 1px solid #838282; /* Možda pokušajte sa border: none; da proverite da li je ovo uzrok */
+   border:none;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin: 10px auto 0;
+    box-shadow: none;
+    
+}

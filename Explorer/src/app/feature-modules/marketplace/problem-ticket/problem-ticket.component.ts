@@ -10,6 +10,7 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { TourService } from '../../tour-authoring/tour.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-problem-ticket',
@@ -17,7 +18,7 @@ import { Tour } from '../../tour-authoring/model/tour.model';
   styleUrls: ['./problem-ticket.component.css']
 })
 export class ProblemTicketComponent implements OnInit {
-  @Input() problemm: Problem;
+  @Input() problem!: Problem;
   user: User | null = null;
   newCommentText: string = '';
   problem1: Problem; 
@@ -25,6 +26,8 @@ export class ProblemTicketComponent implements OnInit {
   userFullNames: {[key: number]: String} = {}
   roles: {[key: number]: String} = {}
   authorId: number = 0;
+  isModalOpen = false;  
+  
 
   newComment: ProblemComment = {
     problemId: 0,
@@ -32,7 +35,7 @@ export class ProblemTicketComponent implements OnInit {
     text: "",
     timeSent: new Date()
   }
-  problem : Problem = {
+  /*problem : Problem = {
     id: 5,
     userId: 1,
     tourId: 1,
@@ -40,6 +43,7 @@ export class ProblemTicketComponent implements OnInit {
     description: 'Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema Ovo je deskripcija tehnickog problema ',
     priority: 1,
     time: new Date(),
+    isActive: true,
     comments: [
       {
         problemId: 5,
@@ -54,9 +58,9 @@ export class ProblemTicketComponent implements OnInit {
         timeSent: new Date()
       },
     ],
-  };
+  };*/
 
-  constructor(private service: MarketplaceService, private authService: AuthService, private personInfoService: PersonInfoService, private tourService: TourService) {
+  constructor(private service: MarketplaceService, private authService: AuthService, private personInfoService: PersonInfoService, private tourService: TourService, private router: Router) {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       //console.log(this.user);
@@ -64,10 +68,38 @@ export class ProblemTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+    }, 200);
+    this.problem = history.state.problem;
+
+
+    if (this.problem.id) {
+      this.loadProblem(this.problem.id);
+    }
+    //this.problem = this.problemm;
+    console.log('poslat problem', this.problem);
     this.setAuthorId();
     this.setRoles();
     this.setNames();
   }
+  loadProblem(problemId: number): void {
+    this.service.getProblemById(problemId).subscribe(
+      (problem: Problem) => {
+        this.problem = problem;
+        this.initializeComponent();
+      },
+      (error) => {
+        console.error('Error loading problem:', error);
+      }
+    );
+  }
+  initializeComponent(): void {
+    console.log('Problem loaded:', this.problem);
+    this.setAuthorId();
+    this.setRoles();
+    this.setNames();
+  }
+
 
   setAuthorId(){
     if(this.user !== null && this.user.role==='author'){
@@ -146,11 +178,112 @@ export class ProblemTicketComponent implements OnInit {
     return authorId;
   }*/
 
+  returnToAll(): void{
+    this.router.navigate(['/problem']);
+  }
+
   setRoles(){
     this.roles[this.problem.userId] = 'Tourist';
     this.roles[this.authorId] = 'Author';
 
   }
+
+  toggleProblemStatus(): void {
+    this.isModalOpen = true;
+
+    if (!this.hasAuthorComment()) {
+      alert('You cannot close this problem! Author must first add a comment before closing the issue.');
+      return;
+  }
+
+    if (!this.problem || typeof this.problem.id !== 'number') {
+      console.error('Problem nije definisan ili ID nije validan.');
+      return; 
+    }
+    const newStatus = !this.problem.isActive;
+    
+    this.service.updateProblemStatus(this.problem.id , newStatus).subscribe(
+      (updatedProblem: Problem) => {
+        this.problem = updatedProblem;
+        console.log('Updated problem status:', updatedProblem);
+      },
+      (error) => {
+        console.error('Error updating problem status:', error);
+      }
+    );
+  }
+  hasAuthorComment(): boolean {
+    // Proverite da li je autor u listi komentara
+    return this.problem.comments.some(comment => comment.userId === this.authorId);
+}
+
+  closeModal(): void {
+    this.isModalOpen = false;  // Zatvori modal bez akcije
+  }
+/*
+  submitAndClose(): void {
+    if (!this.newComment.text.trim()) {
+      console.error('Comment cannot be empty!');
+      return;
+    }
+
+    // Postavi podatke za novi komentar
+    this.newComment.problemId = this.problem.id;
+    this.newComment.userId = this.user?.id || 0;
+    this.problem.isActive = false;
+
+    // Pošalji komentar i zatvori problem
+    this.service.postProblemCommentAsTourist(this.newComment).subscribe(
+      (response: Problem) => {
+        this.problem = response;
+        this.toggleProblemStatus();  // Zatvori problem
+        this.isModalOpen = false;    // Zatvori modal
+        this.newComment.text = '';   // Resetuj tekst
+      },
+      (error) => {
+        console.error('Error posting comment:', error);
+      }
+    );
+  }*/
+    submitAndClose(): void {
+      if (!this.newComment.text.trim()) {
+        console.error('Comment cannot be empty!');
+        return;
+      }
+    
+      this.newComment.problemId = this.problem.id;
+      this.newComment.userId = this.user?.id || 0;
+      if (!this.problem || typeof this.problem.id !== 'number') {
+        console.error('Problem nije definisan ili ID nije validan.');
+        return; 
+      }
+      // Zatvori problem pre slanja komentara
+      this.problem.isActive = false;
+      this.service.updateProblemStatus(this.problem.id, false).subscribe(
+        () => {
+          this.postCommentAndClose(); // Nastavi sa slanjem komentara
+        },
+        (error) => {
+          console.error('Error updating problem status:', error);
+          this.isModalOpen = false; // Zatvori modal čak i ako ažuriranje nije uspelo
+        }
+      );
+    }
+    
+    postCommentAndClose(): void {
+      this.service.postProblemCommentAsTourist(this.newComment).subscribe(
+        (response: Problem) => {
+          this.problem = response;
+          console.log('Comment added and problem closed:', response);
+          this.isModalOpen = false; // Zatvori modal
+          this.newComment.text = ''; // Resetuj unos komentara
+        },
+        (error) => {
+          console.error('Error posting comment:', error);
+        }
+      );
+    }
+    
 
 
   onCommentInput(event: Event): void {
@@ -176,6 +309,7 @@ export class ProblemTicketComponent implements OnInit {
             this.problem = response;
             console.log(this.problem1);
 
+          
             this.newComment.text = ''; 
           },
           (error) => {

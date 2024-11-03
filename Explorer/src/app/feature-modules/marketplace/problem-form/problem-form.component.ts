@@ -38,6 +38,7 @@ export class ProblemFormComponent {
         time: new Date(Date.now()),
         userId: this.user.id,
         tourId: 1,
+        isActive: true,
         comments: []
       };
 
