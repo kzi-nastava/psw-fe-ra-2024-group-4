@@ -1,9 +1,44 @@
 .container {
-    height: 80vh;
-    width: 60vw;
+    padding: 20px;
+    width: 40vw;
+    margin: 0 auto;
 }
 
-mat-card {
-    width: auto;
-    height: 20;
+.review-list {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.comment {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+    width: 40vw;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.comment-content {
+    margin-left: 50px;
 }

@@ -49,10 +49,9 @@ export class TourOverviewComponent implements OnInit {
     }
   }
 
-  openReviews(tourId: number, firstKeyPoint: KeyPoint): void {
+  openReviews(tourId: number): void {
     this.dialog.open(TourOverviewDetailsComponent, {
       data: {
-        firstKeyPoint: firstKeyPoint,
         tourId: tourId
       },
     });

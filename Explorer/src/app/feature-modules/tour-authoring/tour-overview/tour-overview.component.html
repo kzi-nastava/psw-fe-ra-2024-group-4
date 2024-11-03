@@ -11,7 +11,9 @@
             </mat-card-header>
 
             <div class="img-container">
-                <!-- TODO: Add map with lon and lat form firstKeyPoint -->
+                <div class="map-container" >
+                    <xp-map [showingTour]="true" [selectedTourPoints]="[t.firstKeyPoint]"></xp-map>
+                </div>
             </div>
 
             <mat-card-content>
@@ -19,7 +21,7 @@
             </mat-card-content>
 
             <mat-card-actions align="end">
-                <button mat-button (click)="openReviews(t.tourId, t.firstKeyPoint)">SEE REVIEWS</button>
+                <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
                 <button mat-button>BUY</button>
             </mat-card-actions>
         </mat-card>
