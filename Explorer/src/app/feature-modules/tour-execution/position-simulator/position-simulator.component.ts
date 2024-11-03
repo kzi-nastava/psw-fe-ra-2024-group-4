@@ -18,7 +18,10 @@ export class PositionSimulatorComponent implements OnInit {
   constructor(private service: TourExecutionService, private authService: AuthService){}
 
   ngOnInit(): void {
-
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+    });
     this.positionSimulatorActivated = true;
    
     

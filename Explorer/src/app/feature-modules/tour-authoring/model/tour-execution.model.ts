@@ -5,10 +5,10 @@ export interface TourExecution {
     locationId?: number;
     lastActivicy?: Date;
     status: number;
-    completedKeyPoints?: CompletedKeyPoint[];
+    completedKeys?: CompletedKeys[];
 }
 
-export class CompletedKeyPoint{
+export class CompletedKeys{
     keyPointId: number;
     completionTime: Date;
   }

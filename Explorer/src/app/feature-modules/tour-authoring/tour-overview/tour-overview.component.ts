@@ -10,6 +10,7 @@ import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { PositionSimulator } from '../model/position-simulator.model';
 
 @Component({
   selector: 'xp-tour-overview',
@@ -19,11 +20,13 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
   user: User | null = null;
-  tourExecution: TourExecution;
+  tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
   pageSize: 0;
   readonly dialog = inject(MatDialog);
+  activeTourId: number | null = null;
   isActive: boolean = false;
+  position: PositionSimulator | null = null;
 
   constructor(private tourOverviewService: TourOverviewService, private mapService: MapService, private tourExecutionService: TourExecutionService, private authService: AuthService) {}
 
@@ -31,7 +34,20 @@ export class TourOverviewComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
+      if (user) {
+        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
+            next: (position: PositionSimulator) => {
+                console.log('Position retrieved:', position);
+                this.position = position;
+            },
+            error: (err) => {
+                console.error('Error retrieving position:', err);
+            }
+        });
+    }
     });
+
+    
     this.loadTours();
   }
 
@@ -61,21 +77,59 @@ export class TourOverviewComponent implements OnInit {
   }
 
   startTour(tourId: number): void {
+    if (!this.position) {
+        console.error('Position is null. Cannot start tour without a position.');
+        return;
+    }
 
-    this.tourExecution.locationId = 20;
-    this.tourExecution.tourId = tourId;
-    this.tourExecution.status = 0;
-    this.tourExecution.touristId = this.user?.id;
+    // Ensure tourExecution is initialized with all required properties
+    this.tourExecution = {
+        locationId: this.position.id,
+        tourId: tourId,
+        status: 0,
+        lastActivicy: new Date(),
+        touristId: this.user?.id || 0, // Default to 0 if user ID is null
+        completedKeys: [] // Ensure this is sent as an empty array
+    };
 
     this.tourExecutionService.startTourExecution(this.tourExecution).subscribe({
+        next: (data: TourExecution) => {
+            console.log('Tour execution started:', data);
+            this.isActive = true;
+            this.activeTourId = tourId;
+        },
+        error: (err) => {
+            console.error('Error creating execution:', err);
+        }
+    });
+}
+
+  completeTourExecution(tourId: number)
+  {
+    this.tourExecutionService.completeTourExecution(1).subscribe({ /*treba da dobavim execution...*/ 
       next: (data: TourExecution) => {
-        console.log('Tours loaded:', data);
-        this.isActive = true;
+          console.log('Tour execution started:', data);
+          this.isActive = true;
+          this.activeTourId = tourId;
       },
       error: (err) => {
-        console.error('Error creating execution:', err);
+          console.error('Error creating execution:', err);
       }
-    });
+  });
+  }
+
+  abandonTourExecution(tourId: number)
+  {
+    this.tourExecutionService.abandonTourExecution(1).subscribe({ /*treba da dobavim execution...*/ 
+      next: (data: TourExecution) => {
+          console.log('Tour execution started:', data);
+          this.isActive = true;
+          this.activeTourId = tourId;
+      },
+      error: (err) => {
+          console.error('Error creating execution:', err);
+      }
+  });
   }
 
   openReviews(tourId: number): void {
