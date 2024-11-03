@@ -11,7 +11,7 @@ import { TourReview } from '../marketplace/model/tour-reviews.model';
 })
 export class TourOverviewService {
 
-  private apiUrl = `${environment.apiHost}person/tourOverview`
+  private apiUrl = `${environment.apiHost}tour/tourOverview`
 
   constructor(private http: HttpClient) { }
 

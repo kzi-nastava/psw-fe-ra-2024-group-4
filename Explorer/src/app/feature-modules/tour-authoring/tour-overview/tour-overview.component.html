@@ -2,7 +2,7 @@
     <div *ngFor="let t of tours">
         <mat-card>
             <mat-card-header>
-                <mat-card-title>{{ t.name }}</mat-card-title>
+                <mat-card-title>{{ t.tourName }}</mat-card-title>
                 <mat-card-subtitle>
                     <span *ngFor="let tag of t.tags; let isFirst = first">
                         <mat-chip>{{ tag }}</mat-chip>
@@ -11,16 +11,15 @@
             </mat-card-header>
 
             <div class="img-container">
-                <img mat-card-image [src]="t.imgUrl" alt="{{ t.name }}">
+                <!-- TODO: Add map with lon and lat form firstKeyPoint -->
             </div>
 
             <mat-card-content>
-                <p>{{ t.description }}</p>
-                <!-- TODO: Dodati mapu -->
+                <p>{{ t.tourDescription }}</p>
             </mat-card-content>
 
             <mat-card-actions align="end">
-                <button mat-button (click)="openReviews(t.id, t.firstkeypoint)">SEE REVIEWS</button>
+                <button mat-button (click)="openReviews(t.tourId, t.firstKeyPoint)">SEE REVIEWS</button>
                 <button mat-button>BUY</button>
             </mat-card-actions>
         </mat-card>
