@@ -40,7 +40,7 @@ export class TourDetailsComponent implements OnInit {
  
 
   getTourKeyPoints() : void {
-    this.keyPointIds = this.tour.keyPointIds || [];
+   /* this.keyPointIds = this.tour.keyPointIds || [];
     this.keyPoints = []
     this.keyPointIds.forEach(id => {
       this.service.getKeyPointById(id).subscribe({
@@ -50,8 +50,9 @@ export class TourDetailsComponent implements OnInit {
         error: (err: any) => console.log(err)
 
       })
-    })
-
+    })*/
+   this.keyPoints = this.tour.keyPoints;
+   
    // this.keyPoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
 
     
@@ -59,7 +60,7 @@ export class TourDetailsComponent implements OnInit {
   }
 
 
-  getKeyPoints() : void {
+  /*getKeyPoints() : void {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
@@ -91,14 +92,14 @@ export class TourDetailsComponent implements OnInit {
   }
 
 
-  }
+  }*/
 
-  onAddExistingClicked() {
+ /* onAddExistingClicked() {
     this.shouldAddExisting = true;
     this.getKeyPoints();
-  }
+  }*/
 
-  addKeypointToTour(keypoint: KeyPoint)
+  /*addKeypointToTour(keypoint: KeyPoint)
   {
     let tourid = this.tour.id;
     this.previuslyCreatedKeyPoints = this.previuslyCreatedKeyPoints.filter(kp => kp.id != keypoint.id);
@@ -117,7 +118,7 @@ export class TourDetailsComponent implements OnInit {
 
     }
     
-  }
+  }*/
 
   
   getImage(image: string)

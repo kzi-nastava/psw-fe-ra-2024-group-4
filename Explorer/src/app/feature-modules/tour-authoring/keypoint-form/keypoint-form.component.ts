@@ -141,7 +141,7 @@ export class KeypointFormComponent implements OnInit {
       this.service.createKeyPoint(keypoint).subscribe({
          next: (_) => {
             this.keypointsUpdated.emit();
-            this.keyPoints.length += 1;
+            /*this.keyPoints.length += 1;
 
             if(this.shouldAddKeypoint && this.user)
               {
@@ -157,7 +157,7 @@ export class KeypointFormComponent implements OnInit {
                   error: (err: any) => console.log(err)
                 })
           
-              }
+              }*/
 
          }
       });
