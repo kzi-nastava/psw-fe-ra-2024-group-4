@@ -20,6 +20,7 @@ import { NecessaryEquipmentComponent } from 'src/app/feature-modules/tour-author
 import { ObjectViewComponent } from 'src/app/feature-modules/layout/object-view/object-view.component';
 import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/app-review.component';
 import { PersonEquipmentComponent } from 'src/app/feature-modules/person.info/person-equipment/person-equipment.component';
+import { TourOverviewComponent } from 'src/app/feature-modules/tour-authoring/tour-overview/tour-overview.component';
 
 
 
@@ -62,6 +63,7 @@ const routes: Routes = [
   {path: 'problem', component: ProblemComponent, canActivate: [AuthGuard]},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
+  {path: 'tour-overview', component: TourOverviewComponent},
 ];
 
 @NgModule({
