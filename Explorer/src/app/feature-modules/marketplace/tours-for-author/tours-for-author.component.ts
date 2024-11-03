@@ -179,4 +179,36 @@ export class ToursForAuthorComponent implements OnInit {
    
 
   }
+
+  archiveTour(tour: Tour): void {
+    if (tour.status !== 1) {
+      console.log("Only published tours can be archived.");
+      return;
+    }
+    tour.status = 2; 
+    this.service.archiveTour(tour).subscribe({
+      next: () => {
+        console.log(`Tour ${tour.name} archived successfully.`);
+        this.getTours(this.user?.id!); 
+      },
+      error: (error) => console.error('Error archiving tour:', error)
+    });
+  }
+
+  reactivateTour(tour: Tour): void {
+    if (tour.status !== 2) {
+        console.log("Only archived tours can be reactivated.");
+        return;
+    }
+    tour.status = 1; 
+    this.service.reactivateTour(tour).subscribe({
+        next: () => {
+            console.log(`Tour ${tour.name} reactivated successfully.`);
+            this.getTours(this.user?.id!); 
+        },
+        error: (error) => console.error('Error reactivating tour:', error)
+    });
+}
+
+  
 }
