@@ -60,6 +60,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results; // Assuming your API returns a 'results' property
+        console.log(this.tours);
       },
       error: (err) => {
         console.error('Error loading tours:', err);
