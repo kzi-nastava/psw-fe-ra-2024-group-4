@@ -50,6 +50,9 @@ header h1, header h2, header h3, header h4, header h5, header h6 {
 
 .container {
     margin-top: 12vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button {
@@ -134,3 +137,6 @@ mat-form-field{
     height: 70px
 }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
