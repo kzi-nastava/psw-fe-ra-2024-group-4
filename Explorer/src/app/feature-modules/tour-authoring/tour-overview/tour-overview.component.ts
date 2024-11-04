@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
 import { KeyPoint } from '../model/keypoint.model';
 import { MapService } from 'src/app/shared/map/map.service';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { CartService } from '../cart-overview.service';
 
 @Component({
   selector: 'xp-tour-overview',
@@ -18,7 +21,14 @@ export class TourOverviewComponent implements OnInit {
   pageSize: 0;
   readonly dialog = inject(MatDialog);
 
-  constructor(private tourOverviewService: TourOverviewService, private mapService: MapService) {}
+  private cartItemCount = new BehaviorSubject<number>(0);
+  cartItemCount$ = this.cartItemCount.asObservable(); 
+
+
+  constructor(private tourOverviewService: TourOverviewService, 
+    private mapService: MapService, 
+    private router: Router,
+    private cartService: CartService) {}
 
   ngOnInit(): void {
     this.loadTours();
@@ -55,5 +65,29 @@ export class TourOverviewComponent implements OnInit {
         tourId: tourId
       },
     });
+  }
+
+  addToCart(tour: TourOverview): void {
+    this.cartService.addToCart({
+      tourId : tour.tourId,
+      tourName: tour.tourName, 
+      price: tour.price 
+    });
+    const currentCount = this.cartItemCount.value;
+    this.cartItemCount.next(currentCount + 1); 
+  }
+
+//   addToCart(tour: TourOverview): void {
+//     const fullTour = this.cartService.getTourById(tour.tourId); 
+//     this.cartService.addToCart({
+//         tourName: tour.tourName, 
+//         price: fullTour ? fullTour.price : 0 
+//     });
+//     const currentCount = this.cartItemCount.value;
+//     this.cartItemCount.next(currentCount + 1); 
+// }
+
+  openCart(): void {
+    this.router.navigate(['/cart']);
   }
 }

@@ -1,0 +1,18 @@
+<div class="cart-overview">
+  
+    <div *ngFor="let item of cartItems">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ item.tourName }}</mat-card-title>
+          <mat-card-subtitle>Price: {{ item.price }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  
+    <div class="total">
+      <h3>Total: {{ totalPrice | currency }}</h3>
+    </div>
+  
+    <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+  </div>
+  
