@@ -77,7 +77,7 @@ export class CreateTourComponent  implements OnChanges {
       price: 0,
       userId: this.user.id,
       equipmentIds: [],
-      keyPointIds: []
+      keyPoints: []
     };
     console.log(tour);
     this.service.addTour(tour).subscribe({
