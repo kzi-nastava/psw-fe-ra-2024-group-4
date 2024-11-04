@@ -57,7 +57,7 @@ export class TourOverviewComponent implements OnInit {
         next: (result: ShoppingCart[]) => {
           if(result[0])
            { this.shoppingCart = result[0];
-            alert(this.shoppingCart.id);
+           
           
              }  else
             this.createNewCart(this.user.id);
@@ -102,6 +102,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
+       
       },
       error: (err) => {
         console.error('Error loading tours:', err);
