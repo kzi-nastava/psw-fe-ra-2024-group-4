@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, numberAttribute, OnInit } from '@angular/core';
 import { TourOverview } from '../model/touroverview.model';
 import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -22,6 +22,7 @@ export class TourOverviewComponent implements OnInit {
   user: User | null = null;
   tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
+  tourExecutions: Map<number, TourExecution> = new Map();
   pageSize: 0;
   readonly dialog = inject(MatDialog);
   activeTourId: number | null = null;
@@ -56,6 +57,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
+        this.loadTourExecutions();
       },
       error: (err) => {
         console.error('Error loading tours:', err);
@@ -96,7 +98,6 @@ export class TourOverviewComponent implements OnInit {
         next: (data: TourExecution) => {
             console.log('Tour execution started:', data);
             this.isActive = true;
-            this.activeTourId = tourId;
         },
         error: (err) => {
             console.error('Error creating execution:', err);
@@ -104,32 +105,40 @@ export class TourOverviewComponent implements OnInit {
     });
 }
 
-  completeTourExecution(tourId: number)
+  completeTourExecution(tourExecutionId?: number)
   {
-    this.tourExecutionService.completeTourExecution(1).subscribe({ /*treba da dobavim execution...*/ 
-      next: (data: TourExecution) => {
-          console.log('Tour execution started:', data);
-          this.isActive = true;
-          this.activeTourId = tourId;
-      },
-      error: (err) => {
-          console.error('Error creating execution:', err);
-      }
-  });
+    
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+    {
+      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
+        next: (data: TourExecution) => {
+            console.log('Tour execution started:', data);
+            this.isActive = false;
+            this.loadTourExecutions()
+        },
+        error: (err) => {
+            console.error('Error creating execution:', err);
+        }
+    });
+    }
+    
   }
 
-  abandonTourExecution(tourId: number)
+  abandonTourExecution(tourExecutionId?: number)
   {
-    this.tourExecutionService.abandonTourExecution(1).subscribe({ /*treba da dobavim execution...*/ 
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+      {
+    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
       next: (data: TourExecution) => {
           console.log('Tour execution started:', data);
-          this.isActive = true;
-          this.activeTourId = tourId;
+          this.isActive = false;
+          this.loadTourExecutions()
       },
       error: (err) => {
           console.error('Error creating execution:', err);
       }
   });
+}
   }
 
   openReviews(tourId: number): void {
@@ -139,4 +148,25 @@ export class TourOverviewComponent implements OnInit {
       },
     });
   }
+
+  loadTourExecutions(): void {
+    if (this.user) {
+        this.tours.forEach((tour) => {
+            this.tourExecutionService.getTourExecutionByTourAndTourist(this.user!.id, tour.tourId).subscribe({
+              next: (execution: TourExecution | null) => {
+                if (execution) {
+                    this.tourExecutions.set(tour.tourId, execution);
+                    if(execution.status === 0)
+                      this.isActive = true;
+                } else {
+                
+                }
+            },
+                error: (err) => {
+                    console.error(`Error loading execution for tour ${tour.tourId}:`, err);
+                }
+            });
+        });
+    }
+}
 }

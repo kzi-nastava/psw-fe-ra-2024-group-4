@@ -31,16 +31,20 @@ export class TourExecutionService {
   completeTourExecution(executionId: number): Observable<TourExecution> {
     return this.http.post<TourExecution>(
         environment.apiHost + 'tourist/execution/complete/' + executionId,
-        {} // Adding an empty object as the body
+        {} 
     );
   }
 
   abandonTourExecution(executionId: number): Observable<TourExecution> {
     return this.http.post<TourExecution>(
         environment.apiHost + 'tourist/execution/abandon/' + executionId,
-        {} // Adding an empty object as the body
+        {} 
     );
   }
+
+  getTourExecutionByTourAndTourist(touristId: number, tourId: number): Observable<TourExecution> {
+    return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/by_tour_and_tourist/${touristId}/${tourId}`);
+}
 
 
 }
