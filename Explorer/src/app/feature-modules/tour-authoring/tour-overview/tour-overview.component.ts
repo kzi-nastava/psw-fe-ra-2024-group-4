@@ -98,6 +98,7 @@ export class TourOverviewComponent implements OnInit {
         next: (data: TourExecution) => {
             console.log('Tour execution started:', data);
             this.isActive = true;
+            this.loadTourExecutions();
         },
         error: (err) => {
             console.error('Error creating execution:', err);
@@ -132,7 +133,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: TourExecution) => {
           console.log('Tour execution started:', data);
           this.isActive = false;
-          this.loadTourExecutions()
+          this.loadTourExecutions();
       },
       error: (err) => {
           console.error('Error creating execution:', err);
