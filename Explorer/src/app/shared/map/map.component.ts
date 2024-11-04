@@ -293,7 +293,7 @@ export class MapComponent {
 
   drawRoute(keyPoints: KeyPoint[]): void{
     keyPoints.forEach(keyPoint =>{
-     // const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
+      const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
     });
   }
 

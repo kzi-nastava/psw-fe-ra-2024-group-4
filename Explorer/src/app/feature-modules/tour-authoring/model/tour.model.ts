@@ -1,3 +1,5 @@
+import { KeyPoint } from "./keypoint.model";
+
 export interface Tour {
     id?: number;
     name: string;
@@ -11,5 +13,5 @@ export interface Tour {
     publishedTime?: Date;
     archiveTime?: Date;
     equipmentIds: number[] | null; 
-    keyPointIds: number[] | null; 
+    keyPoints: KeyPoint[];
   }

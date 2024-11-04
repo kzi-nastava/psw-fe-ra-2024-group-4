@@ -139,25 +139,11 @@ export class KeypointFormComponent implements OnInit {
 
       
       this.service.createKeyPoint(keypoint).subscribe({
-         next: (_) => {
+         next: (result: KeyPoint) => {
             this.keypointsUpdated.emit();
-            this.keyPoints.length += 1;
-
-            if(this.shouldAddKeypoint && this.user)
-              {
-                
-      
-              
-                this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
-                  next: (result: Tour) => { 
-                    this.keypointAdded.emit(keypoint);
-                    this.tourUpdated.emit(result);
-                    
-                  },
-                  error: (err: any) => console.log(err)
-                })
+            this.tourToAdd.keyPoints.push(result);
+            this.tourUpdated.emit(this.tourToAdd);
           
-              }
 
          }
       });
@@ -166,10 +152,6 @@ export class KeypointFormComponent implements OnInit {
     }
   });
 
-      
-     
-
-     
 
     
     }
