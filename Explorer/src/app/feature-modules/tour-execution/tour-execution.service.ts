@@ -42,6 +42,13 @@ export class TourExecutionService {
     );
   }
 
+  completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {
+    return this.http.put<TourExecution>(
+      `${environment.apiHost}tour/completeKeyPoint/${executionId}/${keyPointId}`,
+      {} // Dodavanje praznog objekta kao telo, ako je potrebno
+    );
+  }
+  
 
 }
 
