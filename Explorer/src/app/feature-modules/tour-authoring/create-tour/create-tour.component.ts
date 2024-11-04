@@ -80,7 +80,7 @@ export class CreateTourComponent  implements OnChanges {
       publishedTime: undefined,
       archiveTime: undefined,
       equipmentIds: [],
-      keyPointIds: []
+      keyPoints: []
     };
     console.log(tour);
     this.service.addTour(tour).subscribe({
