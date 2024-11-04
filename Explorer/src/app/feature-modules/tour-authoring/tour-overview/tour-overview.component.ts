@@ -9,6 +9,10 @@ import { MapService } from 'src/app/shared/map/map.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../cart-overview.service';
+import { OrderItem } from '../model/order-item.model';
+import { ShoppingCart } from '../model/shopping-cart.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 @Component({
   selector: 'xp-tour-overview',
@@ -24,16 +28,75 @@ export class TourOverviewComponent implements OnInit {
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable(); 
 
+  orderItem: OrderItem;
+  shoppingCart: ShoppingCart;
+  user: User;
+  userPurchases: ShoppingCart[];
+
 
   constructor(private tourOverviewService: TourOverviewService, 
     private mapService: MapService, 
     private router: Router,
-    private cartService: CartService) {}
+    private cartService: CartService,
+  private authService: AuthService) {}
 
   ngOnInit(): void {
+
+    this.orderItem = {
+      id: 0, // optional, can be undefined
+      tourName: '', // provide a default string or an actual value
+      price: 0,
+      tourId: 0,
+      cartId: 0
+    };
+
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      
+      this.cartService.getCartsByUser(this.user.id).subscribe({
+        next: (result: ShoppingCart[]) => {
+          if(result[0])
+           { this.shoppingCart = result[0];
+            alert(this.shoppingCart.id);
+          
+             }  else
+            this.createNewCart(this.user.id);
+        }
+      })
+      
+     
+      
+     
+    });
     this.loadTours();
+    
+
+   
   }
 
+  createNewCart(userId: number): void
+  {
+    this.shoppingCart = {
+      userId: userId, // or undefined if optional
+      items: [],
+      purchaseTokens: [],
+      totalPrice: 0
+    };
+
+    
+
+    
+
+      this.cartService.createShoppingCart(this.shoppingCart).subscribe({
+        next: (result: ShoppingCart) => { 
+          this.shoppingCart = result;
+        
+        
+        },
+        error: (err: any) => alert("Error creating cart.")
+      } );
+  }
+  
   loadTours(): void {
     this.tourOverviewService.getAllWithoutReviews().subscribe({
       next: (data: PagedResults<TourOverview>) => {
@@ -68,13 +131,35 @@ export class TourOverviewComponent implements OnInit {
   }
 
   addToCart(tour: TourOverview): void {
-    this.cartService.addToCart({
+   /* this.cartService.addToCart({
       tourId : tour.tourId,
       tourName: tour.tourName, 
       price: tour.price 
     });
     const currentCount = this.cartItemCount.value;
-    this.cartItemCount.next(currentCount + 1); 
+    this.cartItemCount.next(currentCount + 1); */
+
+    this.orderItem.cartId = this.shoppingCart.id || -1;
+    this.orderItem.tourName = tour.tourName;
+    this.orderItem.price = tour.price || 0.0;
+    this.orderItem.tourId = tour.tourId;
+
+
+   
+          this.cartService.addToCart(this.orderItem).subscribe({
+            next: (result: OrderItem) => {
+              alert("Item successfully added.");
+            },
+            error: (err:any) => alert("Error adding item.")
+          });
+        
+        
+      
+
+    const currentCount = this.cartItemCount.value;
+    this.cartItemCount.next(currentCount + 1);
+   
+   
   }
 
 //   addToCart(tour: TourOverview): void {
@@ -87,7 +172,7 @@ export class TourOverviewComponent implements OnInit {
 //     this.cartItemCount.next(currentCount + 1); 
 // }
 
-  openCart(): void {
-    this.router.navigate(['/cart']);
+  openCart(cartId: number): void {
+    this.router.navigate([`/cart/${cartId}`]);
   }
 }

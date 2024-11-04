@@ -58,7 +58,7 @@ const routes: Routes = [
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
-  {path: 'cart', component: CartOverviewComponent},
+  {path: 'cart/:cartId', component: CartOverviewComponent},
 ];
 
 @NgModule({

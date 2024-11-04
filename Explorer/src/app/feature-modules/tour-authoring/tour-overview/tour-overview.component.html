@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <div class="container">
-        <button mat-icon-button (click)="openCart()" [matBadge]="cartItemCount$ | async" matBadgeColor="warn">
+        <button mat-icon-button (click)="openCart(shoppingCart.id || -1)" [matBadge]="cartItemCount$ | async" matBadgeColor="warn">
             <mat-icon>shopping_cart</mat-icon>
           </button>
     </div>
