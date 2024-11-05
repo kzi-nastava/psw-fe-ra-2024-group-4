@@ -11,6 +11,7 @@ import { KeypointDialogComponent } from '../keypoint-dialog/keypoint-dialog.comp
 import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { Subscription } from 'rxjs';
+import { MapService } from 'src/app/shared/map/map.service';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -55,13 +56,7 @@ export class ToursForAuthorComponent implements OnInit {
       {
         this.getTours(user.id);
 
-        this.lengthUpdatedSubscription = this.service.routeUpdated$.subscribe(() => {
-          setTimeout(() => {
-            this.getTours(this.user?.id!); 
-            console.log('pozoiva se');
-          }, 200);
-          ;
-        });
+        
       }
     });
     
@@ -73,7 +68,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
-        console.log(this.tours);
+        console.log(this.tours[0].keyPoints[0].tourId);
        
       },
       error: (error) => {
@@ -81,6 +76,16 @@ export class ToursForAuthorComponent implements OnInit {
         
       }
     });
+  }
+
+  onDistanceChanged(newDistance: number) {
+  console.log('tours for author')
+    if(this.user?.id != null) {
+      this.getTours(this.user?.id)
+    } else {
+      console.log("UserId is null.")
+    }
+    
   }
 
   getTagNames(tags: number[]): string[] {

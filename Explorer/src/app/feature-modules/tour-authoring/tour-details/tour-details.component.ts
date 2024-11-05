@@ -17,6 +17,7 @@ export class TourDetailsComponent implements OnInit {
   @Input() tour: Tour;
   @Input() tourKeypoints: KeyPoint[] = [];
   @Output() tourUpdated = new EventEmitter<Tour>();
+  @Output() distanceChanged = new EventEmitter<number>();
   
   keyPoints: KeyPoint[] = [];
   previuslyCreatedKeyPoints: KeyPoint[] = [];
@@ -85,6 +86,13 @@ export class TourDetailsComponent implements OnInit {
     
  
 
+  }
+
+  
+
+  onDistanceChanged(newDistance: number) {
+    this.distanceChanged.emit(newDistance);
+    console.log('tour details')
   }
 
   notifyTourUpdated(): void{

@@ -50,17 +50,7 @@ import { environment } from "src/env/environment";
       return this.http.put('https://localhost:44333/api/author/tour/reactivate/' + tour.id, tour.userId);
     }
 
-    updateTourDistance(id: number, length: number): Observable<any> {
-      console.log('pozvana funksija iz servisa'+length+id);
-      return this.http.put('https://localhost:44333/api/author/tour/updateDistance/'+ id, length);
-    }
-
-    private lengthUpdatedSource = new Subject<void>();
-    routeUpdated$ = this.lengthUpdatedSource.asObservable();
-  
-    emitLengthUpdated() {
-      this.lengthUpdatedSource.next();
-    }
+    
   
   
 

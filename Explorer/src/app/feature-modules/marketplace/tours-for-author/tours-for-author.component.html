@@ -60,6 +60,6 @@
     </div>
     </div>
     <div class="tourDetails">
-        <xp-tour-details *ngIf = "shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" [tour] = "selectedTour" [tourKeypoints]="selectedKeypoints"></xp-tour-details>
+        <xp-tour-details *ngIf = "shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" (distanceChanged)="onDistanceChanged($event)" [tour] = "selectedTour" [tourKeypoints]="selectedKeypoints"></xp-tour-details>
     </div>
 </div>
