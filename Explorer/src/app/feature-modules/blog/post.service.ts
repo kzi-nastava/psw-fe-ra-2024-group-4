@@ -25,7 +25,14 @@ export class PostService {
   deletePost(id: number):Observable<Post>{
     return this.http.delete<Post>(environment.apiHost+ 'postmanagement/post/'+id)
   }
-  getCommentByPost(postId: number,page: number = 0, pageSize: number = 0): Observable<PagedResults<Comment>>{
-    return this.http.get<PagedResults<Comment>>(environment.apiHost+ `postmanagement/post/comments?id=${postId}&page=${page}&pageSize=${pageSize}`);
+
+  addRatingToPost(postId: number, userId: number, value: number): Observable<Post> {
+    return this.http.post<Post>(`/api/postmanagement/post/${postId}/rating`, { userId, value });
   }
+  
+  deleteRatingFromPost(postId: number, userId: number): Observable<Post> {
+    return this.http.delete<Post>(`/api/postmanagement/post/${postId}/rating/${userId}`);
+  }
+
+
 }

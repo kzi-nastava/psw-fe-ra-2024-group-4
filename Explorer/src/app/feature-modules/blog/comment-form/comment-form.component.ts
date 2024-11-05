@@ -4,6 +4,7 @@ import { CommentService } from '../comment.service';
 import { Comment } from '../model/comment.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'xp-comment-form',
@@ -20,7 +21,7 @@ export class CommentFormComponent implements OnChanges {
   @Input() postId: number;
 
 
-  constructor(private service: CommentService, private authService: AuthService){ }
+  constructor(private service: CommentService, private authService: AuthService,private postService: PostService){ }
 
   commentForm= new FormGroup({
     text: new FormControl('', [Validators.required]),
@@ -46,58 +47,51 @@ export class CommentFormComponent implements OnChanges {
     
   }
 
-  addComment(): void{
+  addComment(): void {
     const currentDate = new Date().toISOString();
-    console.log(this.commentForm.value)
     this.authService.user$.subscribe((user: User) => {
     const comment: Comment = {
-     
       text: this.commentForm.value.text || "",
-      createdAt: currentDate,  
-      updatedAt: currentDate ,
+      createdAt: currentDate,
+      updatedAt: currentDate,
       userId: this.userId,
       postId: this.postId,
       username: user.username
-      
-      
-    } ;
-    console.log(comment); 
-    this.service.addComment(comment).subscribe({
-      next: (_) => {
-        console.log("uspjesno")
-        this.commentUpdated.emit()
+    };
+  
+    this.service.addCommentToPost(this.postId, comment).subscribe({
+      next: () => {
+        this.commentUpdated.emit();
         this.commentForm.reset();
         this.showCommentForm = false;
       }
     });
   });
-  }
+}
+  
 
-  updateComment(): void{
-    const currentDate = new Date().toISOString();
-    this.authService.user$.subscribe((user: User) => {
-    const comment: Comment = {
-     
-      text: this.commentForm.value.text || "",
-      createdAt: currentDate,  
-      updatedAt: currentDate ,
-      userId: this.userId,
-      postId: this.postId,
-      username: user.username
-      
-      
-    } ;
-    comment.id=this.comment.id;
-    this.service.updateComment(comment).subscribe({
-      next: (_) => {
-        this.commentUpdated.emit()
-        this.commentForm.reset();
-        this.showCommentForm = false;
-      }
+updateComment(): void {
+  const currentDate = new Date().toISOString();
+  this.authService.user$.subscribe((user: User) => {
+  const updatedComment: Comment = {
+    id: this.comment.id,
+    text: this.commentForm.value.text || "",
+    createdAt: this.comment.createdAt,
+    updatedAt: currentDate,
+    userId: this.userId,
+    postId: this.postId,
+    username: user.username
+  };
 
-    });
+  this.service.updateCommentInPost(this.postId,updatedComment).subscribe({
+    next: () => {
+      this.commentUpdated.emit();
+      this.commentForm.reset();
+      this.showCommentForm = false;
+    }
   });
-  }
+});
+}
 
 
 }

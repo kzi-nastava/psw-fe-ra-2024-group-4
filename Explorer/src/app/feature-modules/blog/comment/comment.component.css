@@ -38,3 +38,78 @@ div {
     gap: 20px;
     flex-direction: column;
 }
+
+#post {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#post-details {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: flex-start;
+    background-color: #fafafa; 
+    border-radius: 8px; 
+    padding: 20px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+}
+
+/* Stil za naslov posta */
+.post-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3f51b5;
+    margin: 0;
+}
+
+/* Stil za datum kreiranja */
+.post-date {
+    font-size: 14px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Stil za opis posta */
+.post-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+/* Stil za sliku posta */
+.post-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Stil za placeholder kada nema slike */
+.no-image {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 1px dashed #ccc;
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    border-radius: 8px;
+    padding: 5px;
+}
+/* Glavni kontejner za centriranje */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 800px; /* Maksimalna širina za sadržaj */
+    margin: 0 auto; /* Centriranje glavnog kontejnera */
+    padding: 20px;
+  }

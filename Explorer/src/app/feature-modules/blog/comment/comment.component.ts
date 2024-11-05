@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PostService } from '../post.service';
+import { Post } from '../model/post.model'
 @Component({
   selector: 'xp-comment',
   templateUrl: './comment.component.html',
@@ -18,6 +19,7 @@ export class CommentComponent implements OnInit {
   shouldEdit: boolean ;
   postId: number;
   currentUser: User;
+  postDetails: Post;
   
   constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService ){}
 
@@ -28,10 +30,19 @@ export class CommentComponent implements OnInit {
       this.authService.user$.subscribe(user => {
         this.currentUser = user;
       });
+      this.getPostDetails(this.postId);
       this.getCommentByPost(this.postId); 
     });
     }
 
+    getPostDetails(postId: number): void {
+      this.service.getPostById(postId).subscribe({
+        next: (post) => {
+          this.postDetails = post;
+        },
+      
+      });
+    }
   onEditClicked(comment: Comment): void{
     this.shouldEdit = true;
     this.selectedComment=comment;
@@ -46,22 +57,22 @@ export class CommentComponent implements OnInit {
 
  }
 
- deleteComment(comment: Comment): void{
+deleteComment(comment: Comment): void{
 
-this.service.deleteComment(comment).subscribe({
+ this.service.deleteCommentFromPost(comment.postId,comment.id!).subscribe({
 
-  next: (_) =>{
-    this.getCommentByPost(this.postId);
+   next: (_) =>{
+     this.getCommentByPost(this.postId);
   }
-})
- }
+ })
+  }
 
  getCommentByPost(postId: number): void {
-  const serviceToUse = this.currentUser.role==='tourist' ? this.service : this.postService;
-  serviceToUse.getCommentByPost(postId,0,0).subscribe({
+  this.service.getCommentByPost(postId, 0, 0).subscribe({
     next: (result: PagedResults<Comment>) => {
       this.comment = result.results;
     }
   });
+
 }
 }

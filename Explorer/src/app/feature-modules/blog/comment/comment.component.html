@@ -1,13 +1,25 @@
-<div>
-
+<div id="main-content">
+  <div *ngIf="postDetails" id="post">
+    <div id="post-details">
+      <div>
+        <img *ngIf="postDetails.imageUrl" [src]="postDetails.imageUrl" alt="{{ postDetails.title }}" class="post-image">
+        <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
+      </div>
+      <div>
+        <h2 class="post-title">{{ postDetails.title }}</h2>
+        <p class="post-date">Created At: {{ postDetails.createdAt | date: 'short' }}</p>
+        <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
+      </div>
+    </div>
+  </div>
     <table>
       <thead>
         <tr>
-            <th>Tekst</th>
-            <th>Vreme kreiranja</th>
-            <th>Vreme azuriranja</th>
-            <th>Autor</th>
-            <th>Uloga</th>
+            <th>Text</th>
+            <th>Creation time</th>
+            <th>Updated at</th>
+            <th>Author</th>
+            <th></th>
             <th></th>
         </tr>
 
@@ -26,9 +38,9 @@
               <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onEditClicked(c)" mat-icon-button>
                   <mat-icon>edit</mat-icon>
               </button>
-              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="acent" (click)="deleteComment(c)"  mat-icon-button>
+               <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="acent" (click)="deleteComment(c)"  mat-icon-button>
                 <mat-icon>delete</mat-icon>
-            </button>
+            </button> 
           </td>
         </tr>
         <tr><button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onAddClicked()" mat-icon-button>
@@ -41,5 +53,8 @@
     <div>
       <xp-comment-form *ngIf="shouldRenderCommentForm"  (commentUpdated)="getCommentByPost(postId)"  [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
     </div>
-   
+    <button mat-button color="primary" [routerLink]="['/blogPost']">
+      <mat-icon>arrow_back</mat-icon> Back to see all posts
+    </button>
 </div>
+
