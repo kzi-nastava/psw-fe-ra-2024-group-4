@@ -20,15 +20,10 @@ export class ProblemComponent implements OnInit{
   isLoggedIn: boolean=false;
   showProblemForm: boolean=false;
   user: User;
-  @Input() tourId: number;
 
-  constructor(private service: MarketplaceService, private authService: AuthService, private route: ActivatedRoute){  }
+  constructor(private service: MarketplaceService, private authService: AuthService){  }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.tourId = +params['tourId']; 
-      console.log('tourId from queryParams:', this.tourId);
-  });
+  ngOnInit(): void {    
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
       this.checkIfLoggedIn(); 
