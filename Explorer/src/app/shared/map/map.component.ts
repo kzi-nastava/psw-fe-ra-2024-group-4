@@ -167,12 +167,19 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+    this.plotKeyPoints();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['objects'] && this.map) {
-      this.plotExistingObjects(); 
+    if (this.map) {
+        if (changes['selectedTourPoints']) {
+            this.plotKeyPoints(); 
+        }
+        if (changes['objects']) {
+            this.plotExistingObjects(); 
+        }
     }
-  }
+}
+
 
 
   showPoint() : void
@@ -297,6 +304,27 @@ export class MapComponent {
     });
   }
 
+  private plotKeyPoints(): void {
+    console.log('Selected Tour Points:', this.selectedTourPoints);
+    // Clear existing markers if re-plotting is needed
+    this.selectedTourPointsMarkers.forEach(marker => this.map.removeLayer(marker));
+    this.selectedTourPointsMarkers = [];
+
+    if (this.selectedTourPoints && this.selectedTourPoints.length > 0) {
+      this.selectedTourPoints.forEach(point => {
+        const marker = L.marker([point.latitude, point.longitude])
+          .addTo(this.map)
+          .bindPopup(`<strong>${point.name}</strong>`);
+        this.selectedTourPointsMarkers.push(marker);
+        console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+      });
+    } else {
+      console.warn('No key points available to plot.');
+    }
+}
+
+  
+  
   
 
  

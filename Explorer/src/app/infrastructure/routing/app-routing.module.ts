@@ -24,7 +24,6 @@ import { TourOverviewComponent } from 'src/app/feature-modules/tour-authoring/to
 
 
 
-
 import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
 import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/problem.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
