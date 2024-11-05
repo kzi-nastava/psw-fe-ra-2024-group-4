@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { PagedResults } from "src/app/shared/model/paged-results.model";
 import { Tour } from "./model/tour.model";
 import { Equipment } from "./model/equipment.model";
@@ -49,6 +49,19 @@ import { environment } from "src/env/environment";
     reactivateTour(tour: Tour): Observable<any> {
       return this.http.put('https://localhost:44333/api/author/tour/reactivate/' + tour.id, tour.userId);
     }
+
+    updateTourDistance(id: number, length: number): Observable<any> {
+      console.log('pozvana funksija iz servisa'+length+id);
+      return this.http.put('https://localhost:44333/api/author/tour/updateDistance/'+ id, length);
+    }
+
+    private lengthUpdatedSource = new Subject<void>();
+    routeUpdated$ = this.lengthUpdatedSource.asObservable();
+  
+    emitLengthUpdated() {
+      this.lengthUpdatedSource.next();
+    }
+  
   
 
   }

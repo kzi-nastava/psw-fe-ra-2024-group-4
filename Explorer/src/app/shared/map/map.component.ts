@@ -5,6 +5,7 @@ import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/ke
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
 import { TourObject } from 'src/app/feature-modules/tour-authoring/model/object.model';
 import { waitForAsync } from '@angular/core/testing';
+import { TourService } from 'src/app/feature-modules/tour-authoring/tour.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MapComponent {
 
   @Output() latitudeChanged = new EventEmitter<number>();
   @Output() longitudeChanged = new EventEmitter<number>();
+  @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
@@ -42,7 +44,7 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService) {}
+   constructor(private mapService: MapService, private tourService: TourService) {}
 
    
    
@@ -178,6 +180,29 @@ export class MapComponent {
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
     }).addTo(this.map);
+
+    if(keyPoints.length > 1) {
+      console.log("Usao u funkciju")
+      routeControl.on('routesfound', (e) => {
+        const routes = e.routes;
+        const summary = routes[0].summary;
+        const totalDistanceKm = summary.totalDistance / 1000;
+
+
+        this.tourService.updateTourDistance(keyPoints[0].tourId, totalDistanceKm).subscribe({
+          next: (result) => {
+            console.log(result);
+            this.tourService.emitLengthUpdated();
+          },
+          error: () => {},
+        });
+        
+      });
+    }
+
+    
+    
+
 
   /*  routeControl.on('routesfound', function(e) {
       var routes = e.routes;

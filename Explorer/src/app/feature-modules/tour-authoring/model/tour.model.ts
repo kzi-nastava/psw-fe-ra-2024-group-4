@@ -9,4 +9,5 @@ export interface Tour {
     userId: number;
     equipmentIds: number[] | null; 
     keyPointIds: number[] | null; 
+    lengthInKm: number;
   }
