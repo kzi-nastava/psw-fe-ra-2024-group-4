@@ -44,6 +44,11 @@ export class TourExecutionService {
     );
   }
 
+  updateLastActivity(executionId: number): Observable<any> {
+    return this.http.put<any>(`${environment.apiHost}tourist/execution/updateLastActivity/${executionId}`, {});
+}
+
+
   completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {
     return this.http.put<TourExecution>(
       `${environment.apiHost}tourist/execution/tour/completeKeyPoint/${executionId}/${keyPointId}`,

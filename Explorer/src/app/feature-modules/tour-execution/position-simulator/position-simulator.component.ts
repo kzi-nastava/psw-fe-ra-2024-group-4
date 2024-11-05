@@ -117,15 +117,28 @@ export class PositionSimulatorComponent implements OnInit {
           } else {
             console.error("TourExecution id or KeyPoint id is undefined:", { executionId, keyPointId: keyPoint.id });
           }
-        }
+        } 
       } else {
         console.error('Invalid key point data:', keyPoint);
       }
     });
 } 
 
+updateLastActivity(executionId: number): void {
+  this.service.updateLastActivity(executionId).subscribe({
+      next: (result) => {
+          console.log(`Last activity updated for execution ${executionId}`);
+      },
+      error: (err) => {
+          console.error("Error updating last activity:", err);
+      }
+  });
+}
+
+
 completeKeyPoint(executionId: number, keyPointId: number): void {  
   const isCompleted = this.tourExecution.completedKeys?.some(key => key.keyPointId === keyPointId); 
+
   if (isCompleted) {
       console.log(`Key Point ${keyPointId} has already been completed. Skipping.`);
       return; 
@@ -135,6 +148,7 @@ completeKeyPoint(executionId: number, keyPointId: number): void {
   this.service.completeKeyPoint(executionId, keyPointId).subscribe({
       next: (result) => {
           console.log(`Key Point ${keyPointId} completed for execution ${executionId}`);
+          alert(`Key Point ${keyPointId} has been completed!`);
 
           const completedKey: CompletedKeys = {
               keyPointId: keyPointId,
@@ -169,7 +183,9 @@ completeKeyPoint(executionId: number, keyPointId: number): void {
       {
        
         alert("Position updated");
-        
+        if (this.tourExecution?.id) {
+          this.updateLastActivity(this.tourExecution.id); 
+        }
     
        
       },
