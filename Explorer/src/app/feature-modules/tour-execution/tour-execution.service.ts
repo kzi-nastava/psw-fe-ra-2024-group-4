@@ -46,8 +46,8 @@ export class TourExecutionService {
 
   completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {
     return this.http.put<TourExecution>(
-      `${environment.apiHost}tourist/completeKeyPoint/${executionId}/${keyPointId}`,
-      {} // Dodavanje praznog objekta kao telo, ako je potrebno
+      `${environment.apiHost}tourist/execution/tour/completeKeyPoint/${executionId}/${keyPointId}`,
+      {} 
     );
   }
   
@@ -57,7 +57,7 @@ export class TourExecutionService {
   }
 
   getKeyPointsForTour(tourId: number): Observable<KeyPoint[]> {
-    return this.http.get<KeyPoint[]>('https://localhost:44333/api/tourist/execution/' + tourId + '/keypoints'); // Slanje GET zahteva i vraćanje Observable-a
+    return this.http.get<KeyPoint[]>('https://localhost:44333/api/tourist/execution/' + tourId + '/keypoints'); 
 
   }
 
