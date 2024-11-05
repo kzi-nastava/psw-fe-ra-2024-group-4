@@ -41,7 +41,7 @@
         </table>
     </div>
     <div>
-        <xp-tour-review-form *ngIf="shouldRenderEquipmentForm" (tourReviewUpdated)="getTourReviews()" [tourReview]="selectedTourReview" [shouldEdit]="shouldEdit"></xp-tour-review-form> 
+        <xp-tour-review-form *ngIf="shouldRenderEquipmentForm" (tourReviewUpdated)="getTourReviewsByTourist()" [tourReview]="selectedTourReview" [shouldEdit]="shouldEdit"></xp-tour-review-form> 
     </div>
     </div>
 </div>

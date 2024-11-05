@@ -36,6 +36,16 @@ export class MarketplaceService {
   {
     return this.http.get<PagedResults<TourReview>>(environment.apiHost + 'tourReviewing/tourReview');
   }
+ 
+  getTourReviewsByTourist(id: number): Observable<PagedResults<TourReview>>
+  {
+    return this.http.get<PagedResults<TourReview>>(environment.apiHost + 'tourReviewing/tourReview/byTourist/' + id);
+  }
+  
+  getTourReviewsByTour(id: number): Observable<PagedResults<TourReview>>
+  {
+    return this.http.get<PagedResults<TourReview>>(environment.apiHost + 'tourReviewing/tourReview/byTour/' + id);
+  }
   
   addTourReview(tourReview : TourReview): Observable<TourReview>
   {

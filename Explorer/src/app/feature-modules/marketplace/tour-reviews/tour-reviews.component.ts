@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TourReview } from '../model/tour-reviews.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'xp-tour-reviews',
@@ -15,9 +16,17 @@ export class TourReviewsComponent implements OnInit{
   selectedTourReview : TourReview;
   shouldEdit: boolean = false;
   shouldRenderEquipmentForm: boolean = false;
+  touristId: number;
 
   ngOnInit(): void {
-    this.getTourReviews()
+    const token = localStorage.getItem('access-token');
+    if(token){
+      const decodedToken : any = jwtDecode(token);
+      this.touristId = decodedToken.id;
+    } else{
+      throw new Error('Token not found');
+    }
+    this.getTourReviewsByTourist()
   }
 
   getTourReviews(): void{
@@ -32,10 +41,23 @@ export class TourReviewsComponent implements OnInit{
     })
   }
 
+  getTourReviewsByTourist(): void{
+    
+    this.service.getTourReviewsByTourist(this.touristId).subscribe({
+      next:(result: PagedResults<TourReview>) => {
+        this.tourReviews = result.results;
+      },
+      error:(err:any) => {
+        console.log(err)
+      }
+
+    })
+  }
+
   deleteTourReview(tourReview: TourReview) : void{
     this.service.deleteTourReview(tourReview).subscribe({
       next: () => {
-        this.getTourReviews();
+        this.getTourReviewsByTourist();
       },
     })
   }
