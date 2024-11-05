@@ -23,7 +23,8 @@ export class PersonEquipmentComponent implements OnInit{
     biography: '',
     motto: '',
     imageBase64: '',
-    equipment: [] as number[]
+    equipment: [] as number[],
+    wallet: 0
   };
   
  constructor(private service: PersonInfoService, private authService: AuthService) {
