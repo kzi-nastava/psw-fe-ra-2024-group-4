@@ -1,1 +1,24 @@
-<p>notifications works!</p>
+<div class="notification-popup">
+  <button class="close-btn" (click)="onToggleNotifications()">✖</button>
+  <h2 class="notification-header">All notifications</h2>
+
+  <ul class="notification-list">
+    <li
+      class="notification-item"
+      *ngFor="let notification of allNotifications"
+      [class.unread]="!notification.isRead"
+      (click)="markAsReadAndRedirect(notification)"
+    >
+      <h3 class="notification-title">{{ notification.description }}</h3>
+      <p class="notification-date">Date: {{ notification.creationTime | date: 'short' }}</p>
+    </li>
+  </ul>
+
+  <div *ngIf="unreadNotifications.length > 0" class="notification-footer">
+    <p>You have {{ unreadNotifications.length }} new notifications.</p>
+  </div>
+</div>
+
+<ng-template #noNotifications>
+  <p class="no-notifications">You currently have no notifications</p>
+</ng-template>
