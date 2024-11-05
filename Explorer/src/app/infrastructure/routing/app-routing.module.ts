@@ -29,7 +29,7 @@ import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-r
 import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/problem.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
-import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
+import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/problem-ticket/problem-ticket.component';import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 
 
 const routes: Routes = [
@@ -62,6 +62,7 @@ const routes: Routes = [
   {path: 'touristEquipment', component: PersonEquipmentComponent},
   {path: 'tourReviews', component: TourReviewsComponent},
   {path: 'problem', component: ProblemComponent, canActivate: [AuthGuard]},
+  {path: 'problem-ticket', component: ProblemTicketComponent},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},

@@ -5,6 +5,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Problem } from '../model/problem.model';
 import { ActivatedRoute } from '@angular/router';
+import { ProblemComment } from '../model/problem-comment.model';
 
 @Component({
   selector: 'xp-problem-form',
@@ -45,7 +46,9 @@ export class ProblemFormComponent {
         priority: parseInt(this.problemForm.value.priority ?? '0'),
         time: new Date(Date.now()),
         userId: this.user.id,
-        tourId: this.tourId
+        tourId: this.tourId,
+        isActive: true,
+        comments: []
       };
 
       console.log("Problem to be sent:", problem);

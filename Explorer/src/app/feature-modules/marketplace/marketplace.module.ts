@@ -12,10 +12,11 @@ import { TourReviewFormComponent } from './tour-review-form/tour-review-form.com
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
+import { ProblemTicketComponent } from './problem-ticket/problem-ticket.component';
 
 
 @NgModule({
-  declarations: [ToursForAuthorComponent, KeypointDialogComponent, ProblemComponent,ProblemFormComponent, TourReviewsComponent, TourReviewFormComponent], 
+  declarations: [ToursForAuthorComponent, KeypointDialogComponent, ProblemComponent,ProblemFormComponent, TourReviewsComponent, TourReviewFormComponent, ProblemTicketComponent], 
   imports: [
     CommonModule,
     MaterialModule,
