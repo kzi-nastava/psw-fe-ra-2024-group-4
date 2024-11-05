@@ -61,4 +61,8 @@ export class CartService {
   {
     return this.http.get<ShoppingCart[]>(environment.apiHost + 'shopping/getByUser/' + userId);
   }
+
+  updateCart(cartId: number, cart: ShoppingCart): Observable<ShoppingCart>{
+    return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
+  }
 }

@@ -178,7 +178,7 @@ export class MapComponent {
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
     }).addTo(this.map);
-
+   
   /*  routeControl.on('routesfound', function(e) {
       var routes = e.routes;
       var summary = routes[0].summary;
