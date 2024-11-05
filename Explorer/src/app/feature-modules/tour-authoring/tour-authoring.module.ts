@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 
+
 // Import Custom Components
 import { KeypointsComponent } from './keypoints/keypoints.component';
 import { KeypointFormComponent } from './keypoint-form/keypoint-form.component';
@@ -32,6 +33,10 @@ import { TourOverviewComponent } from './tour-overview/tour-overview.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CartOverviewComponent } from './cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from 'src/app/infrastructure/auth/purchase-token/purchase-token.component';
+
 
 
 
@@ -51,7 +56,9 @@ import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overv
     ObjectFormComponent,
     MapForTourComponent,
     TourOverviewComponent,
-    TourOverviewDetailsComponent
+    TourOverviewDetailsComponent,
+    CartOverviewComponent,
+    PurchaseTokenComponent
   ],
   imports: [
     // Import necessary modules
@@ -76,7 +83,8 @@ import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overv
     MatSelectModule,
     MatListModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatBadgeModule
   ],
   exports: [
     // Export components to be used in other modules
@@ -86,7 +94,8 @@ import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overv
     NecessaryEquipmentComponent,
     ManageTourEquipmentComponent,
     TourDetailsComponent,
-    ObjectComponent
+    ObjectComponent,
+    PurchaseTokenComponent
   ]
 })
 export class TourAuthoringModule { }
