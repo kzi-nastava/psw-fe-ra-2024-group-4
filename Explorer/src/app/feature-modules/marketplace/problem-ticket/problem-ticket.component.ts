@@ -68,29 +68,21 @@ export class ProblemTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const problemId = history.state.problemId;
-    console.log('Received problemId:', problemId); // Provera problemId vrednosti
-
     setTimeout(() => {
     }, 200);
     this.problem = history.state.problem;
+    const problemId = history.state.problemId;
 
 
-    // if (this.problem.id) {
-    //    this.loadProblem(this.problem.id);
-    //  }
     if (problemId) {
-      this.loadProblem(problemId);  // Ako postoji, pozovi funkciju za učitavanje problema
-  } else {
-      console.error("Problem ID nije prosleđen!");
-  }
+      this.loadProblem(problemId);
+    }
     //this.problem = this.problemm;
     console.log('poslat problem', this.problem);
     this.setAuthorId();
     this.setRoles();
     this.setNames();
   }
-
   loadProblem(problemId: number): void {
     this.service.getProblemById(problemId).subscribe(
       (problem: Problem) => {

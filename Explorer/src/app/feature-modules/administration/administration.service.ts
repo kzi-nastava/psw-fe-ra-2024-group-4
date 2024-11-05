@@ -119,6 +119,7 @@ export class AdministrationService {
 
   updateNotification(role: string, notification: Notification): Observable<any> {
     const url = `${environment.apiHost}${role}/notification/${notification.id}`;
+    console.log("Updating notification:", notification); // Proverite sadržaj `notification`
     return this.http.put(url, notification); 
 }
 

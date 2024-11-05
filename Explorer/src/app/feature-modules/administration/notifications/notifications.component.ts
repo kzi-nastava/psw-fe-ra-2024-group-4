@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { AdministrationService } from '../administration.service';
 import { Notification } from '../model/notifications.model';
 import { Router } from '@angular/router';
+import { MarketplaceService } from '../../marketplace/marketplace.service';
 
 @Component({
   selector: 'xp-notifications',
@@ -21,7 +22,8 @@ export class NotificationsComponent implements OnInit {
   constructor(
     private administrationService: AdministrationService, 
     private authService: AuthService,
-    private router: Router 
+    private router: Router ,
+    private marketplaceService:MarketplaceService
   ) {}
 
   ngOnInit(): void {
@@ -49,11 +51,31 @@ export class NotificationsComponent implements OnInit {
   }
   markAsReadAndRedirect(notification: Notification): void {
     if (this.role) {
-        console.log('Resource ID:', notification.resourceId); 
+        console.log('Resource ID:', notification.resourceId);
+
+        // Prvo ažuriramo notifikaciju kao pročitanu
         this.administrationService.updateNotification(this.role, notification).subscribe({
             next: () => {
-                notification.isRead = true; 
-                this.router.navigate(['/problem-ticket'], { state: { problemId: notification.resourceId } });
+                notification.isRead = true;
+
+                // Zatim biramo odgovarajuću metodu na osnovu korisničke uloge
+                let problemObservable;
+                if (this.role === 'author') {
+                    problemObservable = this.marketplaceService.getAuthorProblemById(notification.resourceId);
+                } else if (this.role === 'tourist') {
+                    problemObservable = this.marketplaceService.getProblemById(notification.resourceId);
+                } else {
+                    console.error('Nepoznata uloga:', this.role);
+                    return;
+                }
+
+                // Pretplaćujemo se na Observable kako bismo dobili problem i izvršili navigaciju
+                problemObservable.subscribe({
+                    next: (problem) => {
+                        this.router.navigate(['/problem-ticket'], { state: { problem } });
+                    },
+                    error: (err) => console.error('Error fetching problem:', err)
+                });
             },
             error: (err: any) => console.error('Error updating notification:', err)
         });
@@ -61,14 +83,6 @@ export class NotificationsComponent implements OnInit {
         console.error('Role is not defined');
     }
 }
-
-
-
-
-
-  
-  
-
   onToggleNotifications(): void {
     this.toggleNotifications.emit(); 
   }
