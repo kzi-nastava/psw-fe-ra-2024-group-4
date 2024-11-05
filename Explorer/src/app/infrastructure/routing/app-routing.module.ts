@@ -26,6 +26,8 @@ import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/pr
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
 import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from '../auth/purchase-token/purchase-token.component';
+
 
 
 const routes: Routes = [
@@ -59,6 +61,8 @@ const routes: Routes = [
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
   {path: 'cart/:cartId', component: CartOverviewComponent},
+  {path: 'purchased-tours', component: PurchaseTokenComponent }
+
 ];
 
 @NgModule({

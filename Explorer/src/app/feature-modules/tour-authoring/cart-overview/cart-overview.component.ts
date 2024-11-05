@@ -113,7 +113,7 @@ export class CartOverviewComponent implements OnInit {
                   userId: this.user.id,
                   cartId: this.currentCart.id,
                   tourId: item.tourId,
-                  purchaseDate: new Date(),
+                 
                  
                 }
 

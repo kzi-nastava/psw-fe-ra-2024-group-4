@@ -35,6 +35,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverviewComponent } from './cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from 'src/app/infrastructure/auth/purchase-token/purchase-token.component';
+
 
 
 
@@ -55,7 +57,8 @@ import { CartOverviewComponent } from './cart-overview/cart-overview.component';
     MapForTourComponent,
     TourOverviewComponent,
     TourOverviewDetailsComponent,
-    CartOverviewComponent
+    CartOverviewComponent,
+    PurchaseTokenComponent
   ],
   imports: [
     // Import necessary modules
@@ -91,7 +94,8 @@ import { CartOverviewComponent } from './cart-overview/cart-overview.component';
     NecessaryEquipmentComponent,
     ManageTourEquipmentComponent,
     TourDetailsComponent,
-    ObjectComponent
+    ObjectComponent,
+    PurchaseTokenComponent
   ]
 })
 export class TourAuthoringModule { }
