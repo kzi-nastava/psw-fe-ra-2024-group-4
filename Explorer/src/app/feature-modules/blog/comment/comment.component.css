@@ -1,97 +1,58 @@
-table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
-div {
-    width: 400px;
-    display:flex;
-    gap: 20px;
-    flex-direction: column;
-}
-
-#post {
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-#post-details {
+/* Glavni kontejner za centriranje */
+#main-content {
     display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
-    background-color: #fafafa; 
-    border-radius: 8px; 
-    padding: 20px; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-color);
 }
 
-/* Stil za naslov posta */
+/* Opšti stil za kartice */
+.card {
+    background-color: var(--third-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Kartica za informacije o postu */
+.post-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .post-title {
     font-size: 24px;
     font-weight: bold;
-    color: #3f51b5;
-    margin: 0;
+    color: var(--highlight-color);
+    margin: 0 0 10px 0;
+    font-family: var(--font-family);
 }
 
-/* Stil za datum kreiranja */
-.post-date {
-    font-size: 14px;
-    color: #888;
-    margin-top: 5px;
-}
-
-/* Stil za opis posta */
-.post-description {
+.post-date, .post-description {
     font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-    margin-top: 15px;
+    color: var(--text-color-dark);
+    font-family: var(--font-family);
 }
 
-/* Stil za sliku posta */
 .post-image {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: auto;
     border-radius: 8px;
+    margin-top: 10px;
     object-fit: cover;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Stil za placeholder kada nema slike */
 .no-image {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,15 +62,54 @@ div {
     text-align: center;
     color: #888;
     border-radius: 8px;
-    padding: 5px;
 }
-/* Glavni kontejner za centriranje */
-#main-content {
+
+/* Kartice za komentare */
+.comment-card {
+    background-color: var(--primary-color);
+    color: var(--text-color-dark);
+}
+
+.comment-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-family: var(--font-family);
+}
+
+.comment-author, .comment-date, .comment-updated {
+    font-size: 14px;
+    color: #555;
+    font-family: var(--font-family);
+}
+
+.actions {
+    margin-top: 10px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 800px; /* Maksimalna širina za sadržaj */
-    margin: 0 auto; /* Centriranje glavnog kontejnera */
-    padding: 20px;
-  }
+    gap: 10px;
+}
+
+/* Stil za dugmad */
+button {
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 8px 16px;
+    border: 2px solid var(--secondary-color);
+    font-family: var(--font-family);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+button.primary {
+    background-color: var(--secondary-color);
+    color: var(--text-color-dark);
+}
+
+button.warn {
+    background-color: var(--highlight-color);
+    color: var(--text-color-light);
+}
+
+button:hover {
+    background-color: var(--highlight-color);
+    border-color: var(--highlight-color);
+    color: #fff;
+}

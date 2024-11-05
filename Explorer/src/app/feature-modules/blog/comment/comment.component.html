@@ -1,5 +1,6 @@
 <div id="main-content">
-  <div *ngIf="postDetails" id="post">
+  <!-- Kartica za prikaz informacija o postu -->
+  <div *ngIf="postDetails" id="post" class="card post-card">
     <div id="post-details">
       <div>
         <img *ngIf="postDetails.imageUrl" [src]="postDetails.imageUrl" alt="{{ postDetails.title }}" class="post-image">
@@ -12,49 +13,35 @@
       </div>
     </div>
   </div>
-    <table>
-      <thead>
-        <tr>
-            <th>Text</th>
-            <th>Creation time</th>
-            <th>Updated at</th>
-            <th>Author</th>
-            <th></th>
-            <th></th>
-        </tr>
 
-      </thead> 
-      
-      <tbody>
-        <tr *ngFor="let c of comment">
-
-            <td>{{c.text}}</td>
-            <td>{{c.createdAt | date: 'short'}}</td>
-            <td>{{c.updatedAt | date: 'short'}}</td>
-           <td>{{c.username}}</td>
-           
-            <td>
-              
-              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onEditClicked(c)" mat-icon-button>
-                  <mat-icon>edit</mat-icon>
-              </button>
-               <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="acent" (click)="deleteComment(c)"  mat-icon-button>
-                <mat-icon>delete</mat-icon>
-            </button> 
-          </td>
-        </tr>
-        <tr><button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onAddClicked()" mat-icon-button>
-          <mat-icon>add</mat-icon>
-      </button></tr>
-     
-
-      </tbody>
-    </table>
-    <div>
-      <xp-comment-form *ngIf="shouldRenderCommentForm"  (commentUpdated)="getCommentByPost(postId)"  [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+  <!-- Prikaz komentara kao kartice -->
+  <div *ngFor="let c of comment" class="card comment-card">
+    <p class="comment-text">{{ c.text }}</p>
+    <p class="comment-author">Author: {{ c.username }}</p>
+    <p class="comment-date">Created At: {{ c.createdAt | date: 'short' }}</p>
+    <p class="comment-updated">Updated At: {{ c.updatedAt | date: 'short' }}</p>
+    <div class="actions">
+      <button *ngIf="currentUser && currentUser.role==='tourist'" class="primary" (click)="onEditClicked(c)">
+        <mat-icon>edit</mat-icon> Edit
+      </button>
+      <button *ngIf="currentUser && currentUser.role==='tourist'" class="warn" (click)="deleteComment(c)">
+        <mat-icon>delete</mat-icon> Delete
+      </button>
     </div>
-    <button mat-button color="primary" [routerLink]="['/blogPost']">
-      <mat-icon>arrow_back</mat-icon> Back to see all posts
-    </button>
-</div>
+  </div>
 
+  <!-- Dugme za dodavanje komentara -->
+  <button *ngIf="currentUser && currentUser.role==='tourist'" class="primary add-comment-btn" (click)="onAddClicked()">
+    <mat-icon>add</mat-icon> Add Comment
+  </button>
+
+  <!-- Formular za dodavanje ili izmenu komentara -->
+  <div>
+    <xp-comment-form *ngIf="shouldRenderCommentForm" (commentUpdated)="getCommentByPost(postId)" [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+  </div>
+
+  <!-- Dugme za povratak na sve postove -->
+  <button mat-button color="primary" [routerLink]="['/blogPost']">
+    <mat-icon>arrow_back</mat-icon> Back to see all posts
+  </button>
+</div>
