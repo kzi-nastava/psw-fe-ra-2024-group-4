@@ -51,7 +51,7 @@ export class TourExecutionService {
 
   completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {
     return this.http.put<TourExecution>(
-      `${environment.apiHost}tourist/execution/tour/completeKeyPoint/${executionId}/${keyPointId}`,
+      `${environment.apiHost}tourist/execution/completeKeyPoint/${executionId}/${keyPointId}`,
       {} 
     );
   }
