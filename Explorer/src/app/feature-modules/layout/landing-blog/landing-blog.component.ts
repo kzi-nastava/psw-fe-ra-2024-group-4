@@ -65,7 +65,8 @@ export class LandingBlogComponent implements OnInit {
         imageUrl: this.genericImage,
         status: BlogStatus.Published,  // Assuming Published status
         userId: 1,
-        imageBase64:''
+        imageBase64:'',
+        comments: []
       };
       
       this.blogs.push(blog);

@@ -7,10 +7,13 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PostService } from '../post.service';
 import { Post } from '../model/post.model'
+import { environment } from 'src/env/environment';
+
 @Component({
   selector: 'xp-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css']
+  styleUrls: ['./comment.component.css'
+  ]
 })
 export class CommentComponent implements OnInit {
   comment: Comment[] = [];
@@ -31,14 +34,15 @@ export class CommentComponent implements OnInit {
         this.currentUser = user;
       });
       this.getPostDetails(this.postId);
-      this.getCommentByPost(this.postId); 
     });
     }
 
     getPostDetails(postId: number): void {
-      this.service.getPostById(postId).subscribe({
+      const serviceToUse = this.currentUser?.role === 'author' ? this.postService : this.service;
+      serviceToUse.getPostById(postId).subscribe({
         next: (post) => {
           this.postDetails = post;
+          this.comment=this.postDetails.comments;
         },
       
       });
@@ -57,22 +61,16 @@ export class CommentComponent implements OnInit {
 
  }
 
-deleteComment(comment: Comment): void{
+  deleteComment(comment: Comment): void{
 
- this.service.deleteCommentFromPost(comment.postId,comment.id!).subscribe({
+   this.service.deleteCommentFromPost(comment.postId,comment.id!).subscribe({
 
    next: (_) =>{
-     this.getCommentByPost(this.postId);
+    this.getPostDetails(this.postId);
   }
  })
   }
-
- getCommentByPost(postId: number): void {
-  this.service.getCommentByPost(postId, 0, 0).subscribe({
-    next: (result: PagedResults<Comment>) => {
-      this.comment = result.results;
-    }
-  });
-
+  getImage(imageUrl: string | undefined): string {
+  return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png';
 }
 }

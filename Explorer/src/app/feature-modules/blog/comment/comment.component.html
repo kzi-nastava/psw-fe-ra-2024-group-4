@@ -1,9 +1,8 @@
 <div id="main-content">
-  <!-- Kartica za prikaz informacija o postu -->
   <div *ngIf="postDetails" id="post" class="card post-card">
     <div id="post-details">
       <div>
-        <img *ngIf="postDetails.imageUrl" [src]="postDetails.imageUrl" alt="{{ postDetails.title }}" class="post-image">
+        <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
         <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
       </div>
       <div>
@@ -14,7 +13,6 @@
     </div>
   </div>
 
-  <!-- Prikaz komentara kao kartice -->
   <div *ngFor="let c of comment" class="card comment-card">
     <p class="comment-text">{{ c.text }}</p>
     <p class="comment-author">Author: {{ c.username }}</p>
@@ -30,17 +28,14 @@
     </div>
   </div>
 
-  <!-- Dugme za dodavanje komentara -->
   <button *ngIf="currentUser && currentUser.role==='tourist'" class="primary add-comment-btn" (click)="onAddClicked()">
     <mat-icon>add</mat-icon> Add Comment
   </button>
 
-  <!-- Formular za dodavanje ili izmenu komentara -->
   <div>
-    <xp-comment-form *ngIf="shouldRenderCommentForm" (commentUpdated)="getCommentByPost(postId)" [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+    <xp-comment-form *ngIf="shouldRenderCommentForm" (commentUpdated)="getPostDetails(postId)" [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
   </div>
 
-  <!-- Dugme za povratak na sve postove -->
   <button mat-button color="primary" [routerLink]="['/blogPost']">
     <mat-icon>arrow_back</mat-icon> Back to see all posts
   </button>

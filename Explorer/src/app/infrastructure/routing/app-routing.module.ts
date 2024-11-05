@@ -37,7 +37,7 @@ const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
   {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard]},
-  { path: 'comments/:postId', component: CommentComponent, canActivate: [AuthGuard] }, 
+  { path: 'aboutPost/:postId', component: CommentComponent, canActivate: [AuthGuard] }, 
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: InfoComponent },

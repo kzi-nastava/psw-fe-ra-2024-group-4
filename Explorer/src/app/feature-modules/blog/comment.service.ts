@@ -17,7 +17,6 @@ export class CommentService {
    getPosts():Observable<PagedResults<Post>>{
     return this.http.get<PagedResults<Post>>(`https://localhost:44333/api/blogfeedback/comment/posts/`);
    }
-   
    getCommentByPost(postId: number,page: number = 0, pageSize: number = 0): Observable<PagedResults<Comment>>{
     return this.http.get<PagedResults<Comment>>(environment.apiHost+ `blogfeedback/comment?id=${postId}&page=${page}&pageSize=${pageSize}`);
   }

@@ -1,3 +1,4 @@
+import { Comment } from '../model/comment.model'; //mora da se importuje jer se koristi ovde :3
 export interface Post{
     id?:number,
     title: string,
@@ -6,7 +7,8 @@ export interface Post{
     imageUrl?: string,
     status: BlogStatus,
     userId: number,
-    imageBase64: string
+    imageBase64: string,
+    comments: Comment[]
 }
 export enum BlogStatus{
     Draft=0,
