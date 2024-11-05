@@ -114,7 +114,7 @@ export class CartOverviewComponent implements OnInit {
                   cartId: this.currentCart.id,
                   tourId: item.tourId,
                   purchaseDate: new Date(),
-                  orderId: item.id
+                 
                 }
 
                 this.cartService.createToken(this.purchaseToken).subscribe({

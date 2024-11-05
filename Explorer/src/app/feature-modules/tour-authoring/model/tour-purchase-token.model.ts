@@ -4,5 +4,5 @@ export interface TourPurchaseToken{
     cartId?: number;
     tourId: number;
     purchaseDate: Date;
-    orderId?: number;
+    
 }
