@@ -11,6 +11,7 @@ import { TourExecutionService } from '../../tour-execution/tour-execution.servic
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PositionSimulator } from '../model/position-simulator.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-tour-overview',
@@ -28,8 +29,9 @@ export class TourOverviewComponent implements OnInit {
   activeTourId: number | null = null;
   isActive: boolean = false;
   position: PositionSimulator | null = null;
+  
 
-  constructor(private tourOverviewService: TourOverviewService, private mapService: MapService, private tourExecutionService: TourExecutionService, private authService: AuthService) {}
+  constructor(private tourOverviewService: TourOverviewService, private mapService: MapService, private tourExecutionService: TourExecutionService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -51,6 +53,7 @@ export class TourOverviewComponent implements OnInit {
     
     this.loadTours();
   }
+  
 
   loadTours(): void {
     this.tourOverviewService.getAllWithoutReviews().subscribe({
@@ -76,6 +79,10 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
+  }
+
+  reportProblem(tourId: number): void {
+    this.router.navigate(['/problem'], { queryParams: { tourId: tourId } });
   }
 
   startTour(tourId: number): void {
@@ -170,4 +177,5 @@ export class TourOverviewComponent implements OnInit {
         });
     }
 }
+
 }

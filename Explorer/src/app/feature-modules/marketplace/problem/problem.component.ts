@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'xp-problem',
@@ -19,13 +20,18 @@ export class ProblemComponent implements OnInit{
   isLoggedIn: boolean=false;
   showProblemForm: boolean=false;
   user: User;
+  @Input() tourId: number;
 
-  constructor(private service: MarketplaceService, private authService: AuthService){  }
+  constructor(private service: MarketplaceService, private authService: AuthService, private route: ActivatedRoute){  }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.tourId = +params['tourId']; 
+      console.log('tourId from queryParams:', this.tourId);
+  });
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
-      this.checkIfLoggedIn(); // Ensure to check login status after user data is fetched
+      this.checkIfLoggedIn(); 
     });
     this.checkIfLoggedIn();
     this.authService.userLoggedIn.subscribe(()=>{
