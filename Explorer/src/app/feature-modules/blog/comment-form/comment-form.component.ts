@@ -18,6 +18,7 @@ export class CommentFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
   userId: number = 0;
   showCommentForm: boolean = true;
+  isCommentOwner: boolean = false;
   @Input() postId: number;
 
 
@@ -32,7 +33,7 @@ export class CommentFormComponent implements OnChanges {
     
     this.authService.user$.subscribe((user: User) => {
       this.userId = user.id; 
-     
+      this.checkCommentOwnership();
     });
   }
 
@@ -42,7 +43,7 @@ export class CommentFormComponent implements OnChanges {
       this.commentForm.patchValue(this.comment);
       this.showCommentForm = true;
     }
-      
+    this.checkCommentOwnership();
     
     
   }
@@ -68,9 +69,13 @@ export class CommentFormComponent implements OnChanges {
     });
   });
 }
-  
+checkCommentOwnership(): void {
+  this.isCommentOwner = this.comment && this.userId === this.comment.userId;
+}
+
 
 updateComment(): void {
+  if (!this.isCommentOwner) return;
   const currentDate = new Date().toISOString();
   this.authService.user$.subscribe((user: User) => {
   const updatedComment: Comment = {

@@ -28,7 +28,7 @@
                             <button *ngIf="user && user.role==='author'" color="accent" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
                                 <mat-icon>delete</mat-icon>
                             </button>
-                            <button color="warn" [routerLink]="['/comments', post.id]" mat-icon-button>
+                            <button color="warn" [routerLink]="['/aboutPost', post.id]" mat-icon-button>
                                 <mat-icon>comment</mat-icon>
                             </button>
                             

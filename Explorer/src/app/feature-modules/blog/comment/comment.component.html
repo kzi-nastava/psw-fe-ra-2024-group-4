@@ -19,7 +19,9 @@
     <p class="comment-date">Created At: {{ c.createdAt | date: 'short' }}</p>
     <p class="comment-updated">Updated At: {{ c.updatedAt | date: 'short' }}</p>
     <div class="actions">
-      <button *ngIf="currentUser && currentUser.role==='tourist'" class="primary" (click)="onEditClicked(c)">
+      <button *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId" 
+              class="primary" 
+              (click)="onEditClicked(c)">
         <mat-icon>edit</mat-icon> Edit
       </button>
       <button *ngIf="currentUser && currentUser.role==='tourist'" class="warn" (click)="deleteComment(c)">
