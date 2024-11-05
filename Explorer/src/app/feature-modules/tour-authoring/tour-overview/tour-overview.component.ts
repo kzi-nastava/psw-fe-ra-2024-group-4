@@ -95,9 +95,6 @@ export class TourOverviewComponent implements OnInit {
 
     
     this.loadTours();
-    
-
-   
   }
 
   createNewCart(userId: number): void
@@ -132,6 +129,7 @@ export class TourOverviewComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading tours:', err);
+        alert("AAAAAAAAAAa");
       }
     });
   }
