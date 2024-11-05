@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, Simp
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MarketplaceService } from '../marketplace.service';
 import { TourReview } from '../model/tour-reviews.model';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'xp-tour-review-form',
@@ -12,6 +13,7 @@ export class TourReviewFormComponent implements OnChanges {
   @Output() tourReviewUpdated = new EventEmitter<null>();
   @Input() tourReview: TourReview;
   @Input() shouldEdit: boolean;
+  touristId: number;
 
   constructor(private service: MarketplaceService) { }
 
@@ -35,9 +37,18 @@ export class TourReviewFormComponent implements OnChanges {
   })
 
   addTourReview(): void{
+    const token = localStorage.getItem('access-token');
+    if(token){
+      const decodedToken : any = jwtDecode(token);
+      this.touristId = decodedToken.id;
+    } else{
+      throw new Error('Token not found');
+    }
+    
     const tourReview: TourReview = {
+      //hardcode idjeva
       idTour: 1,
-      idTourist: 2,
+      idTourist: this.touristId,
       rating: Number(this.tourReviewForm.value.rating) || 0,
       comment: this.tourReviewForm.value.comment || '',
       dateTour: new Date(Date.now()),
@@ -54,8 +65,9 @@ export class TourReviewFormComponent implements OnChanges {
 
   updateTourReview() : void{
     const tourReview: TourReview = {
+      //hardcode idjeva
       idTour: 0,
-      idTourist: 0,
+      idTourist: this.touristId,
       rating: Number(this.tourReviewForm.value.rating) || 0,
       comment: this.tourReviewForm.value.comment || '',
       dateTour: new Date(Date.now()),
