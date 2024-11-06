@@ -12,6 +12,7 @@ import { TourService } from '../../tour-authoring/tour.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'xp-problem-ticket',
   templateUrl: './problem-ticket.component.html',
