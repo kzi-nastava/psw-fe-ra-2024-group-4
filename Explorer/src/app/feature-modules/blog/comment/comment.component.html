@@ -1,18 +1,32 @@
 <div id="main-content">
   <div *ngIf="postDetails" id="post" class="card post-card">
     <div id="post-details">
-      <div>
-        <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
-        <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
+      <div class="post-content">
+        <div>
+          <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
+          <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
+        </div>
+        <div>
+          <h2 class="post-title">{{ postDetails.title }}</h2>
+          <p class="post-date">Created At: {{ postDetails.createdAt | date: 'short' }}</p>
+          <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
+        </div>
       </div>
-      <div>
-        <h2 class="post-title">{{ postDetails.title }}</h2>
-        <p class="post-date">Created At: {{ postDetails.createdAt | date: 'short' }}</p>
-        <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
+      
+      <!-- Voting section inside the post card -->
+      <div class="vote-section-horizontal">
+        <button class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <p class="vote-count">{{ postDetails.ratingSum }}</p>
+        <button class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- Comment section -->
   <div *ngFor="let c of comment" class="card comment-card">
     <p class="comment-text">{{ c.text }}</p>
     <p class="comment-author">Author: {{ c.username }}</p>

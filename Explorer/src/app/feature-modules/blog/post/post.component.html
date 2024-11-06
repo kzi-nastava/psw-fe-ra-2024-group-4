@@ -1,52 +1,40 @@
-<div id="posts">
+<div id="posts" class="container">
     <p>Blog Posts</p>
     <hr>
     <div id="post-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Created At</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let post of posts">
-                        <div class="image-container">
-                            <td><img [src]="getImage(post.imageUrl)" alt="post.title" height="100"></td>
-                        </div>
-                        <td>{{ post.title }}</td>
-                        <td> <markdown>{{ post.description }}</markdown></td>
-                        <td>{{ post.createdAt | date: 'short' }}</td>
-                        <td>
-                            <button *ngIf="user && user.role==='author'" color="primary" (click)="onEditClicked(post)" mat-icon-button>
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button *ngIf="user && user.role==='author'" color="accent" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                            <button color="warn" [routerLink]="['/aboutPost', post.id]" mat-icon-button>
-                                <mat-icon>comment</mat-icon>
-                            </button>
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="5">
-                            <button *ngIf="user && user.role==='author'" color="primary" (click)="onAddClicked()" mat-icon-button>
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div *ngFor="let post of posts" class="post-card">
+            <mat-card class="mat-elevation-z3 primary">
+                <mat-card-header>
+                    <div mat-card-avatar class="img-container">
+                        <img [src]="getImage(post.imageUrl)" alt="{{ post.title }}" class="image">
+                    </div>
+                    <mat-card-title class="secondary">{{ post.title }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <markdown>{{ post.description }}</markdown>
+                </mat-card-content>
+                <div class="date-container">{{ post.createdAt | date: 'short' }}</div>
+                <mat-card-actions>
+                    <button *ngIf="user && user.role === 'author' && user.id === post.userId " color="secondary" (click)="onEditClicked(post)" mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button *ngIf="user && user.role === 'author' && user.id === post.userId" color="warn" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button color="accent" [routerLink]="['/aboutPost', post.id]" mat-icon-button>
+                        <mat-icon>info</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
         </div>
-        <div>
-            <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
-        </div>
-        <router-outlet></router-outlet>
     </div>
+    <div class="add-button-container">
+        <button *ngIf="user && user.role === 'author'" color="primary" (click)="onAddClicked()" mat-icon-button>
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div>
+        <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
+    </div>
+    <router-outlet></router-outlet>
 </div>
