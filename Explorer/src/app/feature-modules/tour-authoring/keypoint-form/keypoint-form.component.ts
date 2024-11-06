@@ -53,9 +53,11 @@ export class KeypointFormComponent implements OnInit {
       })
     }
 
+    
     if(this.shouldEdit)
     {
      
+      
       this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
@@ -63,9 +65,12 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
         image: this.keypoint.image,
+        imageBase64: this.keypoint.imageBase64
         
       })
     }
+
+    
 
  
   }
@@ -175,12 +180,14 @@ export class KeypointFormComponent implements OnInit {
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "",
-        tourId: this.tourToAdd.id || -1 //nisam dirala jer je update
+        tourId: this.keypoint.tourId || -1 //nisam dirala jer je update
         
       }
       keypoint.id = this.keypoint.id;
+
+     
       this.service.updateKeyPoint(keypoint).subscribe({
-        next: () => {this.keypointsUpdated.emit();}
+        next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
       });
     }
