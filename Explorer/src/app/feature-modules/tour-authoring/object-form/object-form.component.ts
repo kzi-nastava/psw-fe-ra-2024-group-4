@@ -137,7 +137,8 @@ export class ObjectFormComponent implements OnInit {
         description: this.objectForm.value.description || '',    
         image: this.objectForm.value.image || '',                
         category: this.getCategoryValue() || 0,           
-        userId: this.user?.id ?? -1
+        userId: this.user?.id ?? -1,
+        status: 0
       };
   
       // Proceed to add the object after gathering the count

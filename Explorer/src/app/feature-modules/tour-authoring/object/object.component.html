@@ -10,6 +10,7 @@
                 <th>Category</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
+                <th>Status</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -23,6 +24,7 @@
                 <td>{{ item.category }}</td>
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
+                <td>{{ item.status}}</td>
                 <td>
                     <button mat-button (click)="editObject(item)">
                         <mat-icon>edit</mat-icon>

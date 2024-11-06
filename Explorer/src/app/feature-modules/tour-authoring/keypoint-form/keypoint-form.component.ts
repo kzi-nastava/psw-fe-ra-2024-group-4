@@ -62,8 +62,7 @@ export class KeypointFormComponent implements OnInit {
         longitude: this.keypoint.longitude,
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
-        image: this.keypoint.image,
-        
+        image: this.keypoint.image,        
       })
     }
 
@@ -78,7 +77,7 @@ export class KeypointFormComponent implements OnInit {
     latitude: new FormControl(0.0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
-    imageBase64: new FormControl('')
+    imageBase64: new FormControl(''),
   })
 
   setLongitude(newLongitude: number): void{
@@ -134,7 +133,8 @@ export class KeypointFormComponent implements OnInit {
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "" ,//ovde je bio problem
-        tourId: this.tourToAdd.id || -1
+        tourId: this.tourToAdd.id || -1,
+        status : 0,
       }
 
       
@@ -193,7 +193,8 @@ export class KeypointFormComponent implements OnInit {
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "",
-        tourId: this.tourToAdd.id || -1 //nisam dirala jer je update
+        tourId: this.tourToAdd.id || -1, //nisam dirala jer je update
+        status: 0,
         
       }
       keypoint.id = this.keypoint.id;

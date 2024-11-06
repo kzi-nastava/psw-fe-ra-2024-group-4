@@ -7,5 +7,6 @@ export interface TourObject {
     longitude: number;
     latitude: number;
     userId: number;
+    status: number;
   }
 

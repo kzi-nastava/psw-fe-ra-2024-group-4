@@ -8,4 +8,5 @@ export interface KeyPoint {
     userId: number;
     imageBase64: string;
     tourId: number;
+    status: number;
 }
