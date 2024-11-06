@@ -72,10 +72,11 @@ export class ProblemTicketComponent implements OnInit {
     setTimeout(() => {
     }, 200);
     this.problem = history.state.problem;
+    const problemId = history.state.problemId;
 
 
-    if (this.problem.id) {
-      this.loadProblem(this.problem.id);
+    if (problemId) {
+      this.loadProblem(problemId);
     }
     //this.problem = this.problemm;
     console.log('poslat problem', this.problem);

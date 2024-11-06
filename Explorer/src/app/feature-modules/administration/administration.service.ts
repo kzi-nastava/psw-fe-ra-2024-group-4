@@ -10,6 +10,7 @@ import { Member } from './model/member.model';
 import { ClubInvitation } from './model/club-invitation.model';
 import { Club } from './model/club.model';
 import { Account } from './model/account.model';
+import { Notification } from './model/notifications.model';
 
 
 @Injectable({
@@ -111,6 +112,19 @@ export class AdministrationService {
     return this.http.get<PagedResults<AppReview>>(environment.apiHost + 'administration/appReview')
   }
 
+  getAllNotifications(userId: number, role: 'tourist' | 'author' | 'administrator'): Observable<PagedResults<Notification>> {
+    const url = `${environment.apiHost}${role}/notification/getall/${userId}`;
+    return this.http.get<PagedResults<Notification>>(url);
+  }
+
+  updateNotification(role: string, notification: Notification): Observable<any> {
+    const url = `${environment.apiHost}${role}/notification/${notification.id}`;
+    console.log("Updating notification:", notification); // Proverite sadržaj `notification`
+    return this.http.put(url, notification); 
+}
+
+
+  
 
 }
 

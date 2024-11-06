@@ -39,7 +39,8 @@ export class ProblemFormComponent {
         userId: this.user.id,
         tourId: 1,
         isActive: true,
-        comments: []
+        comments: [],
+        deadline:0
       };
 
       console.log("Problem to be sent:", problem);

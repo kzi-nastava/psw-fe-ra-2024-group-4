@@ -72,8 +72,16 @@ export class MarketplaceService {
     return this.http.delete<Problem>(environment.apiHost + `problem/admin/${id}`);
   }
 
+  //turista
   getProblemById(id: number): Observable<Problem> {
     return this.http.get<Problem>(environment.apiHost + `problem/find/${id}`);
   }
+  //autor
+  getAuthorProblemById(id: number): Observable<Problem> {
+    return this.http.get<Problem>(environment.apiHost + `author/problem/find/${id}`);
+  }
+  // getAdminProblemById(id: number): Observable<Problem> {
+  //   return this.http.get<Problem>(environment.apiHost + `problem/admin/${id}`);
+  // }
   
 }

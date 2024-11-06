@@ -12,7 +12,7 @@ import { ClubFormComponent } from './club-form/club-form.component';
 import { RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
-
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -25,7 +25,8 @@ import { AppReviewTableComponent } from './app-review-table/app-review-table.com
     ClubComponent,
     ClubFormComponent,
     AccountComponent,
-    AppReviewTableComponent
+    AppReviewTableComponent,
+    NotificationsComponent
 
   ],
   imports: [
@@ -42,7 +43,8 @@ import { AppReviewTableComponent } from './app-review-table/app-review-table.com
     ClubComponent,
     ClubFormComponent,
     AccountComponent,
-    AppReviewTableComponent
+    AppReviewTableComponent,
+    NotificationsComponent
 
   ]
 })
