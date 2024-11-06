@@ -5,6 +5,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { environment } from 'src/env/environment';
 import { Post } from './model/post.model';
 import { Comment } from './model/comment.model';
+import { Rating } from './model/rating.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class PostService {
   }
   getPostById(id: number): Observable<Post> {
     return this.http.get<Post>(environment.apiHost+'postmanagement/post/'+id);
+  }
+  addRating(postId: number, rating: Rating): Observable<Post>{
+    console.log(postId);
+    return this.http.post<Post>(environment.apiHost+'blogfeedback/rating/'+postId,rating);
   }
 
 }

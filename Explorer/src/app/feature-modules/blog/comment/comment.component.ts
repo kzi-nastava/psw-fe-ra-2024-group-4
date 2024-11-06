@@ -8,6 +8,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PostService } from '../post.service';
 import { Post } from '../model/post.model'
 import { environment } from 'src/env/environment';
+import { Rating } from '../model/rating.model';
 
 @Component({
   selector: 'xp-comment',
@@ -23,6 +24,10 @@ export class CommentComponent implements OnInit {
   postId: number;
   currentUser: User;
   postDetails: Post;
+  userHasUpvoted = false;
+  userHasDownvoted= false;
+  ratings: Rating[];
+  existingRating : Rating | null;
   
   constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService ){}
 
@@ -43,10 +48,24 @@ export class CommentComponent implements OnInit {
         next: (post) => {
           this.postDetails = post;
           this.comment=this.postDetails.comments;
+          this.ratings=this.postDetails.ratings;
+          this.existingRating=this.ratings.find(r=>r.userId===this.currentUser.id) ?? null;
+          this.checkVote();
         },
       
       });
     }
+
+  checkVote(){
+    if (this.existingRating) {
+      this.userHasUpvoted = this.existingRating.value === 1;
+      this.userHasDownvoted = this.existingRating.value === -1;
+    } else {
+      this.userHasUpvoted = false;
+      this.userHasDownvoted = false;
+    }
+  }
+
   onEditClicked(comment: Comment): void{
     this.shouldEdit = true;
     this.selectedComment=comment;
@@ -70,7 +89,56 @@ export class CommentComponent implements OnInit {
   }
  })
   }
+
   getImage(imageUrl: string | undefined): string {
   return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png';
 }
+
+downvotePost() {
+  if (this.existingRating) {
+    if (this.existingRating.value === -1) {
+      return;
+    } else {
+      // bice
+    }
+  } else {
+    this.addNewRating(-1);
+  }
+}
+
+upvotePost(){
+  if(this.existingRating){
+    if(this.existingRating.value === 1){
+      return;
+    }
+    else{
+      //bice kao obrisi stari dodaj novi
+    }
+  }
+  else{
+    this.addNewRating(1)
+  }
+}
+
+addNewRating(value: number){
+  const rating: Rating={
+    userId: this.currentUser.id,
+    value: value
+  }
+  this.existingRating=rating;
+  this.ratings=[...this.ratings,rating];
+  this.postDetails.ratingSum+=value;
+  console.log(this.postId)
+  this.postService.addRating(this.postId,rating).subscribe({
+    next: ()=>{
+      this.getPostDetails(this.postId);
+    },
+    error:(error)=>{
+      console.log('failed to add rating');
+    }
+  })
+}
+
+
+
 }

@@ -59,10 +59,12 @@ export class PostFormComponent implements OnChanges{
         status: 0, 
         createdAt: new Date(), 
         userId: this.user.id,
+        ratingSum: 0,
         imageBase64: this.postForm.value.imageBase64 || "",
-        comments: []
+        comments: [],
+        ratings: []
       };
-  
+      console.log(post);
       this.service.addPost(post).subscribe({
         next: () => { this.postUpdated.emit(); }
       });
@@ -78,8 +80,10 @@ export class PostFormComponent implements OnChanges{
         status: this.post.status, 
         createdAt:this.post.createdAt, 
         userId: this.post.userId,
+        ratingSum: this.post.ratingSum,
         imageBase64: this.postForm.value.imageBase64 || "",
-        comments: this.post.comments
+        comments: this.post.comments,
+        ratings: this.post.ratings
       };
       post.id=this.post.id;
       this.service.updatePost(post).subscribe({
