@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { KeyPoint } from '../model/keypoint.model';
+import { KeyPoint,Status } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../model/tour.model';
 
@@ -62,7 +62,8 @@ export class KeypointFormComponent implements OnInit {
         longitude: this.keypoint.longitude,
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
-        image: this.keypoint.image,        
+        image: this.keypoint.image,   
+        publicStatus: this.keypoint.publicStatus,     
       })
     }
 
@@ -78,6 +79,7 @@ export class KeypointFormComponent implements OnInit {
     description: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
     imageBase64: new FormControl(''),
+    publicStatus: new FormGroup(Status.PRIVATE)
   })
 
   setLongitude(newLongitude: number): void{
@@ -134,8 +136,9 @@ export class KeypointFormComponent implements OnInit {
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "" ,//ovde je bio problem
         tourId: this.tourToAdd.id || -1,
-        status : 0,
+        publicStatus : this.keypointForm.value.publicStatus || Status.PRIVATE,
       }
+      
 
       
       this.service.createKeyPoint(keypoint).subscribe({
@@ -165,24 +168,16 @@ export class KeypointFormComponent implements OnInit {
 
     }
   });
-
-      
-     
-
-     
-
-    
     }
-
-      
+  }
+  onMakePublicChange(event: any): void {
+    const isChecked = event.checked;
+    this.keypointForm.patchValue({
+      publicStatus: isChecked ? Status.REQUESTED_PUBLIC : Status.PRIVATE
+    });
   }
 
   updateKeyPoint(): void{
-
-   
-   
-
-   
     if(this.user)
     {
       const keypoint: KeyPoint = {
@@ -194,7 +189,7 @@ export class KeypointFormComponent implements OnInit {
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "",
         tourId: this.tourToAdd.id || -1, //nisam dirala jer je update
-        status: 0,
+        publicStatus: 0,
         
       }
       keypoint.id = this.keypoint.id;
