@@ -83,5 +83,11 @@ export class MarketplaceService {
   // getAdminProblemById(id: number): Observable<Problem> {
   //   return this.http.get<Problem>(environment.apiHost + `problem/admin/${id}`);
   // }
+
+  getTourById(id: number,  role: 'tourist' | 'author' ): Observable<Tour> {
+    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getById/${id}`);
+  }
+  
+  
   
 }

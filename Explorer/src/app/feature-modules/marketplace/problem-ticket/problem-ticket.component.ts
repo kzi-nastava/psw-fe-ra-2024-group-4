@@ -28,7 +28,7 @@ export class ProblemTicketComponent implements OnInit {
   roles: {[key: number]: String} = {}
   authorId: number = 0;
   isModalOpen = false;  
-  
+  tour: Tour | null = null; 
 
   newComment: ProblemComment = {
     problemId: 0,
@@ -311,13 +311,13 @@ export class ProblemTicketComponent implements OnInit {
             this.problem = response;
             console.log(this.problem1);
 
-          
+
             this.newComment.text = ''; 
           },
           (error) => {
             console.error('Error posting comment:', error);
             console.log(this.newComment);
-            
+
           }
         );
       }
@@ -335,10 +335,26 @@ export class ProblemTicketComponent implements OnInit {
           (error) => {
             console.error('Error posting comment:', error);
             console.log(this.newComment);
-            
+
           }
         );
       }
     }
+  }
+
+  loadTour(tourId: number, role: "tourist" | "author"): void {
+    
+
+   
+    this.service.getTourById(tourId, role).subscribe(
+      (tour: Tour) => {
+        this.tour = tour;  // Postavljanje učitanog Tour objekta u polje `tour`
+        console.log('Tour učitan:', this.tour);
+        console.log(tour.userId)
+      },
+      (error) => {
+        console.error('Error fetching tour for AUTHORID:', error);
+      }
+    ); 
   }
 }
