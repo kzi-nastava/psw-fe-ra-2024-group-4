@@ -37,7 +37,8 @@ export class ProblemComponent implements OnInit{
    this.authService.userLoggedOut.subscribe(()=>{
       this.showProblemForm = false; 
       this.isLoggedIn=false;
-   })
+   });
+
   }
 
   checkIfLoggedIn(): void{
@@ -82,6 +83,7 @@ export class ProblemComponent implements OnInit{
               const daysDifference = Math.floor((now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24)); // zaokruženo na ceo dan
  
               const isLate =  daysDifference > 5;
+             
           console.log(`Problem time: ${problem.time}, Days difference: ${daysDifference}, isLate: ${isLate}`);
           return {
             ...problem,
@@ -90,7 +92,7 @@ export class ProblemComponent implements OnInit{
           };
           
             });
-            
+            this.checkDeadline();
           },
           error: (err: any) => {
             console.log(err);
@@ -124,6 +126,18 @@ export class ProblemComponent implements OnInit{
   openTicket(p: Problem) {
     //console.log(p);
     this.router.navigate(['/problem-ticket'], { state: { problem: p}});
+  }
+
+  checkDeadline(): void {
+   
+    const currentTime = new Date();
+    this.problems.forEach(p => {
+      const timeDifference = (currentTime.getTime() - new Date(p.time).getTime()) / (1000 * 3600 * 24);
+      if(p.deadline){
+         p.isOverDeadline = timeDifference > p.deadline;
+      }
+     
+    });
   }
   
 

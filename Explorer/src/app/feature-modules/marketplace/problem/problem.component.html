@@ -26,7 +26,7 @@
                     </button>
                 </td>
 
-                <td *ngIf="p.isLate">
+                <td *ngIf="p.isOverDeadline">
                     <button color="warn" (click)="showAlert(p)" mat-icon-button>
                         <mat-icon>error</mat-icon>
                     </button>
