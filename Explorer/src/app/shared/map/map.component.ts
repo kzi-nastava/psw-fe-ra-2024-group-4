@@ -196,7 +196,9 @@ export class MapComponent {
           this.distanceChanged.emit(totalDistance);
           
           
-          console.log("emit se desio");       
+          
+          console.log("emit se desio");     
+            
         },
         error: () => {   
           console.log("uslo u eror");  
@@ -225,6 +227,10 @@ export class MapComponent {
     keyPoints.forEach(keyPoint =>{
       const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
     });
+  }
+
+  refreshPage():void{
+    window.location.reload();
   }
 
   

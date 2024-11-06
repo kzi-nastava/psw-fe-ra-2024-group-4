@@ -78,7 +78,7 @@ export class ToursForAuthorComponent implements OnInit {
     });
   }
 
-  onDistanceChanged(newDistance: number) {
+  onDistanceChanged(newDistance: number) { //nije dosao 
   console.log('tours for author')
     if(this.user?.id != null) {
       this.getTours(this.user?.id)
@@ -151,6 +151,7 @@ export class ToursForAuthorComponent implements OnInit {
      
     });
     
+    
 
   }
 
@@ -164,7 +165,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
-
+    
     /*  if(user !== null && user.role === 'author')
       {
        const dialogRef = this.dialog.open(KeypointDialogComponent, {
