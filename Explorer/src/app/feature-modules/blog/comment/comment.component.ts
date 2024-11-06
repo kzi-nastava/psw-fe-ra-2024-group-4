@@ -99,7 +99,7 @@ downvotePost() {
     if (this.existingRating.value === -1) {
       return;
     } else {
-      // bice
+      this.updateRating(-1);
     }
   } else {
     this.addNewRating(-1);
@@ -112,14 +112,30 @@ upvotePost(){
       return;
     }
     else{
-      //bice kao obrisi stari dodaj novi
+     this.updateRating(1);
     }
   }
   else{
     this.addNewRating(1)
   }
 }
-
+updateRating(value: number){
+  const rating: Rating={
+    userId:this.currentUser.id,
+    value: value
+  }
+  this.existingRating=rating;
+  this.ratings=[...this.ratings,rating];
+  this.postDetails.ratingSum+=value;
+  this.postService.updateRating(this.postId,rating).subscribe({
+    next: ()=>{
+      this.getPostDetails(this.postId);
+    },
+    error:(error)=>{
+      console.log('failed to add rating');
+    }
+  })
+}
 addNewRating(value: number){
   const rating: Rating={
     userId: this.currentUser.id,

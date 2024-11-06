@@ -15,13 +15,16 @@
       
       <!-- Voting section inside the post card -->
       <div class="vote-section-horizontal">
-        <button class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+        <p class="rate-label">Rate:</p>
+        <button *ngIf="currentUser && currentUser.role==='tourist'" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
           <mat-icon>arrow_upward</mat-icon>
         </button>
         <p class="vote-count">{{ postDetails.ratingSum }}</p>
-        <button class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+        <button *ngIf="currentUser && currentUser.role==='tourist'" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
           <mat-icon>arrow_downward</mat-icon>
         </button>
+        <p class="rate-label">Comments:</p>
+        <p class="comment-count">{{comment.length}}</p>
       </div>
     </div>
   </div>

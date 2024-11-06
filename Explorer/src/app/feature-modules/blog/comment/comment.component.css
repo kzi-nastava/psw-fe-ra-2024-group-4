@@ -139,7 +139,7 @@ button:hover {
     color: #b53f7e;
   }
   
-  .vote-count {
+  .vote-count,.comment-count {
     font-size: 1.2em;
     font-weight: bold;
     padding: 0.2em 0.5em;
