@@ -1,41 +1,47 @@
 <div id="equipment">
-    <p>Tours</p>
-    <hr>
+    <header><h1>Tours</h1></header>
+
     <div id="equipment-details">
-    <div>
-        <table>
-            <thead>
-                <tr>
+        <div class="card-container">
+            <div *ngFor="let tr of tours" class="global-card">
+                <header><h3>{{ tr.name }}</h3></header>
+                <p><strong>Description:</strong> {{ tr.description }}</p>
+                <p><strong>Difficulty:</strong> {{ tr.difficulty }}</p>
+                <p><strong>Price:</strong> ${{ tr.price }}</p>
+                <p><strong>Status:</strong> 
+                    {{ 
+                        tr.status === 0 ? 'Draft' : 
+                        tr.status === 1 ? 'Published' : 
+                        tr.status === 2 ? 'Archived' : 
+                        '-' 
+                    }}
+                </p>
+                <p><strong>Tags:</strong> {{ getTagNames(tr.tags).join(', ') }}</p>
+                
+                <div class="card-actions">
+                    <ng-container *ngIf="tr.status === 2; else archiveButton">
+                        <button mat-icon-button color="primary" 
+                            (click)="reactivateTour(tr)">
+                            <mat-icon>replay</mat-icon> 
+                        </button>
+                    </ng-container>
+                    <ng-template #archiveButton>
+                        <button mat-icon-button color="primary" 
+                            [disabled]="tr.status !== 1"
+                            (click)="archiveTour(tr)">
+                            <mat-icon>archive</mat-icon> 
+                        </button>
+                    </ng-template>
                     
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Difficulty</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Tags</th>
-                    <th><button color="primary" (click)="onAddClicked()" mat-icon-button>
-                        <mat-icon>add</mat-icon>
-                    </button></th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let tr of tours">
-                    
-                    <td>{{tr.name}}</td>
-                    <td>{{tr.description}}</td>
-                    <td>{{tr.difficulty}}</td>
-                    <td>{{tr.price}}</td>
-                    <td>{{ tr.status === 0 ? 'Draft' : 'Published' }}</td>
-                    <td>{{ getTagNames(tr.tags).join(', ') }}</td>
-                    <td><button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button></td>
-                    
-                </tr>
-            </tbody>
-        </table>
+                    <button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
+
     <div class="tourDetails">
-        <xp-tour-details *ngIf = "shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" [tour] = "selectedTour" [tourKeypoints]="selectedKeypoints"></xp-tour-details>
+        <xp-tour-details *ngIf="shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" 
+                         [tour]="selectedTour" [tourKeypoints]="selectedKeypoints">
+        </xp-tour-details>
     </div>
 </div>

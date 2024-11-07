@@ -53,9 +53,11 @@ export class KeypointFormComponent implements OnInit {
       })
     }
 
+    
     if(this.shouldEdit)
     {
      
+      
       this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
@@ -64,8 +66,12 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypoint.description,
         image: this.keypoint.image,   
         publicStatus: this.keypoint.publicStatus,     
+        imageBase64: this.keypoint.imageBase64
+        
       })
     }
+
+    
 
  
   }
@@ -142,25 +148,11 @@ export class KeypointFormComponent implements OnInit {
 
       
       this.service.createKeyPoint(keypoint).subscribe({
-         next: (_) => {
+         next: (result: KeyPoint) => {
             this.keypointsUpdated.emit();
-            this.keyPoints.length += 1;
-
-            if(this.shouldAddKeypoint && this.user)
-              {
-                
-      
-              
-                this.service.addKeyPointToTour(this.tourToAdd, keypoint.id).subscribe({
-                  next: (result: Tour) => { 
-                    this.keypointAdded.emit(keypoint);
-                    this.tourUpdated.emit(result);
-                    
-                  },
-                  error: (err: any) => console.log(err)
-                })
+            this.tourToAdd.keyPoints.push(result);
+            this.tourUpdated.emit(this.tourToAdd);
           
-              }
 
          }
       });
@@ -168,6 +160,8 @@ export class KeypointFormComponent implements OnInit {
 
     }
   });
+
+
     }
   }
   onMakePublicChange(event: any): void {
@@ -193,8 +187,10 @@ export class KeypointFormComponent implements OnInit {
         
       }
       keypoint.id = this.keypoint.id;
+
+     
       this.service.updateKeyPoint(keypoint).subscribe({
-        next: () => {this.keypointsUpdated.emit();}
+        next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
       });
     }

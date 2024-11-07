@@ -5,6 +5,10 @@ import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/ke
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
 import { TourObject } from 'src/app/feature-modules/tour-authoring/model/object.model';
 import { waitForAsync } from '@angular/core/testing';
+import { PositionSimulator } from 'src/app/feature-modules/tour-authoring/model/position-simulator.model';
+import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 
 @Component({
@@ -19,15 +23,21 @@ export class MapComponent {
   @Input() selectedTourPoints: KeyPoint[];
   @Input() objects: TourObject[] = [];
   @Input() registerObjectRoute: boolean = false;
-
+  @Input() positionSimulatorActivated: boolean = false;
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
+  currentPosition: PositionSimulator;
 
   @Output() latitudeChanged = new EventEmitter<number>();
   @Output() longitudeChanged = new EventEmitter<number>();
+  @Output() touristPositionCreate = new EventEmitter<PositionSimulator>();
+  @Output() touristPositionUpdate = new EventEmitter<PositionSimulator>();
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+  
+   user: User;
+  
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -42,7 +52,7 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService) {}
+   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService) {}
 
    
    
@@ -99,7 +109,49 @@ export class MapComponent {
        console.log("SHOWING ROUTES");
       // this.drawRoute(this.selectedTourPoints);
     }
+   
+    this.getCurrentPosition();
+    if(this.positionSimulatorActivated)
+    {
+      
+     
+        
+      
+      this.registerPosition();
+    }
 
+  }
+
+  getCurrentPosition() : void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
+
+    if(this.user)
+    {
+
+      
+      this.service.getPositionByTourist(this.user.id).subscribe({
+        next: (result: PositionSimulator) => 
+        {
+          
+          this.currentPosition = result;
+          this.showCurrentPosition(this.currentPosition.longitude, this.currentPosition.latitude);
+          
+         
+        },
+        error: (err: any) => {
+          console.log("Error fetching position:", err);
+         
+      }
+       
+      })
+
+     
+  
+
+     
+    }
   }
 
   
@@ -115,17 +167,28 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+    this.plotKeyPoints();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['objects'] && this.map) {
-      this.plotExistingObjects(); 
+    if (this.map) {
+        if (changes['selectedTourPoints']) {
+            this.plotKeyPoints(); 
+        }
+        if (changes['objects']) {
+            this.plotExistingObjects(); 
+        }
     }
-  }
+}
+
 
 
   showPoint() : void
   {
     this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude]).addTo(this.map);
+  }
+
+  showCurrentPosition(longitude: number, latitude: number){
+    this.currentMarker = new L.Marker([latitude, longitude]).addTo(this.map);
   }
 
   registerOnClick(): void {
@@ -151,6 +214,47 @@ export class MapComponent {
       
       this.latitudeChanged.emit(lat);
       this.longitudeChanged.emit(lng);
+    });
+    this.plotExistingObjects();
+  }
+
+  registerPosition(): void {
+    
+   
+    this.map.on('click', (e: any) => {
+      
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      
+     
+
+      if (this.currentMarker) {
+        this.map.removeLayer(this.currentMarker);
+    }
+
+      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      
+      if(!this.currentPosition)
+        {
+          let newPosition: PositionSimulator = {
+            longitude: lng,
+            latitude: lng,
+            touristId: -1
+          } as PositionSimulator;
+          newPosition.longitude = lng;
+          newPosition.latitude = lat;
+         
+          this.touristPositionCreate.emit(newPosition);
+         
+        }
+        else
+        {
+          this.currentPosition.longitude = lng;
+          this.currentPosition.latitude = lat;
+          this.touristPositionUpdate.emit(this.currentPosition);
+        }
+     
     });
     this.plotExistingObjects();
   }
@@ -196,10 +300,31 @@ export class MapComponent {
 
   drawRoute(keyPoints: KeyPoint[]): void{
     keyPoints.forEach(keyPoint =>{
-     // const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
+      const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
     });
   }
 
+  private plotKeyPoints(): void {
+    console.log('Selected Tour Points:', this.selectedTourPoints);
+    // Clear existing markers if re-plotting is needed
+    this.selectedTourPointsMarkers.forEach(marker => this.map.removeLayer(marker));
+    this.selectedTourPointsMarkers = [];
+
+    if (this.selectedTourPoints && this.selectedTourPoints.length > 0) {
+      this.selectedTourPoints.forEach(point => {
+        const marker = L.marker([point.latitude, point.longitude])
+          .addTo(this.map)
+          .bindPopup(`<strong>${point.name}</strong>`);
+        this.selectedTourPointsMarkers.push(marker);
+        console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+      });
+    } else {
+      console.warn('No key points available to plot.');
+    }
+}
+
+  
+  
   
 
  

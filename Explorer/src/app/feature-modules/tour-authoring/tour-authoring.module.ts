@@ -28,6 +28,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MapForTourComponent } from './map-for-tour/map-for-tour.component';import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from './tour-preferences-form/tour-preferences-form.component';
 import { RouterModule } from '@angular/router';
+import { TourOverviewComponent } from './tour-overview/tour-overview.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
 
 
 
@@ -45,7 +49,9 @@ import { RouterModule } from '@angular/router';
     TourDetailsComponent,
     ObjectComponent,
     ObjectFormComponent,
-    MapForTourComponent
+    MapForTourComponent,
+    TourOverviewComponent,
+    TourOverviewDetailsComponent
   ],
   imports: [
     // Import necessary modules
@@ -68,7 +74,9 @@ import { RouterModule } from '@angular/router';
     MatOptionModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    MatChipsModule
   ],
   exports: [
     // Export components to be used in other modules

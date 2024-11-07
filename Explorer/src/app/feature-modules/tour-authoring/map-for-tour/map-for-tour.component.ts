@@ -41,29 +41,13 @@ export class MapForTourComponent implements OnInit{
   }
 
   getTourKeyPoints(){
-    if(this.tour.keyPointIds !== null){
-      this.tour.keyPointIds.forEach(keyPointId => {
-        // Placeholder za poziv servisa
-        this.service.getKeyPointById(keyPointId).subscribe({
-          next:(result: KeyPoint) => {
-            this.keyPoints.push(result);
-            //this.addMarker(result); // Dodaj marker kada se KeyPoint učita
-          },
-          error: (err: any) => console.log(err)
-        })
-        //console.log(keyPointId);
-
-        
-      });
-      //console.log(this.keyPoints);
-    }
+  
+      this.keyPoints = this.tour.keyPoints;
+   
 
   }
   closeMap(): void {
-   /* const mainElement = document.querySelector('.main') as HTMLElement; // Castuj element kao HTMLElement
-    if (mainElement) {
-        mainElement.style.display = 'none'; // Sakrij .main
-    }*/
+  
    this.onCloseMap.emit();
   }
 

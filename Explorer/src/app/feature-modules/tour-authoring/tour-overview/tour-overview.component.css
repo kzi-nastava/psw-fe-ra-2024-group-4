@@ -1,0 +1,25 @@
+mat-card {
+    width: 25vw;
+    height: auto;
+}
+
+mat-card-content {
+    overflow: auto;
+}
+
+mat-chip {
+    margin: 2px;
+}
+
+span {
+    overflow: auto;
+}
+
+.img-container {
+    width: auto;
+    height: 35vh;
+}
+
+.container {
+    margin: 5px;
+}
