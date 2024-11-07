@@ -165,6 +165,13 @@ export class ToursForAuthorComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
+
+      if(user !== null && user.role === 'author')
+        {
+          this.getTours(user.id);
+  
+          
+        }
     
     /*  if(user !== null && user.role === 'author')
       {
