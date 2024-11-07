@@ -181,14 +181,13 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: this.keypointForm.value.imageBase64 || "",
-        tourId: this.tourToAdd.id || -1, //nisam dirala jer je update
+        imageBase64: this.keypointForm.value.imageBase64 || "",//nisam dirala jer je update
+        tourId: this.keypoint.tourId || -1, 
         publicStatus: 0,
         
       }
       keypoint.id = this.keypoint.id;
 
-     
       this.service.updateKeyPoint(keypoint).subscribe({
         next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
