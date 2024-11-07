@@ -29,7 +29,10 @@
         <mat-label>Latitude</mat-label>
         <input matInput formControlName="latitude" type="number" required/>
       </mat-form-field>
-
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <input matInput formControlName="latitude" type="checkbox" required/>
+      </mat-form-field>
       <button type="submit" color="primary" mat-raised-button>
         {{ objectToEdit ? 'Update Object' : 'Create Object' }}
       </button>
