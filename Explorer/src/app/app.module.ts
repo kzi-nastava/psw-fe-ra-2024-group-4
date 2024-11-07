@@ -50,7 +50,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   providers: [
     {

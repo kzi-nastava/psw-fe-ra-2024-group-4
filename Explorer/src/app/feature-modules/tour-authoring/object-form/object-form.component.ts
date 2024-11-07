@@ -5,6 +5,7 @@ import { TourObject } from '../model/object.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Status } from '../model/object.model';
 
 @Component({
   selector: 'xp-object-form',
@@ -18,7 +19,6 @@ export class ObjectFormComponent implements OnInit {
   @Input() latitude: number | null = null;
   @Input() longitude: number | null = null;
   @Input() objectToEdit: TourObject | null = null;
-
   
 
   user: User | undefined;
@@ -42,6 +42,7 @@ export class ObjectFormComponent implements OnInit {
           category: this.getCategoryString(this.objectToEdit.category),
           longitude: this.objectToEdit.longitude,
           latitude: this.objectToEdit.latitude,
+          publicStatus: this.objectToEdit.publicStatus,
       });
     }
     
@@ -66,6 +67,7 @@ export class ObjectFormComponent implements OnInit {
           category: this.getCategoryString(this.objectToEdit.category),
           longitude: this.objectToEdit.longitude,
           latitude: this.objectToEdit.latitude,
+          publicStatus: this.objectToEdit.publicStatus,
         });
       }
     }
@@ -78,7 +80,8 @@ export class ObjectFormComponent implements OnInit {
     latitude: new FormControl(0.0, [Validators.required]),      
     description: new FormControl('', [Validators.required]),
     image: new FormControl(''),                              
-    category: new FormControl('', [Validators.required])      
+    category: new FormControl('', [Validators.required]),
+    publicStatus: new FormControl(0,[Validators.required])
   });
 
   getCategoryString(categoryId: number): string{
@@ -138,7 +141,7 @@ export class ObjectFormComponent implements OnInit {
         image: this.objectForm.value.image || '',                
         category: this.getCategoryValue() || 0,           
         userId: this.user?.id ?? -1,
-        publicStatus: 0
+        publicStatus: this.objectForm.value.publicStatus || 0,
       };
   
       // Proceed to add the object after gathering the count
@@ -161,7 +164,7 @@ export class ObjectFormComponent implements OnInit {
       this.objectToEdit.category = this.getCategoryValue();
       this.objectToEdit.longitude = Number(this.objectForm.value.longitude) || 0;
       this.objectToEdit.latitude = Number(this.objectForm.value.latitude) || 0;
-  
+      this.objectToEdit.publicStatus = Number(this.objectForm.value.publicStatus) || 0;
       this.service.updateObject(this.objectToEdit).subscribe({
         next: () => {
           this.objectCreated.emit();
