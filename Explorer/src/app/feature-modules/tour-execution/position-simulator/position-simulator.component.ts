@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import * as L from 'leaflet';
 import { TourExecution } from '../../tour-authoring/model/tour-execution.model';
 import { CompletedKeys } from '../../tour-authoring/model/tour-execution.model';
+import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -25,8 +27,9 @@ export class PositionSimulatorComponent implements OnInit {
   private positionUpdateInterval: any; 
   private userSubscription: Subscription; 
   completedKeyPointIds: Set<number> = new Set()
+  completedKeypoint: KeyPoint;
 
-  constructor(private service: TourExecutionService, private authService: AuthService){}
+  constructor(private service: TourExecutionService, private authService: AuthService, private authorService: TourAuthoringService){}
 
   ngOnInit(): void {
     this.positionSimulatorActivated = true;
@@ -59,7 +62,7 @@ export class PositionSimulatorComponent implements OnInit {
           console.log('Fetched Key Points:', keyPoints);
           this.selectedTourPoints = keyPoints;
           console.log('Key Points for Tour:', this.selectedTourPoints);
-          
+          // alert("description "+keyPoints[0].description) // Teodora
           this.getCurrentPosition();
         });
       } else {
@@ -108,12 +111,12 @@ export class PositionSimulatorComponent implements OnInit {
       if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
         const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
         const distance = currentLatLng.distanceTo(keyPointLatLng);
-  
+        
         if (distance < 50) { 
           console.log('Blizuuuuu');
           const executionId = this.tourExecution.id;
-          if (executionId !== undefined && keyPoint.id !== undefined) {
-            this.completeKeyPoint(executionId, keyPoint.id);
+          if (executionId !== undefined && keyPoint.id !== undefined) { 
+            this.completeKeyPoint(executionId, keyPoint.id, keyPoint); 
           } else {
             console.error("TourExecution id or KeyPoint id is undefined:", { executionId, keyPointId: keyPoint.id });
           }
@@ -136,7 +139,7 @@ updateLastActivity(executionId: number): void {
 }
 
 
-completeKeyPoint(executionId: number, keyPointId: number): void {  
+completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): void { 
   const isCompleted = this.tourExecution.completedKeys?.some(key => key.keyPointId === keyPointId); 
 
   if (isCompleted) {
@@ -148,8 +151,7 @@ completeKeyPoint(executionId: number, keyPointId: number): void {
   this.service.completeKeyPoint(executionId, keyPointId).subscribe({
       next: (result) => {
           console.log(`Key Point ${keyPointId} completed for execution ${executionId}`);
-          alert(`Key Point ${keyPointId} has been completed!`);
-
+          this.showKeypointSecret(keyPoint); 
           const completedKey: CompletedKeys = {
               keyPointId: keyPointId,
               completionTime: new Date()
@@ -173,7 +175,15 @@ completeKeyPoint(executionId: number, keyPointId: number): void {
   });
 }
 
-  
+showKeypointSecret(keyPoint: KeyPoint): void {
+  Swal.fire({
+    title: `Keypoint "${keyPoint.name}" has been reached!`,
+    html: `<p>Read the description about this keypoint:</p><p>${keyPoint.description}</p>`,
+    icon: 'info',
+    confirmButtonText: 'Close'
+  });
+}
+
 
   updatePosition(newPosition: PositionSimulator) : void {
    
