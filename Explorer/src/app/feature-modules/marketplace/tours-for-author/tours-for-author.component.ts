@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { KeypointDialogComponent } from '../keypoint-dialog/keypoint-dialog.component';
 import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { Subscription } from 'rxjs';
+import { MapService } from 'src/app/shared/map/map.service';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -22,6 +24,7 @@ export class ToursForAuthorComponent implements OnInit {
   selectedTour: Tour;
   shouldViewTour: boolean = false;
   selectedKeypoints: KeyPoint[] = [];
+  private lengthUpdatedSubscription!: Subscription;
   
 
   tourTagMap: { [key: number]: string } = {
@@ -52,8 +55,12 @@ export class ToursForAuthorComponent implements OnInit {
       if(user !== null && user.role === 'author')
       {
         this.getTours(user.id);
+
+        
       }
     });
+    
+    
   }
 
   getTours(id: number): void {
@@ -61,7 +68,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
-        console.log(this.tours);
+        console.log(this.tours[0].keyPoints[0].tourId);
        
       },
       error: (error) => {
@@ -69,6 +76,16 @@ export class ToursForAuthorComponent implements OnInit {
         
       }
     });
+  }
+
+  onDistanceChanged(newDistance: number) { //nije dosao 
+  console.log('tours for author')
+    if(this.user?.id != null) {
+      this.getTours(this.user?.id)
+    } else {
+      console.log("UserId is null.")
+    }
+    
   }
 
   getTagNames(tags: number[]): string[] {
@@ -134,6 +151,7 @@ export class ToursForAuthorComponent implements OnInit {
      
     });
     
+    
 
   }
 
@@ -147,7 +165,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
-
+    
     /*  if(user !== null && user.role === 'author')
       {
        const dialogRef = this.dialog.open(KeypointDialogComponent, {
@@ -200,6 +218,12 @@ export class ToursForAuthorComponent implements OnInit {
         },
         error: (error) => console.error('Error reactivating tour:', error)
     });
+}
+
+ngOnDestroy() {
+  if (this.lengthUpdatedSubscription) {
+    this.lengthUpdatedSubscription.unsubscribe();
+  }
 }
 
   

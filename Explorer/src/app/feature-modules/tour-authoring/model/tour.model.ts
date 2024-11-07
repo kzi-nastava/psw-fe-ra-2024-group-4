@@ -13,5 +13,6 @@ export interface Tour {
     publishedTime?: Date;
     archiveTime?: Date;
     equipmentIds: number[] | null; 
+    lengthInKm: number;
     keyPoints: KeyPoint[];
   }

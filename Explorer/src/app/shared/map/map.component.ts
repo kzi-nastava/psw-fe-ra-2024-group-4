@@ -9,6 +9,7 @@ import { PositionSimulator } from 'src/app/feature-modules/tour-authoring/model/
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class MapComponent {
   @Output() longitudeChanged = new EventEmitter<number>();
   @Output() touristPositionCreate = new EventEmitter<PositionSimulator>();
   @Output() touristPositionUpdate = new EventEmitter<PositionSimulator>();
+  @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
@@ -52,7 +54,8 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService) {}
+   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+
 
    
    
@@ -274,6 +277,7 @@ export class MapComponent {
 
   async setRoute(keyPoints: KeyPoint[]) {
     await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('setRoute called with keyPoints:', keyPoints);
    // console.log("Setting route!");
    // console.log("tacke iz setRoute:");
    // console.log(keyPoints);
@@ -281,13 +285,39 @@ export class MapComponent {
     const routeControl = L.Routing.control({
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
-    }).addTo(this.map);
+    }).addTo(this.map); 
 
-  /*  routeControl.on('routesfound', function(e) {
-      var routes = e.routes;
-      var summary = routes[0].summary;
-      alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-    });*/
+    routeControl.on('routesfound', (e) => { 
+      const routes = e.routes;
+      const summary = routes[0].summary;
+      const totalDistance = summary.totalDistance / 1000;
+      console.log("Id ture u map komponent"+ keyPoints[0].tourId);
+  
+     
+      this.touAuthService.updateTourDistance(keyPoints[0].tourId,totalDistance).subscribe({
+        next: (result) => {
+          
+          
+          this.distanceChanged.emit(totalDistance);
+          
+          
+          
+          console.log("emit se desio");     
+            
+        },
+        error: () => {   
+          console.log("uslo u eror");  
+        },
+      });
+
+      //alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' +            Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+
+    // routeControl.on('routesfound', function(e) {
+    //   var routes = e.routes;
+    //   var summary = routes[0].summary;
+    //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    // });
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
@@ -325,6 +355,10 @@ export class MapComponent {
 
   
   
+  refreshPage():void{
+    window.location.reload();
+  }
+
   
 
  

@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { KeyPoint } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../model/tour.model';
+import { MapService } from 'src/app/shared/map/map.service';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -17,7 +18,8 @@ export class KeypointFormComponent implements OnInit {
   @Output() keypointsUpdated = new EventEmitter<null>();
   @Output() tourUpdated = new EventEmitter<Tour>();
   @Output() keypointAdded = new EventEmitter<KeyPoint>();
-  
+  @Output() keyPointCreated = new EventEmitter<void>();
+
   @Input() keypoint: KeyPoint;
   @Input() shouldEdit: boolean = false;
   @Input() shouldAddKeypoint: boolean = false;
@@ -39,7 +41,7 @@ export class KeypointFormComponent implements OnInit {
 
   user: User | undefined;
   nextId: number = 0;
-  constructor(private service: TourAuthoringService, private authService: AuthService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -122,7 +124,7 @@ export class KeypointFormComponent implements OnInit {
       if(this.user)
       {
         
-      
+      console.log("ajsdas"+this.tourToAdd.id)
      
       const keypoint: KeyPoint = {
 
@@ -141,8 +143,11 @@ export class KeypointFormComponent implements OnInit {
       this.service.createKeyPoint(keypoint).subscribe({
          next: (result: KeyPoint) => {
             this.keypointsUpdated.emit();
-            this.tourToAdd.keyPoints.push(result);
+            this.keyPointCreated.emit();
+            this.tourToAdd.keyPoints.push(result);            
+            
             this.tourUpdated.emit(this.tourToAdd);
+            
           
 
          }

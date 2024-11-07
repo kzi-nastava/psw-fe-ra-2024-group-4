@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
+import * as L from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +22,6 @@ export class MapService {
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>`
     );
   }
+
+
 }

@@ -16,6 +16,7 @@
                         '-' 
                     }}
                 </p>
+                <p><strong>Length in km:</strong> ${{ tr.lengthInKm }}</p>
                 <p><strong>Tags:</strong> {{ getTagNames(tr.tags).join(', ') }}</p>
                 
                 <div class="card-actions">
@@ -32,16 +33,16 @@
                             <mat-icon>archive</mat-icon> 
                         </button>
                     </ng-template>
-                    
                     <button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="tourDetails">
         <xp-tour-details *ngIf="shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" 
-                         [tour]="selectedTour" [tourKeypoints]="selectedKeypoints">
+                         [tour]="selectedTour" [tourKeypoints]="selectedKeypoints" (distanceChanged)="onDistanceChanged($event)" >
         </xp-tour-details>
     </div>
 </div>

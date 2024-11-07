@@ -80,6 +80,7 @@ export class CreateTourComponent  implements OnChanges {
       publishedTime: undefined,
       archiveTime: undefined,
       equipmentIds: [],
+      lengthInKm: 0,
       keyPoints: []
     };
     console.log(tour);
