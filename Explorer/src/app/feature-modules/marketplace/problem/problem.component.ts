@@ -84,6 +84,12 @@ export class ProblemComponent implements OnInit{
  
               const isLate =  daysDifference > 5;
              
+              if (!problem.isActive && problem.isLate !== undefined) {
+                problem.isLate = problem.isLate;
+              } else {
+                problem.isLate = isLate;
+              }
+
           console.log(`Problem time: ${problem.time}, Days difference: ${daysDifference}, isLate: ${isLate}`);
           return {
             ...problem,
@@ -156,10 +162,12 @@ export class ProblemComponent implements OnInit{
       showCloseButton: true, 
       confirmButtonText: 'Close problem',
       cancelButtonText: 'Remove tour',
+      allowOutsideClick: false ,
     }).then((result) => {
       if (result.isConfirmed) {
         this.closeProblem();
-      } else if (result.isDismissed) {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Ako je korisnik kliknuo na "Remove tour"
         this.removeTour();
       }
     });
@@ -182,9 +190,20 @@ export class ProblemComponent implements OnInit{
       (updatedProblem: Problem) => {
         this.problem = updatedProblem;
         console.log('Updated problem status:', updatedProblem);
+
+
         const index = this.problems.findIndex(p => p.id === updatedProblem.id);
       if (index !== -1) {
-        updatedProblem.isLate = true
+
+        const now = new Date();
+        const reportedDate = new Date(updatedProblem.time);
+        const daysDifference = Math.floor((now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24)); 
+        if(daysDifference>5){
+          updatedProblem.isLate = true
+        }else{
+          updatedProblem.isLate = false
+        }
+        
         this.problems[index] = updatedProblem; 
       }
       },

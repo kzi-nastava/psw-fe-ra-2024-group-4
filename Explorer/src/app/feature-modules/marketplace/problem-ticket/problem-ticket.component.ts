@@ -310,8 +310,11 @@ export class ProblemTicketComponent implements OnInit {
             this.problem1 = response;
             this.problem = response;
             console.log(this.problem1);
-
-
+            let id = this.problem.id;
+            if(id){
+              this.loadProblem(id);  
+            }
+            
             this.newComment.text = ''; 
           },
           (error) => {
