@@ -2,7 +2,7 @@
   <button class="close-btn" (click)="onToggleNotifications()">✖</button>
   <h2 class="notification-header">All notifications</h2>
 
-  <ul class="notification-list">
+  <ul class="notification-list" *ngIf="allNotifications.length > 0; else noNotifications">
     <li
       class="notification-item"
       *ngFor="let notification of allNotifications"

@@ -50,15 +50,21 @@ export class NotificationsComponent implements OnInit {
     }
   }
   markAsReadAndRedirect(notification: Notification): void {
-    if (this.role) {
-        console.log('Resource ID:', notification.resourceId);
+    if (!this.role) {
+        console.error('Role is not defined');
+        return;
+    }
 
-        // Prvo ažuriramo notifikaciju kao pročitanu
-        this.administrationService.updateNotification(this.role, notification).subscribe({
-            next: () => {
-                notification.isRead = true;
+    // Ažuriraj notifikaciju kao pročitanu
+    notification.isRead = true;
 
-                // Zatim biramo odgovarajuću metodu na osnovu korisničke uloge
+    this.administrationService.updateNotification(this.role, notification).subscribe({
+        next: () => {
+            console.log('Notification marked as read');
+
+            this.unreadNotifications = this.unreadNotifications.filter(n => n.id !== notification.id);
+
+            if (notification.notificationsType === 0) {
                 let problemObservable;
                 if (this.role === 'author') {
                     problemObservable = this.marketplaceService.getAuthorProblemById(notification.resourceId);
@@ -69,20 +75,22 @@ export class NotificationsComponent implements OnInit {
                     return;
                 }
 
-                // Pretplaćujemo se na Observable kako bismo dobili problem i izvršili navigaciju
                 problemObservable.subscribe({
                     next: (problem) => {
                         this.router.navigate(['/problem-ticket'], { state: { problem } });
                     },
                     error: (err) => console.error('Error fetching problem:', err)
                 });
-            },
-            error: (err: any) => console.error('Error updating notification:', err)
-        });
-    } else {
-        console.error('Role is not defined');
-    }
+            } else {
+                console.log('Notification does not require redirection.');
+            }
+        },
+        error: (err: any) => console.error('Error updating notification:', err)
+    });
 }
+
+
+
   onToggleNotifications(): void {
     this.toggleNotifications.emit(); 
   }

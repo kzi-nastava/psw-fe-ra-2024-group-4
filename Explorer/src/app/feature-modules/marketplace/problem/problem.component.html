@@ -2,47 +2,72 @@
     <p>Problems</p>
     <hr>
     <div id="problem-details">
-    <table>
-        <thead>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Time</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let p of problems" [ngClass]="{'late-problem': p.isLate}"> 
-                <td>{{p.category}}</td>
-                <td>{{p.description}}</td>
-                <td>{{p.priority}}</td>
-                <td>{{p.time |date: 'dd.MM.yyyy HH:mm'}}</td>
-                <td>
-                    <button class="open-ticket-button" (click)="openTicket(p)" mat-icon-button>
-                        <mat-icon>chat</mat-icon>
-                    </button>
-                </td>  
-                <td *ngIf="user.role == 'tourist'">
-                    <button color="accent" (click)="p.id ? deleteProblem(p.id) : null" mat-icon-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-
-                <td *ngIf="p.isOverDeadline">
-                    <button color="warn" (click)="showAlert(p)" mat-icon-button>
-                        <mat-icon>error</mat-icon>
-                    </button>
-                </td>
- 
-            </tr>
-            <tr *ngIf="user.role == 'tourist'">
-                <button color="primary" (click)="onAddClick()"  mat-icon-button>
-                    <mat-icon>add</mat-icon>
-                </button>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div *ngIf="user.role == 'administrator'">
-         <p class="note">*** Problems that are red were not solved in 5 days!</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                    <th *ngIf="user.role == 'administrator'">Deadline</th> <!-- Kolona za deadline -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of problems" [ngClass]="{'late-problem': p.isLate}"> 
+                    <td>{{ p.category }}</td>
+                    <td>{{ p.description }}</td>
+                    <td>{{ p.priority }}</td>
+                    <td>{{ p.time | date: 'dd.MM.yyyy HH:mm' }}</td>
+                    <td>
+                        <button class="open-ticket-button" (click)="openTicket(p)" mat-icon-button>
+                            <mat-icon>chat</mat-icon>
+                        </button>
+                    </td>
+                    <td *ngIf="user.role == 'tourist'">
+                        <button color="accent" (click)="p.id ? deleteProblem(p.id) : null" mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                    <td *ngIf="p.isOverDeadline">
+                        <button color="warn" (click)="showAlert(p)" mat-icon-button>
+                            <mat-icon>error</mat-icon>
+                        </button>
+                    </td>
+                    <!-- Prikaz deadline vrednosti ili dugmeta za ažuriranje -->
+                    <td *ngIf="user.role == 'administrator'">
+                        <ng-container *ngIf="p.deadline === 0; else showDeadline">
+                            <button (click)="openDeadlineModal(p)" mat-raised-button color="primary">
+                                Update
+                            </button>
+                        </ng-container>
+                        <ng-template #showDeadline>
+                            {{ p.deadline }} days
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-<xp-problem-form *ngIf="showProblemForm" (problemAdded)="onProblemAdded()" ></xp-problem-form>
+
+    <!-- Modal prozor za unos deadline vrednosti -->
+    <div class="modal" *ngIf="showDeadlineModal">
+        <div class="modal-content">
+            <span class="close" (click)="closeDeadlineModal()">&times;</span>
+            <h3>Update Deadline for {{ selectedProblem?.category }}</h3>
+            <input 
+                type="number" 
+                [(ngModel)]="newDeadline" 
+                placeholder="Enter deadline" 
+            />
+            <button (click)="confirmUpdateDeadline()" mat-raised-button color="primary">
+                Confirm
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="user.role == 'administrator'">
+        <p class="note">*** Problems that are red were not solved in 5 days!</p>
+    </div>
+    <xp-problem-form *ngIf="showProblemForm" (problemAdded)="onProblemAdded()"></xp-problem-form>
 </div>

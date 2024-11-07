@@ -4,7 +4,7 @@ import { ProblemComponent } from './problem/problem.component';
 import { ProblemFormComponent } from './problem-form/problem-form.component';
 import { ToursForAuthorComponent } from './tours-for-author/tours-for-author.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { TourAuthoringModule } from '../tour-authoring/tour-authoring.module';
 import { KeypointDialogComponent } from './keypoint-dialog/keypoint-dialog.component';
 import { TourReviewsComponent } from './tour-reviews/tour-reviews.component';
@@ -23,7 +23,8 @@ import { ProblemTicketComponent } from './problem-ticket/problem-ticket.componen
     ReactiveFormsModule,
     TourAuthoringModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   exports: [
     ToursForAuthorComponent,

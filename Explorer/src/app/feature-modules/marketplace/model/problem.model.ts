@@ -11,6 +11,6 @@ export interface Problem{
     isActive: boolean,
     comments: ProblemComment[],
     isLate?: boolean,
-    deadline?:number,
+    deadline:number,
     isOverDeadline?: boolean
 }

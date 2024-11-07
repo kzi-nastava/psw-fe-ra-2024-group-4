@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
+import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -22,13 +23,16 @@ export class ProblemComponent implements OnInit{
   showProblemForm: boolean=false;
   user: User;
   problem: Problem | null = null;
+  showDeadlineModal: boolean = false;
+  selectedProblem: Problem | null = null;
+  newDeadline: number = 0;
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
-      this.checkIfLoggedIn(); // Ensure to check login status after user data is fetched
+      this.checkIfLoggedIn(); 
     });
     this.checkIfLoggedIn();
     this.authService.userLoggedIn.subscribe(()=>{
@@ -111,6 +115,79 @@ export class ProblemComponent implements OnInit{
       });
     }
   }
+  parseToNumber(value: any): number {
+    const parsedValue = Number(value);
+    return isNaN(parsedValue) ? 0 : parsedValue; 
+}
+
+  updateDeadline(problem: Problem, newDeadline: number): void {
+    const updatedProblem = { ...problem, deadline: newDeadline };
+    this.service.updateProblem(updatedProblem).subscribe({
+        next: (updatedProblem: Problem) => {
+            console.log(`Updated deadline for problem ID ${problem.id}:`, updatedProblem);
+            const index = this.problems.findIndex(p => p.id === updatedProblem.id);
+            if (index !== -1) {
+                this.problems[index] = updatedProblem;
+            }
+        },
+        error: (err: any) => {
+            console.error('Error updating problem deadline:', err);
+        }
+    });
+}
+openDeadlineModal(problem: Problem): void {
+  this.selectedProblem = problem;
+  this.newDeadline = problem.deadline || 0;
+  this.showDeadlineModal = true;
+}
+
+closeDeadlineModal(): void {
+  this.showDeadlineModal = false;
+  this.selectedProblem = null;
+}
+
+confirmUpdateDeadline(): void {
+  if (this.selectedProblem) {
+    this.updateDeadline(this.selectedProblem, this.newDeadline);
+
+    const problemId = this.selectedProblem.id; 
+    const tourId = this.selectedProblem.tourId; 
+
+    this.service.getTourById(tourId, 'admin').subscribe({
+      next: (tour) => {
+        if (tour && tour.userId !== undefined && problemId !== undefined) {
+          const notification: Notification = {
+            id: 0, 
+            description: "New deadline set for problem",
+            creationTime: new Date(),
+            isRead: false,
+            userId: tour.userId,  
+            notificationsType: 0,
+            resourceId: problemId 
+          };
+
+          console.log("Notification to be created:", notification); 
+
+          this.service.createAdminNotification(notification).subscribe({
+            next: (createdNotification) => {
+              console.log("Notification created:", createdNotification);
+            },
+            error: (error) => {
+              console.error("Error creating notification:", error);
+            },
+          });
+        } else {
+          console.error("Tour or userId is null or undefined, or problemId is missing.");
+        }
+      },
+      error: (error) => {
+        console.error("Error fetching tour for notification:", error);
+      }
+    });
+
+    this.closeDeadlineModal();
+  }
+}
 
   onAddClick(): void{
     this.shoudAdd=true;
