@@ -166,12 +166,7 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      if(user !== null && user.role === 'author')
-        {
-          this.getTours(user.id);
-  
-          
-        }
+      
     
     /*  if(user !== null && user.role === 'author')
       {
