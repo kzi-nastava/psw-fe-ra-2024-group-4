@@ -177,6 +177,7 @@ confirmUpdateDeadline(): void {
           this.service.createAdminNotification(notification).subscribe({
             next: (createdNotification) => {
               console.log("Notification created:", createdNotification);
+              this.checkDeadline();
             },
             error: (error) => {
               console.error("Error creating notification:", error);
@@ -219,6 +220,9 @@ confirmUpdateDeadline(): void {
       if(p.deadline){
          p.isOverDeadline = timeDifference > p.deadline;
       }
+      if (p.isOverDeadline || timeDifference > 5) {
+        p.isLate = true;
+    }
      
     });
   }

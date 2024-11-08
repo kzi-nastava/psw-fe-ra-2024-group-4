@@ -117,15 +117,20 @@ export class ClubFormComponent implements OnChanges {
     }
   }
 
-  onFileSelected(event: any){
-    const file:File = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        this.imageBase64 = reader.result as string;
-        this.clubForm.patchValue({
-          imageBase64: this.imageBase64
-        });
-    };
-    reader.readAsDataURL(file); 
+  onFileSelected(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+        const file: File = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.imageBase64 = reader.result as string;
+            this.clubForm.patchValue({
+                imageBase64: this.imageBase64
+            });
+        };
+        reader.readAsDataURL(file);
+    } else {
+        this.clubForm.patchValue({ imageBase64: '' });  
+    }
 }
+
 }
