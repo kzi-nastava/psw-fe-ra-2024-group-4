@@ -8,4 +8,10 @@ export interface KeyPoint {
     userId: number;
     imageBase64: string;
     tourId: number;
+    publicStatus: PublicStatus;
+}
+export enum PublicStatus {
+    PRIVATE = 0,
+    REQUESTED_PUBLIC = 1,
+    PUBLIC = 2
 }

@@ -1,32 +1,18 @@
 
-
 h1 {
   text-align: center;
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #3f51b5;
-  margin-top: 2vh;
-}
-
-h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: #3f51b5;
 }
 
 .container {
   display: flex; 
   justify-content: space-between; 
   align-items: flex-start; 
-  margin-top: 40px; 
 }
 
 form {
-  flex: 1; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
   max-width: 70vh;
   margin-left: 45vh;
 }
@@ -50,12 +36,6 @@ mat-selection-list {
   overflow-y: auto; 
 }
 
-button {
-  align-self: flex-end; 
-  margin-top: 10px;
-  background-color: #3f51b5; 
-  color: white;
-}
 
 
 

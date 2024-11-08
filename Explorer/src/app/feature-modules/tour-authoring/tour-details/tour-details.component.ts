@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Tour } from '../model/tour.model';
-import { KeyPoint } from '../model/keypoint.model';
+import { KeyPoint,PublicStatus } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -40,84 +40,13 @@ export class TourDetailsComponent implements OnInit {
  
 
   getTourKeyPoints() : void {
-    this.keyPointIds = this.tour.keyPointIds || [];
-    this.keyPoints = []
-    this.keyPointIds.forEach(id => {
-      this.service.getKeyPointById(id).subscribe({
-        next: (result: KeyPoint) => {
-          this.keyPoints.push(result);
-        },
-        error: (err: any) => console.log(err)
-
-      })
-    })
-
-   // this.keyPoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
-
-    
+   
+   this.keyPoints = this.tour.keyPoints;
+   
+  
 
   }
 
-
-  getKeyPoints() : void {
-    this.authService.user$.subscribe(user => {
-      this.user = user;
-    });
-
-    if(this.user)
-    { 
-
-      this.service.getKeyPoints(this.user.id).subscribe({
-      next: (result: KeyPoint[]) => { this.previuslyCreatedKeyPoints = result; 
-
-        this.previuslyCreatedKeyPoints.forEach(kp => {
-          this.previouslyCreatedKeyPointIds.push(kp.id || -1);
-        })
-       
-        this.previouslyCreatedKeyPointIds.forEach(id => {
-        
-          if(this.keyPointIds.includes(id))
-          {
-          
-            this.previuslyCreatedKeyPoints = this.previuslyCreatedKeyPoints.filter(kp => kp.id != id);
-      
-          }
-            
-        })
-
-      },
-      error: (err: any) => console.log(err)
-    })
-  }
-
-
-  }
-
-  onAddExistingClicked() {
-    this.shouldAddExisting = true;
-    this.getKeyPoints();
-  }
-
-  addKeypointToTour(keypoint: KeyPoint)
-  {
-    let tourid = this.tour.id;
-    this.previuslyCreatedKeyPoints = this.previuslyCreatedKeyPoints.filter(kp => kp.id != keypoint.id);
-    this.keyPoints.push(keypoint);
-
-    if(this.user)
-    {
-     
-      this.service.addKeyPointToTour(this.tour, keypoint.id).subscribe({
-        next: (result: Tour) => { 
-          this.tour = result;
-          this.tourUpdated.emit(result);
-        },
-        error: (err: any) => console.log(err)
-      })
-
-    }
-    
-  }
 
   
   getImage(image: string)
@@ -170,6 +99,14 @@ export class TourDetailsComponent implements OnInit {
   }
   closeMapForTour() {
     this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
+  }
+  getStatusLabel(status: PublicStatus): string {
+    switch (status) {
+      case PublicStatus.PRIVATE: return 'Private';
+      case PublicStatus.REQUESTED_PUBLIC: return 'Requested Public';
+      case PublicStatus.PUBLIC: return 'Public';
+      default: return 'Unknown';
+    }
   }
   
 }

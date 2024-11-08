@@ -19,6 +19,7 @@
                 <th>Latitude</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th>Status</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -31,6 +32,7 @@
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
                 <td><div class="imgContainer"><img [src]="getImage(item.image)" alt="Item Image" height="100"></div></td>
+                <td> {{item.publicStatus}}</td>
                 <td>
                    
                 </td>

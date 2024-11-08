@@ -62,6 +62,7 @@ export class ToursForAuthorComponent implements OnInit {
       next: (result: Tour[]) => { 
         this.tours = result; 
         console.log(this.tours);
+       
       },
       error: (error) => {
         console.error('Error fetching tours:', error);
@@ -86,6 +87,7 @@ export class ToursForAuthorComponent implements OnInit {
   
     
       this.selectedTour = tour;
+     
       if(this.shouldViewTour == true)
         this.shouldViewTour = false;
     
@@ -101,7 +103,7 @@ export class ToursForAuthorComponent implements OnInit {
   }
 
   getTourKeyPoints() : void {
-    let keyPointIds = this.selectedTour.keyPointIds || [];
+   /* let keyPointIds = this.selectedTour.keyPointIds || [];
    this.selectedKeypoints = [];
     keyPointIds.forEach(id => {
       this.authorService.getKeyPointById(id).subscribe({
@@ -112,7 +114,9 @@ export class ToursForAuthorComponent implements OnInit {
         error: (err: any) => console.log(err)
 
       })
-    })
+    })*/
+     
+      this.selectedKeypoints = this.selectedTour.keyPoints;
 
    // this.selectedKeypoints.sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
   
@@ -127,19 +131,7 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      if(user !== null && user.role === 'author')
-      {
-       const dialogRef = this.dialog.open(KeypointDialogComponent, {
-          width: '20%',
-          height: '20%'
-
-        });
-
-        dialogRef.afterClosed().subscribe(() => {
-        
-          
-        });
-      }
+     
     });
     
 
@@ -156,7 +148,7 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      if(user !== null && user.role === 'author')
+    /*  if(user !== null && user.role === 'author')
       {
        const dialogRef = this.dialog.open(KeypointDialogComponent, {
           width: '20%',
@@ -173,10 +165,42 @@ export class ToursForAuthorComponent implements OnInit {
         
           
         });
-      }
+      }*/
     });
 
    
 
   }
+
+  archiveTour(tour: Tour): void {
+    if (tour.status !== 1) {
+      console.log("Only published tours can be archived.");
+      return;
+    }
+    tour.status = 2; 
+    this.service.archiveTour(tour).subscribe({
+      next: () => {
+        console.log(`Tour ${tour.name} archived successfully.`);
+        this.getTours(this.user?.id!); 
+      },
+      error: (error) => console.error('Error archiving tour:', error)
+    });
+  }
+
+  reactivateTour(tour: Tour): void {
+    if (tour.status !== 2) {
+        console.log("Only archived tours can be reactivated.");
+        return;
+    }
+    tour.status = 1; 
+    this.service.reactivateTour(tour).subscribe({
+        next: () => {
+            console.log(`Tour ${tour.name} reactivated successfully.`);
+            this.getTours(this.user?.id!); 
+        },
+        error: (error) => console.error('Error reactivating tour:', error)
+    });
+}
+
+  
 }
