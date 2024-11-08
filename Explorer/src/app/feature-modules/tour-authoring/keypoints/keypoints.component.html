@@ -26,17 +26,7 @@
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
                 <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
-                <td>
-                    <ng-container *ngIf="item.publicStatus === Status.PRIVATE; else nonEditableStatus">
-                      <select (change)="onStatusChange($event, item)">
-                        <option [value]="Status.PRIVATE" [selected]="item.publicStatus === Status.PRIVATE">Private</option>
-                        <option [value]="Status.REQUESTED_PUBLIC">Request to Make Public</option>
-                      </select>
-                    </ng-container>
-                    <ng-template #nonEditableStatus>
-                      {{ getStatusLabel(item.publicStatus) }}
-                    </ng-template>
-                </td>
+                <td>{{ getStatusLabel(item.publicStatus) }}</td>
                 <td>
                     <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
                         <mat-icon>edit</mat-icon>
