@@ -35,7 +35,7 @@
                             '-' 
                         }}
                     </td>
-                    <td>{{tr.lengthInKm}}</td>
+                    <td>{{ tr.lengthInKm | number: '1.2-2' }}</td>
                     
                     <td>{{ getTagNames(tr.tags).join(', ') }}</td>
                     <td>

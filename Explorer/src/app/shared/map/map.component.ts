@@ -194,8 +194,7 @@ export class MapComponent {
           
           
           this.distanceChanged.emit(totalDistance);
-          
-          
+          this.mapService.updateDistance({distance: totalDistance, tourId: keyPoints[0].tourId})
           
           console.log("emit se desio");     
             

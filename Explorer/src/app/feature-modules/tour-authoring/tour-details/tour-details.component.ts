@@ -92,6 +92,7 @@ export class TourDetailsComponent implements OnInit {
 
   onDistanceChanged(newDistance: number) {
     this.distanceChanged.emit(newDistance);
+    
     console.log('tour details')
   }
 

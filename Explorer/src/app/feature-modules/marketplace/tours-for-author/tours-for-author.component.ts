@@ -45,7 +45,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog) { }
+  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -59,6 +59,15 @@ export class ToursForAuthorComponent implements OnInit {
         
       }
     });
+
+    this.mapService.currentDistance.subscribe(distance =>
+     {
+      const tour = this.tours.find(t => t.id === distance.tourId);
+      if (tour) {
+        tour.lengthInKm = distance.distance;
+      }
+     }
+    );
     
     
   }
