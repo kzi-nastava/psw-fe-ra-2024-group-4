@@ -143,10 +143,9 @@ export class KeypointFormComponent implements OnInit {
       this.service.createKeyPoint(keypoint).subscribe({
          next: (result: KeyPoint) => {
             this.keypointsUpdated.emit();
-            this.keyPointCreated.emit();
-            this.tourToAdd.keyPoints.push(result);            
-            
+            this.tourToAdd.keyPoints.push(result);
             this.tourUpdated.emit(this.tourToAdd);
+            this.keyPointCreated.emit();
             
           
 

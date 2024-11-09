@@ -77,6 +77,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
+        console.log(this.tours);
         console.log(this.tours[0].keyPoints[0].tourId);
        
       },
@@ -175,8 +176,6 @@ export class ToursForAuthorComponent implements OnInit {
       this.user = user; 
       console.log(user);
 
-      
-    
     /*  if(user !== null && user.role === 'author')
       {
        const dialogRef = this.dialog.open(KeypointDialogComponent, {

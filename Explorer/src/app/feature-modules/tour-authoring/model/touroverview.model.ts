@@ -10,4 +10,5 @@ export interface TourOverview {
     firstKeyPoint: KeyPoint;
     reviews?: TourReview[];
     rating?: number;
+    price?: number;
 }

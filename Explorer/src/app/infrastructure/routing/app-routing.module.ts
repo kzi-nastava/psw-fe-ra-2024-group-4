@@ -22,13 +22,17 @@ import { AppReviewComponent } from 'src/app/feature-modules/layout/app-review/ap
 import { PersonEquipmentComponent } from 'src/app/feature-modules/person.info/person-equipment/person-equipment.component';
 import { TourOverviewComponent } from 'src/app/feature-modules/tour-authoring/tour-overview/tour-overview.component';
 
-
-
 import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-reviews/tour-reviews.component';
 import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/problem.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
+
+import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
+
+
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
+
 
 
 const routes: Routes = [
@@ -42,9 +46,6 @@ const routes: Routes = [
       { path: 'comments/:postId', component: CommentComponent },
     ]
   },
-
-
-
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: InfoComponent },
@@ -65,6 +66,9 @@ const routes: Routes = [
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
+  {path: 'cart/:cartId', component: CartOverviewComponent},
+  {path: 'purchased-tours', component: PurchaseTokenComponent }
+
 ];
 
 @NgModule({

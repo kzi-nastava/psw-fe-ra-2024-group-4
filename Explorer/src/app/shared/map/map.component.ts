@@ -285,7 +285,14 @@ export class MapComponent {
     const routeControl = L.Routing.control({
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
-    }).addTo(this.map); 
+
+    }).addTo(this.map);
+   
+  /*  routeControl.on('routesfound', function(e) {
+      var routes = e.routes;
+      var summary = routes[0].summary;
+      alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });*/
 
     routeControl.on('routesfound', (e) => { 
       const routes = e.routes;
@@ -317,6 +324,7 @@ export class MapComponent {
     //   var summary = routes[0].summary;
     //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     // });
+
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {

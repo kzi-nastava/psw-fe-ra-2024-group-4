@@ -1,3 +1,11 @@
+<mat-toolbar color="primary">
+    <div class="container">
+        <button mat-icon-button (click)="openCart(shoppingCart.id || -1)" [matBadge]="cartItemCount$ | async" matBadgeColor="warn">
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+    </div>
+  </mat-toolbar>
+
 <div class="container">
     <div *ngFor="let t of tours">
         <mat-card>
@@ -35,7 +43,7 @@
                 <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;">COMPLETE TOUR</button>
                 <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
                 <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
-                <button mat-button>BUY</button>
+                <button mat-button (click)="addToCart(t)">BUY</button>
             </mat-card-actions>
         </mat-card>
     </div>
