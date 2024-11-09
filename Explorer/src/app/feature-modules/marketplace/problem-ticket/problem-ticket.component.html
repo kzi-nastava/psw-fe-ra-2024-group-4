@@ -2,7 +2,7 @@
     <div class="top-container">
         <button class="return-button" (click)="returnToAll()">Return</button>
     </div>
-    <div class="main-container">
+    <div class="main-container" *ngIf="problem">
         <div class="problem-info-section">
             <div class="problem-info">
                 <p><strong>PROBLEM ID</strong></p>

@@ -8,6 +8,7 @@ import { Equipment } from '../administration/model/equipment.model';
 import { TourReview } from './model/tour-reviews.model';
 import { ProblemComment } from './model/problem-comment.model';
 import { Tour } from '../tour-authoring/model/tour.model';
+import { Notification } from '../administration/model/notifications.model';
 
 @Injectable({
   providedIn: 'root'
@@ -72,8 +73,30 @@ export class MarketplaceService {
     return this.http.delete<Problem>(environment.apiHost + `problem/admin/${id}`);
   }
 
+  //turista
   getProblemById(id: number): Observable<Problem> {
     return this.http.get<Problem>(environment.apiHost + `problem/find/${id}`);
   }
-  
+  //autor
+  getAuthorProblemById(id: number): Observable<Problem> {
+    return this.http.get<Problem>(environment.apiHost + `author/problem/find/${id}`);
+  }
+  // getAdminProblemById(id: number): Observable<Problem> {
+  //   return this.http.get<Problem>(environment.apiHost + `problem/admin/${id}`);
+  // }
+
+  getTourById(id: number,  role: 'tourist' | 'author' | 'admin' ): Observable<Tour> {
+    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getById/${id}`);
+  }
+  updateProblem(problem: Problem): Observable<Problem> {
+    return this.http.put<Problem>(`${environment.apiHost}problem/updateProblem/${problem.id}`, problem);
+} 
+  //da kreira notifikaciju-kada postacvi rok-notifikacija se salje autoru ture
+  createAdminNotification(notification:Notification):Observable<Notification>{
+    return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
+  }
+  createNotification(notification:Notification,role:'tourist' | 'author' | 'admin'){
+    return this.http.post<Tour>(`${environment.apiHost}${role}/notification`,notification);
+
+  }
 }

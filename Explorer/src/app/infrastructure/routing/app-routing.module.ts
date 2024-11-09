@@ -27,10 +27,13 @@ import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/pr
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
 import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/problem-ticket/problem-ticket.component';
+import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
+import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
+
 
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
-import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
-import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
+
 
 
 
@@ -61,6 +64,7 @@ const routes: Routes = [
   {path: 'problem-ticket', component: ProblemTicketComponent},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
+  {path:'notifications',component:NotificationsComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
   {path: 'cart/:cartId', component: CartOverviewComponent},

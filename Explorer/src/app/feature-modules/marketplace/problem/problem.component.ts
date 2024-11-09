@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
+import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -23,6 +24,9 @@ export class ProblemComponent implements OnInit{
   showProblemForm: boolean=false;
   user: User;
   problem: Problem | null = null;
+  showDeadlineModal: boolean = false;
+  selectedProblem: Problem | null = null;
+  newDeadline: number = 0;
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
@@ -38,7 +42,8 @@ export class ProblemComponent implements OnInit{
    this.authService.userLoggedOut.subscribe(()=>{
       this.showProblemForm = false; 
       this.isLoggedIn=false;
-   })
+   });
+
   }
 
   checkIfLoggedIn(): void{
@@ -83,6 +88,13 @@ export class ProblemComponent implements OnInit{
               const daysDifference = Math.floor((now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24)); // zaokruženo na ceo dan
  
               const isLate =  daysDifference > 5;
+             
+              if (!problem.isActive && problem.isLate !== undefined) {
+                problem.isLate = problem.isLate;
+              } else {
+                problem.isLate = isLate;
+              }
+
           console.log(`Problem time: ${problem.time}, Days difference: ${daysDifference}, isLate: ${isLate}`);
           return {
             ...problem,
@@ -91,7 +103,7 @@ export class ProblemComponent implements OnInit{
           };
           
             });
-            
+            this.checkDeadline();
           },
           error: (err: any) => {
             console.log(err);
@@ -110,6 +122,80 @@ export class ProblemComponent implements OnInit{
       });
     }
   }
+  parseToNumber(value: any): number {
+    const parsedValue = Number(value);
+    return isNaN(parsedValue) ? 0 : parsedValue; 
+}
+
+  updateDeadline(problem: Problem, newDeadline: number): void {
+    const updatedProblem = { ...problem, deadline: newDeadline };
+    this.service.updateProblem(updatedProblem).subscribe({
+        next: (updatedProblem: Problem) => {
+            console.log(`Updated deadline for problem ID ${problem.id}:`, updatedProblem);
+            const index = this.problems.findIndex(p => p.id === updatedProblem.id);
+            if (index !== -1) {
+                this.problems[index] = updatedProblem;
+            }
+        },
+        error: (err: any) => {
+            console.error('Error updating problem deadline:', err);
+        }
+    });
+}
+openDeadlineModal(problem: Problem): void {
+  this.selectedProblem = problem;
+  this.newDeadline = problem.deadline || 0;
+  this.showDeadlineModal = true;
+}
+
+closeDeadlineModal(): void {
+  this.showDeadlineModal = false;
+  this.selectedProblem = null;
+}
+
+confirmUpdateDeadline(): void {
+  if (this.selectedProblem) {
+    this.updateDeadline(this.selectedProblem, this.newDeadline);
+
+    const problemId = this.selectedProblem.id; 
+    const tourId = this.selectedProblem.tourId; 
+
+    this.service.getTourById(tourId, 'admin').subscribe({
+      next: (tour) => {
+        if (tour && tour.userId !== undefined && problemId !== undefined) {
+          const notification: Notification = {
+            id: 0, 
+            description: "New deadline set for problem",
+            creationTime: new Date(),
+            isRead: false,
+            userId: tour.userId,  
+            notificationsType: 0,
+            resourceId: problemId 
+          };
+
+          console.log("Notification to be created:", notification); 
+
+          this.service.createAdminNotification(notification).subscribe({
+            next: (createdNotification) => {
+              console.log("Notification created:", createdNotification);
+              this.checkDeadline();
+            },
+            error: (error) => {
+              console.error("Error creating notification:", error);
+            },
+          });
+        } else {
+          console.error("Tour or userId is null or undefined, or problemId is missing.");
+        }
+      },
+      error: (error) => {
+        console.error("Error fetching tour for notification:", error);
+      }
+    });
+
+    this.closeDeadlineModal();
+  }
+}
 
   onAddClick(): void{
     this.shoudAdd=true;
@@ -125,6 +211,21 @@ export class ProblemComponent implements OnInit{
   openTicket(p: Problem) {
     //console.log(p);
     this.router.navigate(['/problem-ticket'], { state: { problem: p}});
+  }
+
+  checkDeadline(): void {
+   
+    const currentTime = new Date();
+    this.problems.forEach(p => {
+      const timeDifference = (currentTime.getTime() - new Date(p.time).getTime()) / (1000 * 3600 * 24);
+      if(p.deadline){
+         p.isOverDeadline = timeDifference > p.deadline;
+      }
+      if (/*p.isOverDeadline || */timeDifference > 5) {
+        p.isLate = true;
+    }
+     
+    });
   }
   
 
@@ -143,10 +244,12 @@ export class ProblemComponent implements OnInit{
       showCloseButton: true, 
       confirmButtonText: 'Close problem',
       cancelButtonText: 'Remove tour',
+      allowOutsideClick: false ,
     }).then((result) => {
       if (result.isConfirmed) {
         this.closeProblem();
-      } else if (result.isDismissed) {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Ako je korisnik kliknuo na "Remove tour"
         this.removeTour();
       }
     });
@@ -169,9 +272,23 @@ export class ProblemComponent implements OnInit{
       (updatedProblem: Problem) => {
         this.problem = updatedProblem;
         console.log('Updated problem status:', updatedProblem);
+
+
         const index = this.problems.findIndex(p => p.id === updatedProblem.id);
       if (index !== -1) {
-        updatedProblem.isLate = true
+
+        const now = new Date();
+        const reportedDate = new Date(updatedProblem.time);
+        const daysDifference = Math.floor((now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24)); 
+        if(daysDifference>5){
+          updatedProblem.isLate = true
+        }else{
+          updatedProblem.isLate = false
+        }
+        this.checkDeadline();
+        if(updatedProblem.deadline){
+          updatedProblem.isOverDeadline = daysDifference > updatedProblem.deadline;
+       }
         this.problems[index] = updatedProblem; 
       }
       },
