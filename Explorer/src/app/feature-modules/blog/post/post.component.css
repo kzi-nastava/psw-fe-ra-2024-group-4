@@ -82,3 +82,78 @@
 button {
     border-radius: 10px;
 }
+
+/*filteri*/
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: flex-start; /* Poravnanje u levom delu */
+}
+
+/* Stil za labelu */
+.filter-label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Stil za selekt element */
+.filter-select {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;;
+    border: 2px solid var(--secondary-color);
+    border-radius: 16px;
+    background-color: var(--primary-color);
+    color: #333;
+    width: 12em;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+}
+
+/* Hover efekat za selekt */
+.filter-select:hover {
+    background-color: var(--secondary-color);
+    cursor:pointer;
+    border-color: var(--highlight-color);
+}
+
+/* Fokus na selekt elementu */
+.filter-select:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    background-color: var(--primary-color);
+}
+
+/* Stil za option elemente */
+.filter-option {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 22px;
+    color: var(--text-color-dark);
+    cursor: pointer;
+}
+.filter-option:hover{
+    color:red;
+}
+/*ovaj status badge je template, moze da se doda -closed, -active pa da se pojedinacno izmeni izgled*/
+.status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: 1px solid var(--highlight-color);
+    color: var(--highlight-color);
+    background-color: white;
+    padding: 5px 10px;
+    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
+    overflow: hidden; /* Sakriva tekst koji izlazi izvan dugmeta */
+    text-overflow: ellipsis; /* Prikazuje "..." kada tekst ne stane */
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.status-badge:hover {
+    background-color: transparent; /* Uklanja hover efekat */
+    color: var(--highlight-color);  /* Ostavlja boju nepromenjenom pri hover-u */
+}

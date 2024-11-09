@@ -16,11 +16,11 @@
       <!-- Voting section inside the post card -->
       <div class="vote-section-horizontal">
         <p class="rate-label">Rate:</p>
-        <button *ngIf="currentUser && currentUser.role==='tourist'" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+        <button *ngIf="currentUser && currentUser.role==='tourist'&& postDetails.status!==2" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
           <mat-icon>arrow_upward</mat-icon>
         </button>
         <p class="vote-count">{{ postDetails.ratingSum }}</p>
-        <button *ngIf="currentUser && currentUser.role==='tourist'" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+        <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
           <mat-icon>arrow_downward</mat-icon>
         </button>
         <p class="rate-label">Comments:</p>
@@ -36,18 +36,16 @@
     <p class="comment-date">Created At: {{ c.createdAt | date: 'short' }}</p>
     <p class="comment-updated">Updated At: {{ c.updatedAt | date: 'short' }}</p>
     <div class="actions">
-      <button *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId" 
-              class="primary" 
-              (click)="onEditClicked(c)">
+      <button *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status!==2" class="primary" (click)="onEditClicked(c)">
         <mat-icon>edit</mat-icon> Edit
       </button>
-      <button *ngIf="currentUser && currentUser.role==='tourist' && currentUser.id === c.userId" class="warn" (click)="deleteComment(c)">
+      <button *ngIf="currentUser && currentUser.role==='tourist' && currentUser.id === c.userId && postDetails.status!==2" class="warn" (click)="deleteComment(c)">
         <mat-icon>delete</mat-icon> Delete
       </button>
     </div>
   </div>
 
-  <button *ngIf="currentUser && currentUser.role==='tourist'" class="primary add-comment-btn" (click)="onAddClicked()">
+  <button *ngIf="currentUser && currentUser.role==='tourist' &&postDetails.status!==2" class="primary add-comment-btn" (click)="onAddClicked()">
     <mat-icon>add</mat-icon> Add Comment
   </button>
 

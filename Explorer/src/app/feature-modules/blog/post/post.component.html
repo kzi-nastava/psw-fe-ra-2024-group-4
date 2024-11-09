@@ -1,24 +1,38 @@
 <div id="posts" class="container">
     <p>Blog Posts</p>
+    <div class="filter-container">
+        <label for="statusFilter" class="filter-label">Display:</label>
+        <select id="statusFilter" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)" class="filter-select">
+          <option [ngValue]="null" class="filter-option">All</option>
+          <option [ngValue]="BlogStatus.Active" class="filter-option">Active</option>
+          <option [ngValue]="BlogStatus.Famous" class="filter-option">Famous</option>
+        </select>
+    </div>
+      
     <hr>
     <div id="post-details">
         <div *ngFor="let post of posts" class="post-card">
             <mat-card class="mat-elevation-z3 primary">
                 <mat-card-header>
+                    <button *ngIf="post.status===BlogStatus.Closed" class="status-badge">Closed</button>
+                    <button *ngIf="post.status===BlogStatus.Active" class="status-badge">Active</button>
+                    <button *ngIf="post.status===BlogStatus.Famous" class="status-badge">Famous</button>
                     <div mat-card-avatar class="img-container">
+                        
                         <img [src]="getImage(post.imageUrl)" alt="{{ post.title }}" class="image">
                     </div>
                     <mat-card-title class="secondary">{{ post.title }}</mat-card-title>
+
                 </mat-card-header>
                 <mat-card-content>
                     <markdown>{{ post.description }}</markdown>
                 </mat-card-content>
                 <div class="date-container">{{ post.createdAt | date: 'short' }}</div>
                 <mat-card-actions>
-                    <button *ngIf="user && user.role === 'author' && user.id === post.userId " color="secondary" (click)="onEditClicked(post)" mat-icon-button>
+                    <button *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" color="secondary" (click)="onEditClicked(post)" mat-icon-button>
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button *ngIf="user && user.role === 'author' && user.id === post.userId" color="warn" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
+                    <button *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" color="warn" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
                         <mat-icon>delete</mat-icon>
                     </button>
                     <button color="accent" [routerLink]="['/aboutPost', post.id]" mat-icon-button>
