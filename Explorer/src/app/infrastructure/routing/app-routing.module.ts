@@ -36,6 +36,7 @@ import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-executi
 
 
 
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},

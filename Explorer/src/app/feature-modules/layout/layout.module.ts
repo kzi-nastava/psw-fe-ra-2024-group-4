@@ -24,7 +24,8 @@ import { AdministrationModule } from '../administration/administration.module';
     AppReviewComponent,
     AppReviewComponent,
     LandingBlogComponent,
-    AppReviewComponent,
+    AppReviewComponent
+
   ],
   imports: [
     CommonModule,
