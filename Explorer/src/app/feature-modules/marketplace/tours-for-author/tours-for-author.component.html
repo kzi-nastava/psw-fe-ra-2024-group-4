@@ -16,7 +16,7 @@
                         '-' 
                     }}
                 </p>
-                <p><strong>Length in km:</strong> {{ tr.lengthInKm }}</p>
+                <p><strong>Length in km:</strong> {{ tr.lengthInKm | number: '1.2-2' }}</p>
                 <p><strong>Tags:</strong> {{ getTagNames(tr.tags).join(', ') }}</p>
                 
                 <div class="card-actions">
@@ -37,6 +37,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 
