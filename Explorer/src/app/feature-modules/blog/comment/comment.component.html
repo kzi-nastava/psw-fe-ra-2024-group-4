@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div>
 
     <table>
@@ -11,34 +12,64 @@
         </tr>
 
       </thead> 
+=======
+<div id="main-content">
+  <div *ngIf="postDetails" id="post" class="card post-card">
+    <div id="post-details">
+      <div class="post-content">
+        <div>
+          <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
+          <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
+        </div>
+        <div>
+          <h2 class="post-title">{{ postDetails.title }}</h2>
+          <p class="post-date">Created At: {{ postDetails.createdAt | date: 'short' }}</p>
+          <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
+        </div>
+      </div>
+>>>>>>> 22b7fa64247371e2c7ca48dd2ab5cd8b3333f288
       
-      <tbody>
-        <tr *ngFor="let c of comment">
-
-            <td>{{c.text}}</td>
-            <td>{{c.createdAt | date: 'short'}}</td>
-            <td>{{c.updatedAt | date: 'short'}}</td>
-           <td>{{c.username}}</td>
-           
-            <td>
-              
-              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onEditClicked(c)" mat-icon-button>
-                  <mat-icon>edit</mat-icon>
-              </button>
-              <button  *ngIf="currentUser && currentUser.role==='tourist'"  color="acent" (click)="deleteComment(c)"  mat-icon-button>
-                <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </tr>
-        <tr><button  *ngIf="currentUser && currentUser.role==='tourist'"  color="primary" (click)="onAddClicked()" mat-icon-button>
-          <mat-icon>add</mat-icon>
-      </button></tr>
-     
-
-      </tbody>
-    </table>
-    <div>
-      <xp-comment-form *ngIf="shouldRenderCommentForm"  (commentUpdated)="getCommentByPost(postId)"  [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+      <!-- Voting section inside the post card -->
+      <div class="vote-section-horizontal">
+        <p class="rate-label">Rate:</p>
+        <button *ngIf="currentUser && currentUser.role==='tourist'&& postDetails.status!==2" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <p class="vote-count">{{ postDetails.ratingSum }}</p>
+        <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <p class="rate-label">Comments:</p>
+        <p class="comment-count">{{comment.length}}</p>
+      </div>
     </div>
-   
+  </div>
+
+  <!-- Comment section -->
+  <div *ngFor="let c of comment" class="card comment-card">
+    <p class="comment-text">{{ c.text }}</p>
+    <p class="comment-author">Author: {{ c.username }}</p>
+    <p class="comment-date">Created At: {{ c.createdAt | date: 'short' }}</p>
+    <p class="comment-updated">Updated At: {{ c.updatedAt | date: 'short' }}</p>
+    <div class="actions">
+      <button *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status!==2" class="primary" (click)="onEditClicked(c)">
+        <mat-icon>edit</mat-icon> Edit
+      </button>
+      <button *ngIf="currentUser && currentUser.role==='tourist' && currentUser.id === c.userId && postDetails.status!==2" class="warn" (click)="deleteComment(c)">
+        <mat-icon>delete</mat-icon> Delete
+      </button>
+    </div>
+  </div>
+
+  <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="primary add-comment-btn" (click)="onAddClicked()">
+    <mat-icon>add</mat-icon> Add Comment
+  </button>
+
+  <div>
+    <xp-comment-form *ngIf="shouldRenderCommentForm" (commentUpdated)="getPostDetails(postId)" [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
+  </div>
+
+  <button mat-button color="primary" [routerLink]="['/blogPost']">
+    <mat-icon>arrow_back</mat-icon> Back to see all posts
+  </button>
 </div>

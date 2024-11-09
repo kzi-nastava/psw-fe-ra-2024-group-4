@@ -41,7 +41,6 @@ export class TourSearchComponent {
 
   setLongitude(newLongitude: number): void{
     this.longitude=newLongitude;
-    alert(this.longitude);
     
 
   }

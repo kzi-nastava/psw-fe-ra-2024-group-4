@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { KeyPoint } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../model/tour.model';
+import { MapService } from 'src/app/shared/map/map.service';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -17,7 +18,8 @@ export class KeypointFormComponent implements OnInit {
   @Output() keypointsUpdated = new EventEmitter<null>();
   @Output() tourUpdated = new EventEmitter<Tour>();
   @Output() keypointAdded = new EventEmitter<KeyPoint>();
-  
+  @Output() keyPointCreated = new EventEmitter<void>();
+
   @Input() keypoint: KeyPoint;
   @Input() shouldEdit: boolean = false;
   @Input() shouldAddKeypoint: boolean = false;
@@ -39,7 +41,7 @@ export class KeypointFormComponent implements OnInit {
 
   user: User | undefined;
   nextId: number = 0;
-  constructor(private service: TourAuthoringService, private authService: AuthService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -53,9 +55,11 @@ export class KeypointFormComponent implements OnInit {
       })
     }
 
+    
     if(this.shouldEdit)
     {
      
+      
       this.shouldEditKp = true;
       this.keypointForm.patchValue({
         name: this.keypoint.name,
@@ -63,9 +67,12 @@ export class KeypointFormComponent implements OnInit {
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
         image: this.keypoint.image,
+        imageBase64: this.keypoint.imageBase64
         
       })
     }
+
+    
 
  
   }
@@ -122,7 +129,7 @@ export class KeypointFormComponent implements OnInit {
       if(this.user)
       {
         
-      
+      console.log("ajsdas"+this.tourToAdd.id)
      
       const keypoint: KeyPoint = {
 
@@ -143,6 +150,8 @@ export class KeypointFormComponent implements OnInit {
             this.keypointsUpdated.emit();
             this.tourToAdd.keyPoints.push(result);
             this.tourUpdated.emit(this.tourToAdd);
+            this.keyPointCreated.emit();
+            
           
 
          }
@@ -175,12 +184,14 @@ export class KeypointFormComponent implements OnInit {
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "",
-        tourId: this.tourToAdd.id || -1 //nisam dirala jer je update
+        tourId: this.keypoint.tourId || -1 //nisam dirala jer je update
         
       }
       keypoint.id = this.keypoint.id;
+
+     
       this.service.updateKeyPoint(keypoint).subscribe({
-        next: () => {this.keypointsUpdated.emit();}
+        next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
       });
     }

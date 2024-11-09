@@ -46,6 +46,7 @@ export class KeypointsComponent implements OnInit {
       next: (result: KeyPoint[]) => { this.keyPoints = result; 
 
         this.image = this.keyPoints[0].image;
+       
    
       },
       error: (err: any) => console.log(err)
@@ -77,6 +78,7 @@ export class KeypointsComponent implements OnInit {
       this.shouldRenderKeyPointForm = false;
 
     setTimeout(() => {
+      
     this.selectedKeyPoint = keypoint;
     this.shouldRenderKeyPointForm = true;
     this.shouldEdit = true;

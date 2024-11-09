@@ -10,6 +10,7 @@ import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tou
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { outputAst } from '@angular/compiler';
+import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class MapComponent {
   @Output() tourSearchLat=new EventEmitter<number>();
   @Output() tourSearchLon=new EventEmitter<number>();
 
+  @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
@@ -57,7 +59,8 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService) {}
+   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+
 
    
    
@@ -177,12 +180,19 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+    this.plotKeyPoints();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['objects'] && this.map) {
-      this.plotExistingObjects(); 
+    if (this.map) {
+        if (changes['selectedTourPoints']) {
+            this.plotKeyPoints(); 
+        }
+        if (changes['objects']) {
+            this.plotExistingObjects(); 
+        }
     }
-  }
+}
+
 
 
   showPoint() : void
@@ -305,6 +315,7 @@ export class MapComponent {
 
   async setRoute(keyPoints: KeyPoint[]) {
     await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('setRoute called with keyPoints:', keyPoints);
    // console.log("Setting route!");
    // console.log("tacke iz setRoute:");
    // console.log(keyPoints);
@@ -312,13 +323,46 @@ export class MapComponent {
     const routeControl = L.Routing.control({
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
-    }).addTo(this.map);
 
+    }).addTo(this.map);
+   
   /*  routeControl.on('routesfound', function(e) {
       var routes = e.routes;
       var summary = routes[0].summary;
       alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     });*/
+
+    routeControl.on('routesfound', (e) => { 
+      const routes = e.routes;
+      const summary = routes[0].summary;
+      const totalDistance = summary.totalDistance / 1000;
+      console.log("Id ture u map komponent"+ keyPoints[0].tourId);
+  
+     
+      this.touAuthService.updateTourDistance(keyPoints[0].tourId,totalDistance).subscribe({
+        next: (result) => {
+          
+          
+          this.distanceChanged.emit(totalDistance);
+          this.mapService.updateDistance({distance: totalDistance, tourId: keyPoints[0].tourId})
+          
+          console.log("emit se desio");     
+            
+        },
+        error: () => {   
+          console.log("uslo u eror");  
+        },
+      });
+
+      //alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' +            Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+
+    // routeControl.on('routesfound', function(e) {
+    //   var routes = e.routes;
+    //   var summary = routes[0].summary;
+    //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    // });
+
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
@@ -333,6 +377,31 @@ export class MapComponent {
     keyPoints.forEach(keyPoint =>{
       const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
     });
+  }
+
+  private plotKeyPoints(): void {
+    console.log('Selected Tour Points:', this.selectedTourPoints);
+    // Clear existing markers if re-plotting is needed
+    this.selectedTourPointsMarkers.forEach(marker => this.map.removeLayer(marker));
+    this.selectedTourPointsMarkers = [];
+
+    if (this.selectedTourPoints && this.selectedTourPoints.length > 0) {
+      this.selectedTourPoints.forEach(point => {
+        const marker = L.marker([point.latitude, point.longitude])
+          .addTo(this.map)
+          .bindPopup(`<strong>${point.name}</strong>`);
+        this.selectedTourPointsMarkers.push(marker);
+        console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+      });
+    } else {
+      console.warn('No key points available to plot.');
+    }
+}
+
+  
+  
+  refreshPage():void{
+    window.location.reload();
   }
 
   

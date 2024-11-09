@@ -23,3 +23,16 @@ span {
 .container {
     margin: 5px;
 }
+button[mat-icon-button] {
+    position: relative; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    margin-left: 1250px; 
+    margin-top: -50px; 
+}
+
+button[mat-icon-button] mat-icon {
+    font-size: 30px;
+    color: white; 
+}
