@@ -25,8 +25,16 @@ import { TourReviewsComponent } from 'src/app/feature-modules/marketplace/tour-r
 import { ProblemComponent } from 'src/app/feature-modules/marketplace/problem/problem.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
+import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/problem-ticket/problem-ticket.component';
+import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
+import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
+
+
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
+
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -34,11 +42,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
-  {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard],
-    children: [
-      { path: 'comments/:postId', component: CommentComponent },
-    ]
-  },
+  {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard]},
+  {path: 'aboutPost/:postId', component: CommentComponent, canActivate: [AuthGuard] }, 
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: InfoComponent },
@@ -55,11 +60,15 @@ const routes: Routes = [
   {path: 'touristEquipment', component: PersonEquipmentComponent},
   {path: 'tourReviews', component: TourReviewsComponent},
   {path: 'problem', component: ProblemComponent, canActivate: [AuthGuard]},
+  {path: 'problem-ticket', component: ProblemTicketComponent},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
+  {path:'notifications',component:NotificationsComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
   {path: 'public-status-request', component: PublicStatusRequestComponent},
+  {path: 'cart/:cartId', component: CartOverviewComponent},
+  {path: 'purchased-tours', component: PurchaseTokenComponent }
 ];
 
 @NgModule({

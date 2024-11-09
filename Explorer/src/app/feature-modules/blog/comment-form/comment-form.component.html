@@ -9,8 +9,8 @@
         </mat-error>
       </mat-form-field>
   
-      <button *ngIf="!shouldEdit" mat-raised-button type="submit" color="primary" (click)="addComment()" [disabled]="commentForm.invalid">Dodaj</button>
-      <button *ngIf="shouldEdit" mat-raised-button type="submit" color="primary" (click)="updateComment()" [disabled]="commentForm.invalid">Ažuriraj</button>
+      <button *ngIf="!shouldEdit" mat-raised-button type="submit" color="primary" (click)="addComment()" [disabled]="commentForm.invalid">Add</button>
+      <button *ngIf="shouldEdit" mat-raised-button type="submit" color="primary" (click)="updateComment()" [disabled]="commentForm.invalid">Edit</button>
     </div>
   </form>
   

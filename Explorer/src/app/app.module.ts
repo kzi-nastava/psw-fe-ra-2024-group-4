@@ -24,6 +24,9 @@ import { PersonInfoModule } from './feature-modules/person.info/person.info.modu
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+
 
 
 @NgModule({
@@ -51,6 +54,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatInputModule,
     MatCardModule,
     MatChipsModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     {

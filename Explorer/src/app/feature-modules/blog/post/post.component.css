@@ -1,98 +1,159 @@
-#post {
-    margin-top: 20px;
-    margin-left: 20px;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--background-color);
+}
+
+#posts p {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--highlight-color);
+    text-align: center;
+    border-bottom: 2px solid var(--highlight-color);
+    padding-bottom: 10px;
 }
 
 #post-details {
     display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
-    background-color: #fafafa; 
-    border-radius: 8px; 
-    padding: 20px; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-#posts p {
-    font-size: 24px; 
-    font-weight: bold; /* Podebljan tekst */
-    color: #3f51b5; /* Boja koja se poklapa sa zaglavljem tabele */
-    margin: 0; /* Ukloni podrazumevani razmak */
-    padding: 10px 0; /* Unutrašnji razmak */
-    text-align: center; /* Centriranje teksta */
-    border-bottom: 2px solid #3f51b5; /* Donja linija za dodatnu istaknutost */
+.post-card mat-card {
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-color);
+    color: var(--text-color-dark);
+    position: relative;
 }
 
-#posts {
-    text-align: center; /* Centriranje sadržaja unutar #posts */
-}
-
-table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: 'Arial', sans-serif; 
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    overflow: hidden; 
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f9f9f9; 
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5; 
-}
-
-tbody tr.active-row {
+.mat-card-header .mat-card-title {
+    font-size: 1.5em;
     font-weight: bold;
-    color: #3f51b5;
-}
-
-.image-container {
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px; 
-    overflow: hidden; 
-    border: 1px solid #ddd; 
-}
-
-.image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.no-image {
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0; 
-    border: 1px dashed #ccc; 
-    font-size: 0.8em;
+    color: var(--highlight-color);
     text-align: center;
-    color: #888; 
-    border-radius: 8px;
-    padding: 5px; 
+    margin-bottom: 5px;
+}
+
+/* Datum pozicioniran u donjem desnom uglu */
+.date-container {
+    font-size: 0.8em;
+    color: var(--text-color-dark);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.img-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--secondary-color);
+    margin: 0 auto;
+}
+
+.mat-card-content {
+    font-size: 1.1em;
+    color: var(--text-color-dark);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.mat-card-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    border-radius: 10px;
+}
+
+/*filteri*/
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: flex-start; /* Poravnanje u levom delu */
+}
+
+/* Stil za labelu */
+.filter-label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Stil za selekt element */
+.filter-select {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;;
+    border: 2px solid var(--secondary-color);
+    border-radius: 16px;
+    background-color: var(--primary-color);
+    color: #333;
+    width: 12em;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+}
+
+/* Hover efekat za selekt */
+.filter-select:hover {
+    background-color: var(--secondary-color);
+    cursor:pointer;
+    border-color: var(--highlight-color);
+}
+
+/* Fokus na selekt elementu */
+.filter-select:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    background-color: var(--primary-color);
+}
+
+/* Stil za option elemente */
+.filter-option {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 22px;
+    color: var(--text-color-dark);
+    cursor: pointer;
+}
+.filter-option:hover{
+    color:red;
+}
+/*ovaj status badge je template, moze da se doda -closed, -active pa da se pojedinacno izmeni izgled*/
+.status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: 1px solid var(--highlight-color);
+    color: var(--highlight-color);
+    background-color: white;
+    padding: 5px 10px;
+    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
+    overflow: hidden; /* Sakriva tekst koji izlazi izvan dugmeta */
+    text-overflow: ellipsis; /* Prikazuje "..." kada tekst ne stane */
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.status-badge:hover {
+    background-color: transparent; /* Uklanja hover efekat */
+    color: var(--highlight-color);  /* Ostavlja boju nepromenjenom pri hover-u */
 }

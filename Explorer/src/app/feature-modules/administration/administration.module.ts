@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
-
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import { PublicStatusRequestComponent } from './public-status-request/public-sta
     ClubFormComponent,
     AccountComponent,
     AppReviewTableComponent,
-    PublicStatusRequestComponent
+    PublicStatusRequestComponent,
+    NotificationsComponent,
 
   ],
   imports: [
@@ -46,6 +47,7 @@ import { PublicStatusRequestComponent } from './public-status-request/public-sta
     AccountComponent,
     AppReviewTableComponent,
     PublicStatusRequestComponent,
+    NotificationsComponent
   ]
 })
 export class AdministrationModule { }
