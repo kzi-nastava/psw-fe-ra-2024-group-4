@@ -5,7 +5,7 @@
     <h2>Tour Keypoints</h2>
     <button color="accent" (click)="showMapForTour(tour)" mat-raised-button>View map</button>
     <div class="overlay" *ngIf="shouldDisplayMap" class="map-container" >
-        <xp-map-for-tour [tour]="tour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
+        <xp-map-for-tour [tour]="tour" (distanceChanged)="onDistanceChanged($event)" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
     </div>
 
     <div class="add-createdkp-tour-div">

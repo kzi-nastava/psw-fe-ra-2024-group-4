@@ -1,0 +1,21 @@
+<div class="cart-overview">
+  <div *ngFor="let item of cartItems">
+    <mat-card>
+      <mat-card-header class="card-header">
+        <div class="header-content">
+          <div>
+            <mat-card-title>{{ item.tourName }}</mat-card-title>
+            <mat-card-subtitle>Price: {{ item.price }}</mat-card-subtitle>
+          </div>
+        </div>
+        <button mat-button color="warn" (click)="removeCartItem(item)">Remove</button>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <div class="total">
+    <h3>Total: {{ totalPrice }}</h3>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+</div>

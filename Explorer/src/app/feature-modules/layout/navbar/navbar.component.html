@@ -70,6 +70,8 @@
                 <li><h1 >Objects to visit <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'author')"><a href="object-view">View all objects</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Record the equipment</a></li>
+                <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-overview">Browse tours</a></li>
+                <li *ngIf="user && (user.role === 'tourist')" ><a href="purchased-tours">My tours</a></li>
             </ul>
 
         </div>
@@ -79,6 +81,15 @@
                 <li *ngIf="user && (user.role === 'tourist')"><a href="tourReviews">Leave a review</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="problem">Report a problem</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-preferences">Set preferred tours</a></li>
+            </ul>
+
+        </div>
+
+        <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
+            <ul class="menu-list">
+                <li><h1 >Tour execution <i class="fas fa-arrow-right"></i></h1></li>
+                <li *ngIf="user && (user.role === 'tourist')"><a href="position-simulator">Position simulator</a></li>
+              
             </ul>
 
         </div>
