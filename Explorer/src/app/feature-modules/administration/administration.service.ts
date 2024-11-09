@@ -10,6 +10,8 @@ import { Member } from './model/member.model';
 import { ClubInvitation } from './model/club-invitation.model';
 import { Club } from './model/club.model';
 import { Account } from './model/account.model';
+import { KeyPoint } from '../tour-authoring/model/keypoint.model';
+import { TourObject } from '../tour-authoring/model/object.model';
 
 
 @Injectable({
@@ -111,6 +113,22 @@ export class AdministrationService {
     return this.http.get<PagedResults<AppReview>>(environment.apiHost + 'administration/appReview')
   }
 
+  getRequestedPublicKeyPoints(): Observable<KeyPoint[]> {
+    return this.http.get<KeyPoint[]>(environment.apiHost + 'administration/publicRequest/getKeyPoints');
+  }
 
+  getRequestedPublicObjects(): Observable<TourObject[]> {
+    return this.http.get<TourObject[]>(environment.apiHost + 'administration/publicRequest/getObjects');
+  }
+
+  updateObject(object: TourObject): Observable<TourObject> {
+    return this.http.put<TourObject>(environment.apiHost + 'administration/publicRequest/updateObject', object);
+  }
+
+  updateKeyPoint(keyPoint: KeyPoint): Observable<KeyPoint>{
+    return this.http.put<KeyPoint>(environment.apiHost + 'administration/publicRequest/updateKeyPoint', keyPoint);
+  }
+
+  
 }
 

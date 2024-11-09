@@ -1,8 +1,18 @@
+.tables-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 4%; 
+    margin-top: 2vh; 
+}
+
+
 table {
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 300px;
+    min-width: 500px;
+    max-width: 800px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -31,17 +41,4 @@ tbody tr:last-of-type {
 tbody tr.active-row {
     font-weight: bold;
     color: #3f51b5;
-}
-
-.mykeypoints-container{
-    margin-top: 2vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4%;
-}
-
-.keypoint-form-div{
-    display: flex;
-    flex-direction: column;
 }
