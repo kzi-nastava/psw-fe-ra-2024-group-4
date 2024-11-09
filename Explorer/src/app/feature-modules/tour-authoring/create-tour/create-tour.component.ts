@@ -76,6 +76,9 @@ export class CreateTourComponent  implements OnChanges {
       status: 0,
       price: 0,
       userId: this.user.id,
+      lengthInKm: 0,
+      publishedTime: undefined,
+      archiveTime: undefined,
       equipmentIds: [],
       keyPoints: []
     };

@@ -84,6 +84,15 @@
             </ul>
 
         </div>
+
+        <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
+            <ul class="menu-list">
+                <li><h1 >Tour execution <i class="fas fa-arrow-right"></i></h1></li>
+                <li *ngIf="user && (user.role === 'tourist')"><a href="position-simulator">Position simulator</a></li>
+              
+            </ul>
+
+        </div>
         <div class="menu-list-container" *ngIf="user && (user.role === 'administrator')" >
             <ul class="menu-list">
                 <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>

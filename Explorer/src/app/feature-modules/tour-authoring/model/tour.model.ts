@@ -9,6 +9,9 @@ export interface Tour {
     status: number; 
     price: number;
     userId: number;
+    lengthInKm: number;
+    publishedTime?: Date;
+    archiveTime?: Date;
     equipmentIds: number[] | null; 
     keyPoints: KeyPoint[];
   }

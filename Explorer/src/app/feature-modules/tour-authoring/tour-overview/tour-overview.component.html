@@ -27,8 +27,21 @@
             <mat-card-content>
                 <p>{{ t.tourDescription }}</p>
             </mat-card-content>
+            <mat-card-content>
+                <p>
+                    Status: 
+                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 0">Active</span>
+                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 1">Completed</span>
+                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 2">Abandoned</span>
+                    <span *ngIf="tourExecutions.get(t.tourId)?.status === null">Not Started</span>
+                  </p>
+              </mat-card-content>
+              
 
             <mat-card-actions align="end">
+                <button *ngIf="tourExecutions.get(t.tourId)?.status === null && !isActive" mat-button style="margin-right: 5vh;" (click)="startTour(t.tourId)">START TOUR</button>
+                <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;">COMPLETE TOUR</button>
+                <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
                 <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
                 <button mat-button (click)="addToCart(t)">BUY</button>
             </mat-card-actions>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeyPoint } from './model/keypoint.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Tour } from './model/tour.model';
 import { TourObject } from './model/object.model';
@@ -55,6 +55,7 @@ export class TourAuthoringService {
 
   }
 
+
   
 
 
@@ -62,4 +63,12 @@ export class TourAuthoringService {
     return this.http.get<number>(environment.apiHost + 'keypointaddition/keypoint/next-id/' + userId);
   
   }
+
+
+
+  updateTourDistance(id: number, length: number): Observable<any> {
+    console.log('pozvana funksija iz servisa'+length+id);
+    return this.http.put('https://localhost:44333/api/author/tour/updateDistance/'+ id, length);
+  }
+
 }
