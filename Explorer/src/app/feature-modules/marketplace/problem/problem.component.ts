@@ -220,7 +220,7 @@ confirmUpdateDeadline(): void {
       if(p.deadline){
          p.isOverDeadline = timeDifference > p.deadline;
       }
-      if (p.isOverDeadline || timeDifference > 5) {
+      if (/*p.isOverDeadline || */timeDifference > 5) {
         p.isLate = true;
     }
      
@@ -284,7 +284,10 @@ confirmUpdateDeadline(): void {
         }else{
           updatedProblem.isLate = false
         }
-        
+        this.checkDeadline();
+        if(updatedProblem.deadline){
+          updatedProblem.isOverDeadline = daysDifference > updatedProblem.deadline;
+       }
         this.problems[index] = updatedProblem; 
       }
       },
