@@ -78,7 +78,6 @@
             <ul class="menu-list">
                 <li><h1 >Feedback on the tour <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'tourist')"><a href="tourReviews">Leave a review</a></li>
-                <li *ngIf="user && (user.role === 'tourist')" ><a href="problem">Report a problem</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-preferences">Set preferred tours</a></li>
             </ul>
 

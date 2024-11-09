@@ -1,4 +1,4 @@
-import { Component, inject, numberAttribute, OnInit } from '@angular/core';
+import { Component, inject, Input, numberAttribute, OnInit } from '@angular/core';
 import { TourOverview } from '../model/touroverview.model';
 import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -54,6 +54,9 @@ export class TourOverviewComponent implements OnInit {
     this.loadTours();
   }
   
+  updateTours(tours: TourOverview[]): void {
+    this.tours = tours;
+  }
 
   loadTours(): void {
     this.tourOverviewService.getAllWithoutReviews().subscribe({

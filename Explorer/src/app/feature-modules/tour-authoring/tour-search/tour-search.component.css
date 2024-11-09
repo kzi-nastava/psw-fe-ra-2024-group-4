@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column; /* Sadržaj će biti složen vertikalno */
+    align-items: flex-start; /* Poravnava na levu stranu */
+    padding: 0; 
+    margin: 30px;
+}
+
+::ng-deep xp-map #map {
+    width: 200px;
+    height: 200px !important;
+}

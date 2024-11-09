@@ -32,6 +32,7 @@ import { TourOverviewComponent } from './tour-overview/tour-overview.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
+import { TourSearchComponent } from './tour-search/tour-search.component';
 
 
 
@@ -51,7 +52,8 @@ import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overv
     ObjectFormComponent,
     MapForTourComponent,
     TourOverviewComponent,
-    TourOverviewDetailsComponent
+    TourOverviewDetailsComponent,
+    TourSearchComponent
   ],
   imports: [
     // Import necessary modules
