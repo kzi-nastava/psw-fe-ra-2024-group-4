@@ -6,6 +6,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { PublicStatus } from '../model/object.model';
+import { MarketplaceService } from '../../marketplace/marketplace.service';
 
 @Component({
   selector: 'xp-object-form',
@@ -22,7 +23,7 @@ export class ObjectFormComponent implements OnInit {
   
 
   user: User | undefined;
-  constructor (private service: TourAuthoringService, private authService: AuthService) {} 
+  constructor (private service: TourAuthoringService, private authService: AuthService, private mpService: MarketplaceService) {} 
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -128,7 +129,29 @@ export class ObjectFormComponent implements OnInit {
     });
   }
   
-  
+  createNotification(object: TourObject): void {
+
+    if(object.publicStatus === 1){
+      const notification = {
+        id: 0,
+        description: "Requested status change for KeyPoint",
+        creationTime: new Date(),
+        isRead: false,
+        notificationsType: 3,
+        resourceId: object.id || 0,
+        userId: -1, 
+      };
+      if(this.user !== null)
+      this.mpService.createNotification(notification, 'author').subscribe({
+        next: (createdNotification) => {
+            console.log("Notification created for administrator:", createdNotification);
+        },
+        error: (error) => {
+            console.error("Error creating notification for administrator:", error);
+        }
+    });
+    }
+  }
 
   addObject(): void {
     this.getNumberOfObjects((objectCount: number) => {
@@ -149,6 +172,7 @@ export class ObjectFormComponent implements OnInit {
         next: (_) => {
           this.objectCreated.emit();
           this.resetForm();
+          this.createNotification(object)
         },
         error: (err) => {
           console.log('Error adding object:', err);
@@ -165,6 +189,7 @@ export class ObjectFormComponent implements OnInit {
       this.objectToEdit.longitude = Number(this.objectForm.value.longitude) || 0;
       this.objectToEdit.latitude = Number(this.objectForm.value.latitude) || 0;
       this.objectToEdit.publicStatus = Number(this.objectForm.value.publicStatus) || 0;
+      this.createNotification(this.objectToEdit)
       this.service.updateObject(this.objectToEdit).subscribe({
         next: () => {
           this.objectCreated.emit();

@@ -6,6 +6,7 @@ import { KeyPoint,PublicStatus } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../model/tour.model';
 import { MapService } from 'src/app/shared/map/map.service';
+import { MarketplaceService } from '../../marketplace/marketplace.service';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -39,9 +40,9 @@ export class KeypointFormComponent implements OnInit {
   shouldEditKp: boolean = false;
 
 
-  user: User | undefined;
+  user?: User | undefined;
   nextId: number = 0;
-  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService, private mpService: MarketplaceService){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -107,7 +108,29 @@ export class KeypointFormComponent implements OnInit {
   }
 
   
+  createNotification(keyPoint: KeyPoint): void {
 
+    if(keyPoint.publicStatus === 1){
+      const notification = {
+        id: 0,
+        description: "Requested status change for KeyPoint",
+        creationTime: new Date(),
+        isRead: false,
+        notificationsType: 3,
+        resourceId: keyPoint.id || 0,
+        userId: -1, 
+      };
+      if(this.user !== null)
+      this.mpService.createNotification(notification, 'author').subscribe({
+        next: (createdNotification) => {
+            console.log("Notification created for administrator:", createdNotification);
+        },
+        error: (error) => {
+            console.error("Error creating notification for administrator:", error);
+        }
+    });
+    }
+  }
 
   createKeyPoint(): void {
    
@@ -158,6 +181,7 @@ export class KeypointFormComponent implements OnInit {
 
          }
       });
+      this.createNotification(keypoint);
     }
 
     }
@@ -176,6 +200,7 @@ export class KeypointFormComponent implements OnInit {
   }
 
   updateKeyPoint(): void{
+    
     if(this.user)
     {
       const keypoint: KeyPoint = {
@@ -196,6 +221,7 @@ export class KeypointFormComponent implements OnInit {
         next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
       });
+      this.createNotification(keypoint);
     }
   
   }
