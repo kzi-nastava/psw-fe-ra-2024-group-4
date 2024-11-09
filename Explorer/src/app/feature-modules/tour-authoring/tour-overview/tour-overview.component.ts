@@ -16,8 +16,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+
 import { PositionSimulator } from '../model/position-simulator.model';
 
 
@@ -28,7 +27,7 @@ import { PositionSimulator } from '../model/position-simulator.model';
 })
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
-  user: User | null = null;
+ // user: User | null = null;
   tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
   tourExecutions: Map<number, TourExecution> = new Map();
@@ -52,6 +51,7 @@ export class TourOverviewComponent implements OnInit {
     private mapService: MapService, 
     private router: Router,
     private cartService: CartService,
+    private tourExecutionService: TourExecutionService,
   private authService: AuthService) {}
 
   ngOnInit(): void {
