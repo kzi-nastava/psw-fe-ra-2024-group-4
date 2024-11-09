@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { PositionSimulator } from '../tour-authoring/model/position-simulator.model';
 import { environment } from 'src/env/environment';
 import { TourExecution } from '../tour-authoring/model/tour-execution.model';
+import { KeyPoint } from '../tour-authoring/model/keypoint.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +44,31 @@ export class TourExecutionService {
     );
   }
 
-  getTourExecutionByTourAndTourist(touristId: number, tourId: number): Observable<TourExecution> {
-    return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/by_tour_and_tourist/${touristId}/${tourId}`);
+  updateLastActivity(executionId: number): Observable<any> {
+    return this.http.put<any>(`${environment.apiHost}tourist/execution/updateLastActivity/${executionId}`, {});
 }
 
+
+  completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {
+    return this.http.put<TourExecution>(
+      `${environment.apiHost}tourist/execution/completeKeyPoint/${executionId}/${keyPointId}`,
+      {} 
+    );
+  }
+  
+
+  getTourExecutionByTourAndTourist(touristId: number, tourId: number): Observable<TourExecution> {
+    return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/by_tour_and_tourist/${touristId}/${tourId}`);
+  }
+
+  getKeyPointsForTour(tourId: number): Observable<KeyPoint[]> {
+    return this.http.get<KeyPoint[]>('https://localhost:44333/api/tourist/execution/' + tourId + '/keypoints'); 
+
+  }
+
+  getActiveTour(touristId: number): Observable<TourExecution> {
+    return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/active/${touristId}`);
+  }
 
 }
 

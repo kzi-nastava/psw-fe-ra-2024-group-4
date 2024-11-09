@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
+import * as L from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,9 @@ import { Observable } from 'rxjs';
 export class MapService {
 
   constructor(private http: HttpClient) {}
+
+  distance = new BehaviorSubject<any>({distance: 0, tourId: 0})
+  currentDistance = this.distance.asObservable()
 
   search(street: string): Observable<any> {
     return this.http.get(
@@ -20,4 +25,10 @@ export class MapService {
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>`
     );
   }
+
+  updateDistance(distance: any): void {
+    this.distance.next(distance)
+  }
+
+
 }

@@ -6,16 +6,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
 import { KeyPoint } from '../model/keypoint.model';
 import { MapService } from 'src/app/shared/map/map.service';
+
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../cart-overview.service';
 import { OrderItem } from '../model/order-item.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+
 import { PositionSimulator } from '../model/position-simulator.model';
+
 
 @Component({
   selector: 'xp-tour-overview',
@@ -33,6 +36,7 @@ export class TourOverviewComponent implements OnInit {
   isActive: boolean = false;
   position: PositionSimulator | null = null;
 
+
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable(); 
 
@@ -46,8 +50,8 @@ export class TourOverviewComponent implements OnInit {
     private mapService: MapService, 
     private router: Router,
     private cartService: CartService,
-  private authService: AuthService,
-  private tourExecutionService: TourExecutionService,) {}
+    private tourExecutionService: TourExecutionService,
+  private authService: AuthService) {}
 
   ngOnInit(): void {
 
@@ -61,6 +65,19 @@ export class TourOverviewComponent implements OnInit {
 
     this.authService.user$.subscribe(user => {
       this.user = user;
+       console.log(user);
+      
+      if (user) {
+        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
+            next: (position: PositionSimulator) => {
+                console.log('Position retrieved:', position);
+                this.position = position;
+            },
+            error: (err) => {
+                console.error('Error retrieving position:', err);
+            }
+        });
+    }
       
       this.cartService.getCartsByUser(this.user.id).subscribe({
         next: (result: ShoppingCart[]) => {
@@ -71,7 +88,7 @@ export class TourOverviewComponent implements OnInit {
              }  else
             this.createNewCart(this.user.id);
         }
-      })
+      });
       
      
       

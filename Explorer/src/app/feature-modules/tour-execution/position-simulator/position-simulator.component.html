@@ -1,3 +1,10 @@
 <div class="position-simulator-container">
-    <xp-map (touristPositionCreate)="createPosition($event)" (touristPositionUpdate)="updatePosition($event)" [positionSimulatorActivated]="positionSimulatorActivated"></xp-map>
+    <xp-map 
+        [selectedTourPoints]="selectedTourPoints" 
+        [selectedLatitude]="currentPosition.latitude" 
+        [selectedLongitude]="currentPosition.longitude" 
+        [positionSimulatorActivated]="positionSimulatorActivated" 
+        (touristPositionCreate)="createPosition($event)" 
+        (touristPositionUpdate)="updatePosition($event)">
+    </xp-map>
 </div>

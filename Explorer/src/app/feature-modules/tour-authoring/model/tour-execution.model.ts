@@ -9,6 +9,6 @@ export interface TourExecution {
 }
 
 export class CompletedKeys{
-    keyPointId: number;
-    completionTime: Date;
+    keyPointId: number | undefined;
+    completionTime: Date | undefined;
   }
