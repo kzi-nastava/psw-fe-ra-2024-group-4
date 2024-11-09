@@ -5,7 +5,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { environment } from 'src/env/environment';
 import { Post } from './model/post.model';
 import { Comment } from './model/comment.model';
-
+import { Rating } from './model/rating.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +25,14 @@ export class PostService {
   deletePost(id: number):Observable<Post>{
     return this.http.delete<Post>(environment.apiHost+ 'postmanagement/post/'+id)
   }
-  getCommentByPost(postId: number,page: number = 0, pageSize: number = 0): Observable<PagedResults<Comment>>{
-    return this.http.get<PagedResults<Comment>>(environment.apiHost+ `postmanagement/post/comments?id=${postId}&page=${page}&pageSize=${pageSize}`);
+  getPostById(id: number): Observable<Post> {
+    return this.http.get<Post>(environment.apiHost+'postmanagement/post/'+id);
   }
+  addRating(postId: number, rating: Rating): Observable<Post>{
+    return this.http.post<Post>(environment.apiHost+'blogfeedback/rating/'+postId,rating);
+  }
+  updateRating(postId: number,rating:Rating):Observable<Post>{
+    return this.http.put<Post>(environment.apiHost+'blogfeedback/rating/'+postId,rating);
+  }
+
 }

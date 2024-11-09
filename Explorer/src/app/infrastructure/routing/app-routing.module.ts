@@ -40,11 +40,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
-  {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard],
-    children: [
-      { path: 'comments/:postId', component: CommentComponent },
-    ]
-  },
+  {path: 'blogPost',component: PostComponent,canActivate: [AuthGuard]},
+  { path: 'aboutPost/:postId', component: CommentComponent, canActivate: [AuthGuard] }, 
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'clubDetails/:clubid', component: ClubDetailsComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: InfoComponent },

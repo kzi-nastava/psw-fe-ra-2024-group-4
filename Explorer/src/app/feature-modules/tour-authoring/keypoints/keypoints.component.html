@@ -37,7 +37,7 @@
            
         </tbody>
     </table>
-   
+     <xp-keypoint-form *ngIf="shouldEdit" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint] = "selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
   
 </div>
 </div>
