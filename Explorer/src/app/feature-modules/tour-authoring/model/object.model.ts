@@ -7,10 +7,10 @@ export interface TourObject {
     longitude: number;
     latitude: number;
     userId: number;
-    publicStatus: Status;
+    publicStatus: PublicStatus;
   }
 
-  export enum Status {
+  export enum PublicStatus {
     PRIVATE = 0,
     REQUESTED_PUBLIC = 1,
     PUBLIC = 2

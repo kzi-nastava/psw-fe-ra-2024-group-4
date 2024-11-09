@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Status, TourObject } from '../../tour-authoring/model/object.model';
-import { KeyPoint, PublicStatus } from '../../tour-authoring/model/keypoint.model';
+import { PublicStatus, TourObject } from '../../tour-authoring/model/object.model';
+import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { AdministrationService } from '../administration.service';
 @Component({
   selector: 'xp-public-status-request',
@@ -41,7 +41,7 @@ export class PublicStatusRequestComponent {
   }
 
   acceptObject(object: TourObject): void{
-    object.publicStatus = Status.PUBLIC;
+    object.publicStatus = PublicStatus.PUBLIC;
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');
@@ -69,7 +69,7 @@ export class PublicStatusRequestComponent {
   }
 
   declineObject(object: TourObject): void{
-    object.publicStatus = Status.PRIVATE;
+    object.publicStatus = PublicStatus.PRIVATE;
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');

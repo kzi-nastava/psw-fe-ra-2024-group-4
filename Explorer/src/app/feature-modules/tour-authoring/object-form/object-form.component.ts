@@ -5,7 +5,7 @@ import { TourObject } from '../model/object.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
-import { Status } from '../model/object.model';
+import { PublicStatus } from '../model/object.model';
 
 @Component({
   selector: 'xp-object-form',
