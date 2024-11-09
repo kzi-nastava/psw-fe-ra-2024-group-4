@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="review-list">
+        <div *ngFor="let r of reviews" class="comment">
+            <div class="comment-header">
+                <img [src]="r.userAvatar" class="avatar" alt="User Avatar">
+                <span class="username">{{ r.username }}</span>
+            </div>
+            <div class="comment-content">
+                <p>{{ r.comment }}</p>
+            </div>
+        </div>
+    </div>
+</div>

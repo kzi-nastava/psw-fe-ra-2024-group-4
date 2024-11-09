@@ -2,6 +2,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post.service';
 import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Post } from '../model/post.model';
+import { Comment } from '../model/comment.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { marked } from 'marked';
@@ -58,9 +59,12 @@ export class PostFormComponent implements OnChanges{
         status: 0, 
         createdAt: new Date(), 
         userId: this.user.id,
-        imageBase64: this.postForm.value.imageBase64 || ""
+        ratingSum: 0,
+        imageBase64: this.postForm.value.imageBase64 || "",
+        comments: [],
+        ratings: []
       };
-  
+      console.log(post);
       this.service.addPost(post).subscribe({
         next: () => { this.postUpdated.emit(); }
       });
@@ -76,7 +80,10 @@ export class PostFormComponent implements OnChanges{
         status: this.post.status, 
         createdAt:this.post.createdAt, 
         userId: this.post.userId,
-        imageBase64: this.postForm.value.imageBase64 || ""
+        ratingSum: this.post.ratingSum,
+        imageBase64: this.postForm.value.imageBase64 || "",
+        comments: this.post.comments,
+        ratings: this.post.ratings
       };
       post.id=this.post.id;
       this.service.updatePost(post).subscribe({

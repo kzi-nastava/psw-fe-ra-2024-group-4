@@ -1,0 +1,38 @@
+mat-card {
+    width: 25vw;
+    height: auto;
+}
+
+mat-card-content {
+    overflow: auto;
+}
+
+mat-chip {
+    margin: 2px;
+}
+
+span {
+    overflow: auto;
+}
+
+.img-container {
+    width: auto;
+    height: 35vh;
+}
+
+.container {
+    margin: 5px;
+}
+button[mat-icon-button] {
+    position: relative; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    margin-left: 1250px; 
+    margin-top: -50px; 
+}
+
+button[mat-icon-button] mat-icon {
+    font-size: 30px;
+    color: white; 
+}

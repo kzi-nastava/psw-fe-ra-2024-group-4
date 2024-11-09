@@ -1,4 +1,3 @@
-import { Equipment } from "./equipment.model";
 
 export interface PersonInfo {
     id: number;
@@ -10,4 +9,5 @@ export interface PersonInfo {
     motto: string;
     imageBase64: string;
     equipment: number[];
+    wallet: number
 }
