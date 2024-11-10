@@ -42,7 +42,7 @@ export class KeypointFormComponent implements OnInit {
 
   user?: User | undefined;
   nextId: number = 0;
-  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService, private mpService: MarketplaceService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -108,29 +108,7 @@ export class KeypointFormComponent implements OnInit {
   }
 
   
-  createNotification(keyPoint: KeyPoint): void {
 
-    if(keyPoint.publicStatus === 1){
-      const notification = {
-        id: 0,
-        description: "Requested status change for KeyPoint",
-        creationTime: new Date(),
-        isRead: false,
-        notificationsType: 3,
-        resourceId: keyPoint.id || 0,
-        userId: -1, 
-      };
-      if(this.user !== null)
-      this.mpService.createNotification(notification, 'author').subscribe({
-        next: (createdNotification) => {
-            console.log("Notification created for administrator:", createdNotification);
-        },
-        error: (error) => {
-            console.error("Error creating notification for administrator:", error);
-        }
-    });
-    }
-  }
 
   createKeyPoint(): void {
    
@@ -181,7 +159,6 @@ export class KeypointFormComponent implements OnInit {
 
          }
       });
-      this.createNotification(keypoint);
     }
 
     }
@@ -221,7 +198,6 @@ export class KeypointFormComponent implements OnInit {
         next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
       });
-      this.createNotification(keypoint);
     }
   
   }
