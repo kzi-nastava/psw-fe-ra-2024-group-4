@@ -53,6 +53,13 @@ export class MapComponent {
     popupAnchor: [1, -34],
   });
 
+  private positionIcon = L.icon({
+    iconUrl: 'assets/icons/positionmark.svg',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
+
 
    constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
 
@@ -117,8 +124,6 @@ export class MapComponent {
     if(this.positionSimulatorActivated)
     {
       
-     
-        
       
       this.registerPosition();
     }
@@ -161,12 +166,15 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
+    
     let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-      iconSize: [25, 41],
+      iconUrl: 'assets/icons/keypointmark.svg',
+      iconSize: [40, 40],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
+
+   
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
@@ -222,6 +230,8 @@ export class MapComponent {
   }
 
   registerPosition(): void {
+
+    
     
    
     this.map.on('click', (e: any) => {
@@ -236,7 +246,7 @@ export class MapComponent {
         this.map.removeLayer(this.currentMarker);
     }
 
-      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      this.currentMarker = new L.Marker([lat, lng], {icon: this.positionIcon}).addTo(this.map);
       
       if(!this.currentPosition)
         {
@@ -285,6 +295,12 @@ export class MapComponent {
     const routeControl = L.Routing.control({
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
+      lineOptions: {
+        styles: [{ color: '#9b2735', opacity: 0.7, weight: 5 }],
+        extendToWaypoints: true,            // Default value
+        missingRouteTolerance: 0.1,         // Default tolerance for missing routes
+        addWaypoints: false    
+      }
 
     }).addTo(this.map);
    
@@ -325,6 +341,8 @@ export class MapComponent {
     //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     // });
 
+    
+
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
@@ -332,6 +350,8 @@ export class MapComponent {
         .addTo(this.map)
         .bindPopup(`<strong>${obj.name}</strong><br>${obj.description}`);
     });
+
+    
   }
   
 
@@ -354,7 +374,9 @@ export class MapComponent {
           .bindPopup(`<strong>${point.name}</strong>`);
         this.selectedTourPointsMarkers.push(marker);
         console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+
       });
+      this.setRoute(this.selectedTourPoints)
     } else {
       console.warn('No key points available to plot.');
     }

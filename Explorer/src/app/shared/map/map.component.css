@@ -1,8 +1,10 @@
 .map-frame {
-    border: 2px solid black;
+    border: 0.3vh solid #ea9ba8;
+   
   }
   
   #map {
-    height: 600px;
+    height: 50vh;
+ 
   }
   
