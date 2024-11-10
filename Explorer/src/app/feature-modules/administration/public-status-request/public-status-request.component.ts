@@ -41,20 +41,39 @@ export class PublicStatusRequestComponent {
     })
   }
 
-  createNotification(publicStatus: PublicStatus, userId: number, resourceId?: number): void {
+  createNotification(publicStatus: PublicStatus, usersId: number, resourceId?: number, isObject?: boolean): void {
 
-    if(publicStatus === 1){
+    let descriptionSet
+    let notificationTypeSet
+    if(publicStatus === 2){
+
+      if(isObject){
+         descriptionSet = "Status set to Public for Object";
+         notificationTypeSet = 4
+      }else{
+        descriptionSet = "Status set to Public for KeyPoint";
+        notificationTypeSet = 3
+      }
+    }else{
+      if(isObject){
+        descriptionSet = "Status set to Private for Object";
+        notificationTypeSet = 4
+     }else{
+       descriptionSet = "Status set to Private for KeyPoint";
+       notificationTypeSet = 3
+     }
+    }
       const notification = {
         id: 0,
-        description: "Requested status change for KeyPoint",
+        description: descriptionSet,
         creationTime: new Date(),
         isRead: false,
-        notificationsType: 3,
+        notificationsType: notificationTypeSet,
         resourceId: resourceId || 0,
-        userId: userId, 
+        userId: usersId, 
       };
-
-      this.mpService.createNotification(notification, 'author').subscribe({
+      console.log(notification)
+      this.mpService.createNotification(notification, 'administrator').subscribe({
         next: (createdNotification) => {
             console.log("Notification created for administrator:", createdNotification);
         },
@@ -62,7 +81,7 @@ export class PublicStatusRequestComponent {
             console.error("Error creating notification for administrator:", error);
         }
     });
-    }
+    
   }
 
   acceptObject(object: TourObject): void{
@@ -70,8 +89,8 @@ export class PublicStatusRequestComponent {
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');
-        this.createNotification(object.publicStatus,object.userId, object.id);
-        window.location.reload();
+        this.createNotification(object.publicStatus,object.userId, object.id, true);
+        this.getRequestedPublicObjects();
       },
       error: (err) => {
         console.error('Update failed', err);
@@ -86,8 +105,8 @@ export class PublicStatusRequestComponent {
     this.service.updateKeyPoint(keyPoint).subscribe({
       next: () => {
         console.log('KeyPoint updated successfully');
-        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id);
-        window.location.reload();
+        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id, false);
+        this.getRequestedPublicKeyPoints();
       },
       error: (err) => {
         console.error('Update failed', err);
@@ -100,8 +119,8 @@ export class PublicStatusRequestComponent {
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');
-        this.createNotification(object.publicStatus,object.userId, object.id);
-        window.location.reload();
+        this.createNotification(object.publicStatus,object.userId, object.id,true);
+        this.getRequestedPublicObjects();
       },
       error: (err) => {
         console.error('Update failed', err);
@@ -112,11 +131,12 @@ export class PublicStatusRequestComponent {
   declineKeyPoint(keyPoint: KeyPoint): void{
     keyPoint.publicStatus = PublicStatus.PRIVATE;
     keyPoint.imageBase64 = "";
+    console.log(keyPoint)
     this.service.updateKeyPoint(keyPoint).subscribe({
       next: () => {
         console.log('KeyPoint updated successfully');
-        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id);
-        window.location.reload();
+        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id,false);
+        this.getRequestedPublicKeyPoints();
       },
       error: (err) => {
         console.error('Update failed', err);
