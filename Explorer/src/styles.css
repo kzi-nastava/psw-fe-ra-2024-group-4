@@ -11,11 +11,11 @@ body {
 
 
 :root {
-    --primary-color: #ea9ba8;
-    --secondary-color: #ed8f99;
+    --primary-color: #642984ff; /*#ea9ba8;*/
+    --secondary-color: #4daeedff; /*#ed8f99;*/
     --third-color: #f2e6e9;
-    --fourth-color: #e540ae;
-    --highlight-color: #9b2735;
+    --fourth-color: #ba3c8dff; /*#e540ae;*/
+    --highlight-color: #17097cff;/*#9b2735;*/
     --font-family: 'Poppy', sans-serif;
     --background-color: #fbfafa;
     --text-color-dark: #333;

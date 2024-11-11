@@ -296,7 +296,7 @@ export class MapComponent {
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
       lineOptions: {
-        styles: [{ color: '#9b2735', opacity: 0.7, weight: 5 }],
+        styles: [{ color: '#17097cff', opacity: 0.7, weight: 5 }],
         extendToWaypoints: true,            // Default value
         missingRouteTolerance: 0.1,         // Default tolerance for missing routes
         addWaypoints: false    

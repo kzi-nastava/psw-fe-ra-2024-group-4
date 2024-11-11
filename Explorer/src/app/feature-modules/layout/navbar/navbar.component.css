@@ -1,5 +1,5 @@
 mat-toolbar {
-    background: linear-gradient(to bottom, #F3D0D7, #fbfafa);
+    background: linear-gradient(to bottom, rgb(241, 226, 251), rgb(253, 248, 255));
     color: black;
     padding: 10px 20px;
     height: 11vh;
@@ -8,7 +8,7 @@ mat-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 2px solid pink;
+    border: 2px solid rgb(233, 200, 255);
     z-index: 1;
     position: relative;
     top: 0;
@@ -29,7 +29,7 @@ mat-toolbar {
 
 a[mat-raised-button] {
     background-color: transparent;
-    color: black;
+    color: #642984ff;/*black;*/
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1.1rem;
@@ -55,7 +55,7 @@ a[mat-raised-button] {
 
 a[mat-raised-button]:hover {
     transform: translateY(-2px);
-    color: #303f9f;
+    color: #17097cff;/*#303f9f;*/
 }
 
 #buttons {
@@ -174,7 +174,9 @@ a[mat-raised-button]:hover {
     margin: 0 5vh; /* Spacing between header and list */
 }
 
-
+.logo{
+    height: 15vh;
+}
 
 
 
