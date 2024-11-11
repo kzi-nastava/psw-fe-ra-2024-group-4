@@ -13,6 +13,7 @@ import { environment } from 'src/env/environment';
 export class InfoComponent implements OnInit {
 
   infoPerson: PersonInfo;  
+  editPerson: PersonInfo;
   user: User | null = null;
   imageBase64: string | null = null;
   editMode: boolean = false;
@@ -27,12 +28,9 @@ export class InfoComponent implements OnInit {
       if (user && user.id) {
         this.user = user;
         console.log(user.id);
-        this.getPersonInfo(user.id);
-        this.getImage(this.infoPerson.imageUrl);  
+        this.getPersonInfo(user.id);  
       }
       
-      console.log(this.imageBase64);
-      console.log(this.infoPerson.imageUrl);
     });
   }
 
@@ -41,34 +39,49 @@ export class InfoComponent implements OnInit {
       this.profileService.getTouristInfo(personId).subscribe({
         next: (result: PersonInfo) => {
           this.infoPerson = result;
+          this.editPerson = { ...result };
           this.imageBase64 = null;
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
+          alert("There was an error while loading your profile information. Please try again later.");
+
         }
       });
     } else if(this.user?.role === 'author') {
       this.profileService.getAuthorInfo(personId).subscribe({
         next: (result: PersonInfo) => {
           this.infoPerson = result;
+          this.editPerson = { ...result };
           this.imageBase64 = null;
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
+          alert("There was an error while loading your profile information. Please try again later.");
+
         }
       });
     } else {
-      
+      alert("There was an error while loading your profile information. Please try again later.");
+
     }
     
   }
 
   updateProfile(): void {
     if(this.user?.role === 'tourist') {
-      this.profileService.updateTouristInfo(this.infoPerson).subscribe({
+      if (!this.editPerson.imageBase64 || !this.editPerson.imageUrl) {
+        this.editPerson.imageBase64 = this.infoPerson.imageBase64; 
+        this.editPerson.imageUrl = this.infoPerson.imageUrl;
+      }
+      this.profileService.updateTouristInfo(this.editPerson).subscribe({
         next: (response) => {
           console.log('Profile updated successfully', response); 
           alert('Profile updated successfully!');
+          if (this.editPerson.imageBase64) {
+            this.infoPerson.imageUrl = this.editPerson.imageBase64;
+          }
+          this.infoPerson = { ...this.editPerson };
           this.editMode = false;
         },
         error: (err) => {
@@ -77,10 +90,17 @@ export class InfoComponent implements OnInit {
         }
       });
     } else if(this.user?.role === 'author') {
-      this.profileService.updateAuthorInfo(this.infoPerson).subscribe({
+      if (!this.editPerson.imageBase64 && this.infoPerson.imageBase64) {
+        this.editPerson.imageBase64 = this.infoPerson.imageBase64; 
+      }
+      this.profileService.updateAuthorInfo(this.editPerson).subscribe({
         next: (response) => {
           console.log('Profile updated successfully', response);
-          alert('Profile updated successfully!');     
+          alert('Profile updated successfully!');  
+          if (this.editPerson.imageBase64) {
+            this.infoPerson.imageUrl = this.editPerson.imageBase64;
+          }
+          this.infoPerson = { ...this.editPerson };   
           this.editMode = false;
         },
         error: (err) => {
@@ -89,6 +109,7 @@ export class InfoComponent implements OnInit {
         }
       });
     } else {
+    
     }
     
   }
@@ -100,8 +121,21 @@ export class InfoComponent implements OnInit {
     const file: File = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.infoPerson.imageBase64 = reader.result as string;  
+       this.editPerson.imageBase64 = reader.result as string;
+      // this.imageBase64 = reader.result as string; 
+      // this.editPerson.imageUrl = this.imageBase64;  
+
     };
     reader.readAsDataURL(file); 
+  }
+
+  enableEditMode(): void {
+    this.editPerson = { ...this.infoPerson };  
+    this.editMode = true;
+  }
+
+  cancelEdit(): void {
+    this.editMode = false;
+    this.imageBase64 = null;  
   }
 }
