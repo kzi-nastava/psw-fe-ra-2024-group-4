@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgControl } from '@angular/forms';
 import { getMatFormFieldPlaceholderConflictError } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'xp-post',
@@ -30,6 +31,10 @@ export class PostComponent implements OnInit{
   //status za filter
   public BlogStatus = BlogStatus; // Omogućava pristup `BlogStatus` u HTML-u
   selectedStatus: BlogStatus | null = null;
+  isMouseDownWithinForm: boolean=false;
+  isMouseUpWithinForm: boolean = false;
+  isMouseDownWithinOverlay: boolean=false;
+  isMouseUpWithinOverlay: boolean =false;
 
   constructor(private service: PostService,private comService: CommentService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
@@ -110,6 +115,35 @@ export class PostComponent implements OnInit{
       this.posts = this.getFilteredBlogs();
     }*/
     this.posts = this.getFilteredBlogs();
+  }
+
+  closeForm(){
+    console.log("overlay click");
+    if(!this.isMouseDownWithinForm){
+      this.shouldRenderForm=false;
+    }
+  }
+
+  mouseDownForm(event: MouseEvent){
+    event.stopPropagation();
+    this.isMouseDownWithinForm = true;
+    console.log('mousedownform');
+    this.isMouseDownWithinOverlay = false;
+  }
+  mouseUpForm(){
+
+  }
+  mouseDownOverlay(){
+    this.isMouseDownWithinForm=false;
+  }
+  mouseUpOverlay(){
+
+    console.log(this.isMouseDownWithinForm);
+  }
+  onMenuButtonClick(event: MouseEvent){
+    event.preventDefault();  // Sprečava akciju linka
+    event.stopPropagation(); // Sprečava širenje događaja na roditelja
+
   }
 }
 
