@@ -7,10 +7,12 @@
             <p><strong>Biography:</strong> {{ infoPerson.biography }}</p>
             <p><strong>Motto:</strong> {{ infoPerson.motto }}</p>
             <p><strong>Profile picture:</strong></p>
-            <img *ngIf="infoPerson.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="{{ infoPerson.name }}" height="100">
+            <img *ngIf="infoPerson?.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="{{ infoPerson.name }}" height="30">
+
         </div>
         
-        <button mat-raised-button color="primary" (click)="editMode = true">Edit</button>
+        <button mat-raised-button color="primary" (click)="enableEditMode()">Edit</button>
+
     </div>
 
     <div *ngIf="editMode" class="edit-profile">
@@ -18,18 +20,18 @@
         <form (ngSubmit)="updateProfile()">
             <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput id="name" [(ngModel)]="infoPerson.name" name="name" required>
+                <input matInput id="name" [(ngModel)]="editPerson.name" name="name">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Surname</mat-label>
-                <input matInput id="surname" [(ngModel)]="infoPerson.surname" name="surname" required>
+                <input matInput id="surname" [(ngModel)]="editPerson.surname" name="surname">
             </mat-form-field>
 
             <div>
-                <img *ngIf="imageBase64; else serverImage" [src]="imageBase64" alt="{{ infoPerson.name }}" height="30">
+                <img *ngIf="imageBase64; else serverImage" [src]="imageBase64" alt="{{ editPerson.name }}" height="30">
                 <ng-template #serverImage>
-                    <img *ngIf="infoPerson.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="{{ infoPerson.name }}" height="30">
+                    <img *ngIf="editPerson.imageUrl" [src]="getImage(editPerson.imageUrl)" alt="{{ editPerson.name }}" height="30">
                 </ng-template>
             </div>
 
@@ -37,17 +39,18 @@
 
             <mat-form-field appearance="fill">
                 <mat-label>Biography</mat-label>
-                <textarea matInput id="biography" [(ngModel)]="infoPerson.biography" name="biography"></textarea>
+                <textarea matInput id="biography" [(ngModel)]="editPerson.biography" name="biography"></textarea>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Motto</mat-label>
-                <input matInput id="motto" [(ngModel)]="infoPerson.motto" name="motto">
+                <input matInput id="motto" [(ngModel)]="editPerson.motto" name="motto">
             </mat-form-field>
 
             <br>
             <button mat-raised-button color="primary" type="submit">Save Changes</button>
-            <button mat-button color="warn" (click)="editMode = false">Cancel</button>
+            <button mat-button color="warn" (click)="cancelEdit()">Cancel</button>
+
         </form>
     </div>
 </div>
