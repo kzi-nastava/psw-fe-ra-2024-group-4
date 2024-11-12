@@ -2,7 +2,7 @@
 <div (mouseleave)="closeAllMenus()" class="toolbar-container">
     <mat-toolbar color="primary">
         <div class="links-container">
-            <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;">Logo</a>
+            <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;"><img class="logo" src="assets/icons/traveltaleslogo2.svg"/></a>
 
             <div class="links">
                 <a mat-raised-button  class="hover-icon" 
@@ -102,6 +102,7 @@
         <div class="menu-list-container" *ngIf="user && (user.role === 'administrator')" >
             <ul class="menu-list">
                 <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="public-status-request">Key Points and Objects public requests</a></li>
             </ul>
 
         </div>

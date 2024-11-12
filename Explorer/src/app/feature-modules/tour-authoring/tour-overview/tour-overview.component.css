@@ -40,16 +40,19 @@ mdc-evolution-chip__text-label mat-mdc-chip-action-label{
     height: 35vh;
 }
 
-.container {
-    margin: 5px;
+.cart-container {
+    margin-top: 3vh;
+    display: flex;
+    justify-content: left;
 }
 button[mat-icon-button] {
-    position: relative; 
+    /*position: relative; 
     background-color: transparent; 
     border: none; 
     cursor: pointer; 
     margin-left: 1250px; 
-    margin-top: -50px; 
+    margin-top: -50px; */
+    margin-left: 8%;
 }
 
 button[mat-icon-button] mat-icon {

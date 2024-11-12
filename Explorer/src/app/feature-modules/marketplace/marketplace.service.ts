@@ -95,7 +95,7 @@ export class MarketplaceService {
   createAdminNotification(notification:Notification):Observable<Notification>{
     return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
   }
-  createNotification(notification:Notification,role:'tourist' | 'author' | 'admin'){
+  createNotification(notification:Notification,role:'tourist' | 'author' | 'administrator'){
     return this.http.post<Tour>(`${environment.apiHost}${role}/notification`,notification);
 
   }

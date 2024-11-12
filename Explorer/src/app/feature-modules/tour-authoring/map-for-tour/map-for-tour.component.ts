@@ -45,6 +45,7 @@ export class MapForTourComponent implements OnInit{
   getTourKeyPoints(){
   
       this.keyPoints = this.tour.keyPoints;
+   
 
    
 
