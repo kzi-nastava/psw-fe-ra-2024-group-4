@@ -18,7 +18,7 @@ export class ClubComponent implements OnInit {
   user: User | null = null;
   club: Club[] = [];
   selectedClub:Club;
-  shouldRenderClubForm: boolean = false;
+  shouldRenderClubForm: boolean = false;  //za staru formu koja je bila dole
   shouldEdit: boolean = false;
   currentUserId: number | null = null;
 
@@ -26,6 +26,13 @@ export class ClubComponent implements OnInit {
   userRequestCache: { [key: number]: boolean } = {};
   userIsOwner: {[key: number]: boolean } = {};
   userIsMember: {[key: number]: boolean } = {};
+
+  //samo za formu da se zatvara samo na click van
+  isMouseDownWithinForm: boolean=false;
+  isMouseUpWithinForm: boolean = false;
+  isMouseDownWithinOverlay: boolean=false;
+  isMouseUpWithinOverlay: boolean =false;
+  shouldRenderForm: boolean=false;      // za novu  formu koja iskoci
 
   constructor(private service: AdministrationService, private authService: AuthService) {}
 
@@ -94,7 +101,10 @@ export class ClubComponent implements OnInit {
     console.log('requestovi: ', this.userRequestCache);
   }
 
-  addClubJoinRequest(club: any){
+  addClubJoinRequest(club: any, event:MouseEvent){
+    event.preventDefault();  // Sprečava akciju linka
+    event.stopPropagation(); // Sprečava širenje događaja na roditelja
+
     console.log(club);
 
     const clubJoinRequest: ClubJoinRequest = {
@@ -126,7 +136,9 @@ export class ClubComponent implements OnInit {
    // this.getClubJoinRequests();
   }
 
-  cancelClubJoinRequest(club: any){
+  cancelClubJoinRequest(club: any, event:MouseEvent){
+    event.preventDefault();  // Sprečava akciju linka
+    event.stopPropagation(); // Sprečava širenje događaja na roditelja
     console.log('hocemo delete', this.userRequestCache);
     //nadji id
     for (const request of this.clubJoinRequests) {
@@ -155,19 +167,52 @@ export class ClubComponent implements OnInit {
 
   onAddClicked(): void {
     this.shouldRenderClubForm = true; 
+    this.shouldRenderForm=true;
   }
 
-  onEditClicked(club: Club): void {
+  onEditClicked(club: Club, event:MouseEvent): void {
+
+    event.preventDefault();  // Sprečava akciju linka
+    event.stopPropagation(); // Sprečava širenje događaja na roditelja
+    
+
+    this.shouldRenderForm=true; //za formu koja izadje kao popup
     this.selectedClub=club;
-    this.shouldRenderClubForm = true;
+    this.shouldRenderClubForm = true; 
     this.shouldEdit=true;
   }
   onFormClosed(): void {
     this.shouldRenderClubForm = false; 
+    this.shouldRenderForm = false;
     this.shouldEdit = false; 
   }
 
   getImage(image: string): string {
     return environment.webroot + image;
+  }
+
+  closeForm(){
+    console.log("overlay click");
+    if(!this.isMouseDownWithinForm){
+      this.shouldRenderClubForm=false;
+      this.shouldRenderForm=false;
+    }
+  }
+
+  mouseDownForm(event: MouseEvent){
+    event.stopPropagation();
+    this.isMouseDownWithinForm = true;
+    console.log('mousedownform');
+    this.isMouseDownWithinOverlay = false;
+  }
+  mouseUpForm(){
+
+  }
+  mouseDownOverlay(){
+    this.isMouseDownWithinForm=false;
+  }
+  mouseUpOverlay(){
+
+    console.log(this.isMouseDownWithinForm);
   }
 }

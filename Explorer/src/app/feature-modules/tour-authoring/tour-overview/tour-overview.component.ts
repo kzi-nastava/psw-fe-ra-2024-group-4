@@ -103,6 +103,7 @@ export class TourOverviewComponent implements OnInit {
             next: (position: PositionSimulator) => {
                 console.log('Position retrieved:', position);
                 this.position = position;
+                this.loadTours();
             },
             error: (err) => {
                 console.error('Error retrieving position:', err);

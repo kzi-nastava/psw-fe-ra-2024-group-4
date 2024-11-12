@@ -86,7 +86,7 @@ export class MarketplaceService {
   // }
 
   getTourById(id: number,  role: 'tourist' | 'author' | 'admin' ): Observable<Tour> {
-    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getById/${id}`);
+    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getByTourId/${id}`);
   }
   updateProblem(problem: Problem): Observable<Problem> {
     return this.http.put<Problem>(`${environment.apiHost}problem/updateProblem/${problem.id}`, problem);

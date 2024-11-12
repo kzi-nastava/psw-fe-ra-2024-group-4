@@ -7,12 +7,32 @@ mat-card-content {
     overflow: auto;
 }
 
-mat-chip {
-    margin: 2px;
+
+
+:host ::ng-deep mat-card-subtitle {
+    font-size: 6px;
+    color: gray;
 }
 
-span {
-    overflow: auto;
+:host ::ng-deep mat-chip {
+    font-size: 6px;
+    margin: 3px;
+    color: white;
+    background-color: #3f51b5;
+}
+
+mat-card-subtitle{
+    margin-bottom: 1em;
+    font-size: 10px;
+    height: 2.5em;
+    overflow: hidden;
+}
+mdc-evolution-chip__text-label mat-mdc-chip-action-label{
+    font-size: 6px;
+}
+
+.span {
+    overflow: hidden;
 }
 
 .img-container {
@@ -35,4 +55,263 @@ button[mat-icon-button] {
 button[mat-icon-button] mat-icon {
     font-size: 30px;
     color: white; 
+}
+.cards {
+    display: grid;
+    height: 100%;
+    width: 100%; /*ovo je upitno*/
+    grid-template-columns: repeat(auto-fit, minmax(250px, 24vw));
+    gap: 6vh;
+    margin: 0;
+    padding: 2vh;
+    list-style-type: none;
+    align-content: top;
+    justify-items: center;
+    padding-top: 10%;
+}
+
+.card {
+    position: relative;
+    display: block; 
+    width: 24vw; 
+    height: 40vw;
+    min-width: 250px; /*mozda nije lose piksele za min*/
+    max-width: 25vw;
+    min-height: 350px;
+    max-height: 30vw;
+    border-radius: calc(40 * 1px);
+    text-decoration: none;
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3); /* Senka iza cele kartice */
+    overflow: hidden;
+}
+
+.card-image{
+    width: 24vw; 
+    height: 40vw;
+    min-width: 250px;
+    max-width: 25vw;
+    min-height: 350px;
+    max-height: 30vw;
+}
+
+.card-overlay{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    border-radius: calc(38 * 1px) 0 0 0;
+    background-color: white;
+    transform: translateY(100%);
+    transition: .2s ease-in-out;
+    opacity: 95.5%;
+    width: 100%;
+    height: 70%;
+}
+
+.card:hover .card-overlay{
+    transform: translateY(0);
+  
+  }
+
+
+.card-header{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 35%;
+    overflow: hidden;
+    white-space: wrap;
+    /*max-height: 18em;*/
+    padding: 1.5em;
+    padding-bottom: 0;
+    border-radius: calc(40*1px) 0 0 0;
+    background-color: white;
+    transform: translateY(-100%);
+    transition: .2s ease-in-out;
+    background-color: white;
+    opacity: 100%;
+}
+
+.card-header-text{
+    width: 100%;
+    max-height: 10em;
+    height: 100%;
+}
+
+.card:hover .card-header{
+    transform: translateY(0);
+    height: fit-content;
+    margin-bottom: 6px;
+}
+
+.card:hover .card-title{
+    overflow: hidden;
+    overflow-x: hidden;
+    white-space: wrap;
+    line-clamp: 2;
+  }
+  
+
+.card-title{
+    font-size: clamp(1em, 5vw, 2em);
+    margin: 0;
+    line-height: 1.1;
+    max-height: calc(1.1em*2);
+    width: 100%;
+    line-height: 1;
+    padding: .2em;
+    color: #6A515E;
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+.card-status{
+    font-size: 1.25em;
+    color: #6A515E;
+    margin-left: 3%;
+    opacity: 95%;
+}
+
+.card-footer{
+    height: fit-content;
+    max-height: 35%;
+    padding: 0em 1em 2em 2em;
+    margin: 0;
+    color: #6A515E; 
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    opacity: 95%;
+}
+.card-footer-description{
+    width: 75%;
+    line-height: 1.1;
+    font-size: 1.25em;
+    height: calc(1.25em*3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10%;
+    margin-top: 2%;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; 
+    background-color: #fff;
+  }
+  .top-container {
+    flex: 0 0 10%; /* 10% visine stranice */
+    /*background-color: #e0e0e0;*/
+    display: flex;
+    padding-top: 1%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .content-container {
+    flex: 1; /* Preostali prostor posle 10% zauzima content-container */
+    display: flex;
+  }
+  
+  /* Left side container */
+  .left-side-container {
+    flex: 0 0 20%;
+    /*background-color: #d1e7dd;*/
+    margin-right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    padding-top: 10%;
+    text-align: center;
+  }
+  
+  /* Center container */
+  .center-container {
+    width: 60%;
+    flex: 0 0 60%;
+   /* background-color: #f8d7da;*/
+    display: flex;
+  }
+  
+  /* Right side container */
+  .right-side-container {
+    flex: 0 0 15%;
+    /*background-color: #d1e7dd;*/
+    display: flex;
+  }
+
+.card-bottom-button{
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 4%; /* Udaljenost od dna kartice */
+    right: 6%; /* Udaljenost od desne ivice kartice */
+    width: 15%; /* Širina placeholdera */
+    height: 8%; /* Visina placeholdera */
+    background-color: #a36484; /*4CAF50*/
+    color: white; 
+    border: none; 
+    padding: 0;
+    border-radius: 5px; 
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    justify-content: center;
+}
+.card-bottom-button2{
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 4%; /* Udaljenost od dna kartice */
+    right: 22%; /* Udaljenost od desne ivice kartice */
+    width: 15%; /* Širina placeholdera */
+    height: 8%; /* Visina placeholdera */
+    background-color: #a36484; /*4CAF50*/
+    color: white; 
+    border: none; 
+    padding: 0;
+    border-radius: 5px; 
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    justify-content: center;
+}
+.card-bottom-button3{
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 4%; /* Udaljenost od dna kartice */
+    right: 38%; /* Udaljenost od desne ivice kartice */
+    width: 15%; /* Širina placeholdera */
+    height: 8%; /* Visina placeholdera */
+    background-color: #a36484; /*4CAF50*/
+    color: white; 
+    border: none; 
+    padding: 0;
+    border-radius: 5px; 
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    justify-content: center;
+}
+.card-bottom-button4{
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 4%; /* Udaljenost od dna kartice */
+    right: 54%; /* Udaljenost od desne ivice kartice */
+    width: 15%; /* Širina placeholdera */
+    height: 8%; /* Visina placeholdera */
+    background-color: #a36484; /*4CAF50*/
+    color: white; 
+    border: none; 
+    padding: 0;
+    border-radius: 5px; 
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    justify-content: center;
 }
