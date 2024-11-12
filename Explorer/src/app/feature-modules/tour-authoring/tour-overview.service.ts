@@ -22,4 +22,10 @@ export class TourOverviewService {
   getReviewsByTourId(tourId: number): Observable<PagedResults<TourReview>> {
     return this.http.get<PagedResults<TourReview>>(`${this.apiUrl}/${tourId}`);
   }
+
+  getToursByKeyPointLocation(longitude: number, latitude: number, distance:number):Observable<PagedResults<TourOverview>>{
+    const url = `${this.apiUrl}/search/${longitude};${latitude};${distance}`;
+    return this.http.get<PagedResults<TourOverview>>(url);
+  }
+
 }

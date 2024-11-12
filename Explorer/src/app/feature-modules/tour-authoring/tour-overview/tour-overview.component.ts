@@ -1,4 +1,4 @@
-import { Component, inject, numberAttribute, OnInit } from '@angular/core';
+import { Component, inject, Input, numberAttribute, OnInit } from '@angular/core';
 import { TourOverview } from '../model/touroverview.model';
 import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -27,7 +27,6 @@ import { PositionSimulator } from '../model/position-simulator.model';
 })
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
- // user: User | null = null;
   tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
   tourExecutions: Map<number, TourExecution> = new Map();
@@ -36,6 +35,7 @@ export class TourOverviewComponent implements OnInit {
   activeTourId: number | null = null;
   isActive: boolean = false;
   position: PositionSimulator | null = null;
+  
 
 
   private cartItemCount = new BehaviorSubject<number>(0);
@@ -95,11 +95,28 @@ export class TourOverviewComponent implements OnInit {
       
      
     });
+    this.authService.user$.subscribe((user) => {
+      this.user = user; 
+      console.log(user);
+      if (user) {
+        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
+            next: (position: PositionSimulator) => {
+                console.log('Position retrieved:', position);
+                this.position = position;
+            },
+            error: (err) => {
+                console.error('Error retrieving position:', err);
+            }
+        });
+    }
+    });
 
-    this.loadTours();
     
-
-   
+    this.loadTours();
+  }
+  
+  updateTours(tours: TourOverview[]): void {
+    this.tours = tours;
   }
 
   createNewCart(userId: number): void
@@ -130,12 +147,11 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
-
         this.loadTourExecutions();
-
       },
       error: (err) => {
         console.error('Error loading tours:', err);
+        alert("AAAAAAAAAAa");
       }
     });
   }
@@ -151,6 +167,10 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
+  }
+
+  reportProblem(tourId: number): void {
+    this.router.navigate(['/problem'], { queryParams: { tourId: tourId } });
   }
 
   startTour(tourId: number): void {
@@ -225,6 +245,26 @@ export class TourOverviewComponent implements OnInit {
     });
   }
 
+  loadTourExecutions(): void {
+    if (this.user) {
+        this.tours.forEach((tour) => {
+            this.tourExecutionService.getTourExecutionByTourAndTourist(this.user!.id, tour.tourId).subscribe({
+              next: (execution: TourExecution | null) => {
+                if (execution) {
+                    this.tourExecutions.set(tour.tourId, execution);
+                    if(execution.status === 0)
+                      this.isActive = true;
+                } else {
+                
+                }
+            },
+                error: (err) => {
+                    console.error(`Error loading execution for tour ${tour.tourId}:`, err);
+                }
+            });
+        });
+    }
+  }
 
   addToCart(tour: TourOverview): void {
    /* this.cartService.addToCart({
@@ -271,26 +311,4 @@ export class TourOverviewComponent implements OnInit {
   openCart(cartId: number): void {
     this.router.navigate([`/cart/${cartId}`]);
   }
-
-  loadTourExecutions(): void {
-    if (this.user) {
-        this.tours.forEach((tour) => {
-            this.tourExecutionService.getTourExecutionByTourAndTourist(this.user!.id, tour.tourId).subscribe({
-              next: (execution: TourExecution | null) => {
-                if (execution) {
-                    this.tourExecutions.set(tour.tourId, execution);
-                    if(execution.status === 0)
-                      this.isActive = true;
-                } else {
-                
-                }
-            },
-                error: (err) => {
-                    console.error(`Error loading execution for tour ${tour.tourId}:`, err);
-                }
-            });
-        });
-    }
-
-}
 }

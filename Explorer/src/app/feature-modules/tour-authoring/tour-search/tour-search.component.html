@@ -1,0 +1,12 @@
+<div class="container">
+    <form  [formGroup] = "tourSearchForm">
+        <mat-form-field>
+            <mat-label>Distance</mat-label>
+            <input matInput formControlName="distance" type="text"/>
+        </mat-form-field>
+    </form>
+    <button mat-raised-button type="submit" color="primary" (click)="search()">Search</button>
+    <div class="map-container" >
+        <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated] = "tourSearchActivated" (tourSearchLon)="setLongitude($event)" ></xp-map>
+    </div>
+</div>

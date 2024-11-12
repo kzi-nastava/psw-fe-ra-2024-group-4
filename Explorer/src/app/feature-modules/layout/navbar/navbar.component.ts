@@ -11,8 +11,13 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 export class NavbarComponent implements OnInit {
 
   user: User | undefined;
+  showNotifications = false; 
 
-  constructor(private authService: AuthService, private router: Router) {}
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    ) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -23,11 +28,15 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     this.authService.logout();
   }
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications; 
+  }
 
   isToursMenuOpen = false;
   isBlogsMenuOpen = false;
   isClubsMenuOpen = false;
-  
+
+
   openToursMenu() {
       this.isToursMenuOpen = true;
       this.isBlogsMenuOpen = false; // Close blogs menu

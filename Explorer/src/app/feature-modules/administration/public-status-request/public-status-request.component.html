@@ -1,0 +1,66 @@
+<div class="tables-container">
+    <div class="objectsRequests">
+        <label>Object Requests</label>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>    </th>
+                    <th>    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of objects">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>
+                        <button color="primary" (click)="declineObject(item)" mat-icon-button>
+                            <mat-icon>remove-circle</mat-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button color="primary" (click)="acceptObject(item)" mat-icon-button>
+                            <mat-icon>done</mat-icon>
+                        </button>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="KeyPointsRequests">
+        <label>KeyPoint Requests</label>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>    </th>
+                    <th>    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of keyPoints">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>
+                        <button color="primary" (click)="declineKeyPoint(item)" mat-icon-button>
+                            <mat-icon>remove-circle</mat-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button color="primary" (click)="acceptKeyPoint(item)" mat-icon-button>
+                            <mat-icon>done</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

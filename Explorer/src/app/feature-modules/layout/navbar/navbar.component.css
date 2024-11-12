@@ -177,6 +177,28 @@ a[mat-raised-button]:hover {
 .logo{
     height: 15vh;
 }
+.notification-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6vh; 
+    height: 6vh; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    padding: 0; 
+}
+
+.notification-icon {
+    font-size: 5vh; 
+    line-height: 1; 
+    width: auto; 
+    height: auto; 
+}
+
+
+
+
 
 
 
