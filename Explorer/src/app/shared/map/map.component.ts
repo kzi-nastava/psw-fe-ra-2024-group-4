@@ -58,6 +58,20 @@ export class MapComponent {
     popupAnchor: [1, -34],
   });
 
+  private positionIcon = L.icon({
+    iconUrl: 'assets/icons/positionmark.svg',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
+
+  private keypointIcon = L.icon({
+    iconUrl: 'assets/icons/keypointmark.svg',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
+
 
    constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
 
@@ -82,57 +96,7 @@ export class MapComponent {
     tiles.addTo(this.map);
 
     
-    if(this.registeringObject && !this.shouldEditKp)
-    { 
-      this.registerOnClick();
-
-    }
-
-    if(this.registerObjectRoute)
-    {
-      
-      this.setRoute(this.selectedTourPoints);
-      this.registerOnClick()
-     
-    }
-
-    if(this.registeringObject && this.shouldEditKp)
-      { 
-        
-        this.showPoint();
-        this.registerOnClick();
-  
-      }
-
-    if(this.tourSearchActivated)
-    {
-      this.registerOnSearchClick();
-    }
-    if(this.showingTour)
-    {  
-
-      
-     /* if (!this.selectedTourPoints || this.selectedTourPoints.length === 0) {
-        console.warn('No key points available to drawwwww.');
-        return; // Izlazi ako nema key pointova
-      }*/
-       this.setRoute(this.selectedTourPoints); //xd
-       console.log("Kljucne tacke poslate:");
-       console.log(this.selectedTourPoints);
-       console.log("SHOWING ROUTES");
-      // this.drawRoute(this.selectedTourPoints);
-    }
    
-    this.getCurrentPosition();
-    if(this.positionSimulatorActivated)
-    {
-      
-     
-        
-      
-      this.registerPosition();
-    }
-
   }
 
   getCurrentPosition() : void {
@@ -171,15 +135,71 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
-    let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-      iconSize: [25, 41],
+    
+    
+   /* let DefaultIcon = L.icon({
+      iconUrl: 'assets/icons/keypointmark.svg',
+      iconSize: [40, 40],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
 
-    L.Marker.prototype.options.icon = DefaultIcon;
+   
+
+    L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
+
+    if(this.registeringObject && !this.shouldEditKp)
+      { 
+        this.registerOnClick();
+  
+      }
+  
+      if(this.registerObjectRoute)
+      {
+        
+        this.setRoute(this.selectedTourPoints);
+        this.registerOnClick()
+       
+      }
+  
+      if(this.registeringObject && this.shouldEditKp)
+        { 
+          
+          this.showPoint();
+          this.registerOnClick();
+    
+        }
+  
+      if(this.tourSearchActivated)
+      {
+        this.getCurrentPosition();
+        this.registerOnSearchClick();
+      }
+      if(this.showingTour)
+      {  
+  
+        
+       /* if (!this.selectedTourPoints || this.selectedTourPoints.length === 0) {
+          console.warn('No key points available to drawwwww.');
+          return; // Izlazi ako nema key pointova
+        }*/
+         this.setRoute(this.selectedTourPoints); //xd
+       //  alert(this.selectedTourPoints.length);
+         console.log("Kljucne tacke poslate:");
+         console.log(this.selectedTourPoints);
+         console.log("SHOWING ROUTES");
+        // this.drawRoute(this.selectedTourPoints);
+      }
+     
+      
+      if(this.positionSimulatorActivated)
+      {
+        
+        this.getCurrentPosition();
+        this.registerPosition();
+      }
+  
     this.plotKeyPoints();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -197,16 +217,17 @@ export class MapComponent {
 
   showPoint() : void
   {
-    this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude]).addTo(this.map);
+    this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude], {icon: this.keypointIcon}).addTo(this.map);
   }
 
   showCurrentPosition(longitude: number, latitude: number){
-    this.currentMarker = new L.Marker([latitude, longitude]).addTo(this.map);
+    
+    this.currentMarker = new L.Marker([latitude, longitude], {icon: this.positionIcon}).addTo(this.map);
   }
 
   registerOnClick(): void {
     
-   
+    
     this.map.on('click', (e: any) => {
       
       const coord = e.latlng;
@@ -223,7 +244,7 @@ export class MapComponent {
         this.map.removeLayer(this.currentMarker);
     }
 
-      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      this.currentMarker = new L.Marker([lat, lng], {icon: this.keypointIcon}).addTo(this.map);
       
       this.latitudeChanged.emit(lat);
       this.longitudeChanged.emit(lng);
@@ -250,7 +271,7 @@ export class MapComponent {
         this.map.removeLayer(this.currentMarker);
     }
 
-      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      this.currentMarker = new L.Marker([lat, lng], {icon: this.positionIcon}).addTo(this.map);
       
       this.tourSearchLat.emit(lat);
       this.tourSearchLon.emit(lng);
@@ -260,6 +281,8 @@ export class MapComponent {
 
 
   registerPosition(): void {
+
+    
     
    
     this.map.on('click', (e: any) => {
@@ -274,7 +297,7 @@ export class MapComponent {
         this.map.removeLayer(this.currentMarker);
     }
 
-      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      this.currentMarker = new L.Marker([lat, lng], {icon: this.positionIcon}).addTo(this.map);
       
       if(!this.currentPosition)
         {
@@ -323,8 +346,16 @@ export class MapComponent {
     const routeControl = L.Routing.control({
       waypoints: waypoints,
       router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', {profile: 'mapbox/walking'}),
+      lineOptions: {
+        styles: [{ color: '#17097cff', opacity: 0.7, weight: 5 }],
+        extendToWaypoints: true,            // Default value
+        missingRouteTolerance: 0.1,         // Default tolerance for missing routes
+        addWaypoints: false    
+      },
+      createMarker: () => null
+      
 
-    }).addTo(this.map);
+    } as any).addTo(this.map);
    
   /*  routeControl.on('routesfound', function(e) {
       var routes = e.routes;
@@ -363,6 +394,8 @@ export class MapComponent {
     //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     // });
 
+    
+
   }
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
@@ -370,12 +403,14 @@ export class MapComponent {
         .addTo(this.map)
         .bindPopup(`<strong>${obj.name}</strong><br>${obj.description}`);
     });
+
+    
   }
   
 
   drawRoute(keyPoints: KeyPoint[]): void{
     keyPoints.forEach(keyPoint =>{
-      const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude]).addTo(this.map);
+      const newMarker = L.marker([keyPoint.latitude, keyPoint.longitude], {icon: this.keypointIcon}).addTo(this.map);
     });
   }
 
@@ -387,12 +422,14 @@ export class MapComponent {
 
     if (this.selectedTourPoints && this.selectedTourPoints.length > 0) {
       this.selectedTourPoints.forEach(point => {
-        const marker = L.marker([point.latitude, point.longitude])
+        const marker = L.marker([point.latitude, point.longitude], {icon: this.keypointIcon})
           .addTo(this.map)
           .bindPopup(`<strong>${point.name}</strong>`);
         this.selectedTourPointsMarkers.push(marker);
         console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+
       });
+      this.setRoute(this.selectedTourPoints)
     } else {
       console.warn('No key points available to plot.');
     }

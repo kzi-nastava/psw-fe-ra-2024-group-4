@@ -1,39 +1,45 @@
-<div class="form-map-container">
-<form  [formGroup] = "keypointForm">
-
-    <div class="keypoint-form-div">
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"/>
-            
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Longitude</mat-label>
-            <input matInput formControlName="longitude" type="number"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Latitude</mat-label>
-            <input matInput formControlName="latitude" type="number"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description" type="text"/>
-        </mat-form-field>
+<div class="main">
+    <div class="form-map-container" [ngStyle]="{ top: y + 'px', left: x + 'px' }">
+        <form  [formGroup] = "keypointForm" class="keypoint-form-div">
+    
+            <div class="keypoint-form-div" *ngIf="isFormVisible"
+            >
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" type="text"/>
+                    
+                </mat-form-field>
+                <mat-form-field  class="longitude-form">
+                    <mat-label>Longitude</mat-label>
+                    <input matInput formControlName="longitude" type="number"/>
+                </mat-form-field>
+                <mat-form-field  class="latitude-form">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput formControlName="latitude" type="number"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <input matInput formControlName="description" type="text"/>
+                </mat-form-field>
+                
+                    <input
+                    type="file"
+                    (change)="onFileSelected($event)"/>
+                    <mat-label>Upload Image</mat-label>
+                
+                
+                <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
+                <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
+            </div>
         
-            <input
-              type="file"
-              (change)="onFileSelected($event)"/>
-            <mat-label>Upload Image</mat-label>
-         
-        <mat-checkbox formControlName="publicStatus" (change)="onMakePublicChange($event)">Make Public</mat-checkbox>
-        <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
-        <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
+        </form>
+    
     </div>
-   
-</form>
-
-</div>
-
-<div class="map-container" >
-    <xp-map [shouldEditKp] = "shouldEditKp" [selectedKeypoint]="keypoint"  [registeringObject] = "registeringObj" [registerObjectRoute]="registerObjRoute" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)" [selectedTourPoints]="tourKeyPoints"></xp-map>
+    
+    <div class="map-container" >
+        <xp-map   (mousedown)="onMouseDown($event)"
+                  (mouseup)="onMouseUp($event)"
+                  #map
+        [shouldEditKp] = "shouldEditKp" [selectedKeypoint]="keypoint"  [registeringObject] = "registeringObj" [registerObjectRoute]="registerObjRoute" (latitudeChanged)="setLatitude($event)" (longitudeChanged)="setLongitude($event)" [selectedTourPoints]="tourKeyPoints"></xp-map>
+    </div>
 </div>
