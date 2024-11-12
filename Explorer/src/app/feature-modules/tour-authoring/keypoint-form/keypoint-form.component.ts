@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -30,6 +30,13 @@ export class KeypointFormComponent implements OnInit {
   @Input() registeringObj: boolean = false;
   @Input() registerObjRoute: boolean = false;
 
+  x = 0;
+  y = 0;
+  startX = 0;
+  startY = 0;
+  mapWidth = 700;  
+  mapHeight = 600; 
+
   latitude: number = 0.0;
   longitude: number = 0.0;
 
@@ -38,6 +45,7 @@ export class KeypointFormComponent implements OnInit {
 
 
   shouldEditKp: boolean = false;
+  isFormVisible: boolean = false;
 
 
   user?: User | undefined;
@@ -214,6 +222,57 @@ export class KeypointFormComponent implements OnInit {
         };
         reader.readAsDataURL(file); 
 }
+
+onMouseDown(event: MouseEvent) {
+  this.startX = event.clientX;
+  this.startY = event.clientY;
+  this.isFormVisible=false;
+  this.adjustMap();
+  this.adjustForm(0);
+}
+
+// Metoda koja se pokreće na mouseup i proverava da li je reč o kliku
+onMouseUp(event: MouseEvent) {
+  const endX = event.clientX;
+  const endY = event.clientY;
+
+  // Ako je razdaljina između start i end koordinata mala, tretiraj kao klik
+  if (Math.abs(endX - this.startX) < 5 && Math.abs(endY - this.startY) < 5) {
+    this.x = endX + 20 + window.scrollX;
+    this.y = endY + 100 + window.scrollY - 200;
+    this.isFormVisible = true;
+    this.adjustForm(1);
+  }
+}
+
+//ako je kliknuto van mape zatvorice formu
+@HostListener('document:click', ['$event'])
+onClick(event: MouseEvent){
+  console.log(event);
+  const target = event.target as HTMLElement;
+  const isInsideMap = target.closest('.map-container');
+  const isInsideForm = target.closest('.keypoint-form-div')
+  if(!isInsideMap){
+    this.isFormVisible = false;
+  }
+  if(isInsideForm){
+    this.isFormVisible = true;
+  }
+}
+
+adjustMap(){
+  const leafletTopDiv = document.querySelector('.leaflet-control-container') as HTMLElement;
+  if (leafletTopDiv) {
+      leafletTopDiv.style.display = 'none'; 
+  }
+}
+
+adjustForm(opacity: any){
+  const form = document.querySelector('.form-map-container') as HTMLElement;
+  if(form){
+    form.style.opacity = opacity;
+  }
+ }
   
 
 }
