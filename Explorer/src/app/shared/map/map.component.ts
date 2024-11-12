@@ -9,6 +9,7 @@ import { PositionSimulator } from 'src/app/feature-modules/tour-authoring/model/
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { outputAst } from '@angular/compiler';
 import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 
 
@@ -27,12 +28,16 @@ export class MapComponent {
   @Input() positionSimulatorActivated: boolean = false;
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
+  @Input() tourSearchActivated: boolean = false;
   currentPosition: PositionSimulator;
 
   @Output() latitudeChanged = new EventEmitter<number>();
   @Output() longitudeChanged = new EventEmitter<number>();
   @Output() touristPositionCreate = new EventEmitter<PositionSimulator>();
   @Output() touristPositionUpdate = new EventEmitter<PositionSimulator>();
+  @Output() tourSearchLat=new EventEmitter<number>();
+  @Output() tourSearchLon=new EventEmitter<number>();
+
   @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
@@ -98,6 +103,11 @@ export class MapComponent {
         this.registerOnClick();
   
       }
+
+    if(this.tourSearchActivated)
+    {
+      this.registerOnSearchClick();
+    }
     if(this.showingTour)
     {  
 
@@ -220,6 +230,34 @@ export class MapComponent {
     });
     this.plotExistingObjects();
   }
+
+  registerOnSearchClick(): void {
+    
+   
+    this.map.on('click', (e: any) => {
+      
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      // this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+      //   console.log(res.display_name);
+      // });
+      // console.log(
+      //   'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+      // );
+
+      if (this.currentMarker) {
+        this.map.removeLayer(this.currentMarker);
+    }
+
+      this.currentMarker = new L.Marker([lat, lng]).addTo(this.map);
+      
+      this.tourSearchLat.emit(lat);
+      this.tourSearchLon.emit(lng);
+    });
+    this.plotExistingObjects();
+  }
+
 
   registerPosition(): void {
     

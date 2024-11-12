@@ -44,7 +44,9 @@
                 <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
                 <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
                 <button mat-button (click)="addToCart(t)">BUY</button>
+                <button mat-button (click)="reportProblem(t.tourId)" mat-button style="margin-right: 5vh;">Report Problem</button>
             </mat-card-actions>
         </mat-card>
     </div>
+    <xp-tour-search (tourSearchResults)="updateTours($event)"></xp-tour-search>
 </div>

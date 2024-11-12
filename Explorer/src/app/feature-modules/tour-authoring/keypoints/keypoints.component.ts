@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TourAuthoringService } from '../tour-authoring.service';
-import { KeyPoint } from '../model/keypoint.model';
+import { KeyPoint, PublicStatus } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { environment } from 'src/env/environment';
@@ -13,22 +13,20 @@ import { environment } from 'src/env/environment';
 export class KeypointsComponent implements OnInit {
 
   keyPoints: KeyPoint[] = [];
+  PublicStatus = PublicStatus;
   user: User | undefined;
   shouldRenderKeyPointForm: boolean = false;
   shouldEdit: boolean = false;
   selectedKeyPoint: KeyPoint;
   registeringObj: boolean = false;
   image: string;
+  
 
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
   ngOnInit(): void {
    
     this.getKeyPoints();
-    
-
-    
-    
   }
 
   getKeyPoints() : void {
@@ -92,6 +90,19 @@ export class KeypointsComponent implements OnInit {
         this.getKeyPoints();
       }
     })
+  }
+  getStatusLabel(status: PublicStatus): string {
+    switch (status) {
+      case PublicStatus.PRIVATE: return 'Private';
+      case PublicStatus.REQUESTED_PUBLIC: return 'Requested Public';
+      case PublicStatus.PUBLIC: return 'Public';
+      default: return 'Unknown';
+    }
+  }
+
+  onStatusChange(event: Event, keypoint: KeyPoint): void{
+    const newStatus = Number((event.target as HTMLSelectElement).value) as PublicStatus;
+    keypoint.publicStatus = newStatus;
   }
 
 

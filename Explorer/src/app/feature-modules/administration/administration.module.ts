@@ -12,6 +12,7 @@ import { ClubFormComponent } from './club-form/club-form.component';
 import { RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
+import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
 
@@ -26,7 +27,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     ClubFormComponent,
     AccountComponent,
     AppReviewTableComponent,
-    NotificationsComponent
+    PublicStatusRequestComponent,
+    NotificationsComponent,
 
   ],
   imports: [
@@ -44,8 +46,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     ClubFormComponent,
     AccountComponent,
     AppReviewTableComponent,
+    PublicStatusRequestComponent,
     NotificationsComponent
-
   ]
 })
 export class AdministrationModule { }

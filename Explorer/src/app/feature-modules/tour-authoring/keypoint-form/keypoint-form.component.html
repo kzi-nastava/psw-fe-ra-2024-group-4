@@ -25,7 +25,7 @@
               (change)="onFileSelected($event)"/>
             <mat-label>Upload Image</mat-label>
          
-        
+        <mat-checkbox formControlName="publicStatus" (change)="onMakePublicChange($event)">Make Public</mat-checkbox>
         <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
         <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
     </div>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Tour } from '../model/tour.model';
-import { KeyPoint } from '../model/keypoint.model';
+import { KeyPoint,PublicStatus } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -108,6 +108,14 @@ export class TourDetailsComponent implements OnInit {
   }
   closeMapForTour() {
     this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
+  }
+  getStatusLabel(status: PublicStatus): string {
+    switch (status) {
+      case PublicStatus.PRIVATE: return 'Private';
+      case PublicStatus.REQUESTED_PUBLIC: return 'Requested Public';
+      case PublicStatus.PUBLIC: return 'Public';
+      default: return 'Unknown';
+    }
   }
   
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
 import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
@@ -6,6 +6,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -29,7 +30,7 @@ export class ProblemComponent implements OnInit{
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
       this.checkIfLoggedIn(); 

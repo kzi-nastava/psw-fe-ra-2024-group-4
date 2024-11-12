@@ -1,4 +1,4 @@
-import { Component, inject, numberAttribute, OnInit } from '@angular/core';
+import { Component, inject, Input, numberAttribute, OnInit } from '@angular/core';
 import { TourOverview } from '../model/touroverview.model';
 import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -35,6 +35,7 @@ export class TourOverviewComponent implements OnInit {
   activeTourId: number | null = null;
   isActive: boolean = false;
   position: PositionSimulator | null = null;
+  
 
 
   private cartItemCount = new BehaviorSubject<number>(0);
@@ -113,6 +114,10 @@ export class TourOverviewComponent implements OnInit {
     
     this.loadTours();
   }
+  
+  updateTours(tours: TourOverview[]): void {
+    this.tours = tours;
+  }
 
   createNewCart(userId: number): void
   {
@@ -162,6 +167,10 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
+  }
+
+  reportProblem(tourId: number): void {
+    this.router.navigate(['/problem'], { queryParams: { tourId: tourId } });
   }
 
   startTour(tourId: number): void {

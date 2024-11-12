@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { KeyPoint } from '../model/keypoint.model';
+import { KeyPoint,PublicStatus } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../model/tour.model';
 import { MapService } from 'src/app/shared/map/map.service';
+import { MarketplaceService } from '../../marketplace/marketplace.service';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -39,7 +40,7 @@ export class KeypointFormComponent implements OnInit {
   shouldEditKp: boolean = false;
 
 
-  user: User | undefined;
+  user?: User | undefined;
   nextId: number = 0;
   constructor(private service: TourAuthoringService, private authService: AuthService, private mapService: MapService){}
 
@@ -66,7 +67,8 @@ export class KeypointFormComponent implements OnInit {
         longitude: this.keypoint.longitude,
         latitude: this.keypoint.latitude,
         description: this.keypoint.description,
-        image: this.keypoint.image,
+        image: this.keypoint.image,   
+        publicStatus: this.keypoint.publicStatus,     
         imageBase64: this.keypoint.imageBase64
         
       })
@@ -85,7 +87,8 @@ export class KeypointFormComponent implements OnInit {
     latitude: new FormControl(0.0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
-    imageBase64: new FormControl('')
+    imageBase64: new FormControl(''),
+    publicStatus: new FormControl(PublicStatus.PRIVATE)
   })
 
   setLongitude(newLongitude: number): void{
@@ -114,8 +117,6 @@ export class KeypointFormComponent implements OnInit {
       this.service.getKeyPoints(this.user.id).subscribe({
         next: (result: KeyPoint[]) => { this.keyPoints = result; 
 
-            
-
         },
         error: (err: any) => console.log(err)
       })
@@ -141,10 +142,12 @@ export class KeypointFormComponent implements OnInit {
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
         imageBase64: this.keypointForm.value.imageBase64 || "" ,//ovde je bio problem
-        tourId: this.tourToAdd.id || -1
+        tourId: this.tourToAdd.id || -1,
+        publicStatus : Number(this.keypointForm.value.publicStatus),
       }
-
       
+
+      console.log(this.keypointForm.value);
       this.service.createKeyPoint(keypoint).subscribe({
          next: (result: KeyPoint) => {
             this.keypointsUpdated.emit();
@@ -162,18 +165,19 @@ export class KeypointFormComponent implements OnInit {
   });
 
 
-    
     }
-
-      
+  }
+  onMakePublicChange(event: any): void {
+    const isChecked = event.checked;
+    this.keypointForm.patchValue({
+      publicStatus: isChecked ? PublicStatus.REQUESTED_PUBLIC : PublicStatus.PRIVATE
+    });
+    console.log(isChecked)
+    console.log(this.keypointForm.value.publicStatus)
   }
 
   updateKeyPoint(): void{
-
-   
-   
-
-   
+    
     if(this.user)
     {
       const keypoint: KeyPoint = {
@@ -183,13 +187,13 @@ export class KeypointFormComponent implements OnInit {
         description: this.keypointForm.value.description || "",
         image: this.keypointForm.value.image || "",
         userId: this.user.id || -1,
-        imageBase64: this.keypointForm.value.imageBase64 || "",
-        tourId: this.keypoint.tourId || -1 //nisam dirala jer je update
+        imageBase64: this.keypointForm.value.imageBase64 || "",//nisam dirala jer je update
+        tourId: this.keypoint.tourId || -1, 
+        publicStatus: Number(this.keypointForm.value.publicStatus) || 0, ///ovde ima errrorrr !!!!!!!!!!!!!!!!!!!!!!!!!!
         
       }
       keypoint.id = this.keypoint.id;
-
-     
+      console.log('Updated keypoint: ', keypoint);
       this.service.updateKeyPoint(keypoint).subscribe({
         next: () => {this.keypointsUpdated.emit(); alert("uslo");}
 
