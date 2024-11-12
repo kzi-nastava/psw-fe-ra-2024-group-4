@@ -96,7 +96,7 @@ a[mat-raised-button]:hover {
     top: 11vh; /* Adjust based on your toolbar height */
     background-color: #fbfafa;
     padding: 10px 0; /* Padding for top and bottom */
-    z-index: 100; /* Ensure it appears above other content */
+    z-index: 1001; /* Ensure it appears above other content */
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start; /* Align content to the top-left */
