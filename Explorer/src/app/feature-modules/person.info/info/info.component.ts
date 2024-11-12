@@ -70,9 +70,8 @@ export class InfoComponent implements OnInit {
 
   updateProfile(): void {
     if(this.user?.role === 'tourist') {
-      if (!this.editPerson.imageBase64 || !this.editPerson.imageUrl) {
+      if (!this.editPerson.imageBase64) {
         this.editPerson.imageBase64 = this.infoPerson.imageBase64; 
-        this.editPerson.imageUrl = this.infoPerson.imageUrl;
       }
       this.profileService.updateTouristInfo(this.editPerson).subscribe({
         next: (response) => {
@@ -90,7 +89,7 @@ export class InfoComponent implements OnInit {
         }
       });
     } else if(this.user?.role === 'author') {
-      if (!this.editPerson.imageBase64 && this.infoPerson.imageBase64) {
+      if (!this.editPerson.imageBase64) {
         this.editPerson.imageBase64 = this.infoPerson.imageBase64; 
       }
       this.profileService.updateAuthorInfo(this.editPerson).subscribe({
