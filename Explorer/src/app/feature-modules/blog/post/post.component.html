@@ -37,7 +37,7 @@
                         </div>
         
                         <div class="card-footer">
-                            <div class="card-footer-description">{{post.description}}</div>
+                            <div class="card-footer-description"><markdown>{{ post.description }}</markdown></div>
                         </div>
                     </div>
                     <button mat-icon-button [matMenuTriggerFor]="menu" (click)="onMenuButtonClick($event)" *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" class="card-more-button">
