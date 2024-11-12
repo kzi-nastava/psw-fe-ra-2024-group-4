@@ -1,5 +1,5 @@
 <div class="main" (click)="closeMap()">
-    <p>map-for-tour works!</p>
+ 
     <div class="map-container" >
         <xp-map class="tour-map" (distanceChanged)="onDistanceChanged($event)" (click)="$event.stopPropagation()" [showingTour]="true" [selectedTourPoints]="keyPoints"></xp-map>
 
