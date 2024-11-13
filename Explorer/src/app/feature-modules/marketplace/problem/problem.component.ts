@@ -26,6 +26,9 @@ export class ProblemComponent implements OnInit{
   showDeadlineModal: boolean = false;
   selectedProblem: Problem | null = null;
   newDeadline: number = 0;
+  minDeadline:number;
+  errorMessage: string = '';
+
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
@@ -143,7 +146,13 @@ export class ProblemComponent implements OnInit{
 }
 openDeadlineModal(problem: Problem): void {
   this.selectedProblem = problem;
-  this.newDeadline = problem.deadline || 0;
+  const createdTime = new Date(problem.time);
+  const currentTime = new Date();
+  const daysSinceCreation = Math.floor((currentTime.getTime() - createdTime.getTime()) / (1000 * 3600 * 24));
+  
+  this.minDeadline = daysSinceCreation;  
+  this.newDeadline = Math.max(daysSinceCreation, problem.deadline || 0);
+  this.errorMessage = ''; 
   this.showDeadlineModal = true;
 }
 
@@ -153,7 +162,7 @@ closeDeadlineModal(): void {
 }
 
 confirmUpdateDeadline(): void {
-  if (this.selectedProblem) {
+  if (this.selectedProblem && this.newDeadline > this.minDeadline) {
     this.updateDeadline(this.selectedProblem, this.newDeadline);
 
     const problemId = this.selectedProblem.id; 
@@ -193,6 +202,9 @@ confirmUpdateDeadline(): void {
     });
 
     this.closeDeadlineModal();
+  }else{
+    this.errorMessage = `Deadline cannot be less than ${this.minDeadline} days since creation.`;
+    return;
   }
 }
 
@@ -287,6 +299,8 @@ confirmUpdateDeadline(): void {
         
         this.problems[index] = updatedProblem; 
       }
+      //this.problems = [...this.problems];
+      //this.getProblems();
       },
       (error) => {
         console.error('Error updating problem status:', error);

@@ -59,7 +59,12 @@
                 type="number" 
                 [(ngModel)]="newDeadline" 
                 placeholder="Enter deadline" 
+                [min]="minDeadline"  
+
             />
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
             <button (click)="confirmUpdateDeadline()" mat-raised-button color="primary">
                 Confirm
             </button>
