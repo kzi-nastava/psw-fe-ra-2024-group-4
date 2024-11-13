@@ -20,8 +20,8 @@
 
 /* Stil za logo */
 .logo {
-  width: 50px;
-  height: 40px;
+  height: 8vh;
+  margin-top: -0.5vh;
 }
 
 /* Sekcija sa dugmadi (login/logout) */
