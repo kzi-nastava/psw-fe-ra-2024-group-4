@@ -153,7 +153,11 @@ export class ProblemComponent implements OnInit{
 }
 openDeadlineModal(problem: Problem): void {
   this.selectedProblem = problem;
-  this.newDeadline = problem.deadline || 0;
+  const createdTime = new Date(problem.time);
+  const currentTime = new Date();
+  const daysSinceCreation = Math.floor((currentTime.getTime() - createdTime.getTime()) / (1000 * 3600 * 24));
+  
+  this.newDeadline = Math.max(daysSinceCreation, problem.deadline || 0);
   this.showDeadlineModal = true;
   this.checkDeadline(); // Odmah proveri da li je deadline validan
 }
@@ -204,6 +208,8 @@ confirmUpdateDeadline(): void {
     });
 
     this.closeDeadlineModal();
+  }else{
+    return;
   }
 }
 
@@ -307,6 +313,8 @@ confirmUpdateDeadline(): void {
        }
         this.problems[index] = updatedProblem; 
       }
+      //this.problems = [...this.problems];
+      //this.getProblems();
       },
       (error) => {
         console.error('Error updating problem status:', error);
