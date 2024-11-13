@@ -47,6 +47,17 @@ export class ProblemComponent implements OnInit{
       this.isLoggedIn=false;
    });
 
+   
+
+  }
+
+  checkIfOverDeadline(deadline: number): boolean {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const daysDifference = Math.floor((now.getTime() - deadlineDate.getTime()) / (1000 * 60 * 60 * 24)); 
+
+    
+    return daysDifference > deadline;
   }
 
   checkIfLoggedIn(): void{
@@ -97,6 +108,13 @@ export class ProblemComponent implements OnInit{
               } else {
                 problem.isLate = isLate;
               }
+              /*this.problems.forEach(problem => {
+                problem.isOverDeadline = this.checkIfOverDeadline(problem.deadline);
+              });*/
+             
+              //problem.isOverDeadline = this.checkIfOverDeadline(problem.deadline);
+              problem.isOverDeadline = daysDifference > problem.deadline;
+
 
           console.log(`Problem time: ${problem.time}, Days difference: ${daysDifference}, isLate: ${isLate}`);
           return {
@@ -107,6 +125,10 @@ export class ProblemComponent implements OnInit{
           
             });
             this.checkDeadline();
+            if(this.problem){
+              this.checkIfOverDeadline(this.problem.deadline);
+            }
+            
           },
           error: (err: any) => {
             console.log(err);
