@@ -1,39 +1,146 @@
-<form [formGroup]="registrationForm" (ngSubmit)="register()">
-    <div>
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Surname</mat-label>
-            <input matInput formControlName="surname" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput formControlName="password" type="password"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Profile picture</mat-label>
-            <input matInput formControlName="profilePicture" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Biography</mat-label>
-            <input matInput formControlName="biography" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Motto</mat-label>
-            <input matInput formControlName="motto" type="text"/>
-        </mat-form-field>
-    <button color="primary" type="submit" mat-raised-button>Register</button>
-    </div>
-</form>
+<div>
+    <form [formGroup]="registrationForm" (ngSubmit)="register()" class="form-style">
+        <div class="form-grid">
+            <mat-form-field>
+                <input formControlName="name" type="text" placeholder="Name"/>
+                 <!-- Error icon -->
+            <div class="error-icon" *ngIf="registrationForm.get('name')?.invalid && 
+            (registrationForm.get('name')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+        
+            <!-- Error messages -->
+            <div *ngIf="registrationForm.get('name')?.invalid && 
+                (registrationForm.get('name')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('name')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
 
+            <!-- Surname Field -->
+            <mat-form-field>
+                <input formControlName="surname" type="text" placeholder="Surname"/>
+                <div class="error-icon" *ngIf="registrationForm.get('surname')?.invalid && 
+            (registrationForm.get('surname')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+        
+            <!-- Error messages -->
+            <div *ngIf="registrationForm.get('surname')?.invalid && 
+                (registrationForm.get('surname')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('surname')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
+            <!-- Username Field -->
+            <mat-form-field>
+                <input formControlName="username" type="text" placeholder="Username"/>
+                <div class="error-icon" *ngIf="registrationForm.get('username')?.invalid && 
+            (registrationForm.get('username')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+            <div *ngIf="registrationForm.get('username')?.invalid && 
+                (registrationForm.get('username')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('username')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
 
+            <!-- Email Field -->
+            <mat-form-field>
+                <input formControlName="email" type="email" placeholder="Email" required/>
+                <div class="error-icon" *ngIf="registrationForm.get('email')?.invalid && 
+            (registrationForm.get('email')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+
+            <div *ngIf="registrationForm.get('email')?.invalid && 
+                (registrationForm.get('email')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.email">
+                    <div *ngIf="registrationForm.get('email')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input type="password" placeholder="Password" formControlName="password" required>
+                <div class="error-icon" *ngIf="registrationForm.get('password')?.invalid && 
+            (registrationForm.get('password')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+
+            <div *ngIf="registrationForm.get('password')?.invalid && 
+                (registrationForm.get('password')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.password">
+                    <div *ngIf="registrationForm.get('password')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input type="text" formControlName="profilePicture" placeholder="Profile picture" required>
+                <div class="error-icon" *ngIf="registrationForm.get('profilePicture')?.invalid && 
+            (registrationForm.get('profilePicture')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+            <div *ngIf="registrationForm.get('profilePicture')?.invalid && 
+                (registrationForm.get('profilePicture')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('profilePicture')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input type="text" formControlName="biography" required="" placeholder="Biography"/>
+                <div class="error-icon" *ngIf="registrationForm.get('biography')?.invalid && 
+            (registrationForm.get('biography')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+            <div *ngIf="registrationForm.get('biography')?.invalid && 
+                (registrationForm.get('biography')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('biography')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" floatLabel="always">
+                <mat-label>Motto</mat-label>
+                <input matInput type="text" placeholder="Motto" required formControlName="motto">
+                <div class="error-icon" *ngIf="registrationForm.get('motto')?.invalid && 
+            (registrationForm.get('motto')?.dirty)">
+                <span class="material-icons">error</span>
+            </div>
+            <div *ngIf="registrationForm.get('motto')?.invalid && 
+                (registrationForm.get('motto')?.dirty)" class="error-message">
+                <div *ngFor="let validation of validation_messages.required">
+                    <div *ngIf="registrationForm.get('motto')?.hasError(validation.type)">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+              </mat-form-field>
+
+            <!-- Submit Button -->
+            <button color="primary" type="submit" mat-raised-button class="submit-button">Register</button>
+        </div>
+    </form>
+</div>

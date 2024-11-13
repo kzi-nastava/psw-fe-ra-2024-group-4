@@ -3,12 +3,11 @@
     <form [formGroup]="loginForm" (ngSubmit)="login()">
         <div>
             <mat-form-field>
-                <mat-label >Username</mat-label>
-                <input matInput formControlName="username" type="text"/>
+                <input  formControlName="username" type="text" placeholder="Username"/>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password"/>
+                <input matInput formControlName="password" type="password" placeholder="Password"/>
             </mat-form-field>
         <button color="primary" type="submit" mat-raised-button class="login-button">Login</button>
         <div class="dont-have-account">
