@@ -40,6 +40,7 @@
   justify-content: center;
 }
 
+
 /* Dugmadi za korisnički meni (Logout, Account, Notifications) */
 .notification-button, .account-icon {
   width: 50px;
@@ -52,7 +53,7 @@
 
 /* Ikone za korisnički meni */
 .notification-icon, .account-icon {
-  font-size: 24px;
+  font-size: 5vh;
 }
 
 /* Tekst pored ikona */
