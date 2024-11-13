@@ -1,2 +1,17 @@
-<xp-navbar></xp-navbar>
+<div class="header">
+  <xp-header></xp-header>
+</div>
+<div class="navbar">
+  <xp-navbar></xp-navbar>
+</div>
+
+<div *ngIf="showFixedCircle" class="chat-container">
+  <a (click)="toggleChat()" class="fixed-circle">
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>Hi! How can I help you?</p>
+  </div>
+</div>
+
 <router-outlet></router-outlet>

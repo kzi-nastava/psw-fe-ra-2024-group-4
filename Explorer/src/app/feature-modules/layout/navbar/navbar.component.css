@@ -1,14 +1,14 @@
 mat-toolbar {
-    background: linear-gradient(to bottom, #F3D0D7, #fbfafa);
+    background: linear-gradient(to bottom, #fbfafa, #fbfafa);
     color: black;
     padding: 10px 20px;
-    height: 11vh;
+    height: 6vh;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 2px solid pink;
+    border-bottom: 2px solid pink;
     z-index: 1;
     position: relative;
     top: 0;
@@ -32,7 +32,7 @@ a[mat-raised-button] {
     color: black;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 10px 20px;
     border-radius: 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -93,7 +93,7 @@ a[mat-raised-button]:hover {
 .menu-container {
     width: 100vw; /* Full width of the viewport */
     position: fixed; /* Position it below the toolbar */
-    top: 11vh; /* Adjust based on your toolbar height */
+    top: 16vh; /* Adjust based on your toolbar height */
     background-color: #fbfafa;
     padding: 10px 0; /* Padding for top and bottom */
     z-index: 100; /* Ensure it appears above other content */

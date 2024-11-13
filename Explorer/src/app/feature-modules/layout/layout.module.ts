@@ -13,6 +13,7 @@ import { FirstPageComponent } from './first-page/first-page.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 import { AdministrationModule } from '../administration/administration.module';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { AdministrationModule } from '../administration/administration.module';
     AppReviewComponent,
     AppReviewComponent,
     LandingBlogComponent,
-    AppReviewComponent
+    AppReviewComponent,
+    HeaderComponent,
+    HeaderComponent
 
   ],
   imports: [
@@ -43,6 +46,7 @@ import { AdministrationModule } from '../administration/administration.module';
     MykeypointsComponent,
     LandingBlogComponent,
     AppReviewComponent,
+    HeaderComponent
   ],
   
 })
