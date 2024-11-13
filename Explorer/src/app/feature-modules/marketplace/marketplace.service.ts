@@ -86,7 +86,7 @@ export class MarketplaceService {
   // }
 
   getTourById(id: number,  role: 'tourist' | 'author' | 'admin' ): Observable<Tour> {
-    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getById/${id}`);
+    return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getByTourId/${id}`);
   }
   updateProblem(problem: Problem): Observable<Problem> {
     return this.http.put<Problem>(`${environment.apiHost}problem/updateProblem/${problem.id}`, problem);
@@ -95,7 +95,7 @@ export class MarketplaceService {
   createAdminNotification(notification:Notification):Observable<Notification>{
     return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
   }
-  createNotification(notification:Notification,role:'tourist' | 'author' | 'admin'){
+  createNotification(notification:Notification,role:'tourist' | 'author' | 'administrator'){
     return this.http.post<Tour>(`${environment.apiHost}${role}/notification`,notification);
 
   }

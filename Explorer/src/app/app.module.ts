@@ -26,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -57,6 +58,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatBadgeModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule
   ],
   providers: [
     {

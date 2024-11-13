@@ -7,7 +7,7 @@
   padding: 0px 20px;
   position: relative;
   height: 10.5vh;
-  background: linear-gradient(to bottom, #F3D0D7, #fbfafa);
+  background: linear-gradient(to bottom, rgb(241, 226, 251), rgb(253, 248, 255));
   border-top: 2px solid pink;
 }
 

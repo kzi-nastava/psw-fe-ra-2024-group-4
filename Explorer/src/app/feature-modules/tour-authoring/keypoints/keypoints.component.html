@@ -13,6 +13,7 @@
                 <th>Latitude</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th>Status</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -24,10 +25,8 @@
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
-
                 <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
-
-              
+                <td>{{ getStatusLabel(item.publicStatus) }}</td>
                 <td>
                     <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
                         <mat-icon>edit</mat-icon>

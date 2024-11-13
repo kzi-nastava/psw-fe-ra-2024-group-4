@@ -49,7 +49,7 @@
                 <div class="new-comment-input-container">
                   <textarea (input)="onCommentInput($event)" class="new-comment-text-input" type="text" placeholder="Write your comment here" [value]="newComment.text" >
                   </textarea>
-                  <button class="submit-button" (click)="postComment()">Pošalji</button>
+                  <button class="submit-button" (click)="postComment()">Send</button>
                 </div>
               </div>
               <div *ngIf="problem.isActive"  class="close-problem-container" >
