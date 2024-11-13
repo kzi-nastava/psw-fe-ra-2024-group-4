@@ -40,9 +40,10 @@ export class CartOverviewComponent implements OnInit {
       this.userId = user.id; 
       this.loadUserWallet(this.userId);
       this.loadCurrentCart(this.userId);
+     
     });
-
-    this.loadCartItems();
+    
+    
   }
 
   loadCurrentCart(userId: number)
@@ -50,6 +51,7 @@ export class CartOverviewComponent implements OnInit {
     this.cartService.getCartsByUser(userId).subscribe({
       next: (result: ShoppingCart[]) => {
           this.currentCart = result[0];
+          this.loadCartItems();
       }
     })
 
@@ -64,6 +66,7 @@ export class CartOverviewComponent implements OnInit {
   loadCartItems(): void {
    /* this.cartItems = this.cartService.getCartItems(); 
     this.calculateTotalPrice(); */
+    
     this.cartService.getCartItems(this.cartId || -1).subscribe({
       next: (result: OrderItem[]) => {
         this.cartItems = result;
@@ -76,9 +79,15 @@ export class CartOverviewComponent implements OnInit {
   }
 
   calculateTotalPrice(): void {
-    this.totalPrice = this.cartItems.reduce((total, item) => {
+   /* this.totalPrice = this.cartItems.reduce((total, item) => {
       return total + item.price; 
-    }, 0);
+    }, 0);*/
+
+    
+    this.totalPrice = 0;
+    this.cartItems.forEach(item => {
+      this.totalPrice += item.price;
+    })
   }
   
 
