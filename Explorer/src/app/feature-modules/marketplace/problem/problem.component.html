@@ -60,7 +60,11 @@
                 type="number" 
                 [(ngModel)]="newDeadline" 
                 placeholder="Enter deadline" 
-            />
+                (change)="checkDeadline()"
+             />
+                <p *ngIf="isDeadlineInvalid" class="error-mess">
+                    The minimum required days are {{ daysSinceCreation }}.
+                </p>
             <button (click)="confirmUpdateDeadline()" mat-raised-button color="primary">
                 Confirm
             </button>

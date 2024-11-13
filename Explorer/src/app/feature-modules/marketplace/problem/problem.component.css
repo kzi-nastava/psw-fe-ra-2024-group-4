@@ -108,4 +108,7 @@ tbody tr.active-row {
     font-size: 24px;
     cursor: pointer;
 }
-
+.error-mess{
+    color:red;
+    font-size: 10px;
+}

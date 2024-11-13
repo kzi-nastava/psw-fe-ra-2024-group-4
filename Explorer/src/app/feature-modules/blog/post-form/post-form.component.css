@@ -9,6 +9,7 @@ div {
     vertical-align: middle;
 }
 .markdown-preview {
+    color:black;
     margin-top: 20px; /* Razmak od textarea */
     padding: 10px;
     border: 1px solid #ddd; /* Okvir */
