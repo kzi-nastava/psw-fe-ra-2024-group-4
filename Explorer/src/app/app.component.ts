@@ -20,19 +20,21 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.checkIfUserExists();
     this.router.events.subscribe(() => {
-      this.showFixedCircle = this.router.url !== '/';
+      this.showFixedCircle = this.authService.isLoggedIn() && this.router.url !== '/';
+    });
+
+    // Podesite showFixedCircle na osnovu login statusa
+    this.authService.getUser().subscribe(user => {
+      this.showFixedCircle = this.authService.isLoggedIn() && this.router.url !== '/';
     });
   }
-  
+
   private checkIfUserExists(): void {
     this.authService.checkIfUserExists();
   }
 
- 
-
   toggleChat(): void {
     this.isChatOpen = !this.isChatOpen;
   }
-
 
 }
