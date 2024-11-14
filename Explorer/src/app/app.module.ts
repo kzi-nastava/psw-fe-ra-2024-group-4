@@ -28,7 +28,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -62,7 +62,8 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
     {
@@ -73,8 +74,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' }
-    },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+    }
   ],
   bootstrap: [AppComponent]
 })

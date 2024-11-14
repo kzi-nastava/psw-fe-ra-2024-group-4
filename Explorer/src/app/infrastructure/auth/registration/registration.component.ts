@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, NgForm, FormsModule,FormGroupDirect
 import { Registration } from '../model/registration.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 import {MatInputModule} from '@angular/material/input';
@@ -19,28 +20,10 @@ export class RegistrationComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
-  validation_messages = {
-    'username': [
-      {type: 'required', message: 'Username is required'}
-    ],
-    'email': [
-      {type: 'required', message: "Email is required"},
-      {type: 'email', message: 'Enter valid email(example@domain.com)'}
-    ],
-    'name': [
-      {type: 'required', message: 'Name is required'}
-    ],
-    'required': [
-      {type: 'required', message: 'This field is required'}
-    ],
-    'password': [
-      {type: 'required', message: 'Password is required'},
-      {type: 'minlength', message: 'Password must be at least 8 characters long'}
-    ]
-  }
 
   registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -64,7 +47,7 @@ export class RegistrationComponent {
       biography: this.registrationForm.value.biography || "",
       motto: this.registrationForm.value.motto || ""
     };
-
+    const message = 'Pleas fill in all fields correctly.';
     if (this.registrationForm.valid) {
       this.authService.register(registration).subscribe({
         next: () => {
@@ -72,5 +55,13 @@ export class RegistrationComponent {
         },
       });
     }
+    else{
+      this.snackBar.open(message,'Close', {
+       duration: 3000,
+       verticalPosition: 'bottom',
+       horizontalPosition: 'center',
+       panelClass: ['error-snackbar']
+      })
+}
   }
 }
