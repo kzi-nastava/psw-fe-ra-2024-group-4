@@ -1,39 +1,87 @@
-<form [formGroup]="registrationForm" (ngSubmit)="register()">
-    <div>
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Surname</mat-label>
-            <input matInput formControlName="surname" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput formControlName="password" type="password"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Profile picture</mat-label>
-            <input matInput formControlName="profilePicture" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Biography</mat-label>
-            <input matInput formControlName="biography" type="text"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Motto</mat-label>
-            <input matInput formControlName="motto" type="text"/>
-        </mat-form-field>
-    <button color="primary" type="submit" mat-raised-button>Register</button>
-    </div>
-</form>
-
-
+<div>
+    
+    <form [formGroup]="registrationForm" (ngSubmit)="register()" class="form-style">
+        <h1>REGISTRATION FORM</h1>
+        <div class="two-inputs">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="name" placeholder="Enter your name">
+                <mat-error *ngIf="registrationForm.get('name')?.invalid && registrationForm.get('name')?.dirty">
+                    This field is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Surname</mat-label>
+                <input matInput type="text" formControlName="surname" placeholder="Enter your surname">
+                <mat-error *ngIf="registrationForm.get('surname')?.invalid && registrationForm.get('surname')?.dirty">
+                    This field is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" formControlName="username" placeholder="Enter your username" required>
+                <mat-error *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.dirty">
+                    This field is required
+                </mat-error>
+    
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Email</mat-label>
+                <input matInput type="text" formControlName="email" placeholder="Ex: john@example.com">
+                <mat-error *ngIf="registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.dirty">
+                    This field is required
+                </mat-error>
+                <mat-error *ngIf="registrationForm.get('email')?.hasError('email') && registrationForm.get('email')?.dirty">
+                    Enter valid email
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Enter your password" required>
+                <mat-error *ngIf="registrationForm.get('password')?.hasError('required') && registrationForm.get('password')?.dirty">
+                    This field is required
+                </mat-error>
+                <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength') && registrationForm.get('password')?.dirty">
+                    Password must be at least 8 characters long
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Profile picture</mat-label>
+                <input matInput type="text" formControlName="profilePicture" placeholder="Enter your picture" required>
+                <mat-error *ngIf="registrationForm.get('profilePicture')?.hasError('required') && registrationForm.get('profilePicture')?.dirty">
+                    This field is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Biography</mat-label>
+                <textarea matInput formControlName="biography" placeholder="Enter your bio" required spellcheck="false"></textarea>
+                <mat-error *ngIf="registrationForm.get('biography')?.hasError('required') && registrationForm.get('biography')?.dirty">
+                    This field is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Motto</mat-label>
+                <textarea matInput type="text" formControlName="motto" placeholder="Enter your bio" required spellcheck="false"></textarea>
+                <mat-error *ngIf="registrationForm.get('motto')?.hasError('required') && registrationForm.get('motto')?.dirty">
+                    This field is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <!-- Submit Button -->
+        <div class="field">
+            <button color="primary" type="submit" mat-raised-button class="submit-button">Register</button>
+        </div>
+    </form>
+</div>
