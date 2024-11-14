@@ -3,7 +3,7 @@ export interface TourExecution {
     tourId: number;
     touristId?: number;
     locationId?: number;
-    lastActivicy?: Date;
+    lastActivity?: Date;
     status: number;
     completedKeys?: CompletedKeys[];
 }

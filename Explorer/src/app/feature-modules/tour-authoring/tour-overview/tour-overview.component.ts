@@ -65,6 +65,12 @@ export class TourOverviewComponent implements OnInit {
       cartId: 0
     };
 
+    
+  
+   
+   /* if(this.tourExecutions.get(3)?.status === null &&!this.isActive)
+      alert("uslo");*/
+
     this.authService.user$.subscribe(user => {
       this.user = user;
        console.log(user);
@@ -115,6 +121,7 @@ export class TourOverviewComponent implements OnInit {
 
     
     this.loadTours();
+    
   }
   
   updateTours(tours: TourOverview[]): void {
@@ -160,6 +167,7 @@ export class TourOverviewComponent implements OnInit {
         console.log('Tours loaded:', data);
         this.tours = data.results;
         this.loadTourExecutions();
+        
       },
       error: (err) => {
         console.error('Error loading tours:', err);
@@ -195,7 +203,7 @@ export class TourOverviewComponent implements OnInit {
         locationId: this.position.id,
         tourId: tourId,
         status: 0,
-        lastActivicy: new Date(),
+        lastActivity: new Date(),
         touristId: this.user?.id || 0, // Default to 0 if user ID is null
         completedKeys: [] // Ensure this is sent as an empty array
     };
@@ -262,7 +270,12 @@ export class TourOverviewComponent implements OnInit {
             this.tourExecutionService.getTourExecutionByTourAndTourist(this.user!.id, tour.tourId).subscribe({
               next: (execution: TourExecution | null) => {
                 if (execution) {
+                  
                     this.tourExecutions.set(tour.tourId, execution);
+                 /*  console.log("execution");
+                    console.log(execution);
+                    console.log(this.tourExecutions.get(1)?.lastActivity);*/
+                    
                     if(execution.status === 0)
                       this.isActive = true;
                 } else {
