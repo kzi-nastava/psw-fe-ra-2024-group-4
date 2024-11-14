@@ -62,6 +62,6 @@ export class RegistrationComponent {
        horizontalPosition: 'center',
        panelClass: ['error-snackbar']
       })
-}
+    }
   }
 }
