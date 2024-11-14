@@ -1,7 +1,7 @@
 <div class="main" (click)="closeMap()">
  
     <div class="map-container" >
-        <xp-map class="tour-map" (distanceChanged)="onDistanceChanged($event)" (click)="$event.stopPropagation()" [showingTour]="true" [selectedTourPoints]="keyPoints"></xp-map>
+        <xp-map class="tour-map" [tourOverview] = "tourOverview" [showingFirstKp] = "showFirstKp" (distanceChanged)="onDistanceChanged($event)" (click)="$event.stopPropagation()" [showingTour]="true" [selectedTourPoints]="keyPoints"></xp-map>
 
     </div>
 

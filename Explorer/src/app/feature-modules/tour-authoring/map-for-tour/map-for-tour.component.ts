@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Tour } from '../model/tour.model';
 import { KeyPoint } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
+import { TourOverview } from '../model/touroverview.model';
 //import * as L from 'leaflet'; // Uvezi Leaflet
 @Component({
   selector: 'xp-map-for-tour',
@@ -15,6 +16,8 @@ import { TourAuthoringService } from '../tour-authoring.service';
 export class MapForTourComponent implements OnInit{
 
   @Input() tour: Tour;
+  @Input() tourOverview: TourOverview;
+  @Input() showFirstKp: boolean = false;
   @Output() onCloseMap: EventEmitter<void> = new EventEmitter<void>();  
   @Output() distanceChanged = new EventEmitter<number>();
 
@@ -38,7 +41,11 @@ export class MapForTourComponent implements OnInit{
   ngOnInit(): void{
     //console.log("NA INITU MAPE:");
     //console.log(this.tour);
-    this.getTourKeyPoints();
+
+    if(this.tourOverview)
+        this.showFirstKp = true;
+    if(!this.showFirstKp)
+      this.getTourKeyPoints();
     //this.markTourKeyPoints();
   }
 

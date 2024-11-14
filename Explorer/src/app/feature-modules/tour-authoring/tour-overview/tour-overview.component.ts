@@ -18,6 +18,7 @@ import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 
 import { PositionSimulator } from '../model/position-simulator.model';
+import { Tour } from '../model/tour.model';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class TourOverviewComponent implements OnInit {
   activeTourId: number | null = null;
   isActive: boolean = false;
   position: PositionSimulator | null = null;
-  
-
+  shouldDisplayKeypoint: boolean = false;
+  selectedTour: TourOverview;
 
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable(); 
@@ -120,6 +121,10 @@ export class TourOverviewComponent implements OnInit {
     this.tours = tours;
   }
 
+  closeMapForTour() {
+    this.shouldDisplayKeypoint= false; // Postavljamo na false kada zatvorimo mapu
+  }
+
   createNewCart(userId: number): void
   {
     this.shoppingCart = {
@@ -143,6 +148,12 @@ export class TourOverviewComponent implements OnInit {
       } );
   }
   
+  showKeypoint(tour: TourOverview): void{
+
+    this.selectedTour = tour;
+    this.shouldDisplayKeypoint = true;
+
+  }
   loadTours(): void {
     this.tourOverviewService.getAllWithoutReviews().subscribe({
       next: (data: PagedResults<TourOverview>) => {
