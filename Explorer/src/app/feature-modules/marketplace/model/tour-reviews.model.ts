@@ -6,5 +6,5 @@ export interface TourReview{
     comment: string,
     dateTour: Date,
     dateComment: Date,
-    images: string[]
+    images: string
 }

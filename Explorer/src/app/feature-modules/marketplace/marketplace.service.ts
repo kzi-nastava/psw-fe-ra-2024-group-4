@@ -39,6 +39,11 @@ export class MarketplaceService {
   {
     return this.http.get<PagedResults<TourReview>>(environment.apiHost + 'tourReviewing/tourReview');
   }
+
+  getTourReview(userId: number, tourId: number): Observable<TourReview>
+  {
+    return new Observable<TourReview>
+  }
   
   addTourReview(tourReview : TourReview): Observable<TourReview>
   {

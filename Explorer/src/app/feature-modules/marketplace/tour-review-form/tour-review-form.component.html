@@ -1,41 +1,42 @@
-<form [formGroup]="tourReviewForm">
-    <div>
-        <!--id: number,
-        idTour: number,
-        idTourist: number,
-        dateTour: Date,
-        dateComment: Date,-->
-        
-        <mat-form-field>
-            <mat-label>Rating</mat-label>
-            <input matInput formControlName="rating" type="number"/>
-            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('required')">
-                Rating is required
-            </mat-error>
-            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('min')">
-                Rating must be at least 1
-            </mat-error>
-            <mat-error *ngIf="tourReviewForm.get('rating')!.hasError('max')">
-                Rating must be no more than 5
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Comment</mat-label>
-          <textarea matInput
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="1"
-          formControlName="comment"
-          cdkAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Images</mat-label>
-            <textarea matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="1"
-            formControlName="images"
-            cdkAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
-        <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addTourReview()" mat-raised-button>Add</button>
-        <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateTourReview()" mat-raised-button>Update</button>   
-    </div>
+<div *ngIf="existingReview; else emptyForm">
+  <h3>Your Review for This Tour</h3>
+  <button mat-raised-button color="warn" (click)="deleteReview()">Delete</button>
+</div>
+
+<ng-template #emptyForm>
+  <h3>Leave a Review for This Tour</h3>
+</ng-template>
+
+<form [formGroup]="reviewForm" (ngSubmit)="saveReview()">
+  <mat-form-field appearance="outline">
+    <mat-label>Rating (1-5)</mat-label>
+    <input matInput type="number" formControlName="rating" min="1" max="5" />
+    <mat-error *ngIf="reviewForm.get('rating')?.hasError('required')">
+      Rating is required
+    </mat-error>
+    <mat-error *ngIf="reviewForm.get('rating')?.hasError('min') || reviewForm.get('rating')?.hasError('max')">
+      Rating must be between 1 and 5
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Comment</mat-label>
+    <textarea matInput formControlName="comment"></textarea>
+    <mat-error *ngIf="reviewForm.get('comment')?.hasError('required')">
+      Comment is required
+    </mat-error>
+  </mat-form-field>
+
+  <div>
+    <mat-label>Upload Image</mat-label>
+    <input type="file" (change)="onFileSelected($event)" />
+  </div>
+
+  <mat-card *ngIf="imagePreview" class="image-preview">
+    <img [src]="imagePreview" alt="Image Preview" />
+  </mat-card>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">
+    {{ existingReview ? 'Update Review' : 'Save Review' }}
+  </button>
 </form>

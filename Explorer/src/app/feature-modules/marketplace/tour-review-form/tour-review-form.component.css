@@ -8,3 +8,13 @@ div {
 .mat-icon {
     vertical-align: middle;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Razmak između elemenata */
+  }
+  
+  .image-preview {
+    margin-top: 1rem; /* Razmak između forme i pregleda slike */
+  }

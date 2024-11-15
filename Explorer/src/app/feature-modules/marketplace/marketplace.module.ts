@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
 import { ProblemTicketComponent } from './problem-ticket/problem-ticket.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ProblemTicketComponent } from './problem-ticket/problem-ticket.componen
     TourAuthoringModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatCardModule
   ],
   exports: [
     ToursForAuthorComponent,
