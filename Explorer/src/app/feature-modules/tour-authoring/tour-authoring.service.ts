@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeyPoint } from './model/keypoint.model';
 import { Observable, Subject } from 'rxjs';
@@ -51,11 +51,20 @@ export class TourAuthoringService {
 
   updateObject(object: TourObject): Observable<TourObject> {
     return this.http.put<TourObject>(environment.apiHost + 'objectaddition/object/' + object.id, object);
-
-
   }
 
+  updateTourDuration(tourId: number, duration: number, transportation: string): Observable<any> {
+    const params = new HttpParams()
+      .set('transportation', transportation)
+      .set('duration', duration.toFixed(2));
+    
+    return this.http.put(`${environment.apiHost}author/tour/add-duration/${tourId}`, null, { params });
+  }
 
+  deleteAllDurations(tourId: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiHost}author/tour/delete-all-durations/${tourId}`);
+  } //Http failure response for https://localhost:44333/api//delete-all-durations/0: 404 OK
+  
   
 
 

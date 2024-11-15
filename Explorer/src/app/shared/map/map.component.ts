@@ -173,9 +173,7 @@ export class MapComponent {
   async setRoute(keyPoints: KeyPoint[]) {
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log('setRoute called with keyPoints:', keyPoints);
-   // console.log("Setting route!");
-   // console.log("tacke iz setRoute:");
-   // console.log(keyPoints);
+
     const waypoints = keyPoints.map(point => L.latLng(point.latitude, point.longitude));
     const routeControl = L.Routing.control({
       waypoints: waypoints,
@@ -195,7 +193,6 @@ export class MapComponent {
           
           this.distanceChanged.emit(totalDistance);
           this.mapService.updateDistance({distance: totalDistance, tourId: keyPoints[0].tourId})
-          
           console.log("emit se desio");     
             
         },
@@ -204,15 +201,49 @@ export class MapComponent {
         },
       });
 
-      //alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' +            Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+      this.updateAllDurations(keyPoints[0].tourId, waypoints);
+      alert("tourId:"+keyPoints[0].tourId)
     });
 
-    // routeControl.on('routesfound', function(e) {
-    //   var routes = e.routes;
-    //   var summary = routes[0].summary;
-    //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-    // });
   }
+
+  private updateAllDurations(tourId: number, waypoints: L.LatLng[]): void {
+    const modes = ['walking', 'cycling', 'driving']; // Different transportation modes
+    //brisanje prethodnih vremena
+    this.touAuthService.deleteAllDurations(tourId).subscribe({
+      next: (response) => {
+        console.log('Durations deleted successfully:', response);
+        alert("Durations deleted successfully");
+      },
+      error: (err) => {
+        console.error('Error deleting durations:', err);
+        alert(err.message)
+      }
+    });
+    // dodavanje novih
+    modes.forEach(mode => {
+      const routeControl = L.Routing.control({
+        waypoints: waypoints,
+        router: L.routing.mapbox('pk.eyJ1IjoidmVsam9vMDIiLCJhIjoiY20yaGV5OHU4MDFvZjJrc2Q4aGFzMTduNyJ9.vSQUDO5R83hcw1hj70C-RA', { profile: `mapbox/${mode}` }),
+      });
+  
+      routeControl.on('routesfound', (e) => {
+        const totalTime = Math.round(e.routes[0].summary.totalTime / 60); // Convert seconds to minutes
+  
+        // Update the duration for each mode in the backend
+        
+        this.touAuthService.updateTourDuration(tourId, totalTime, mode).subscribe({
+          next: () => console.log(`Duration for ${mode} updated: ${totalTime} minutes`, alert("Duration for"+ mode+" updated:"+ totalTime +"minutes")),
+          error: () => console.error(`Error updating duration for ${mode}`)
+        });
+        
+      });
+  
+      routeControl.route(); // Trigger the route calculation for each mode
+    });
+  }
+  
+
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
       L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
