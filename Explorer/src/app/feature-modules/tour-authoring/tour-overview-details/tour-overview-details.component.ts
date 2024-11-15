@@ -8,6 +8,8 @@ import { PersonInfoService } from '../../person.info/person.info.service';
 import { PersonInfo } from '../../person.info/model/info.model';
 import { UserService } from 'src/app/shared/user/user-service.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { KeyPoint } from '../model/keypoint.model';
+import { TourOverview } from '../model/touroverview.model';
 
 @Component({
   selector: 'xp-tour-overview-details',
@@ -19,15 +21,28 @@ export class TourOverviewDetailsComponent implements OnInit {
   reviews: TourOverviewReview[] = [];
   average: number = 0;
   tourId: number;
+  firstKeyPoint: KeyPoint;
 
   constructor(private tourOverviewService: TourOverviewService, private personService: PersonInfoService, private userService: UserService
-    ,@Inject(MAT_DIALOG_DATA) private data: {tourId: number })
+    ,@Inject(MAT_DIALOG_DATA) private data: {tourId: number, firstKeyPoint: KeyPoint })
   {
     this.tourId = data.tourId;
+    this.firstKeyPoint = data.firstKeyPoint;
   }
 
   ngOnInit(): void {
     this.loadReviews();
+    this.loadAverage();
+  }
+
+  loadAverage(): void {
+    this.tourOverviewService.getAveragerating(this.tourId).subscribe({
+      next: (data: TourOverview) => {
+        if(data.rating != null && data.rating > 0) {
+          this.average = data.rating;
+        }
+      }
+    })
   }
 
   loadReviews(): void {

@@ -57,7 +57,7 @@
                     <button class="card-bottom-button1" *ngIf="tourExecutions.get(t.tourId)?.status === null && !isActive" (click)="startTour(t.tourId)">START TOUR</button>
                     <button class="card-bottom-button"  *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)">COMPLETE TOUR</button>
                     <button class="card-bottom-button1"  *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" >ABANDON TOUR</button>
-                    <button class="card-bottom-button2" (click)="openReviews(t.tourId)">SEE REVIEWS</button>
+                    <button class="card-bottom-button2" (click)="openReviews(t.tourId, t.firstKeyPoint)">SEE REVIEWS</button>
                     <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
                     <button class="card-bottom-button4" (click)="reportProblem(t.tourId)">Report Problem</button>
                     <button class="card-bottom-button5" (click)="showKeypoint(t)">VIEW<br/>MAP</button>

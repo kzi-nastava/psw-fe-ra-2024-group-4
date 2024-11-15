@@ -28,4 +28,8 @@ export class TourOverviewService {
     return this.http.get<PagedResults<TourOverview>>(url);
   }
 
+  getAveragerating(tourId: number): Observable<TourOverview> {
+    return this.http.get<TourOverview>(`${this.apiUrl}/average/${tourId}`);
+  }
+
 }

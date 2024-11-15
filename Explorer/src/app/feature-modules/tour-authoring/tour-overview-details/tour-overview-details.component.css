@@ -42,3 +42,8 @@
 .comment-content {
     margin-left: 50px;
 }
+
+.img-container {
+    width: auto;
+    height: 35vh;
+}

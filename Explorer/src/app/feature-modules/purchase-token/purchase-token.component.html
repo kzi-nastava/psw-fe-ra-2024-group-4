@@ -6,12 +6,19 @@
     <h2>{{ tour.name }}</h2>
     <p>{{ tour.description }}</p>
     <p>Difficulty: {{ tour.difficulty }}</p>
+    <p>Status: {{ getStatusLabel(tour.status) }}</p>
     <p class="price">Price: ${{ tour.price }}</p>
     <div>
       <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
     </div>
     <div>
       <button mat-raised-button color="accent" (click)="showMapForTour(tour)">View map</button>
+      <ng-container *ngIf="!isTourActivated(tour.id); else activatedLabel">
+        <button style="margin-left: 5%; margin-bottom: 2%;" (click)="startTour(tour.id)">Activate tour</button>
+      </ng-container>
+      <ng-template #activatedLabel>
+        <p style="color: green; margin-left: 5%; margin-bottom: 2%;">Tour Activated</p>
+      </ng-template>
     </div>
   </div>
 </div>
