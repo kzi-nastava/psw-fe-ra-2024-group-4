@@ -38,8 +38,8 @@ export class TourOverviewDetailsComponent implements OnInit {
   loadAverage(): void {
     this.tourOverviewService.getAveragerating(this.tourId).subscribe({
       next: (data: TourOverview) => {
-        if(data.rating != null && data.rating > 0) {
-          this.average = data.rating;
+        if(data.averageRating != null && data.averageRating > 0) {
+          this.average = data.averageRating;
         }
       }
     })
