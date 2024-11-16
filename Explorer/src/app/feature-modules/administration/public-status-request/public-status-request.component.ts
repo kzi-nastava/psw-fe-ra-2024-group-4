@@ -1,25 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PublicStatus, TourObject } from '../../tour-authoring/model/object.model';
 import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { AdministrationService } from '../administration.service';
 import { MarketplaceService } from '../../marketplace/marketplace.service';
+import { Observable } from 'rxjs';
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
+
 @Component({
   selector: 'xp-public-status-request',
   templateUrl: './public-status-request.component.html',
   styleUrls: ['./public-status-request.component.css']
 })
 export class PublicStatusRequestComponent {
-  objects: TourObject[] = []
-  keyPoints: KeyPoint[] = []
+  objects: TourObject[] = [];
+  keyPoints: KeyPoint[] = [];
+  
+  // State for decline text field
+  declineItem: KeyPoint | TourObject | null = null;
+  @ViewChild('declineInput') declineInputRef!: ElementRef;
+  declineReason: string = '';
+  isObject: boolean;
 
-  constructor(private service: AdministrationService, private mpService: MarketplaceService){}
+  constructor(private service: AdministrationService, private mpService: MarketplaceService) {}
 
   ngOnInit(): void {
     this.getRequestedPublicObjects();
     this.getRequestedPublicKeyPoints();
   }
 
-  getRequestedPublicObjects(): void{
+  getRequestedPublicObjects(): void {
     this.service.getRequestedPublicObjects().subscribe({
       next: (result: TourObject[]) => {
         this.objects = result;
@@ -27,10 +37,10 @@ export class PublicStatusRequestComponent {
       error: (err: any) => {
         console.log(err);
       }
-    })
+    });
   }
 
-  getRequestedPublicKeyPoints(): void{
+  getRequestedPublicKeyPoints(): void {
     this.service.getRequestedPublicKeyPoints().subscribe({
       next: (result: KeyPoint[]) => {
         this.keyPoints = result;
@@ -38,58 +48,47 @@ export class PublicStatusRequestComponent {
       error: (err: any) => {
         console.log(err);
       }
-    })
+    });
   }
 
   createNotification(publicStatus: PublicStatus, usersId: number, resourceId?: number, isObject?: boolean): void {
+    let descriptionSet;
+    let notificationTypeSet;
 
-    let descriptionSet
-    let notificationTypeSet
-    if(publicStatus === 2){
-
-      if(isObject){
-         descriptionSet = "Status set to Public for Object";
-         notificationTypeSet = 4
-      }else{
-        descriptionSet = "Status set to Public for KeyPoint";
-        notificationTypeSet = 3
-      }
-    }else{
-      if(isObject){
-        descriptionSet = "Status set to Private for Object";
-        notificationTypeSet = 4
-     }else{
-       descriptionSet = "Status set to Private for KeyPoint";
-       notificationTypeSet = 3
-     }
+    if (publicStatus === 2) {
+      descriptionSet = isObject ? "Status set to Public for Object" : "Status set to Public for KeyPoint";
+      notificationTypeSet = isObject ? 4 : 3;
+    } else {
+      descriptionSet = isObject ? "Status set to Private for Object:" : "Status set to Private for KeyPoint:";
+      notificationTypeSet = isObject ? 4 : 3;
     }
-      const notification = {
-        id: 0,
-        description: descriptionSet,
-        creationTime: new Date(),
-        isRead: false,
-        notificationsType: notificationTypeSet,
-        resourceId: resourceId || 0,
-        userId: usersId, 
-      };
-      console.log(notification)
-      this.mpService.createNotification(notification, 'administrator').subscribe({
-        next: (createdNotification) => {
-            console.log("Notification created for administrator:", createdNotification);
-        },
-        error: (error) => {
-            console.error("Error creating notification for administrator:", error);
-        }
+
+    const notification = {
+      id: 0,
+      description: descriptionSet + this.declineReason,
+      creationTime: new Date(),
+      isRead: false,
+      notificationsType: notificationTypeSet,
+      resourceId: resourceId || 0,
+      userId: usersId,
+    };
+
+    this.mpService.createNotification(notification, 'administrator').subscribe({
+      next: (createdNotification) => {
+        console.log("Notification created for administrator:", createdNotification);
+      },
+      error: (error) => {
+        console.error("Error creating notification for administrator:", error);
+      }
     });
-    
   }
 
-  acceptObject(object: TourObject): void{
+  acceptObject(object: TourObject): void {
     object.publicStatus = PublicStatus.PUBLIC;
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');
-        this.createNotification(object.publicStatus,object.userId, object.id, true);
+        this.createNotification(object.publicStatus, object.userId, object.id, true);
         this.getRequestedPublicObjects();
       },
       error: (err) => {
@@ -98,14 +97,13 @@ export class PublicStatusRequestComponent {
     });
   }
 
-  acceptKeyPoint(keyPoint: KeyPoint): void{
+  acceptKeyPoint(keyPoint: KeyPoint): void {
     keyPoint.publicStatus = PublicStatus.PUBLIC;
     keyPoint.imageBase64 = "";
-    console.log(keyPoint)
     this.service.updateKeyPoint(keyPoint).subscribe({
       next: () => {
         console.log('KeyPoint updated successfully');
-        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id, false);
+        this.createNotification(keyPoint.publicStatus, keyPoint.userId, keyPoint.id, false);
         this.getRequestedPublicKeyPoints();
       },
       error: (err) => {
@@ -114,33 +112,41 @@ export class PublicStatusRequestComponent {
     });
   }
 
-  declineObject(object: TourObject): void{
-    object.publicStatus = PublicStatus.PRIVATE;
-    this.service.updateObject(object).subscribe({
+  showDeclineField( item: KeyPoint | TourObject, type: 'object' | 'keyPoint'): void {
+    this.declineItem = item;
+    this.declineReason = '';
+    
+    if(type === 'object'){
+      this.isObject = true;
+    }else{
+      this.isObject = false;
+    }
+  }
+
+  confirmDecline(item: KeyPoint | TourObject): void {
+    item.publicStatus = PublicStatus.PRIVATE;
+    this.declineReason = this.declineInputRef.nativeElement.value;
+    console.log("Print1:" + this.declineInputRef.nativeElement.value);
+    
+    const updateMethod: Observable<any> = this.isObject 
+      ? this.service.updateObject(item as TourObject) 
+      : this.service.updateKeyPoint(item as KeyPoint);
+  
+    updateMethod.subscribe({
       next: () => {
-        console.log('Object updated successfully');
-        this.createNotification(object.publicStatus,object.userId, object.id,true);
-        this.getRequestedPublicObjects();
+        console.log(`${this.isObject ? 'Object' : 'KeyPoint'} declined successfully with reason:`, this.declineReason);
+        this.createNotification(item.publicStatus, item.userId, item.id, this.isObject);
+        this.isObject ? this.getRequestedPublicObjects() : this.getRequestedPublicKeyPoints();
+        this.declineItem = null;
+        
+        console.log("Print2:" + this.declineReason);
       },
-      error: (err) => {
+      error: (err: Error) => {
         console.error('Update failed', err);
       }
     });
   }
-
-  declineKeyPoint(keyPoint: KeyPoint): void{
-    keyPoint.publicStatus = PublicStatus.PRIVATE;
-    keyPoint.imageBase64 = "";
-    console.log(keyPoint)
-    this.service.updateKeyPoint(keyPoint).subscribe({
-      next: () => {
-        console.log('KeyPoint updated successfully');
-        this.createNotification(keyPoint.publicStatus,keyPoint.userId, keyPoint.id,false);
-        this.getRequestedPublicKeyPoints();
-      },
-      error: (err) => {
-        console.error('Update failed', err);
-      }
-    });
+  cancelDecline(): void {
+    this.declineItem = null; 
   }
 }
