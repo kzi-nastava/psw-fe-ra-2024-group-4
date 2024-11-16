@@ -1,0 +1,25 @@
+.cart-overview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  mat-card {
+    width: 300px;
+    margin: 10px;
+    text-align: left;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .total {
+    margin-top: 20px;
+  }
+  

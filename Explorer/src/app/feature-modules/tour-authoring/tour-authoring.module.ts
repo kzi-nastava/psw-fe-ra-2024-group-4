@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 
+
 // Import Custom Components
 import { KeypointsComponent } from './keypoints/keypoints.component';
 import { KeypointFormComponent } from './keypoint-form/keypoint-form.component';
@@ -28,6 +29,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MapForTourComponent } from './map-for-tour/map-for-tour.component';import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 import { TourPreferencesFormComponent } from './tour-preferences-form/tour-preferences-form.component';
 import { RouterModule } from '@angular/router';
+import { TourOverviewComponent } from './tour-overview/tour-overview.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
+import { TourSearchComponent } from './tour-search/tour-search.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CartOverviewComponent } from './cart-overview/cart-overview.component';
+import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
+
 
 
 
@@ -45,7 +55,12 @@ import { RouterModule } from '@angular/router';
     TourDetailsComponent,
     ObjectComponent,
     ObjectFormComponent,
-    MapForTourComponent
+    MapForTourComponent,
+    TourOverviewComponent,
+    TourOverviewDetailsComponent,
+    TourSearchComponent,
+    CartOverviewComponent,
+    PurchaseTokenComponent
   ],
   imports: [
     // Import necessary modules
@@ -68,7 +83,10 @@ import { RouterModule } from '@angular/router';
     MatOptionModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    MatChipsModule,
+    MatBadgeModule
   ],
   exports: [
     // Export components to be used in other modules
@@ -78,7 +96,8 @@ import { RouterModule } from '@angular/router';
     NecessaryEquipmentComponent,
     ManageTourEquipmentComponent,
     TourDetailsComponent,
-    ObjectComponent
+    ObjectComponent,
+    PurchaseTokenComponent
   ]
 })
 export class TourAuthoringModule { }

@@ -47,3 +47,8 @@ tbody tr.active-row {
     align-items: center;
     
 }
+
+
+.imgContainer{
+    height: 15vh;
+}

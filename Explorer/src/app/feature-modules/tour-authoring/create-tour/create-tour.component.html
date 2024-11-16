@@ -1,4 +1,6 @@
+<header>
 <h1>Create tour</h1>
+</header>
 <div class="container">
     <form [formGroup]="tourForm">
         <div>
@@ -8,8 +10,12 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Difficulty</mat-label>
-                <input matInput formControlName="difficulty" type="text" required />
-            </mat-form-field>
+                <mat-select formControlName="difficulty" required>
+                  <mat-option value="Easy">Easy</mat-option>
+                  <mat-option value="Medium">Medium</mat-option>
+                  <mat-option value="Hard">Hard</mat-option>
+                </mat-select>
+              </mat-form-field>
             <mat-form-field>
                 <mat-label>Description</mat-label>
                 <textarea matInput
@@ -19,11 +25,13 @@
                     cdkAutosizeMaxRows="5" required></textarea>
             </mat-form-field>
             <button color="primary" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
+            <p>{{error_message}}</p>
         </div>
     </form>
+    
 
     <div class="tags-container">
-        <h2>Select Tags</h2>
+        <header><h3>Select Tags</h3></header>
         <mat-selection-list>
             <div *ngFor="let tag of tourTags; let index = index">
                 <mat-checkbox 

@@ -11,6 +11,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import { MatButtonModule } from '@angular/material/button';
     MarkdownModule.forRoot(),
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    FormsModule,
+    MatMenuModule
   ],
   exports:[
     PostComponent,

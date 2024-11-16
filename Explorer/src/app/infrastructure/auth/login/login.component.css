@@ -42,3 +42,60 @@ a:hover {
     float:left;
     margin-left: 20px;
 }
+/*********/
+.mat-form-field {
+    width: 100%;
+  }
+
+  
+
+  
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: #3498db; /* color for focused label */
+  }
+  
+  .mat-form-field-label {
+    transition: all 0.3s cubic-bezier(.64, .09, .08, 1);
+  }
+  /************** SUBMIT BUTTON******************/
+.submit-button {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(270deg, #00dbde, #fc00ff, #00dbde);
+  background-size: 200% 100%;
+  background-position: left center;
+  transition: background-position 0.6s ease;
+}
+
+.submit-button:hover {
+  animation: slideLeftToRight 0.6s forwards;
+}
+
+@keyframes slideLeftToRight {
+  0% {
+      background-position: left center;
+  }
+  100% {
+      background-position: right center;
+  }
+}
+
+.submit-button:not(:hover) {
+  animation: slideRightToLeft 0.6s forwards;
+}
+
+@keyframes slideRightToLeft {
+  0% {
+      background-position: right center;
+  }
+  100% {
+      background-position: left center;
+  }
+}
+/*********************************************************/

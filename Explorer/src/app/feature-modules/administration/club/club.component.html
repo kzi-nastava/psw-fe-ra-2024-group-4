@@ -1,4 +1,4 @@
-<div class="club-layout-container">
+<!--<div class="club-layout-container">
     <div class="club-table-container">
         <h1 class="club_h1">Clubs</h1>
         <button class="custom-button" (click)="onAddClicked()">Add Club</button> 
@@ -15,7 +15,7 @@
                 </div>
                 <div class="club-image-container">
                     <td><img [src]="getImage(cl.image)" alt="cl.name" height="100"></td>
-                   <!--- <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" /> -->
+                   - <img [src]="cl.image" alt="{{ cl.name }} image" class="club-image" /> 
                 </div>
                 <div class="club-action-buttons" style="margin-left: 20px;">
                     <button *ngIf="cl.userId === currentUserId" (click)="onEditClicked(cl)" class="custom-button">Edit</button>
@@ -27,9 +27,74 @@
                 
             </div>
         </div>
+    </div>-->
+
+    <div class="main-container">
+        <div class="top-container">
+            <h1 class="club_h1">Clubs</h1>   
+        </div>
+        <div class="content-container">
+            <div class="left-side-container">
+                <!--<h1 class="club_h1">Create your club</h1> lose izgleda xdd-->   
+                <button class="custom-button" (click)="onAddClicked()">Add Club</button> 
+            </div>
+            <div class="center-container">
+              
+            <div class ="cards">
+    
+                <a href="" [routerLink]="['/clubDetails', cl.id]" class="card" *ngFor="let cl of club">
+                    <img [src]="getImage(cl.image)" class="card-image"/>
+                    <div class ="card-overlay">
+                        <div class="card-header">
+                            <div class="card-header-text">
+                                <div class="card-title">{{ cl.name }}</div>            
+                                <!--<span class="card-status">Owner: Name</span>-->
+                            </div>
+                        </div>
+    
+                        <div class="card-footer">
+                            <div class="card-footer-description">{{cl.description}}</div>
+                            <div></div>
+                        </div>
+    
+                    </div>
+                    <!--<img alt="member-badge" *ngIf="cl.id!== undefined && userIsMember[cl.id] && !userIsOwner[cl.id]" src="https://pngimg.com/d/fcb_logo_PNG18.png" class="card-placeholder">-->
+                    <!--  <img alt="owner-badge" *ngIf="cl.id!== undefined && userIsOwner[cl.id]" src="https://pngimg.com/d/fcb_logo_PNG18.png" class="card-placeholder">-->
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === false && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="card-join-button" (click)="addClubJoinRequest(cl, $event)">Join</button>
+                    <button *ngIf="cl.id!== undefined && userRequestCache[cl.id] === true && !userIsOwner[cl.id] && !userIsMember[cl.id]" class="card-cancel-button" (click)="cancelClubJoinRequest(cl, $event)">Cancel</button>
+                    <button *ngIf="cl.id!== undefined && userIsMember[cl.id] && !userIsOwner[cl.id]" class="card-join-button" (click)="onEditClicked(cl, $event)">Leave</button>
+                    <button *ngIf="cl.userId === currentUserId" (click)="onEditClicked(cl, $event)" class="card-join-button">Edit</button>
+                    <!---https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaITM7GAFlCQlZ1Rw4D1qZh2xaOuXuMQS6NA&s-->
+                    <!--https://pngimg.com/d/fcb_logo_PNG18.pnghttps://img.lovepik.com/element/45016/0500.png_860.png-->
+                    <!---[src]="getImage(cl.image)"-->
+                </a>    
+            </div>
+    
+    
+            <div class class="overlay" *ngIf="shouldRenderForm"  (click)="closeForm()" (mousedown)="mouseDownOverlay()" (mouseup)="mouseUpOverlay()">
+                <xp-club-form            
+                    
+                    (clubUpdated)="getAllClubs()" 
+                    *ngIf="shouldRenderForm"
+                    (formClosed)="onFormClosed()" 
+                    [club]="selectedClub" 
+                    [shouldEdit]="shouldEdit"
+                    class="form" 
+                    (mousedown)="mouseDownForm($event)" (mouseup)="mouseUpForm()" (click)="$event.stopPropagation()"
+                    >
+    
+                </xp-club-form>
+            </div>
+            </div>
+            <div class="right-side-container">
+              
+            </div>
+        </div>
+        
     </div>
 
-    <div class="club-form-container">
+    <!--irinina stara forma-->
+    <!--<div class="club-form-container">
         <xp-club-form 
             (clubUpdated)="getAllClubs()" 
             (formClosed)="onFormClosed()" 
@@ -37,5 +102,4 @@
             [club]="selectedClub" 
             [shouldEdit]="shouldEdit">
         </xp-club-form>
-    </div>
-</div>
+    </div>-->

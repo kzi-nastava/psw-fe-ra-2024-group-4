@@ -5,7 +5,7 @@
     <h2>Tour Keypoints</h2>
     <button color="accent" (click)="showMapForTour(tour)" mat-raised-button>View map</button>
     <div class="overlay" *ngIf="shouldDisplayMap" class="map-container" >
-        <xp-map-for-tour [tour]="tour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
+        <xp-map-for-tour [tour]="tour" (distanceChanged)="onDistanceChanged($event)" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
     </div>
 
     <div class="add-createdkp-tour-div">
@@ -19,6 +19,7 @@
                 <th>Latitude</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th>Status</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -30,7 +31,8 @@
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.description }}</td>
-                <td><img [src]="item.image" alt="Item Image" height="100"></td>
+                <td><div class="imgContainer"><img [src]="getImage(item.image)" alt="Item Image" height="100"></div></td>
+                <td> {{item.publicStatus}}</td>
                 <td>
                    
                 </td>
@@ -41,39 +43,8 @@
             </button></tr>
         </tbody>
     </table>
-  <div class="form-div"> <xp-keypoint-form (keypointAdded) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint" [registeringObj]="registerObj" (tourUpdated)="notifyTourUpdated()"></xp-keypoint-form></div>
+  <div class="form-div"> <xp-keypoint-form [tourKeyPoints]="keyPoints" (tourUpdated) = "notifyKeypointAdded($event)" *ngIf="shouldCreateNew" [tourToAdd] = "tour" [shouldAddKeypoint] = "shouldAddKeypoint" (tourUpdated)="notifyTourUpdated()" [registerObjRoute]="registerObjRoute"></xp-keypoint-form></div>
 </div>
-    <button class="add-existing-btn" (click)="onAddExistingClicked()" color="accent" mat-raised-button>Add existing</button>
-
-    <table *ngIf="shouldAddExisting" class="keypoints-table">
-        <thead>
-            <tr>
-               
-                <th>Name</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of previuslyCreatedKeyPoints">
-                
-                <td>{{ item.name }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.description }}</td>
-                <td><img [src]="item.image" alt="Item Image" height="100"></td>
-                <td>
-                    <button class="create-new-btn" color="primary"  mat-flat-button (click) = "addKeypointToTour(item)">
-                        Add
-                     </button>
-                </td>
-               
-            </tr>
-            
-        </tbody>
-    </table>
+  
 </div>
 

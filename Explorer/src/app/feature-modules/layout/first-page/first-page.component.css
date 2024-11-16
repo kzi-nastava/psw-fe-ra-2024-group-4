@@ -1,7 +1,7 @@
 
 .background-component {
   height: 100vh;  
-  width: 100vw;  
+  width: 100%;  
   background: url('../../../../../background_pictures/s1.jpg') no-repeat center center; 
   background-size: cover; 
   display: flex; 

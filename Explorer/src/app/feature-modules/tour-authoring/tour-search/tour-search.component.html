@@ -1,0 +1,18 @@
+<div class="container">
+    <p>Choose location and find nearest tours!</p>
+    <form [formGroup]="tourSearchForm">
+        <div>
+            <mat-form-field>
+                <mat-label>Distance</mat-label>
+                <input matInput formControlName="distance" type="text" />
+              </mat-form-field>
+              <span class="km-label">km</span> <!-- Dodajte "km" pored forme -->
+        </div>
+      
+    </form>
+    <div class="map-container">
+      <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated]="tourSearchActivated" (tourSearchLon)="setLongitude($event)"></xp-map>
+    </div>
+    <button class="search" mat-raised-button type="submit" color="primary" (click)="search()">Search</button>
+  </div>
+  

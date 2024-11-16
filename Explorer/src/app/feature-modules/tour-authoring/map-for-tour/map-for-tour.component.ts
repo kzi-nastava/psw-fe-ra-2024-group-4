@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Tour } from '../model/tour.model';
 import { KeyPoint } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
+import { TourOverview } from '../model/touroverview.model';
 //import * as L from 'leaflet'; // Uvezi Leaflet
 @Component({
   selector: 'xp-map-for-tour',
@@ -15,7 +16,10 @@ import { TourAuthoringService } from '../tour-authoring.service';
 export class MapForTourComponent implements OnInit{
 
   @Input() tour: Tour;
-  @Output() onCloseMap: EventEmitter<void> = new EventEmitter<void>();
+  @Input() tourOverview: TourOverview;
+  @Input() showFirstKp: boolean = false;
+  @Output() onCloseMap: EventEmitter<void> = new EventEmitter<void>();  
+  @Output() distanceChanged = new EventEmitter<number>();
 
  /* tour: Tour = {
     id: 2,
@@ -33,38 +37,34 @@ export class MapForTourComponent implements OnInit{
 
   constructor(private service: TourAuthoringService){}
 
+
   ngOnInit(): void{
     //console.log("NA INITU MAPE:");
     //console.log(this.tour);
-    this.getTourKeyPoints();
+
+    if(this.tourOverview)
+        this.showFirstKp = true;
+    if(!this.showFirstKp)
+      this.getTourKeyPoints();
     //this.markTourKeyPoints();
   }
 
   getTourKeyPoints(){
-    if(this.tour.keyPointIds !== null){
-      this.tour.keyPointIds.forEach(keyPointId => {
-        // Placeholder za poziv servisa
-        this.service.getKeyPointById(keyPointId).subscribe({
-          next:(result: KeyPoint) => {
-            this.keyPoints.push(result);
-            //this.addMarker(result); // Dodaj marker kada se KeyPoint učita
-          },
-          error: (err: any) => console.log(err)
-        })
-        //console.log(keyPointId);
+  
+      this.keyPoints = this.tour.keyPoints;
+   
 
-        
-      });
-      //console.log(this.keyPoints);
-    }
+   
 
   }
   closeMap(): void {
-   /* const mainElement = document.querySelector('.main') as HTMLElement; // Castuj element kao HTMLElement
-    if (mainElement) {
-        mainElement.style.display = 'none'; // Sakrij .main
-    }*/
+  
    this.onCloseMap.emit();
+  }
+
+  onDistanceChanged(newDistance: number) {
+    this.distanceChanged.emit(newDistance);
+    console.log("map for tour");
   }
 
 }

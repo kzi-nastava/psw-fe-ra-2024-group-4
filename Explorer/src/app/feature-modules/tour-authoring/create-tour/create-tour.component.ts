@@ -39,6 +39,8 @@ export class CreateTourComponent  implements OnChanges {
   tourTags = Object.keys(TourTags)
   .filter(key => isNaN(Number(key)))
   .map((tag, index) => ({ index, label: tag }));
+  error_message = '';
+  currentTags: number[] = [];
 
 
   constructor(private service: TourService, private authService: AuthService, private router: Router) {
@@ -52,7 +54,7 @@ export class CreateTourComponent  implements OnChanges {
 
   ngOnChanges(): void {
     this.tourForm.reset();
-
+    this.error_message = '';
   }
 
   
@@ -67,6 +69,12 @@ export class CreateTourComponent  implements OnChanges {
   addTour(): void {
     if(this.user!== null && this.user?.role === 'author' && this.tourForm.value.name!=='' && this.tourForm.value.description!==''&& this.tourForm.value.difficulty!=='')
     {
+      if(this.currentTags.length === 0)
+      {
+        this.error_message = 'Please select at least one tag.';
+      }
+      else {
+      
       console.log(this.tourForm.value.tags);
     const tour: Tour = {
       name: this.tourForm.value.name || "",
@@ -76,8 +84,11 @@ export class CreateTourComponent  implements OnChanges {
       status: 0,
       price: 0,
       userId: this.user.id,
+      lengthInKm: 0,
+      publishedTime: undefined,
+      archiveTime: undefined,
       equipmentIds: [],
-      keyPointIds: []
+      keyPoints: []
     };
     console.log(tour);
     this.service.addTour(tour).subscribe({
@@ -85,20 +96,20 @@ export class CreateTourComponent  implements OnChanges {
         this.router.navigate(['/author-tours']);
        }
     });
-  } }
+  }} }
   onTagChange(event: MatCheckboxChange, index: number): void {
-    const currentTags: number[] = this.tourForm.get('tags')?.value || [];
+    this.currentTags = this.tourForm.get('tags')?.value || [];
 
     if (event.checked) {
-      currentTags.push(index);
+      this.currentTags.push(index);
     } else {
 
-      const tagIndex = currentTags.indexOf(index);
+      const tagIndex = this.currentTags.indexOf(index);
       if (tagIndex >= 0) {
-        currentTags.splice(tagIndex, 1);
+        this.currentTags.splice(tagIndex, 1);
       }
     }
-    this.tourForm.get('tags')?.setValue(currentTags);
-    console.log(currentTags);
+    this.tourForm.get('tags')?.setValue(this.currentTags);
+
   }
 }
