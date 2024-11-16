@@ -21,6 +21,10 @@
                     <mat-label>Description</mat-label>
                     <input matInput formControlName="description" type="text"/>
                 </mat-form-field>
+                <mat-select formControlName="publicStatus" required>
+                    <mat-option [value]=0>Private</mat-option>
+                    <mat-option [value]=1>Request for Public</mat-option>
+                </mat-select>
                 
                     <input
                     type="file"

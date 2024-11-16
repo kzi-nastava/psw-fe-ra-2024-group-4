@@ -29,8 +29,6 @@ import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/prob
 import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
 import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
-
-
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 
@@ -63,7 +61,7 @@ const routes: Routes = [
   {path: 'problem-ticket', component: ProblemTicketComponent},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
-  {path:'notifications',component:NotificationsComponent},
+  {path: 'notifications',component:NotificationsComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
   {path: 'public-status-request', component: PublicStatusRequestComponent},
