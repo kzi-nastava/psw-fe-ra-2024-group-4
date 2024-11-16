@@ -7,7 +7,7 @@ export interface KeyPoint {
     image: string;
     userId: number;
     tourId: number;
-    imageBase64: string;
+    imageBase64?: string;
     publicStatus: PublicStatus;
 }
 export enum PublicStatus {

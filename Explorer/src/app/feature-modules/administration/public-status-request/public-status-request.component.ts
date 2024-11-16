@@ -84,7 +84,9 @@ export class PublicStatusRequestComponent {
   }
 
   acceptObject(object: TourObject): void {
+    this.cancelDecline();
     object.publicStatus = PublicStatus.PUBLIC;
+    this.declineReason = '';
     this.service.updateObject(object).subscribe({
       next: () => {
         console.log('Object updated successfully');
@@ -98,8 +100,10 @@ export class PublicStatusRequestComponent {
   }
 
   acceptKeyPoint(keyPoint: KeyPoint): void {
+    this.cancelDecline();
     keyPoint.publicStatus = PublicStatus.PUBLIC;
     keyPoint.imageBase64 = "";
+    this.declineReason = '';
     this.service.updateKeyPoint(keyPoint).subscribe({
       next: () => {
         console.log('KeyPoint updated successfully');
@@ -112,11 +116,11 @@ export class PublicStatusRequestComponent {
     });
   }
 
-  showDeclineField( item: KeyPoint | TourObject, type: 'object' | 'keyPoint'): void {
+  showDeclineField( item: KeyPoint | TourObject, type: 'Object' | 'KeyPoint'): void {
     this.declineItem = item;
     this.declineReason = '';
-    
-    if(type === 'object'){
+    this.declineInputRef.nativeElement.value = '';
+    if(type === 'Object'){
       this.isObject = true;
     }else{
       this.isObject = false;
@@ -126,20 +130,18 @@ export class PublicStatusRequestComponent {
   confirmDecline(item: KeyPoint | TourObject): void {
     item.publicStatus = PublicStatus.PRIVATE;
     this.declineReason = this.declineInputRef.nativeElement.value;
-    console.log("Print1:" + this.declineInputRef.nativeElement.value);
     
+    if(!this.isObject && 'imageBase64' in item) { item.imageBase64 = ''}
+    console.log(item)
     const updateMethod: Observable<any> = this.isObject 
       ? this.service.updateObject(item as TourObject) 
       : this.service.updateKeyPoint(item as KeyPoint);
   
     updateMethod.subscribe({
       next: () => {
-        console.log(`${this.isObject ? 'Object' : 'KeyPoint'} declined successfully with reason:`, this.declineReason);
         this.createNotification(item.publicStatus, item.userId, item.id, this.isObject);
         this.isObject ? this.getRequestedPublicObjects() : this.getRequestedPublicKeyPoints();
         this.declineItem = null;
-        
-        console.log("Print2:" + this.declineReason);
       },
       error: (err: Error) => {
         console.error('Update failed', err);
