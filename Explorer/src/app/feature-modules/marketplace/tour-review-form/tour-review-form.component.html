@@ -1,10 +1,11 @@
 <div *ngIf="existingReview; else emptyForm">
-  <h3>Your Review for This Tour</h3>
+  <h2>Your Review for This Tour</h2>
   <button mat-raised-button color="warn" (click)="deleteReview()">Delete</button>
 </div>
 
 <ng-template #emptyForm>
-  <h3>Leave a Review for This Tour</h3>
+  <h1>Leave a Review for This Tour</h1>
+  <p>To leave a review, your last activity must have been within the last 7 days, and you need to have completed more than 35% of the tour.</p>
 </ng-template>
 
 <form [formGroup]="reviewForm" (ngSubmit)="saveReview()">
@@ -33,7 +34,7 @@
   </div>
 
   <mat-card *ngIf="imagePreview" class="image-preview">
-    <img [src]="imagePreview" alt="Image Preview" />
+    <img [src]="imagePreview" alt="Image Preview"/>
   </mat-card>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">

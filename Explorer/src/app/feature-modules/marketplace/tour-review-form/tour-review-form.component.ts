@@ -2,7 +2,8 @@ import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, Simp
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MarketplaceService } from '../marketplace.service';
 import { TourReview } from '../model/tour-reviews.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 import { NgModule } from '@angular/core';
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 
 @Component({
   selector: 'xp-tour-review-form',
@@ -29,8 +31,11 @@ export class TourReviewFormComponent implements OnInit {
   tourId: number;
   imagePreview: string | ArrayBuffer | null = null;
   user: User | null = null;
+  numberOfKP: number = 0;
+  percentagePassed: number = 0;
+  lastActivity: Date = new Date();
 
-  constructor(private fb: FormBuilder, private service: MarketplaceService, private route: ActivatedRoute, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private service: MarketplaceService, private route: ActivatedRoute, private authService: AuthService, private tourEService: TourExecutionService, private router: Router) {
     this.reviewForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required],
@@ -45,6 +50,7 @@ export class TourReviewFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadExistingReview();
+    this.checkConditions();
   }
 
   loadExistingReview() {   
@@ -52,7 +58,7 @@ export class TourReviewFormComponent implements OnInit {
       console.log('You must be logged in.')
       return;
     }
-    this.service.getTourReview(this.user?.id, this.tourId).subscribe(review => {
+    this.service.getTourReview(this.user.id, this.tourId).subscribe(review => {
       if (review) {
         this.existingReview = review;
         this.reviewForm.patchValue({
@@ -75,21 +81,61 @@ export class TourReviewFormComponent implements OnInit {
     }
   }
 
+  checkConditions(){
+    if (this.user === null){
+      console.log('You must be logged in.')
+      return;
+    }
+    
+    this.service.getTourById(this.tourId, "tourist").subscribe({
+      next: (result) => { 
+        this.numberOfKP = result.keyPoints.length;
+
+       }
+    });
+
+    this.tourEService.getTourExecutionByTourAndTourist(this.user?.id, this.tourId).subscribe({
+      next: (result) => { 
+        if (result.completedKeys?.length !== undefined && result.lastActivicy !== undefined) {
+          this.percentagePassed = (result.completedKeys.length / this.numberOfKP)*100;
+          this.lastActivity = result.lastActivicy;
+        } else {
+          this.percentagePassed = 0;
+          
+        }  
+        
+       }
+    });
+
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    if(this.percentagePassed < 35 || this.lastActivity < sevenDaysAgo){
+      this.showAlertAndRedirect()
+    }
+
+  }
+
   saveReview() {
     if (this.reviewForm.invalid) return;
     if (this.user === null){
       console.log('You must be logged in.')
       return;
     }
+
+    this.checkConditions();
+
     const tourReview:  TourReview = {
       id: 0,
       idTour: this.tourId,
       idTourist: this.user.id,
       rating: this.reviewForm.value.rating,
       comment: this.reviewForm.value.comment,
-      dateTour: new Date(),
+      dateTour: this.lastActivity,
       dateComment: new Date(),
-      images: 'slika'
+      images: this.reviewForm.value.image,
+      percentagePassed: this.percentagePassed
     }
 
     if (this.existingReview) {
@@ -110,5 +156,19 @@ export class TourReviewFormComponent implements OnInit {
         this.reviewForm.reset();
       });
     }
+  }
+
+
+  showAlertAndRedirect() {
+    Swal.fire({
+      icon: 'error', 
+      title: 'Action not allowed',
+      text: 'You cannot review this tour. You must complete at least 35% of the tour, and you have 7 days from your last activity to leave a review.',
+      confirmButtonText: 'Okay',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['purchased-tours']); 
+      }
+    });
   }
 }

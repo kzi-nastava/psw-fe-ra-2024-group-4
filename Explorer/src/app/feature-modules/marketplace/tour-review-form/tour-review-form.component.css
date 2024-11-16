@@ -16,5 +16,12 @@ form {
   }
   
   .image-preview {
-    margin-top: 1rem; /* Razmak između forme i pregleda slike */
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
   }
