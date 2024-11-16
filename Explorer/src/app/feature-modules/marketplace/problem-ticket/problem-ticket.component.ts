@@ -196,6 +196,7 @@ export class ProblemTicketComponent implements OnInit {
 
     if (!this.hasAuthorComment()) {
       alert('You cannot close this problem! Author must first add a comment before closing the issue.');
+      this.isModalOpen = false;
       return;
   }
 
@@ -294,132 +295,177 @@ export class ProblemTicketComponent implements OnInit {
     this.newComment.text = textarea.value; 
   }
 
-  // postComment(): void{
-  //   if (!this.newComment.text.trim()) {
-  //     console.error('Comment cannot be empty!');
-  //     return; 
-  //   }
-  //   if(this.user!==null && this.problem.id !== null){
-  //     this.newComment.problemId = this.problem.id;
-  //     this.newComment.userId = this.user.id;
-  //     console.log(this.newComment);
-  //     if(this.user.role ==='tourist'){
-  //       this.service.postProblemCommentAsTourist(this.newComment).subscribe(
-  //         (response: Problem) => {
-  //           console.log('Problem returned:', response);
-  //           //ovo obrisi /zakomentarisi
-  //           this.problem1 = response;
-  //           this.problem = response;
-  //           console.log(this.problem1);
+  
+//   postComment(): void {
+//     if (!this.newComment.text.trim()) {
+//         console.error('Comment cannot be empty!');
+//         return;
+//     }
 
+//     if (!this.user || !this.problem || this.problem.id === undefined) {
+//         console.error("User, problem, or problem.id is null or undefined.");
+//         return;
+//     }
 
-  //           this.newComment.text = ''; 
-  //         },
-  //         (error) => {
-  //           console.error('Error posting comment:', error);
-  //           console.log(this.newComment);
+//     // Postavljanje osnovnih vrednosti za komentar
+//     this.newComment.problemId = this.problem.id;
+//     this.newComment.userId = this.user.id;
 
-  //         }
-  //       );
-  //     }
-  //     if(this.user.role ==='author'){
-  //       this.service.postProblemCommentAsAuthor(this.newComment).subscribe(
-  //         (response: Problem) => {
-  //           console.log('Problem returned:', response);
-  //           //ovo obrisi /zakomentarisi
-  //           this.problem1 = response;
-  //           this.problem = response;
-  //           console.log(this.problem1);
+//     const postCommentObservable = this.user.role === 'tourist' ?
+//         this.service.postProblemCommentAsTourist(this.newComment) :
+//         this.service.postProblemCommentAsAuthor(this.newComment);
 
-  //           this.newComment.text = ''; 
-  //         },
-  //         (error) => {
-  //           console.error('Error posting comment:', error);
-  //           console.log(this.newComment);
+//     postCommentObservable.subscribe(
+//         (response: Problem) => {
+//             this.problem = response;
+//             this.newComment.text = ''; // Resetuje unos komentara
 
-  //         }
-  //       );
-  //     }
-  //   }
-  // }
-  postComment(): void {
-    if (!this.newComment.text.trim()) {
-        console.error('Comment cannot be empty!');
-        return;
-    }
+//             // Kreiramo osnovu za notifikaciju
+//             const notification = {
+//                 id: 0,
+//                 description: "New comment added to problem",
+//                 creationTime: new Date(),
+//                 isRead: false,
+//                 notificationsType: 0,
+//                 resourceId: this.problem.id || 0,
+//                 userId: 0 // privremeno dok ne dobijemo tačan `userId`
+//             };
 
-    if (!this.user || !this.problem || this.problem.id === undefined) {
-        console.error("User, problem, or problem.id is null or undefined.");
-        return;
-    }
+//             if (this.user?.role === 'tourist') {
+//                 // Ako je ulogovan turista, pribavljamo autora ture
+//                 this.service.getTourById(this.problem.tourId, 'tourist').subscribe({
+//                     next: (tour: Tour) => {
+//                         if (tour && tour.userId !== undefined) {
+//                             notification.userId = tour.userId;
 
-    // Postavljanje osnovnih vrednosti za komentar
-    this.newComment.problemId = this.problem.id;
-    this.newComment.userId = this.user.id;
+//                             // Kreiranje notifikacije za autora ture
+//                             this.service.createNotification(notification, 'tourist').subscribe({
+//                                 next: (createdNotification) => {
+//                                     console.log("Notification created for author:", createdNotification);
+//                                 },
+//                                 error: (error) => {
+//                                     console.error("Error creating notification for author:", error);
+//                                 }
+//                             });
+//                         } else {
+//                             console.error("Tour or userId is undefined.");
+//                         }
+//                     },
+//                     error: (error) => {
+//                         console.error("Error fetching tour for userId:", error);
+//                     }
+//                 });
+//             } else if (this.user?.role === 'author') {
+//                 // Ako je ulogovan autor, koristimo userId korisnika koji je otvorio problem
+//                 notification.userId = this.problem.userId;
 
-    const postCommentObservable = this.user.role === 'tourist' ?
-        this.service.postProblemCommentAsTourist(this.newComment) :
-        this.service.postProblemCommentAsAuthor(this.newComment);
+//                 // Kreiraj notifikaciju za korisnika koji je otvorio problem
+//                 this.service.createNotification(notification, 'author').subscribe({
+//                     next: (createdNotification) => {
+//                         console.log("Notification created for tourist:", createdNotification);
+//                     },
+//                     error: (error) => {
+//                         console.error("Error creating notification for tourist:", error);
+//                     }
+//                 });
+//             }
+//         },
+//         (error) => {
+//             console.error('Error posting comment:', error);
+//         }
+//     );
+// }
+postComment(): void {
+  if (!this.newComment.text.trim()) {
+      console.error('Comment cannot be empty!');
+      return;
+  }
 
-    postCommentObservable.subscribe(
-        (response: Problem) => {
-            this.problem = response;
-            this.newComment.text = ''; // Resetuje unos komentara
+  if (!this.user || !this.problem || this.problem.id === undefined) {
+      console.error("User, problem, or problem.id is null or undefined.");
+      return;
+  }
 
-            // Kreiramo osnovu za notifikaciju
-            const notification = {
-                id: 0,
-                description: "New comment added to problem",
-                creationTime: new Date(),
-                isRead: false,
-                notificationsType: 0,
-                resourceId: this.problem.id || 0,
-                userId: 0 // privremeno dok ne dobijemo tačan `userId`
-            };
+  // Postavljanje osnovnih vrednosti za komentar
+  this.newComment.problemId = this.problem.id;
+  this.newComment.userId = this.user.id;
 
-            if (this.user?.role === 'tourist') {
-                // Ako je ulogovan turista, pribavljamo autora ture
-                this.service.getTourById(this.problem.tourId, 'tourist').subscribe({
-                    next: (tour: Tour) => {
-                        if (tour && tour.userId !== undefined) {
-                            notification.userId = tour.userId;
+  // Odabir odgovarajuće metode za postavljanje komentara prema ulozi korisnika
+  const postCommentObservable = this.user.role === 'tourist' ?
+      this.service.postProblemCommentAsTourist(this.newComment) :
+      this.user.role === 'author' ?
+      this.service.postProblemCommentAsAuthor(this.newComment) :
+      this.service.postProblemCommentAsAdmin(this.newComment); // Dodajemo podršku za admina
 
-                            // Kreiranje notifikacije za autora ture
-                            this.service.createNotification(notification, 'tourist').subscribe({
-                                next: (createdNotification) => {
-                                    console.log("Notification created for author:", createdNotification);
-                                },
-                                error: (error) => {
-                                    console.error("Error creating notification for author:", error);
-                                }
-                            });
-                        } else {
-                            console.error("Tour or userId is undefined.");
-                        }
-                    },
-                    error: (error) => {
-                        console.error("Error fetching tour for userId:", error);
-                    }
-                });
-            } else if (this.user?.role === 'author') {
-                // Ako je ulogovan autor, koristimo userId korisnika koji je otvorio problem
-                notification.userId = this.problem.userId;
+  postCommentObservable.subscribe(
+      (response: Problem) => {
+          this.problem = response;
+          this.newComment.text = ''; // Resetuje unos komentara
 
-                // Kreiraj notifikaciju za korisnika koji je otvorio problem
-                this.service.createNotification(notification, 'author').subscribe({
-                    next: (createdNotification) => {
-                        console.log("Notification created for tourist:", createdNotification);
-                    },
-                    error: (error) => {
-                        console.error("Error creating notification for tourist:", error);
-                    }
-                });
-            }
-        },
-        (error) => {
-            console.error('Error posting comment:', error);
-        }
-    );
+          // Kreiramo osnovu za notifikaciju
+          const notification = {
+              id: 0,
+              description: "New comment added to problem",
+              creationTime: new Date(),
+              isRead: false,
+              notificationsType: 0,
+              resourceId: this.problem.id || 0,
+              userId: 0 // privremeno dok ne dobijemo tačan `userId`
+          };
+
+          // Logika za kreiranje notifikacije na osnovu uloge
+          if (this.user?.role === 'tourist') {
+              // Ako je ulogovan turista, pribavljamo autora ture
+              this.service.getTourById(this.problem.tourId, 'tourist').subscribe({
+                  next: (tour: Tour) => {
+                      if (tour && tour.userId !== undefined) {
+                          notification.userId = tour.userId;
+
+                          // Kreiranje notifikacije za autora ture
+                          this.service.createNotification(notification, 'tourist').subscribe({
+                              next: (createdNotification) => {
+                                  console.log("Notification created for author:", createdNotification);
+                              },
+                              error: (error) => {
+                                  console.error("Error creating notification for author:", error);
+                              }
+                          });
+                      } else {
+                          console.error("Tour or userId is undefined.");
+                      }
+                  },
+                  error: (error) => {
+                      console.error("Error fetching tour for userId:", error);
+                  }
+              });
+          } else if (this.user?.role === 'author') {
+              notification.userId = this.problem.userId;
+
+              this.service.createNotification(notification, 'author').subscribe({
+                  next: (createdNotification) => {
+                      console.log("Notification created for tourist:", createdNotification);
+                  },
+                  error: (error) => {
+                      console.error("Error creating notification for tourist:", error);
+                  }
+              });
+          } else if (this.user?.role === 'administrator') {
+              notification.userId = this.problem.userId;
+
+              this.service.createNotification(notification, 'administrator').subscribe({
+                  next: (createdNotification) => {
+                      console.log("Notification created for user:", createdNotification);
+                  },
+                  error: (error) => {
+                      console.error("Error creating notification for user:", error);
+                  }
+              });
+          }
+      },
+      (error) => {
+          console.error('Error posting comment:', error);
+      }
+  );
 }
 
 
@@ -429,7 +475,7 @@ export class ProblemTicketComponent implements OnInit {
    
     this.service.getTourById(tourId, role).subscribe(
       (tour: Tour) => {
-        this.tour = tour;  // Postavljanje učitanog Tour objekta u polje `tour`
+        this.tour = tour;  
         console.log('Tour učitan:', this.tour);
         console.log(tour.userId)
       },

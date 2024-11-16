@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { outputAst } from '@angular/compiler';
 import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
+import { TourOverview } from 'src/app/feature-modules/tour-authoring/model/touroverview.model';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class MapComponent {
   @Input() registeringObject: boolean = false;
   @Input() showingTour: boolean = false;
   @Input() tourSearchActivated: boolean = false;
+  @Input() showingFirstKp: boolean = false;
+  @Input() tourOverview: TourOverview;
   currentPosition: PositionSimulator;
 
   @Output() latitudeChanged = new EventEmitter<number>();
@@ -199,7 +202,12 @@ export class MapComponent {
         this.getCurrentPosition();
         this.registerPosition();
       }
-  
+
+      if(this.showingFirstKp)
+       {
+        
+        this.showFirstKeypoint(this.tourOverview.firstKeyPoint);
+       }
     this.plotKeyPoints();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -215,10 +223,17 @@ export class MapComponent {
 
 
 
+
   showPoint() : void
   {
     this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude], {icon: this.keypointIcon}).addTo(this.map);
   }
+
+  showFirstKeypoint(point: KeyPoint) : void
+  {
+    this.currentMarker = new L.Marker([point.latitude, point.longitude], {icon: this.keypointIcon}).addTo(this.map);
+  }
+
 
   showCurrentPosition(longitude: number, latitude: number){
     

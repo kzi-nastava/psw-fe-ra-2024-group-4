@@ -129,24 +129,27 @@ img {
 .scroll-list::-webkit-scrollbar-thumb:hover {
     background-color: #777; /* Color of the handle when hovered */
 }
-
+/*******************************************STILOVI ZA FOMRE******************************************/
 .form-style {
     display: flex;
     flex-direction: column;
     align-items: center;    
     justify-content: center;
-    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.2);
     background-color: #f2edf692;
     border-radius: 10px;
     margin: 10px; 
-    width: 400px;    
+    width: 500px;    
     padding: 20px; 
     border: 1px solid #ffbbbb82;
 }
-
-mat-form-field{
-    height: 70px
+/* Manipulate initial background color */
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: rgb(236, 236, 236) !important;
 }
+
+
+/*******************************************************************************************************/
 
 /*******************************************STILOVI ZA KARTICE******************************************/
 

@@ -27,6 +27,9 @@ export class ProblemComponent implements OnInit{
   showDeadlineModal: boolean = false;
   selectedProblem: Problem | null = null;
   newDeadline: number = 0;
+  daysSinceCreation: number = 0; 
+  isDeadlineInvalid: boolean = false;
+
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
 
@@ -44,6 +47,17 @@ export class ProblemComponent implements OnInit{
       this.isLoggedIn=false;
    });
 
+   
+
+  }
+
+  checkIfOverDeadline(deadline: number): boolean {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const daysDifference = Math.floor((now.getTime() - deadlineDate.getTime()) / (1000 * 60 * 60 * 24)); 
+
+    
+    return daysDifference > deadline;
   }
 
   checkIfLoggedIn(): void{
@@ -94,6 +108,13 @@ export class ProblemComponent implements OnInit{
               } else {
                 problem.isLate = isLate;
               }
+              /*this.problems.forEach(problem => {
+                problem.isOverDeadline = this.checkIfOverDeadline(problem.deadline);
+              });*/
+             
+              //problem.isOverDeadline = this.checkIfOverDeadline(problem.deadline);
+              problem.isOverDeadline = daysDifference > problem.deadline;
+
 
           console.log(`Problem time: ${problem.time}, Days difference: ${daysDifference}, isLate: ${isLate}`);
           return {
@@ -104,6 +125,10 @@ export class ProblemComponent implements OnInit{
           
             });
             this.checkDeadline();
+            if(this.problem){
+              this.checkIfOverDeadline(this.problem.deadline);
+            }
+            
           },
           error: (err: any) => {
             console.log(err);
@@ -135,6 +160,12 @@ export class ProblemComponent implements OnInit{
             const index = this.problems.findIndex(p => p.id === updatedProblem.id);
             if (index !== -1) {
                 this.problems[index] = updatedProblem;
+
+                const now = new Date();
+        const reportedDate = new Date(updatedProblem.time);
+        const daysDifference = Math.floor((now.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24));
+        
+        this.problems[index].isLate = daysDifference > 5; 
             }
         },
         error: (err: any) => {
@@ -144,8 +175,13 @@ export class ProblemComponent implements OnInit{
 }
 openDeadlineModal(problem: Problem): void {
   this.selectedProblem = problem;
-  this.newDeadline = problem.deadline || 0;
+  const createdTime = new Date(problem.time);
+  const currentTime = new Date();
+  const daysSinceCreation = Math.floor((currentTime.getTime() - createdTime.getTime()) / (1000 * 3600 * 24));
+  
+  this.newDeadline = Math.max(daysSinceCreation, problem.deadline || 0);
   this.showDeadlineModal = true;
+  this.checkDeadline(); // Odmah proveri da li je deadline validan
 }
 
 closeDeadlineModal(): void {
@@ -154,7 +190,7 @@ closeDeadlineModal(): void {
 }
 
 confirmUpdateDeadline(): void {
-  if (this.selectedProblem) {
+  if (this.selectedProblem && !this.isDeadlineInvalid) { // Proveri samo ako je deadline validan
     this.updateDeadline(this.selectedProblem, this.newDeadline);
 
     const problemId = this.selectedProblem.id; 
@@ -194,8 +230,11 @@ confirmUpdateDeadline(): void {
     });
 
     this.closeDeadlineModal();
+  }else{
+    return;
   }
 }
+
 
   onAddClick(): void{
     this.shoudAdd=true;
@@ -214,18 +253,23 @@ confirmUpdateDeadline(): void {
   }
 
   checkDeadline(): void {
-   
-    const currentTime = new Date();
-    this.problems.forEach(p => {
-      const timeDifference = (currentTime.getTime() - new Date(p.time).getTime()) / (1000 * 3600 * 24);
-      if(p.deadline){
-         p.isOverDeadline = timeDifference > p.deadline;
-      }
-      if (/*p.isOverDeadline || */timeDifference > 5) {
-        p.isLate = true;
-    }
+    if (this.selectedProblem) {
+      const currentTime = new Date();
+      const problemCreatedDate = new Date(this.selectedProblem.time);
+      this.daysSinceCreation = Math.floor((currentTime.getTime() - problemCreatedDate.getTime()) / (1000 * 60 * 60 * 24));
+  
+      this.isDeadlineInvalid = this.newDeadline < this.daysSinceCreation;
+      const reportedDate = new Date(this.selectedProblem.time);
+      const daysDifference = Math.floor((currentTime.getTime() - reportedDate.getTime()) / (1000 * 60 * 60 * 24)); // zaokruženo na ceo dan
+
+      const isLate =  daysDifference > 5;
      
-    });
+      if(isLate){
+        this.selectedProblem.isLate = true;
+      }else{
+        this.selectedProblem.isLate = false;
+      }
+    }
   }
   
 
@@ -291,6 +335,8 @@ confirmUpdateDeadline(): void {
        }
         this.problems[index] = updatedProblem; 
       }
+      //this.problems = [...this.problems];
+      //this.getProblems();
       },
       (error) => {
         console.error('Error updating problem status:', error);

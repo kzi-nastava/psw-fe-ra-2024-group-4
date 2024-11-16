@@ -64,6 +64,9 @@ export class MarketplaceService {
   postProblemCommentAsAuthor(comment : ProblemComment): Observable<Problem>{
     return this.http.post<Problem>(environment.apiHost + 'author/problem/postComment', comment);
   }
+  postProblemCommentAsAdmin(comment : ProblemComment): Observable<Problem>{
+    return this.http.post<Problem>(environment.apiHost + 'problem/admin/postComment', comment);
+  }
 
   updateProblemStatus(id: number, isActive: boolean): Observable<Problem> {
     return this.http.put<Problem>(environment.apiHost + `problem/updateStatus/${id}`, isActive);
