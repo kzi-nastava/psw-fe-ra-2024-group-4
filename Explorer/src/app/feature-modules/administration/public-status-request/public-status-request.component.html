@@ -69,7 +69,7 @@
     <div class="comment-field" *ngIf="declineItem !== null">
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Reason for decline</mat-label>
-          <input matInput #declineInput>
+          <input matInput [(ngModel)]="declineReason">
         </mat-form-field>
         <button mat-raised-button color="warn" (click)="confirmDecline(declineItem)">Submit</button>
         <button mat-button (click)="cancelDecline()">Cancel</button>

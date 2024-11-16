@@ -16,9 +16,7 @@ export class PublicStatusRequestComponent {
   objects: TourObject[] = [];
   keyPoints: KeyPoint[] = [];
   
-  // State for decline text field
   declineItem: KeyPoint | TourObject | null = null;
-  @ViewChild('declineInput') declineInputRef!: ElementRef;
   declineReason: string = '';
   isObject: boolean;
 
@@ -119,7 +117,7 @@ export class PublicStatusRequestComponent {
   showDeclineField( item: KeyPoint | TourObject, type: 'Object' | 'KeyPoint'): void {
     this.declineItem = item;
     this.declineReason = '';
-    this.declineInputRef.nativeElement.value = '';
+    console.log(type)
     if(type === 'Object'){
       this.isObject = true;
     }else{
@@ -129,7 +127,6 @@ export class PublicStatusRequestComponent {
 
   confirmDecline(item: KeyPoint | TourObject): void {
     item.publicStatus = PublicStatus.PRIVATE;
-    this.declineReason = this.declineInputRef.nativeElement.value;
     
     if(!this.isObject && 'imageBase64' in item) { item.imageBase64 = ''}
     console.log(item)
