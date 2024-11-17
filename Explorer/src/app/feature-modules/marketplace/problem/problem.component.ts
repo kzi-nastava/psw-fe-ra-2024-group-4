@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
 import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
@@ -9,7 +9,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'xp-problem',
@@ -30,6 +31,7 @@ export class ProblemComponent implements OnInit{
   newDeadline: number = 0;
   daysSinceCreation: number = 0; 
   isDeadlineInvalid: boolean = false;
+  readonly dialog = inject(MatDialog)
 
   tourId: number;
 
@@ -253,6 +255,7 @@ confirmUpdateDeadline(): void {
 
   openTicket(p: Problem) {
     //console.log(p);
+    this.dialog.closeAll();
     this.router.navigate(['/problem-ticket'], { state: { problem: p}});
   }
 
