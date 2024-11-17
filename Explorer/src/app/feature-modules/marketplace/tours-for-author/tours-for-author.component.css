@@ -55,7 +55,7 @@ mat-card-subtitle {
   display: flex;
   justify-content: space-between; 
   width: 22vw; 
-  height: 57vh;
+  height: 54vh;
   border-radius: calc(40 * 1px);
   text-decoration: none;
   box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3); /* Senka iza cele kartice */
