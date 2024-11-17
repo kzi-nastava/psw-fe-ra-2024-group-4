@@ -143,7 +143,7 @@ export class ProblemComponent implements OnInit{
       this.service.getProblemsByTouristId(this.user.id).subscribe({
         next: (result: Problem[]) => {
           console.log(result);
-          this.problems = result;
+          this.problems = result.filter(problem => problem.tourId === this.tourId);
         },
         error: (err: any) => {
           console.log(err);
