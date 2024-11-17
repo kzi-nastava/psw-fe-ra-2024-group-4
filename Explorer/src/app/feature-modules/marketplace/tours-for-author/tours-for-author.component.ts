@@ -108,6 +108,9 @@ export class ToursForAuthorComponent implements OnInit {
 
   }
     
+  goToTourEquipment(id: number){
+    this.router.navigate([`/tour/${id}/equipment`])
+  }
 
   viewTourDetails(tour: Tour){
    
