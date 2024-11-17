@@ -1,0 +1,62 @@
+/* Glavni kontejner za header */
+#header {
+  display: flex;
+  flex-direction: row; /* Postavlja elemente horizontalno */
+  justify-content: space-between; /* Postavlja logo levo, a ostale elemente desno */
+  align-items: center; /* Centriranje elemenata po vertikali */
+  padding: 0px 20px;
+  position: relative;
+  height: 10.5vh;
+  background: linear-gradient(to bottom, rgb(241, 226, 251), rgb(253, 248, 255));
+  border-top: 2px solid rgb(192, 153, 218);;
+  z-index: 1001;
+}
+
+
+
+/* Sekcija za sve elemente u headeru */
+.content {
+  display: flex; /* Postavlja elemente u red */
+  align-items: center; /* Centriranje po vertikali */
+  gap: 5px; /* Razmak između elemenata */
+}
+
+/* Stil za logo */
+.logo {
+  height: 8vh;
+  margin-top: -0.5vh;
+}
+
+/* Sekcija sa dugmadi (login/logout) */
+#buttons {
+  display: flex;
+  align-items: center; /* Centriranje dugmadi po vertikali */
+  gap: 10px; /* Razmak između dugmadi */
+}
+
+.user-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Dugmadi za korisnički meni (Logout, Account, Notifications) */
+.notification-button, .account-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+/* Ikone za korisnički meni */
+.notification-icon, .account-icon {
+  font-size: 5vh;
+}
+
+/* Tekst pored ikona */
+.user-text {
+  margin-left: 5px;
+}

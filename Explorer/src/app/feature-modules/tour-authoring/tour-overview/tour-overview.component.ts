@@ -18,6 +18,7 @@ import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 
 import { PositionSimulator } from '../model/position-simulator.model';
+import { Tour } from '../model/tour.model';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class TourOverviewComponent implements OnInit {
   activeTourId: number | null = null;
   isActive: boolean = false;
   position: PositionSimulator | null = null;
-  
-
+  shouldDisplayKeypoint: boolean = false;
+  selectedTour: TourOverview;
 
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable(); 
@@ -63,6 +64,12 @@ export class TourOverviewComponent implements OnInit {
       tourId: 0,
       cartId: 0
     };
+
+    
+  
+   
+   /* if(this.tourExecutions.get(3)?.status === null &&!this.isActive)
+      alert("uslo");*/
 
     this.authService.user$.subscribe(user => {
       this.user = user;
@@ -114,10 +121,15 @@ export class TourOverviewComponent implements OnInit {
 
     
     this.loadTours();
+    
   }
   
   updateTours(tours: TourOverview[]): void {
     this.tours = tours;
+  }
+
+  closeMapForTour() {
+    this.shouldDisplayKeypoint= false; // Postavljamo na false kada zatvorimo mapu
   }
 
   createNewCart(userId: number): void
@@ -143,16 +155,22 @@ export class TourOverviewComponent implements OnInit {
       } );
   }
   
+  showKeypoint(tour: TourOverview): void{
+
+    this.selectedTour = tour;
+    this.shouldDisplayKeypoint = true;
+
+  }
   loadTours(): void {
     this.tourOverviewService.getAllWithoutReviews().subscribe({
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
         this.loadTourExecutions();
+        
       },
       error: (err) => {
         console.error('Error loading tours:', err);
-        alert("AAAAAAAAAAa");
       }
     });
   }
@@ -185,7 +203,7 @@ export class TourOverviewComponent implements OnInit {
         locationId: this.position.id,
         tourId: tourId,
         status: 0,
-        lastActivicy: new Date(),
+        lastActivity: new Date(),
         touristId: this.user?.id || 0, // Default to 0 if user ID is null
         completedKeys: [] // Ensure this is sent as an empty array
     };
@@ -252,7 +270,12 @@ export class TourOverviewComponent implements OnInit {
             this.tourExecutionService.getTourExecutionByTourAndTourist(this.user!.id, tour.tourId).subscribe({
               next: (execution: TourExecution | null) => {
                 if (execution) {
+                  
                     this.tourExecutions.set(tour.tourId, execution);
+                 /*  console.log("execution");
+                    console.log(execution);
+                    console.log(this.tourExecutions.get(1)?.lastActivity);*/
+                    
                     if(execution.status === 0)
                       this.isActive = true;
                 } else {
