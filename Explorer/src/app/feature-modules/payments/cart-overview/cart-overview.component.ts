@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart-overview.service';
 import { ActivatedRoute } from '@angular/router';
-import { OrderItem } from '../model/order-item.model';
+import { OrderItem } from '../../tour-authoring/model/order-item.model';
 import { Subscription } from 'rxjs';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
-import { ShoppingCart } from '../model/shopping-cart.model';
+import { ShoppingCart } from '../../tour-authoring/model/shopping-cart.model';
 import { environment } from 'src/env/environment';
-import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { TourPurchaseToken } from '../../tour-authoring/model/tour-purchase-token.model';
 
 @Component({
   selector: 'app-cart-overview',

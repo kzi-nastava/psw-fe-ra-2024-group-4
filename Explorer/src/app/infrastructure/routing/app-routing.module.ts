@@ -27,7 +27,7 @@ import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
 import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/problem-ticket/problem-ticket.component';
 import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
-import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { CartOverviewComponent } from 'src/app/feature-modules/payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
