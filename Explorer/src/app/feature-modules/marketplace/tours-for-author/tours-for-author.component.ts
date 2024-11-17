@@ -110,24 +110,9 @@ export class ToursForAuthorComponent implements OnInit {
     
 
   viewTourDetails(tour: Tour){
-
    
-  
-    
-      this.selectedTour = tour;
-     
-      if(this.shouldViewTour == true)
-        this.shouldViewTour = false;
-    
-      setTimeout(() => {
-        this.getTourKeyPoints();
-         this.shouldViewTour = true;
-      }, 200);
+    this.router.navigate(['/tour-details', tour.id]);
 
-
-
-   
-   
   }
 
   getTourKeyPoints() : void {

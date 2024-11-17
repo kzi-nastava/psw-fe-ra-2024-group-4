@@ -7,11 +7,13 @@
 
 <div *ngIf="showFixedCircle" class="chat-container">
   <a (click)="toggleChat()" class="fixed-circle">
+    ? <!-- White question mark inside the circle -->
   </a>
 
   <div *ngIf="isChatOpen" class="chat-box">
-    <p>Hi! How can I help you?</p>
+    <p>{{chatMessage}}</p>
   </div>
 </div>
+
 
 <router-outlet></router-outlet>

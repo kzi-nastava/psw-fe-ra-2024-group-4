@@ -58,6 +58,7 @@ export class MapComponent {
    private map: any;
    private currentMarker: L.Marker | null = null; 
    private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
+   
 
 
    private redIcon = L.icon({
@@ -157,6 +158,8 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
+
+    
 
     if(this.registeringObject && !this.shouldEditKp)
       { 
