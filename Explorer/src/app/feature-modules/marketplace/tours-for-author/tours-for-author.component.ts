@@ -77,6 +77,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
+        console.log(this.tours)
         console.log(this.tours);
         console.log(this.tours[0].keyPoints[0].tourId);
        
@@ -109,24 +110,9 @@ export class ToursForAuthorComponent implements OnInit {
     
 
   viewTourDetails(tour: Tour){
-
    
-  
-    
-      this.selectedTour = tour;
-     
-      if(this.shouldViewTour == true)
-        this.shouldViewTour = false;
-    
-      setTimeout(() => {
-        this.getTourKeyPoints();
-         this.shouldViewTour = true;
-      }, 200);
+    this.router.navigate(['/tour-details', tour.id]);
 
-
-
-   
-   
   }
 
   getTourKeyPoints() : void {

@@ -1,4 +1,4 @@
-<div class="main">
+<div [ngClass]="{'main': true, 'main-disabled': !shouldEdit}">
     <div class="form-map-container" [ngStyle]="{ top: y + 'px', left: x + 'px' }">
         <form  [formGroup] = "keypointForm" class="keypoint-form-div">
     
@@ -40,7 +40,7 @@
     
     </div>
     
-    <div class="map-container" >
+    <div class="map-container" [ngClass]="{'edit-map': !shouldEdit}">
         <xp-map   (mousedown)="onMouseDown($event)"
                   (mouseup)="onMouseUp($event)"
                   #map
