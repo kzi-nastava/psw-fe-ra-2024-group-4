@@ -6,8 +6,9 @@
 </div>
 
 <div *ngIf="showFixedCircle" class="chat-container">
-  <a (click)="toggleChat()" class="fixed-circle">
-    ? <!-- White question mark inside the circle -->
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
   </a>
 
   <div *ngIf="isChatOpen" class="chat-box">

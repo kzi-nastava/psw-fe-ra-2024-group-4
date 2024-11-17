@@ -39,8 +39,8 @@ export class AppComponent implements OnInit {
     this.authService.checkIfUserExists();
   }
 
-  toggleChat(): void {
-    this.isChatOpen = !this.isChatOpen;
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
 
     
