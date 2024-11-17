@@ -31,7 +31,6 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
-
 @NgModule({
   declarations: [
     AppComponent

@@ -16,7 +16,7 @@ export class ProblemFormComponent {
 
   user: User | null = null;
   @Output() problemAdded = new EventEmitter<void>();
-  @Input() tourId: number;
+  @Input() tourId!: number;
 
   constructor(private servis: MarketplaceService, private authService: AuthService, private route: ActivatedRoute){
     this.authService.user$.subscribe((user)=>{
@@ -24,12 +24,7 @@ export class ProblemFormComponent {
    })
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.tourId = +params['tourId']; 
-      console.log('tourId from queryParams:', this.tourId);
-  });
-  }
+  ngOnInit(): void {}
   
   problemForm=new FormGroup({
     category: new FormControl('', [Validators.required]),

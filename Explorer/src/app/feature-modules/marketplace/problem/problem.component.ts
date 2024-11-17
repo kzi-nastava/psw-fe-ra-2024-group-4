@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
 import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'xp-problem',
@@ -30,8 +31,11 @@ export class ProblemComponent implements OnInit{
   daysSinceCreation: number = 0; 
   isDeadlineInvalid: boolean = false;
 
+  tourId: number;
 
-  constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
+  constructor(private service: MarketplaceService, private authService: AuthService, private router: Router,@Inject(MAT_DIALOG_DATA) private data: {tourId: number }){
+    this.tourId = data.tourId;
+  }
 
   ngOnInit(): void {    
     this.authService.user$.subscribe((user: User) => {

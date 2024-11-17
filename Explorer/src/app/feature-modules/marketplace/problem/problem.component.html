@@ -72,5 +72,5 @@
     <div *ngIf="user.role == 'administrator'">
         <p class="note">*** Problems that are red were not solved in 5 days!</p>
     </div>
-    <xp-problem-form *ngIf="showProblemForm" (problemAdded)="onProblemAdded()"></xp-problem-form>
+    <xp-problem-form *ngIf="showProblemForm" [tourId]="tourId" (problemAdded)="onProblemAdded()"></xp-problem-form>
 </div>
