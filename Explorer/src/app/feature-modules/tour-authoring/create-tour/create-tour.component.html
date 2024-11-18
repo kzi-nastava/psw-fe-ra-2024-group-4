@@ -25,10 +25,10 @@
                     cdkAutosizeMaxRows="5" required></textarea>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Price</mat-label>
+                <mat-label>Price in $</mat-label>
                 <input matInput formControlName="price" type="text" required/>
             </mat-form-field>
-            <button color="primary" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
+            <button color="accent" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
             <p>{{error_message}}</p>
         </div>
     </form>

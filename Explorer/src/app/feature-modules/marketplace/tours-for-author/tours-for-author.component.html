@@ -113,8 +113,17 @@
                 
         </div>
     </div>
-    <div class="right-side-container">
+    
+        <div class="chat-container">
+            <a (mouseenter)="toggleChat(true)" 
+            (mouseleave)="toggleChat(false)" class="fixed-circle">
+              ? 
+            </a>
           
-    </div>
+            <div *ngIf="isChatOpen" class="chat-box">
+              <p>{{chatMessage}}</p>
+            </div>
+          </div>
+    
 </div>
 </div>
