@@ -41,6 +41,8 @@ export class CreateTourComponent  implements OnChanges {
   .map((tag, index) => ({ index, label: tag }));
   error_message = '';
   currentTags: number[] = [];
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Fill in all fields, add tags, and create a new tour.'; 
 
 
   constructor(private service: TourService, private authService: AuthService, private router: Router) {
@@ -117,5 +119,8 @@ export class CreateTourComponent  implements OnChanges {
     }
     this.tourForm.get('tags')?.setValue(this.currentTags);
 
+  }
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
 }
