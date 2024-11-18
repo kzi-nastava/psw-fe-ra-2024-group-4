@@ -1,15 +1,19 @@
 <div class="main-container">
     <div class="top-container">
-        <p>Blog Posts</p>
+        <header>
+        <h1>Blog Posts</h1>
+    </header>
     </div>
     <div class="content-container">
         <div class="left-side-container">
-            <p>Post New Blog</p>
+            <div *ngIf="user && user.role==='author'">
+            <p>Add your blog!</p>
             <div class="add-button-container">
-                <button *ngIf="user && user.role === 'author'" color="primary" (click)="onAddClicked()" mat-icon-button>
+                <button  color="primary" (click)="onAddClicked()" mat-icon-button>
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
+        </div>
             <p>Filter Blogs</p>
             <div class="filter-container">
                 <label for="statusFilter" class="filter-label">Display:</label>
@@ -28,18 +32,27 @@
                         <div class="card-header">
                             <div class="card-header-text">
                                 <div class="card-title">{{post.title}}</div>
-                                <span *ngIf="post.status===0" class="card-status">Draft Blog</span>
-                                <span *ngIf="post.status===3" class="card-status">Active Blog</span>
-                                <span *ngIf="post.status===4" class="card-status">Famous Blog</span>
-                                <span *ngIf="post.status===2" class="card-status">Closed Blog</span>
-                                <div class="card-status">Created:{{ post.createdAt | date: 'short' }}</div>
+                                
+                                <span *ngIf="post.status===0" class="blog-status">Draft Blog</span>
+                                <span *ngIf="post.status===3" class="blog-status">Active Blog</span>
+                                <span *ngIf="post.status===4" class="blog-status">Famous Blog</span>
+                                <span *ngIf="post.status===2" class="blog-status">Closed Blog</span>
                             </div>
                         </div>
         
                         <div class="card-footer">
                             <div class="card-footer-description"><markdown>{{ post.description }}</markdown></div>
+                            <div class="card-status created-date">Created at: {{ post.createdAt | date: 'short' }}</div>
                         </div>
+
                     </div>
+                    <div class="card-button-container">
+                        <button class="card-bottom-button-publish" *ngIf="post.status === 0 && post.userId === user?.id" 
+                                (click)=" $event.stopPropagation(); onPublishClicked(post.id || 0,$event);">
+                            PUBLISH
+                        </button>
+                    </div>
+
                     <button mat-icon-button [matMenuTriggerFor]="menu" (click)="onMenuButtonClick($event)" *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" class="card-more-button">
                         <mat-icon>more_vert</mat-icon>
                     </button>
@@ -63,95 +76,3 @@
               
         </div>
     </div>
-
-<!--<div id="posts" class="container">
-    <p>Blog Posts</p>
-    <div class="filter-container">
-        <label for="statusFilter" class="filter-label">Display:</label>
-        <select id="statusFilter" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)" class="filter-select">
-          <option [ngValue]="null" class="filter-option">All</option>
-          <option [ngValue]="BlogStatus.Active" class="filter-option">Active</option>
-          <option [ngValue]="BlogStatus.Famous" class="filter-option">Famous</option>
-        </select>
-    </div>
-      
-    <hr>
-    <div id="post-details">
-        <div *ngFor="let post of posts" class="post-card">
-            <mat-card class="mat-elevation-z3 primary">
-                <mat-card-header>
-                    <button *ngIf="post.status===BlogStatus.Draft" class="status-badge">Closed</button>
-                    <button *ngIf="post.status===BlogStatus.Active" class="status-badge">Active</button>
-                    <button *ngIf="post.status===BlogStatus.Famous" class="status-badge">Famous</button>
-                    <div mat-card-avatar class="img-container">
-                        
-                        <img [src]="getImage(post.imageUrl)" alt="{{ post.title }}" class="image">
-                    </div>
-                    <mat-card-title class="secondary">{{ post.title }}</mat-card-title>
-
-                </mat-card-header>
-                <mat-card-content>
-                    <markdown>{{ post.description }}</markdown>
-                </mat-card-content>
-                <div class="date-container">{{ post.createdAt | date: 'short' }}</div>
-                <mat-card-actions>
-                    <button *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" color="secondary" (click)="onEditClicked(post)" mat-icon-button>
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" color="warn" (click)="onDeletePostClicked(post.id || 0)" mat-icon-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                    <button color="accent" [routerLink]="['/aboutPost', post.id]" mat-icon-button>
-                        <mat-icon>info</mat-icon>
-                    </button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
-    </div>
-
-    <div class ="cards">
-        <a [routerLink]="['/aboutPost', post.id]" *ngFor="let post of posts" class="card">
-            <img [src]="getImage(post.imageUrl)" alt="{{ post.title }}" class="image">
-            <div class ="card-overlay">
-                <div class="card-header">
-                    <div class="card-header-text">
-                        <div class="card-title">{{post.title}}</div>
-                        <span *ngIf="post.status===0" class="card-status">Draft Blog</span>
-                        <span *ngIf="post.status===3" class="card-status">Active Blog</span>
-                        <span *ngIf="post.status===4" class="card-status">Famous Blog</span>
-                        <span *ngIf="post.status===2" class="card-status">Closed Blog</span>
-                        <div class="card-status">Date created:{{ post.createdAt | date: 'short' }}</div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <div class="card-footer-description">{{post.description}}</div>
-                </div>
-            </div>
-            <button mat-icon-button [matMenuTriggerFor]="menu" (click)="onMenuButtonClick($event)" *ngIf="user && user.role === 'author' && user.id === post.userId && post.status!==BlogStatus.Closed" class="card-more-button">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-              
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onEditClicked(post)" >Edit</button>
-                <button mat-menu-item (click)="onDeletePostClicked(post.id || 0)" >Delete</button>
-              </mat-menu>        
-        </a>
-    </div>
-
-
-
-
-    <div class="add-button-container">
-        <button *ngIf="user && user.role === 'author'" color="primary" (click)="onAddClicked()" mat-icon-button>
-            <mat-icon>add</mat-icon>
-        </button>
-    </div>
-    <div>
-        <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
-    </div>
-    <div class="overlay" *ngIf="shouldRenderForm" (click)="closeForm()" (mousedown)="mouseDownOverlay()" (mouseup)="mouseUpOverlay()">
-        <xp-post-form (mousedown)="mouseDownForm($event)" (mouseup)="mouseUpForm()" (click)="$event.stopPropagation()"  class="form" *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
-    </div>
-    <router-outlet></router-outlet>
-</div>-->

@@ -1,83 +1,20 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: var(--background-color);
+h1 {
+    text-align: center;
 }
-
 p {
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 500;
     color: var(--highlight-color);
     text-align: center;
     border-bottom: 2px solid var(--highlight-color);
     padding-bottom: 10px;
     width: fit-content;
 }
-
-#post-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.post-card mat-card {
-    width: 350px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: var(--primary-color);
-    color: var(--text-color-dark);
-    position: relative;
-}
-
-.mat-card-header .mat-card-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--highlight-color);
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-/* Datum pozicioniran u donjem desnom uglu */
-.date-container {
-    font-size: 0.8em;
-    color: var(--text-color-dark);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
-
-.img-container {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid var(--secondary-color);
-    margin: 0 auto;
-}
-
-.mat-card-content {
-    font-size: 1.1em;
-    color: var(--text-color-dark);
-    text-align: center;
-    margin-top: 10px;
-}
-
-.mat-card-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    padding-top: 10px;
-}
-
 .add-button-container {
     display: flex;
     margin-top: 20px;
     margin-bottom: 50px;
+    margin-left: 50px;
 }
 
 button {
@@ -138,27 +75,6 @@ button {
 .filter-option:hover{
     color:red;
 }
-/*ovaj status badge je template, moze da se doda -closed, -active pa da se pojedinacno izmeni izgled*/
-.status-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    border: 1px solid var(--highlight-color);
-    color: var(--highlight-color);
-    background-color: white;
-    padding: 5px 10px;
-    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
-    overflow: hidden; /* Sakriva tekst koji izlazi izvan dugmeta */
-    text-overflow: ellipsis; /* Prikazuje "..." kada tekst ne stane */
-    pointer-events: none;
-    cursor: not-allowed;
-}
-
-.status-badge:hover {
-    background-color: transparent; /* Uklanja hover efekat */
-    color: var(--highlight-color);  /* Ostavlja boju nepromenjenom pri hover-u */
-}
-
 * {
 box-sizing: border-box;
 }
@@ -182,8 +98,8 @@ box-sizing: border-box;
 .card {
     position: relative;
     display: block; 
-    width: 16vw; 
-    height: 16vw;
+    width: 18vw; 
+    height: 18vw;
     min-width: 250px; /*mozda nije lose piksele za min     width: 16vw; 
     height: 16vw;*/
     max-width: 25vw;
@@ -386,10 +302,8 @@ box-sizing: border-box;
     background-color: #fff;
 }
 .top-container {
-    flex: 0 0 10%; /* 10% visine stranice */
-    /*background-color: #e0e0e0;*/
+    flex: 0 0 5%; 
     display: flex;
-    padding-top: 1%;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -423,4 +337,38 @@ box-sizing: border-box;
     flex: 0 0 10%;
     /*background-color: #d1e7dd;*/
     display: flex;
+}
+.blog-status{
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #6A515E;
+    margin-left: 30%;
+    opacity: 95%;
+}
+.created-date {
+    text-align: right;
+    margin-right: 20%;
+    font-size: 0.9em;
+    color: #6A515E; 
+}
+.card-bottom-button-publish {
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 10px; /* Veća udaljenost od dna */
+    left: 15px; /* Veća udaljenost od leve ivice */
+    width: 80px; /* Smanjena širina dugmeta */
+    padding: 5px; /* Smanjen padding */
+    background-color: #a36484;
+    color: white; 
+    border: none; 
+    border-radius: 4px; /* Lagano zaobljeni uglovi */
+    font-size: 0.75em; /* Manji font */
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    pointer-events: auto;
+}
+
+.card-bottom-button-publish:hover {
+    background-color: #303f9f; /* Hover efekat */
 }

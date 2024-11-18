@@ -9,6 +9,8 @@ div {
     vertical-align: middle;
 }
 .markdown-preview {
+    width: 380px;
+    height: auto;
     color:black;
     margin-top: 20px; /* Razmak od textarea */
     padding: 10px;

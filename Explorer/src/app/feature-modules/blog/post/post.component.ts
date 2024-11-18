@@ -7,11 +7,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { CommentService } from '../comment.service';
 import { environment } from 'src/env/environment';
 import { BlogStatus } from '../model/post.model';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgControl } from '@angular/forms';
-import { getMatFormFieldPlaceholderConflictError } from '@angular/material/form-field';
-import { MatMenuModule } from '@angular/material/menu';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-post',
@@ -74,14 +70,33 @@ export class PostComponent implements OnInit{
   onAddClicked():void{
     this.shouldEdit=false;
     this.shouldRenderForm=true;
-    console.log('kliknuto');
   }
-  onDeletePostClicked(id: number):void{
-    this.service.deletePost(id).subscribe({
-      next:()=>{
-        this.getPosts();
+  onDeletePostClicked(id: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you really want to delete this post? This action cannot be undone.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.deletePost(id).subscribe({
+          next: () => {
+            Swal.fire(
+              'Deleted!',
+              'Your post has been deleted.',
+              'success'
+            );
+            this.getPosts();
+          },
+          error: (err: any) => {
+            console.error(err);
+          }
+        });
       }
-    })
+    });
   }
   onCommentClicked(postId: number): void {
     this.selectedPostId = postId;  
@@ -90,7 +105,15 @@ export class PostComponent implements OnInit{
   getImage(imageUrl: string | undefined): string {
     return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png'; // Provide a fallback image or empty string
   }
-
+  onPublishClicked(postId: number,event: MouseEvent){
+    event.preventDefault(); 
+    event.stopPropagation(); 
+    this.service.publishPost(postId).subscribe({
+      next:()=>{
+        this.getPosts();
+      }
+    })
+  }
   //filtriranje blogova
 
   getFilteredBlogs() {
