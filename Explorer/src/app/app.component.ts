@@ -52,7 +52,11 @@ export class AppComponent implements OnInit {
 
     if (currentRoute.startsWith('/tour-details')) {
       this.chatMessage = 'Welcome! Explore our map and click to create new key points!';
-    }else {
+    }
+    else if(currentRoute.startsWith('/author-tours')) {
+      this.chatMessage = '"Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination."';
+    }
+    else {
       this.chatMessage = 'Hi! How can I help you?';  // Default message for other routes
     }
   }
