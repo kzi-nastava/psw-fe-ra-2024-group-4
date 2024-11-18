@@ -70,17 +70,21 @@ export class InfoComponent implements OnInit {
 
   updateProfile(): void {
     if(this.user?.role === 'tourist') {
+      
       if (!this.editPerson.imageBase64) {
         this.editPerson.imageBase64 = this.infoPerson.imageBase64; 
       }
+      console.log('Updating with:', this.editPerson);
       this.profileService.updateTouristInfo(this.editPerson).subscribe({
         next: (response) => {
           console.log('Profile updated successfully', response); 
           alert('Profile updated successfully!');
+      
           if (this.editPerson.imageBase64) {
             this.infoPerson.imageUrl = this.editPerson.imageBase64;
           }
           this.infoPerson = { ...this.editPerson };
+        
           this.editMode = false;
         },
         error: (err) => {
@@ -99,6 +103,7 @@ export class InfoComponent implements OnInit {
           if (this.editPerson.imageBase64) {
             this.infoPerson.imageUrl = this.editPerson.imageBase64;
           }
+          
           this.infoPerson = { ...this.editPerson };   
           this.editMode = false;
         },
