@@ -31,6 +31,7 @@ import { CartOverviewComponent } from 'src/app/feature-modules/payments/cart-ove
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
+import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
 
 
 
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   {path: 'mykeypoints', component: MykeypointsComponent},
   {path: 'author-tours', component: ToursForAuthorComponent},
+  {path: 'tour-details/:id', component: TourDetailsNewComponent},
   {path: 'create-tour', component: CreateTourComponent},
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
   {path: 'object-view', component: ObjectViewComponent},

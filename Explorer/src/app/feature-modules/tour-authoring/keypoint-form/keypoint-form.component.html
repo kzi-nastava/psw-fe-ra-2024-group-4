@@ -1,4 +1,4 @@
-<div class="main">
+<div [ngClass]="{'main': true, 'main-disabled': !shouldEdit}">
     <div class="form-map-container" [ngStyle]="{ top: y + 'px', left: x + 'px' }">
         <form  [formGroup] = "keypointForm" class="keypoint-form-div">
     
@@ -32,15 +32,15 @@
                     <mat-label>Upload Image</mat-label>
                 
                 
-                <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
-                <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
+                <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="accent" (click)="createKeyPoint()">Create Keypoint</button>
+                <button mat-raised-button *ngIf="shouldEdit" type="submit" color="accent" (click) = "updateKeyPoint()">Update Keypoint</button>
             </div>
         
         </form>
     
     </div>
     
-    <div class="map-container" >
+    <div class="map-container" [ngClass]="{'edit-map': !shouldEdit}">
         <xp-map   (mousedown)="onMouseDown($event)"
                   (mouseup)="onMouseUp($event)"
                   #map
