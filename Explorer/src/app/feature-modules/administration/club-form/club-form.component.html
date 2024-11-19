@@ -7,7 +7,7 @@
         <div *ngIf="nameInvalid" class="error-message">
             Name is required and cannot contain numbers.
         </div>
-        
+
         <mat-form-field>
             <mat-label>Description</mat-label>
             <textarea matInput
@@ -19,10 +19,24 @@
         <div *ngIf="descriptionInvalid" class="error-message">
             Description is required and cannot contain numbers.
         </div>
-            <mat-label>Image</mat-label>
-            <input
-            type="file"
-            (change)="onFileSelected($event)"/>
+
+        <mat-label>Image</mat-label>
+        <input type="file" (change)="onFileSelected($event)" />
+
+        <div class="tags-container" *ngIf="!shouldEdit">
+            <header><h3>Select Tags</h3></header>
+            <mat-selection-list>
+              <div *ngFor="let tag of clubTags; let index = index">
+                <mat-checkbox 
+                  (change)="onTagChange($event, index)"
+                  [checked]="clubForm.get('tags')?.value?.includes(index)">
+                  {{ tag.label }}
+                </mat-checkbox>
+              </div>
+            </mat-selection-list>
+          </div>
+          
+
         <button mat-raised-button type="submit" color="primary">
             {{ shouldEdit ? 'Update' : 'Done' }}
         </button>

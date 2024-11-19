@@ -14,6 +14,11 @@ import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 @NgModule({
@@ -35,7 +40,11 @@ import { NotificationsComponent } from './notifications/notifications.component'
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    MatCheckboxModule,       
+    MatListModule,   
+    MatFormFieldModule,      
+    MatInputModule  
   ],
   exports: [
     EquipmentComponent,
