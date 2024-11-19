@@ -27,13 +27,14 @@ import { TourPreferencesComponent } from 'src/app/feature-modules/tour-authoring
 import { TourPreferencesFormComponent } from 'src/app/feature-modules/tour-authoring/tour-preferences-form/tour-preferences-form.component';
 import { ProblemTicketComponent } from 'src/app/feature-modules/marketplace/problem-ticket/problem-ticket.component';
 import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
-import { CartOverviewComponent } from 'src/app/feature-modules/tour-authoring/cart-overview/cart-overview.component';
+import { CartOverviewComponent } from 'src/app/feature-modules/payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/marketplace/tour-review-form/tour-review-form.component';
 
 
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
+import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
 
 
 
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   {path: 'mykeypoints', component: MykeypointsComponent},
   {path: 'author-tours', component: ToursForAuthorComponent},
+  {path: 'tour-details/:id', component: TourDetailsNewComponent},
   {path: 'create-tour', component: CreateTourComponent},
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
   {path: 'object-view', component: ObjectViewComponent},
@@ -64,7 +66,7 @@ const routes: Routes = [
   {path: 'problem-ticket', component: ProblemTicketComponent},
   {path: 'tour-preferences', component: TourPreferencesComponent },
   {path: 'tour-preferences-form', component: TourPreferencesFormComponent},
-  {path:'notifications',component:NotificationsComponent},
+  {path: 'notifications',component:NotificationsComponent},
   {path: 'position-simulator', component: PositionSimulatorComponent},
   {path: 'tour-overview', component: TourOverviewComponent},
   {path: 'public-status-request', component: PublicStatusRequestComponent},
