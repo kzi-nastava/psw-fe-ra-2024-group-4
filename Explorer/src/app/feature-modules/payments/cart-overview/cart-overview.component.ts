@@ -10,6 +10,10 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../../tour-authoring/model/shopping-cart.model';
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from '../../tour-authoring/model/tour-purchase-token.model';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
+import { TourTags } from '../../tour-authoring/model/tour.tags.model';
+
 
 @Component({
   selector: 'app-cart-overview',
@@ -27,10 +31,12 @@ export class CartOverviewComponent implements OnInit {
   purchaseToken: TourPurchaseToken;
   private userSubscription: Subscription | null = null;
   
+  
   constructor(private cartService: CartService,
      private route: ActivatedRoute,
      private personInfoService: PersonInfoService,
-     private authService: AuthService ) {} 
+     private authService: AuthService,
+     private purchaseService: PurchaseService) {} 
 
   ngOnInit(): void {
    
@@ -63,20 +69,64 @@ export class CartOverviewComponent implements OnInit {
     });
   }
 
-  loadCartItems(): void {
-   /* this.cartItems = this.cartService.getCartItems(); 
-    this.calculateTotalPrice(); */
+  // loadCartItems(): void {
     
+  //   this.cartService.getCartItems(this.cartId || -1).subscribe({
+  //     next: (result: OrderItem[]) => {
+  //       this.cartItems = result;
+  //       this.currentCart.items = result;
+
+  //       this.cartItems.forEach((item, index) => {
+  //         this.tourService.getByIdTour(item.tourId).subscribe({
+  //           next: (tour: Tour) => {
+              
+  //             this.cartItems[index].tourDetails = tour;
+  //           },
+  //           error: (err) => {
+  //             console.error(`Greška pri dohvaćanju ture za stavku sa ID ${item.tourId}:`, err);
+  //           }
+  //         });
+  //       });
+
+  //       this.calculateTotalPrice();
+  //     },
+  //   error: (err) => { alert("error loading items");} });
+      
+    
+  // }
+  loadCartItems(): void {
     this.cartService.getCartItems(this.cartId || -1).subscribe({
       next: (result: OrderItem[]) => {
         this.cartItems = result;
         this.currentCart.items = result;
-        this.calculateTotalPrice();
+  
+        // Kreiraj niz Promisa za dohvat tura
+        const tourRequests = this.cartItems.map((item) =>
+          this.purchaseService.getTour(item.tourId).toPromise().then(
+            (tour: Tour | undefined) => {
+              if (tour) {
+                item.tourDetails = tour;
+              } else {
+                console.warn(`Tura sa ID ${item.tourId} nije pronađena.`);
+              }
+            },
+            (err) => {
+              console.error(`Greška pri dohvaćanju ture za stavku sa ID ${item.tourId}:`, err);
+            }
+          )
+        );
+  
+        // Sačekaj sve Promise-e pre nego što preračunaš ukupnu cenu
+        Promise.all(tourRequests).then(() => {
+          this.calculateTotalPrice();
+        });
       },
-    error: (err) => { alert("error loading items");} });
-      
-    
+      error: (err) => {
+        alert("Greška prilikom učitavanja stavki iz korpe.");
+      },
+    });
   }
+  
 
   calculateTotalPrice(): void {
    /* this.totalPrice = this.cartItems.reduce((total, item) => {
@@ -203,4 +253,9 @@ export class CartOverviewComponent implements OnInit {
       reader.readAsDataURL(blob);
     });
   }
+  getTagName(tagId: number): string {
+    return TourTags[tagId];
+  }
+
+  
 }
