@@ -13,6 +13,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 1rem; /* Razmak između elemenata */
+    width: 50%;
   }
   
   .image-preview {

@@ -96,9 +96,9 @@ export class TourReviewFormComponent implements OnInit {
 
     this.tourEService.getTourExecutionByTourAndTourist(this.user?.id, this.tourId).subscribe({
       next: (result) => { 
-        if (result.completedKeys?.length !== undefined && result.lastActivicy !== undefined) {
+        if (result.completedKeys?.length !== undefined && result.lastActivity !== undefined) {
           this.percentagePassed = (result.completedKeys.length / this.numberOfKP)*100;
-          this.lastActivity = result.lastActivicy;
+          this.lastActivity = result.lastActivity;
         } else {
           this.percentagePassed = 0;
           
