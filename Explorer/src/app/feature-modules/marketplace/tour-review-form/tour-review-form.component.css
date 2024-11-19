@@ -1,28 +1,101 @@
-div {
-    width: 400px;
-    display:flex;
-    gap: 20px;
-    flex-direction: column;
-}
+
 
 .mat-icon {
     vertical-align: middle;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Razmak između elemenata */
-    width: 50%;
+.form-style {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-form-field {
+  width: 100%; 
+}
+
+.existing-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+
+
+.submit-button {
+  padding: 10px 30px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(270deg, #00dbde, #fc00ff, #00dbde);
+  background-size: 200% 100%;
+  background-position: left center;
+  transition: background-position 0.6s ease;
+}
+
+.submit-button:hover {
+  animation: slideLeftToRight 0.6s forwards;
+}
+
+@keyframes slideLeftToRight {
+  0% {
+      background-position: left center;
   }
-  
-  .image-preview {
-    margin-top: 15px;
-    text-align: center;
+  100% {
+      background-position: right center;
   }
-  
-  .image-preview img {
-    max-width: 100%;
-    max-height: 200px;
-    border-radius: 8px;
-  }
+}
+
+.image-preview img {
+  max-width: 100px;
+  max-height: 100px; 
+  border-radius: 8px;
+}
+
+.review-image-container {
+  flex-shrink: 0;
+}
+
+.review-image {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.header-section {
+  text-align: center; 
+  border: 1px solid #ddd;
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 20px; 
+  background-color: #f9f9f9; 
+}
+
+
+.delete-button {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(270deg, #ff4b5c, #ff4b5c); 
+  transition: background-position 0.6s ease;
+}
+
+.delete-button:hover {
+  opacity: 0.8; 
+}
+

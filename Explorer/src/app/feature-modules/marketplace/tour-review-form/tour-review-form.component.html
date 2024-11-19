@@ -1,14 +1,32 @@
-<div *ngIf="existingReview; else emptyForm">
+<div *ngIf="existingReview; else emptyForm" class="header-section">
   <h2>Your Review for This Tour</h2>
-  <button mat-raised-button color="warn" (click)="deleteReview()">Delete</button>
 </div>
 
 <ng-template #emptyForm>
-  <h1>Leave a Review for This Tour</h1>
-  <p>To leave a review, your last activity must have been within the last 7 days, and you need to have completed more than 35% of the tour.</p>
+  <div class="header-section">
+    <h1>Leave a Review for This Tour</h1>
+    <p>To leave a review, your last activity must have been within the last 7 days, and you need to have completed more than 35% of the tour.</p>
+  </div>
 </ng-template>
 
-<form [formGroup]="reviewForm" (ngSubmit)="saveReview()">
+<div *ngIf="existingReview && !editMode" class="header-section">
+  <h2>Your Review for This Tour</h2>
+  <p><strong>Rating:</strong> {{ existingReview.rating }}</p>
+  <p><strong>Comment:</strong> {{ existingReview.comment }}</p>
+
+  <div class="review-image-container"> 
+    <img *ngIf="existingReview.image" class="review-image" [src]="getImage(existingReview.image)" alt="Review Image" />
+  </div>
+  
+  <button mat-icon-button (click)="editReview()">
+    <mat-icon>edit</mat-icon> 
+  </button>
+  <button mat-raised-button color="warn" class="delete-button" (click)="deleteReview()">Delete</button>
+</div>
+
+
+
+<form *ngIf="!existingReview || editMode" [formGroup]="reviewForm" (ngSubmit)="saveReview()" class="form-style">
   <mat-form-field appearance="outline">
     <mat-label>Rating (1-5)</mat-label>
     <input matInput type="number" formControlName="rating" min="1" max="5" />
@@ -28,16 +46,16 @@
     </mat-error>
   </mat-form-field>
 
-  <div>
-    <mat-label>Upload Image</mat-label>
+  <div>    
     <input type="file" (change)="onFileSelected($event)" />
+    <mat-label>Upload Image</mat-label>
   </div>
 
   <mat-card *ngIf="imagePreview" class="image-preview">
     <img [src]="imagePreview" alt="Image Preview"/>
   </mat-card>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">
+  <button mat-raised-button color="primary" type="submit" class="submit-button" click="saveReview()" [disabled]="reviewForm.invalid">
     {{ existingReview ? 'Update Review' : 'Save Review' }}
   </button>
 </form>

@@ -4,6 +4,7 @@ import { MarketplaceService } from '../marketplace.service';
 import { TourReview } from '../model/tour-reviews.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { environment } from 'src/env/environment';
 
 
 import { NgModule } from '@angular/core';
@@ -18,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
+import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 
 @Component({
   selector: 'xp-tour-review-form',
@@ -34,12 +36,15 @@ export class TourReviewFormComponent implements OnInit {
   numberOfKP: number = 0;
   percentagePassed: number = 0;
   lastActivity: Date = new Date();
+  imageBase64: string;
+  editMode: boolean = false;
 
   constructor(private fb: FormBuilder, private service: MarketplaceService, private route: ActivatedRoute, private authService: AuthService, private tourEService: TourExecutionService, private router: Router) {
     this.reviewForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required],
-      image: [null]
+      image: new FormControl(''),
+      imageBase64: new FormControl(''),
     });
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
     this.authService.user$.subscribe((user) => {
@@ -53,32 +58,44 @@ export class TourReviewFormComponent implements OnInit {
     this.checkConditions();
   }
 
-  loadExistingReview() {   
+  getImage(image: string)
+  {
+    return environment.webroot + image;
+  }
+
+  loadExistingReview() {  
     if(this.user === null){
       console.log('You must be logged in.')
       return;
     }
     this.service.getTourReview(this.user.id, this.tourId).subscribe(review => {
+      console.log(review)
       if (review) {
         this.existingReview = review;
+        console.log(this.existingReview.id)
         this.reviewForm.patchValue({
           rating: review.rating,
           comment: review.comment,
-          image: review.images
+          image: review.image
         });
       }
     });
   }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  editReview() {
+    this.editMode = true;
+  }
+
+  onFileSelected(event: any): void {
+    const file:File = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.imageBase64 = reader.result as string;
+            this.reviewForm.patchValue({
+              imageBase64: this.imageBase64
+            });
+        };
+        reader.readAsDataURL(file); 
   }
 
   checkConditions(){
@@ -87,34 +104,38 @@ export class TourReviewFormComponent implements OnInit {
       return;
     }
     
-    this.service.getTourById(this.tourId, "tourist").subscribe({
+    this.service.getTourWithKp(this.tourId).subscribe({
       next: (result) => { 
+        console.log(result)
         this.numberOfKP = result.keyPoints.length;
+        if (this.user === null){
+          console.log('You must be logged in.')
+          return;
+        }
+        this.tourEService.getTourExecutionByTourAndTourist(this.user?.id, this.tourId).subscribe({
+          next: (result) => { 
+            if (result.completedKeys?.length !== undefined && result.lastActivity !== undefined) {
+              this.percentagePassed = (result.completedKeys.length / this.numberOfKP)*100;
+              this.lastActivity = result.lastActivity;
+              
+            } else {
+              this.percentagePassed = 0;
+              console.log("Completed key points or last activity undefined.")
+              
+            }  
+            const today = new Date();
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(today.getDate() - 7);
+            const lastActivityDate = new Date(this.lastActivity);
 
+            if(this.percentagePassed < 35 || lastActivityDate< sevenDaysAgo){
+              this.showAlertAndRedirect()
+            }
+            
+           }
+        });
        }
     });
-
-    this.tourEService.getTourExecutionByTourAndTourist(this.user?.id, this.tourId).subscribe({
-      next: (result) => { 
-        if (result.completedKeys?.length !== undefined && result.lastActivity !== undefined) {
-          this.percentagePassed = (result.completedKeys.length / this.numberOfKP)*100;
-          this.lastActivity = result.lastActivity;
-        } else {
-          this.percentagePassed = 0;
-          
-        }  
-        
-       }
-    });
-
-    const today = new Date();
-    const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 7);
-
-    if(this.percentagePassed < 35 || this.lastActivity < sevenDaysAgo){
-      this.showAlertAndRedirect()
-    }
-
   }
 
   saveReview() {
@@ -134,26 +155,51 @@ export class TourReviewFormComponent implements OnInit {
       comment: this.reviewForm.value.comment,
       dateTour: this.lastActivity,
       dateComment: new Date(),
-      images: this.reviewForm.value.image,
-      percentagePassed: this.percentagePassed
+      image: this.reviewForm.value.image,
+      imageBase64: this.reviewForm.value.imageBase64 || "",
+      percentageCompleted: this.percentagePassed
     }
 
     if (this.existingReview) {
+      tourReview.id = this.existingReview.id;
       this.service.updateTourReview(tourReview).subscribe(() => {
         this.loadExistingReview();
+        this.editMode = false;
       });
     } else {
-      this.service.addTourReview(tourReview).subscribe(() => {
+      this.service.addTourReview(tourReview).subscribe(() => {        
         this.loadExistingReview();
+        this.editMode = false;
       });
     }
   }
+
+  showSuccessAlert() {
+    Swal.fire({
+      title: 'Success!',
+      text: 'Tour review successfuly saved.',
+      icon: 'success',
+      confirmButtonText: 'Okay'
+    });
+  }
+
+  showDeleteAlert() {
+    Swal.fire({
+      title: 'Success!',
+      text: 'Tour review successfuly deleted.',
+      icon: 'success',
+      confirmButtonText: 'Okay'
+    });
+  }
+
+
 
   deleteReview() {
     if (this.existingReview) {
       this.service.deleteTourReview(this.existingReview).subscribe(() => {
         this.existingReview = null;
         this.reviewForm.reset();
+        this.showDeleteAlert();
       });
     }
   }

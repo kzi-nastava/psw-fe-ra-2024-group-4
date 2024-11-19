@@ -6,6 +6,7 @@ export interface TourReview{
     comment: string,
     dateTour: Date,
     dateComment: Date,
-    images: string,
-    percentagePassed: number
+    image: string,    
+    imageBase64?: string;
+    percentageCompleted: number
 }
