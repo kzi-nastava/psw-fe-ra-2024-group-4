@@ -68,7 +68,9 @@
                 <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
             </div>-->
             <div class="overlay" *ngIf="shouldRenderForm" (click)="closeForm()" (mousedown)="mouseDownOverlay()" (mouseup)="mouseUpOverlay()">
-                <xp-post-form (mousedown)="mouseDownForm($event)" (mouseup)="mouseUpForm()" (click)="$event.stopPropagation()"  class="form" *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
+                <xp-post-form (mousedown)="mouseDownForm($event)" (mouseup)="mouseUpForm()" (click)="$event.stopPropagation()"  class="form" *ngIf="shouldRenderForm" 
+                [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"
+                ></xp-post-form>
             </div>
             <router-outlet></router-outlet>
         </div>

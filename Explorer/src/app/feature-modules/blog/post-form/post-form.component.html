@@ -1,35 +1,91 @@
-<form [formGroup]="postForm" (ngSubmit)="shouldEdit ? updatePost() : addPost()">
-    <div>
-      <mat-form-field>
+
+<div class="post-form-container">
+  <!-- Leva sekcija -->
+  <div class="post-left-section">
+    <div class="image-wrapper">
+      <!-- Prikaz slike u režimu uređivanja -->
+      <div *ngIf="shouldEdit; else imageSelector">
+        <div class="image-preview">
+          <img [src]="imageBase64 || getImage(post?.imageUrl)" alt="Post Image" />
+          <label class="change-image-btn">
+            <input type="file" (change)="onFileSelected($event)" hidden />
+            <span class="upload-btn">Change Image</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Prikaz slike u režimu dodavanja -->
+      <ng-template #imageSelector>
+        <div class="image-preview" *ngIf="imageBase64; else uploadPrompt">
+          <img [src]="imageBase64" alt="Preview Image" />
+          <button class="remove-image-btn" (click)="removeImage()">Remove Image</button>
+        </div>
+        <ng-template #uploadPrompt>
+          <div class="upload-placeholder">
+            <p>No image selected yet.</p>
+            <label>
+              <input type="file" (change)="onFileSelected($event)" hidden />
+              <span class="upload-btn">Upload Image</span>
+            </label>
+          </div>
+        </ng-template>
+      </ng-template>
+    </div>    
+    <div class="post-description">
+      <h2>{{ shouldEdit ? 'Edit Your Post' : 'Create Your Post' }}</h2>
+      <p>
+        Share your ideas with the world! {{ shouldEdit ? 'Make changes to your post.' : 'Add a title, description, and enhance it with Markdown styling.' }}
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Desna sekcija -->
+  <div class="post-right-section">
+    <form [formGroup]="postForm" (ngSubmit)="shouldEdit ? updatePost() : addPost()">
+      <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input matInput formControlName="title" type="text" />
+        <input matInput formControlName="title" placeholder="Enter a title for your post" />
       </mat-form-field>
       <div *ngIf="titleInvalid" class="error-message">
         Title is required.
       </div>
-      <mat-form-field>
+
+      <div class="markdown-toolbar">
+        <button type="button" class="icon-button" title="Italic" (click)="applyStyle('italic')" aria-label="Italic">
+          <mat-icon>format_italic</mat-icon>
+        </button>
+        <button type="button" class="icon-button" title="Bold" (click)="applyStyle('bold')" aria-label="Bold">
+          <mat-icon>format_bold</mat-icon>
+        </button>
+        <button type="button" class="icon-button" title="Underline" (click)="applyStyle('underline')" aria-label="Underline">
+          <mat-icon>format_underlined</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
-        <textarea matInput
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="3"
-                  formControlName="description"
-                  cdkAutosizeMaxRows="5"
-                  (input)="updatePreview()"></textarea>
+        <textarea
+          matInput
+          formControlName="description"
+          placeholder="Write a description for your post"
+          (input)="updatePreview()"
+        ></textarea>
       </mat-form-field>
       <div *ngIf="descriptionInvalid" class="error-message">
         Description is required.
       </div>
+
+      <!-- Markdown Preview -->
+      <h3 class="preview-title">Description preview</h3>
       <div class="markdown-preview">
         <markdown [data]="postForm.get('description')?.value"></markdown>
-    </div>
-    <input
-    type="file"
-    (change)="onFileSelected($event)"/>
-  <mat-label>Upload Image</mat-label>
-      <button mat-raised-button type="submit" color="primary">
-        {{ shouldEdit ? 'Update' : 'Done' }}
+      </div>
+
+      <!-- Dugme za slanje -->
+      <button  type="submit" class="submit-btn">
+        {{ shouldEdit ? 'Update Post' : 'Create Post' }}
       </button>
-    </div>
-  
-  </form>
-  
+    </form>
+  </div>
+</div>
