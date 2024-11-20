@@ -31,6 +31,11 @@ export class CartOverviewComponent implements OnInit {
   purchaseToken: TourPurchaseToken;
   private userSubscription: Subscription | null = null;
   
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to your shopping cart! You can remove any items you no longer want by clicking the trash icon next to them.Once you are ready, click Checkout to complete your purchase.';  
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
   
   constructor(private cartService: CartService,
      private route: ActivatedRoute,

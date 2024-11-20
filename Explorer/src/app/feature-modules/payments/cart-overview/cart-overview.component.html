@@ -12,7 +12,7 @@
         <mat-card-content class="cart-item-content">
        
             <!-- Slika koja pokriva celu karticu -->
-            <img src="https://live.staticflickr.com/4028/4657831272_425d20fea7_b.jpg" class="card-image">
+            <img [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
           
           
           <!-- Informacije o turi -->
@@ -35,13 +35,11 @@
               </ng-template>
             </div>
 
-            <!-- Dugme za uklanjanje -->
             <button mat-icon-button class="action-button" (click)="removeCartItem(item)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
 
-          <!-- Cena -->
           <div class="price-container">
             <p><strong>{{ item.price }} $</strong></p>
           </div>
@@ -55,7 +53,19 @@
     <div class="footer-content">
       <span class="total-price">Total: {{ totalPrice }} $</span>
       <div class="divider"></div> 
-      <button mat-raised-button class="checkout" color="primary" (click)="checkout()">Checkout</button>
+      <button mat-raised-button class="checkout" color="accent" (click)="checkout()">Checkout</button>
     </div>
+  </div>
+</div>
+
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
   </div>
 </div>
