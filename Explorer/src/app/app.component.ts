@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'Explorer';
   showFixedCircle: boolean = true;
   isChatOpen: boolean = false; 
+  
 
   constructor(
     private authService: AuthService,private router: Router
