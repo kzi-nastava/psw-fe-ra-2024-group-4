@@ -33,6 +33,10 @@ import { environment } from "src/env/environment";
     getTour(id: Number): Observable<Tour> {
       return this.http.get<Tour>('https://localhost:44333/api/author/tour/' + id);
     }
+    getByIdTour(id: Number): Observable<Tour> {
+      return this.http.get<Tour>(`https://localhost:44333/api/author/tour/getByTourId/${id}`);
+
+    }
 
     addTourEquipment(equipmentId: number, tour: Tour): Observable<Tour> { 
       return this.http.post<Tour>('https://localhost:44333/api/author/tour/' + tour.id + '/equipment/' + equipmentId, tour);
