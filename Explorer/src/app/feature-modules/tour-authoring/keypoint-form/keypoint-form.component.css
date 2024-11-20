@@ -34,3 +34,17 @@
     margin-right: 10%;
     margin-bottom: 10%;
 }
+
+::ng-deep .edit-map #map {
+    width: 100%;
+    height: 89vh !important;
+  }
+  
+
+.main-disabled {
+    background-color: red;
+    width: 165vh;
+    margin-right: 9vh;
+    margin-bottom: 10%;
+    margin-top: 27vh;
+}

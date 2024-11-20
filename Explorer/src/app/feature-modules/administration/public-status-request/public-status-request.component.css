@@ -1,11 +1,10 @@
 .tables-container {
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     gap: 4%; 
     margin-top: 2vh; 
 }
-
 
 table {
     border-collapse: collapse;
@@ -42,3 +41,10 @@ tbody tr.active-row {
     font-weight: bold;
     color: #3f51b5;
 }
+
+.comment-field {
+    margin-top: 20px;
+    padding: 20px;border-radius: 8px;  /* Round the corners */
+    width: 80%;  /* Adjust width as needed */
+  }
+

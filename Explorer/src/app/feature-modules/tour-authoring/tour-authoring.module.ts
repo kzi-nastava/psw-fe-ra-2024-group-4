@@ -35,8 +35,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
 import { TourSearchComponent } from './tour-search/tour-search.component';
 import { MatBadgeModule } from '@angular/material/badge';
-import { CartOverviewComponent } from './cart-overview/cart-overview.component';
+import { CartOverviewComponent } from '../payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
+import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
 
 
 
@@ -60,7 +61,8 @@ import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/p
     TourOverviewDetailsComponent,
     TourSearchComponent,
     CartOverviewComponent,
-    PurchaseTokenComponent
+    PurchaseTokenComponent,
+    TourDetailsNewComponent
   ],
   imports: [
     // Import necessary modules
