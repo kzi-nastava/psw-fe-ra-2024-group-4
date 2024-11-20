@@ -1,9 +1,25 @@
+body {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    margin: 0; 
+}
+
+.tags-container {
+    max-height: 200px; 
+    overflow-y: auto; 
+
+}
 div {
     width: 400px;
-    display:flex;
+    display: flex;
     gap: 20px;
     flex-direction: column;
+    margin: 0 auto; 
 }
+
+
 
 .mat-icon {
     vertical-align: middle;
