@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './infrastructure/auth/auth.service';
 import 'leaflet-routing-machine'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,10 +11,16 @@ export class AppComponent implements OnInit {
   title = 'Explorer';
   showFixedCircle: boolean = true;
   isChatOpen: boolean = false; 
+  chatMessage: string = 'Hi! How can I help you?'; 
 
   constructor(
-    private authService: AuthService,private router: Router
-  ) {}
+    private authService: AuthService,private router: Router, private route: ActivatedRoute
+  ) {
+    // Listen to route changes to update the message
+    this.route.url.subscribe(() => {
+      
+    });
+  }
 
 
   ngOnInit(): void {
@@ -33,8 +39,16 @@ export class AppComponent implements OnInit {
     this.authService.checkIfUserExists();
   }
 
-  toggleChat(): void {
-    this.isChatOpen = !this.isChatOpen;
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
+
+    
+
+  
+  
+
+  
+
 
 }

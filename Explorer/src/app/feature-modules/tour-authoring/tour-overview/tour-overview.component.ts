@@ -7,7 +7,7 @@ import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-over
 import { MapService } from 'src/app/shared/map/map.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import { CartService } from '../cart-overview.service';
+import { CartService } from '../../payments/cart-overview.service';
 import { OrderItem } from '../model/order-item.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
