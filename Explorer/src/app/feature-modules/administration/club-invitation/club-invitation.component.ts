@@ -5,6 +5,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AdministrationService } from '../administration.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-club-invitation',
@@ -110,6 +111,10 @@ export class ClubInvitationComponent {
       
         // Učitaj listu pozivnica
         this.fetchInvitations();
+      }
+
+      getImage(profilePicture: string): string {
+        return  environment.webroot + profilePicture ;
       }
 
       getMemberName(memberId: number): string {

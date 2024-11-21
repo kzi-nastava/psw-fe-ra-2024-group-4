@@ -5,7 +5,7 @@
           <div class="club-logo">
             <!-- <p class="curved-text">{{ club.name }}</p> -->
             <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-              <path id="curve" d="M 50,90 A 60,60 0 0,1 150,90" fill="transparent" />
+              <path id="curve" d="M 50,70 A 100,100 0 0,1 220,80" fill="transparent" />
               <text fill="#333" font-size="40" font-weight="bold" text-transform="uppercase">
                 <textPath href="#curve" startOffset="50%" text-anchor="middle">
                   {{ club.name }}
@@ -13,6 +13,7 @@
               </text>
             </svg>
             <img [src]="getImage(club.image)" class="club-image"/>
+            <p class="club-description"><i>{{club.description}}</i></p>
           </div>
           </div>
 

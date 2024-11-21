@@ -1,226 +1,7 @@
-/*  {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; 
-  
-
-.lists-container {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start; 
-    margin: 0; 
-}
-
-.invite-list, .processing-list {
-    flex: 1; 
-    max-width: 50%;
-    margin: 0; 
-}
-
-h2.heading {
-    text-align: center;
-    margin: 0;
-    padding: 10px 0;
-}
-
-  .member-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px; 
-  }
-  
-  .member-card {
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    margin-left: 100px;
-  }
-  
-  .member-info {
-    display: flex; 
-    flex-direction: column;
-  }
-  
-  .username {
-    font-size: 1.2em;
-    font-style: italic;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .full-name {
-    font-size: 0.9em;
-    color: #666;
-  }
-  
-  .btn-invite {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-invite:hover {
-    background-color: #0056b3;
-  }
-  
-  .no-members {
-    font-size: 1.1em;
-    color: #888;
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .heading {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .description {
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .invitation-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-  }
-  
-  .invitation-card:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  .card-content {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .club-name {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .member-name, .status {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-  
-  .status span {
-    font-weight: bold;
-  }
-  
-  .status-processing {
-    color: orange;
-  }
-  
-  .status-accepted {
-    color: green;
-  }
-  
-  .status-denied {
-    color: red;
-  }
-  
-  .invite-heading {
-    color: #4CAF50;
-  }
-  
-  .processing-heading {
-    color: #007BFF;
-  }
-  
-  .description {
-    text-align: center;
-    font-style: italic;
-    color: #555;
-    margin-bottom: 20px;
-  }
-  
-  
-  .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 18px;
-  }
-  
-  .styled-table th,
-  .styled-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  
-  .styled-table th {
-    background-color: #f2f2f2;
-    text-align: left;
-  }
-  
-  .styled-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .styled-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .centered {
-    text-align: center;
-  }
-  
-  /
-  .btn-invite {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-invite:hover {
-    background-color: #45a049;
-  }
-  
-
-  .no-members {
-    text-align: center;
-    color: #d9534f;
-    font-size: 18px;
-  }
-  
-  .processing {
-    text-align: center;
-    color: #FFC107;
-  }
-   */
-   /* Global Styles */
 
    .full-height-content {
     min-height: calc(100vh); /* Oduzmi visinu navbar-a ako postoji */
-    background-color: #ffe4e1;
+   
   }
   
 * {
@@ -231,11 +12,20 @@ h2.heading {
   
   /* Pink background for the entire component */
   .lists-container {
-    background-color: #ffe4e1; /* Light pink */
+    /* Light pink */
     padding: 20px;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+  }
+  .letters{
+    font-size: 12px; /* Veličina slova */
+      font-family: 'Arial'; /* Profesinalan serif font */
+      font-weight: 700; /* Debela slova */
+      letter-spacing: 2px; /* Razmak između slova */
+      color: #333; /* Tamno siva boja za ozbiljan izgled */
+      text-transform: uppercase; /* Velika slova */
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
   }
   
   /* Invite List and Processing List Styles */
@@ -286,12 +76,24 @@ h2.heading {
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
+    text-align: center;
+  }
+  .member-image {
+    margin-right: 15px; /* Razmak između slike i teksta */
   }
   
+  .member-avatar {
+    width: 80px; /* Povećano sa 50px na 80px */
+    height: 80px; /* Povećano sa 50px na 80px */
+    border-radius: 40px;
+    object-fit: cover;
+    border: 2px solid #ddd; /* Obod oko slike */
+  }
+
   /* Buttons */
   .btn-invite {
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: rgb(192, 153, 218);;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -300,7 +102,7 @@ h2.heading {
   }
   
   .btn-invite:hover {
-    background-color: #0056b3;
+    background-color: rgb(172, 86, 230);
   }
   
   /* No Members Message */

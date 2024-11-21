@@ -80,7 +80,35 @@ export class AdministrationService {
 
   getMembersForInvite(clubId: number): Observable<Member[]> {
    
-   return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/eligible-users`);
+   return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/eligible-users`).pipe(
+    // Zatim za svakog člana pozivamo 'getPersonId', pa zatim 'person' podatke
+    switchMap(members => {
+      // Za svakog člana prvo pozivamo getPersonId
+      const personRequests = members.map(member => 
+        this.getPersonId(member.id).pipe(
+          switchMap(personId => {
+            // Kada dobijemo personId, pozivamo 'person' API
+            return this.http.get<any>(`${environment.apiHost}tourist/person/${personId}`).pipe(
+              map(personData => {
+                // Vraćamo kompletan objekat member sa podacima iz 'person'
+                return {
+                  ...member,  // postojeći podaci o članu
+                  name: personData.name,
+                  surname: personData.surname,
+                  email: personData.email,
+                  imageUrl: personData.imageUrl,
+                  biography: personData.biography,
+                  motto: personData.motto
+                };
+              })
+            );
+          })
+        )
+      );
+      // Paralelno pozivanje svih 'person' podataka
+      return forkJoin(personRequests);
+    })
+  );
 
   }
   sendClubInvitation(invitation: ClubInvitation): Observable<void> {

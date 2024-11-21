@@ -11,17 +11,34 @@
 }
 .left-panel {
   width: 20%;
-  background-color: #f4f4f4;
+  background-color: rgb(232, 212, 246);
   height: 100%;
-  border: 2px solid green;
+}
+p {
+  width: 300px; /* Postavlja širinu na 300px */
+  /* Centriranje na stranici */
+  font-style: italic; /* Zadržava kursivni tekst */
+ /* Tekst se poravnava sa obe strane */
+  text-align: left;
+}
+.club-description{
+    
+  width: 300PX; /* Osiguraj da zauzima celu širinu roditelja */
+  margin: 0; /* Ukloni bilo koju marginu sa svih strana */
+  padding: 0; /* Ukloni bilo koji unutrašnji razmak */
+  text-align: left; /* Poravnaj tekst sa leve strane */
+  font-style: italic; /* Kursivni stil */
+  display: block;
+  margin-right: 20px;
 }
   
   .custom-btn {
     display: block;
-    width: 100%;
+    width: 250px;
+    max-width: 100%;
     margin: 10px 0;
     padding: 10px;
-    background: none;
+     background-color: rgb(146, 122, 163);
     border: none;
     text-align: left;
     margin-left: 20px;
