@@ -67,3 +67,21 @@
     justify-content: space-between; 
     margin-top: 20px; 
 }
+.search{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.search-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+.fixed-actions{
+  justify-content: center;
+}

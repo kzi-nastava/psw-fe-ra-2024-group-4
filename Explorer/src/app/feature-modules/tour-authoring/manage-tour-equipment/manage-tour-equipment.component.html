@@ -6,6 +6,17 @@
 </h2>
 <mat-dialog-content>
   <div id="equipment">
+    <input class="search"
+      type="text" 
+      id="searchBox" 
+      class="search" 
+      placeholder="Search equipment..." 
+      [(ngModel)]="searchQuery" 
+      (input)="filterEquipment()"
+    />
+    <label *ngIf="searchQuery" class="search-label">
+      Search results for "{{ searchQuery }}"
+    </label>
     <div id="equipment-details">
       <div *ngFor="let eq of filteredEquipment" class="equipment-item">
         <label>
@@ -20,6 +31,6 @@
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions style="justify-content: center;">
+<mat-dialog-actions class="fixed-actions">
   <button class="save-btn" (click)="onSave()">Add selected items</button>
 </mat-dialog-actions>

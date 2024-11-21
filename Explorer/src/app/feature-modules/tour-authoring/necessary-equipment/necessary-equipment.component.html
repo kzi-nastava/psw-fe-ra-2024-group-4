@@ -4,6 +4,17 @@
         <button class="edit-button" (click)="openEditDialog(equipment)">Add</button>
     </div>
     <hr>
+    <div id="equipment-search">
+        <input class="search"
+            type="text"
+            placeholder="Search by name..."
+            [(ngModel)]="searchQuery"
+            (input)="filterEquipment()"
+        />
+    </div>
+    <label *ngIf="searchQuery" class="search-label">
+        Search results for "{{ searchQuery }}"
+    </label>
     <div id="equipment-details">
         <table>
             <thead>
@@ -14,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let eq of equipment; let i = index">
+                <tr *ngFor="let eq of filteredEquipment; let i = index">
                     <td>{{eq.name}}</td>
                     <td>{{eq.description}}</td>
                     <td>

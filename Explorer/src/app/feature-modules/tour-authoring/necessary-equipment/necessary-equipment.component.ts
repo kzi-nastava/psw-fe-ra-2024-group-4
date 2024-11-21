@@ -17,7 +17,8 @@ export class NecessaryEquipmentComponent implements OnInit {
   equipment: Equipment[] = [];
   tourId: number;
   tour: Tour;
-  
+  searchQuery: string = '';
+  filteredEquipment: Equipment[] = [];
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -70,16 +71,24 @@ export class NecessaryEquipmentComponent implements OnInit {
     this.service.getTourEquipment(this.tourId).subscribe({
       next: (result: PagedResults<Equipment>) => {
         this.equipment = result.results;
+        this.filteredEquipment = [...this.equipment];
       },
       error: (err) => {
         console.error('Error fetching equipment for tour', err);
       }
     });
   }
+  filterEquipment(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredEquipment = this.equipment.filter((eq) =>
+      eq.name.toLowerCase().includes(query)
+    );
+  }
 
   openEditDialog(eq: Equipment[]): void {
     const dialogRef = this.dialog.open(ManageTourEquipmentComponent, {
       width: '600px', 
+      height: '90%',
       data: { tourId: this.tourId, equipment: eq } 
     });
   
@@ -98,10 +107,19 @@ export class NecessaryEquipmentComponent implements OnInit {
   deleteEquipment(index: number, equipment: Equipment): void {
     // Remove the equipment from the local list
     this.equipment.splice(index, 1);
+    this.filteredEquipment = [...this.equipment];
+    
   
     // Call the service to mark the tour as unchecked
     this.service.removeEquipmentFromTour(equipment.id!, this.tourId).subscribe({
-      next: () => console.log(`Removed equipment ID: ${equipment.id} from tour ID: ${this.tourId}`),
+      next: (() => {
+        console.log(`Removed equipment ID: ${equipment.id} from tour ID: ${this.tourId}`);
+        this.snackBar.open('Equipment successfully removed!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+      }),
       error: (err) => console.error('Error removing equipment:', err),
     });
   }

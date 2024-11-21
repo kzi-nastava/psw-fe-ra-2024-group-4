@@ -14,9 +14,10 @@ import Swal from 'sweetalert2';
 })
 export class ManageTourEquipmentComponent implements OnInit {
   tourId: number; 
-  allEquipment: Equipment[] = []; // All available equipment
-  filteredEquipment: Equipment[] = []; // Equipment not in the current tour
-  selectedEquipment: Equipment[] = []; // Equipment selected for addition
+  allEquipment: Equipment[] = []; 
+  filteredEquipment: Equipment[] = []; 
+  selectedEquipment: Equipment[] = []; 
+  searchQuery: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ManageTourEquipmentComponent>,
@@ -67,6 +68,13 @@ export class ManageTourEquipmentComponent implements OnInit {
     } else {
       this.selectedEquipment.push(equipment);
     }
+  }
+  filterEquipment(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredEquipment = this.allEquipment.filter(eq =>
+      eq.name.toLowerCase().includes(query) || 
+      (eq.description && eq.description.toLowerCase().includes(query))
+    );
   }
 
   onSave(): void {
