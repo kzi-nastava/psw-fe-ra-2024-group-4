@@ -5,6 +5,24 @@ import { Club } from '../model/club.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 
+
+export enum ClubTags {
+  Cycling = 0,
+  Culture = 1,
+  Adventure = 2,
+  FamilyFriendly = 3,
+  Nature = 4,
+  CityTour = 5,
+  Historical = 6,
+  Relaxation = 7,
+  Wildlife = 8,
+  NightTour = 9,
+  Beach = 10,
+  Mountains = 11,
+  Photography = 12,
+  Guided = 13,
+  SelfGuided = 14,
+}
 @Component({
   selector: 'xp-club-form',
   templateUrl: './club-form.component.html',
@@ -28,8 +46,29 @@ export class ClubFormComponent implements OnChanges {
     name: new FormControl('', [Validators.required, this.noNumbers]),
     description: new FormControl('', [Validators.required, this.noNumbers]),
     image: new FormControl(''),
-    imageBase64: new FormControl('')
+    imageBase64: new FormControl(''),
+    tags: new FormControl<number[]>([]) 
   });
+  clubTags = Object.keys(ClubTags)
+  .filter(key => isNaN(Number(key))) 
+  .map((tag, index) => ({ index, label: tag })); 
+
+currentTags: number[] = []; 
+onTagChange(event: any, index: number): void {
+  this.currentTags = this.clubForm.get('tags')?.value || [];
+
+  if (event.checked) {
+    this.currentTags.push(index);
+  } else {
+    const tagIndex = this.currentTags.indexOf(index);
+    if (tagIndex >= 0) {
+      this.currentTags.splice(tagIndex, 1);
+    }
+  }
+
+  this.clubForm.get('tags')?.setValue(this.currentTags);
+}
+
 
   ngOnChanges(): void {
     this.clubForm.reset(); 
@@ -41,7 +80,6 @@ export class ClubFormComponent implements OnChanges {
         });
     }
 }
-
 
   get nameInvalid(): boolean {
     return (this.clubForm.get('name')?.invalid && this.clubForm.get('name')?.touched) || false;
@@ -69,7 +107,8 @@ export class ClubFormComponent implements OnChanges {
         image: this.clubForm.value.image || "",
         userId: this.user.id,  
         userIds: [this.user.id] ,
-        imageBase64: this.clubForm.value.imageBase64 || ""
+        imageBase64: this.clubForm.value.imageBase64 || "",
+        tags: this.clubForm.value.tags || [] 
       };
   
       this.service.addClub(club).subscribe({
@@ -102,6 +141,7 @@ export class ClubFormComponent implements OnChanges {
         userId: this.club.userId, 
         userIds: this.club.userIds,
         imageBase64: this.clubForm.value.imageBase64 || "",
+        tags: this.club.tags
       };
 
       this.service.updateClub(club).subscribe({
