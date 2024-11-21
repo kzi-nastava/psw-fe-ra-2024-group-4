@@ -38,6 +38,8 @@
     width: 80%;
     max-width: 250px;
     margin-bottom: 20px;
+    object-fit: cover; 
+
   }
   
   .image-preview img {

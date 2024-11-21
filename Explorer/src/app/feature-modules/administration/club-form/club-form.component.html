@@ -46,7 +46,7 @@
           Description is required and cannot contain numbers.
         </div>
 
-        <div class="tags-section">
+        <div class="tags-section" *ngIf="!shouldEdit">
           <h4>Tell us about your club's spirit</h4>
           <div class="tags">
             <div
