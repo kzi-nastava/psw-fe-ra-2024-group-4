@@ -17,6 +17,24 @@ export class NecessaryEquipmentComponent implements OnInit {
   tourId: number;
   tour: Tour;
 
+  tourTagMap: { [key: number]: string } = {
+    0: 'Cycling',
+    1: 'Culture',
+    2: 'Adventure',
+    3: 'FamilyFriendly',
+    4: 'Nature',
+    5: 'CityTour',
+    6: 'Historical',
+    7: 'Relaxation',
+    8: 'Wildlife',
+    9: 'NightTour',
+    10: 'Beach',
+    11: 'Mountains',
+    12: 'Photography',
+    13: 'Guided',
+    14: 'SelfGuided'
+  };
+
   constructor(private service: TourService, private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -25,10 +43,25 @@ export class NecessaryEquipmentComponent implements OnInit {
       if(!isNaN(id)) {
         this.tourId = id;
         this.getEquipment();
+        this.fetchTour();
       } else {
 
       }
     });
+  }
+  getTagNames(tags: number[]): string[] {
+    return tags.map(tagId => this.tourTagMap[tagId]).filter(tag => tag !== undefined);
+  }
+
+  fetchTour() : void{
+    this.service.getByIdTour(this.tourId).subscribe({
+      next: (result: Tour) => {
+        this.tour = result;
+      },
+      error: (err) => {
+        console.log('Error fetching tour');
+      }
+    })
   }
 
   getEquipment(): void {

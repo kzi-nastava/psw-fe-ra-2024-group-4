@@ -1,15 +1,16 @@
 <div id="equipment">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <p>Neophodna oprema</p>
-        <button class="edit-button" (click)="openEditDialog(equipment)">Izmeni</button>
+        <p>Necessary equipment</p>
+        <button class="edit-button" (click)="openEditDialog(equipment)">Edit</button>
     </div>
     <hr>
     <div id="equipment-details">
         <table>
             <thead>
                 <tr>
-                    <th>Naziv</th>
-                    <th>Opis</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -20,4 +21,38 @@
             </tbody>
         </table>
     </div>
+</div>
+<div class="card">
+    <img [src]="'assets/images/tag' + (tour.tags[0] + 1) + '.jpg'" class="card-image">
+    
+    
+    <div class="card-overlay">
+        <div class="card-header">
+
+            <div class="card-header-text">
+                <div class="card-title">{{ tour.name }}</div>
+                <div class="card-status">Difficulty: {{ tour.difficulty }}</div>
+                <div class="card-status">Length: {{ tour.lengthInKm | number: '1.2-2'}}km</div>
+                <span class="card-status" *ngIf="tour.status === 0">Status: Draft</span>
+                <span class="card-status" *ngIf="tour.status === 1">Status: Published</span>
+                <span class="card-status" *ngIf="tour.status === 2">Status: Archived</span>
+
+            </div>
+          
+        </div>
+        <div class="card-footer">
+            <div>
+                <mat-card-subtitle>
+                    <span *ngFor="let tag of getTagNames(tour.tags); let isFirst = first">
+                        <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
+                    </span>
+                </mat-card-subtitle>
+            </div>
+            <div class="card-footer-description">Price: ${{tour.price}}</div>
+            <div class="card-footer-description">{{tour.description}}</div>
+        </div>
+
+    </div>
+    
+    
 </div>
