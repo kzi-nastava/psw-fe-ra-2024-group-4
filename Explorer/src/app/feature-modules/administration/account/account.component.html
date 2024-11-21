@@ -1,31 +1,19 @@
 <div id="account">
     <p>Accounts</p>
-    <hr>
-    <div id="account-details">
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Is Active</th>
-                <th>Deactivate account</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let ac of account">
-                <td>{{ac.username}}</td>
-                <td>{{ac.password}}</td>
-                <td>{{ac.role}}</td>
-                <td>{{ac.email}}</td>
-                <td>{{ac.isActive}}</td>
-                <td>
-                    <button color="primary" (click)="onBlockClicked(ac)" mat-icon-button [disabled]="!ac.isActive">
-                        <mat-icon>Deactivate</mat-icon>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="account-cards">
+        <div *ngFor="let ac of account" class="card">
+            <img src="assets/images/user.png"> 
+            <h3>{{ ac.username }}</h3>
+            <p><strong>Password:</strong> {{ ac.password }}</p>
+            <p><strong>Role:</strong> {{ ac.role }}</p>
+            <p><strong>Email:</strong> {{ ac.email }}</p>
+            <p><strong>Is Active:</strong> {{ ac.isActive ? 'Yes' : 'No' }}</p>
+            <button 
+                color="primary" 
+                (click)="onBlockClicked(ac)" 
+                [disabled]="!ac.isActive">
+                Deactivate
+            </button>
+        </div>
+    </div>
 </div>
