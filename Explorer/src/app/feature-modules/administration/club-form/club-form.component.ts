@@ -4,6 +4,8 @@ import { AdministrationService } from '../administration.service';
 import { Club } from '../model/club.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { environment } from 'src/env/environment';
+
 
 export enum ClubTags {
   Cycling = 0,
@@ -90,13 +92,8 @@ export class ClubFormComponent implements OnChanges {
       this.imageBase64 = '';
     }
   }
-  getImage(imagePath: string | null): string {
-  
-    if (!imagePath) {
-      return '';
-    }
-  
-    return `${imagePath}`; 
+  getImage(image: string): string {
+    return environment.webroot + image;
   }
   
 
