@@ -168,6 +168,7 @@ export class ClubComponent implements OnInit {
   onAddClicked(): void {
     this.shouldRenderClubForm = true; 
     this.shouldRenderForm=true;
+    this.shouldEdit = false; 
   }
 
   onEditClicked(club: Club, event:MouseEvent): void {
@@ -185,7 +186,8 @@ export class ClubComponent implements OnInit {
     this.shouldRenderClubForm = false; 
     this.shouldRenderForm = false;
     this.shouldEdit = false; 
-  }
+}
+
 
   getImage(image: string): string {
     return environment.webroot + image;

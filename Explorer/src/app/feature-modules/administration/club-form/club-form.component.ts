@@ -156,6 +156,22 @@ onTagChange(event: any, index: number): void {
       });
     }
   }
+  toggleTag(index: number): void {
+    const tags = this.clubForm.get('tags')?.value || [];
+    const tagIndex = tags.indexOf(index);
+    if (tagIndex > -1) {
+      tags.splice(tagIndex, 1); 
+    } else {
+      tags.push(index); 
+    }
+    this.clubForm.get('tags')?.setValue(tags);
+  }
+  removeImage(): void {
+    this.imageBase64 = '';
+    this.clubForm.patchValue({ imageBase64: '' });
+  }
+  
+  
 
   onFileSelected(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
