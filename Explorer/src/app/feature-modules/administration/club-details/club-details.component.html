@@ -1,18 +1,19 @@
-<main class="full-height-content">
-  
-<div class="container">
-    <!-- Leva strana: 30% -->
+<div class="containeR-member">
     <div class="left-panel">
       
         <div *ngIf="club">
-          <!-- <div class="club-logo" >
-                 
-           <img [src]="club.image" alt="{{ club.name }} image" class="club-image" /> 
-              <div>
-                <p>{{ club.name }}</p>
-                <p>{{ club.description }}</p>
-             </div>
-            </div> -->
+          <div class="club-logo">
+            <!-- <p class="curved-text">{{ club.name }}</p> -->
+            <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+              <path id="curve" d="M 50,90 A 60,60 0 0,1 150,90" fill="transparent" />
+              <text fill="#333" font-size="40" font-weight="bold" text-transform="uppercase">
+                <textPath href="#curve" startOffset="50%" text-anchor="middle">
+                  {{ club.name }}
+                </textPath>
+              </text>
+            </svg>
+            <img [src]="getImage(club.image)" class="club-image"/>
+          </div>
           </div>
 
           <button 
@@ -45,7 +46,7 @@
         *ngIf="selectedComponent === 'comp1'" 
         [clubId]="clubId">
       </xp-club-members> -->
-      <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"></xp-club-members>
+      <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"  [ownerId]="club?.userId ?? 0"></xp-club-members>
        <xp-club-invitation 
        *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId">
       </xp-club-invitation>
@@ -54,9 +55,9 @@
         [clubId]="clubId">
       </app-component3> -->
     </div>
-  </div>
   
-</main>
+  
+  </div>
 <!-- <h1>CLUB DETAILS</h1>
 
 <h2>Club Members</h2>

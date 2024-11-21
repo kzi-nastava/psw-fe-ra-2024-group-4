@@ -14,6 +14,7 @@ import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { FormsModule } from '@angular/forms';
 import { ClubMembersComponent } from './club-members/club-members.component';
 
 
@@ -37,7 +38,8 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     EquipmentComponent,

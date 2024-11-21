@@ -1,35 +1,20 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.containeR-member {
+  display: flex;
+  height: 100vh; /* 100% visine ekrana */
+  align-items: flex-start; /* Centriraj ih na vrh */
+  margin: 0; /* Ukloni marginu oko celog container-a */
 }
-.full-height-content {
-  min-height: calc(100vh); /* Oduzmi visinu navbar-a ako postoji */
-  background-color: #ffe4e1;
+.right-panel {
+  width: 80%;
+  background-color: #ffffff;
+  overflow-y: auto; /* Ako sadržaj u desnom panelu premašuje visinu */
 }
-
-app-root {
+.left-panel {
+  width: 20%;
+  background-color: #f4f4f4;
   height: 100%;
+  border: 2px solid green;
 }
-.container {
-    display: flex;
-    height: 100vh;
-    margin: 0; 
-    padding: 0;
-}
-  
-  .left-panel {
-    width: 20%;
-    background-color: #f4f4f4;
-    height: 100%;
-  }
-  
-  .right-panel {
-    width: 80%;
-    background-color: #ffffff;
-    /*padding: 20px;*/
-  /*  overflow-y: auto;*/
-  }
   
   .custom-btn {
     display: block;
@@ -48,10 +33,8 @@ app-root {
     background-color: #ddd;
     color: #333;
   }
-
-  .club-logo {
-   
-    opacity: 0.3; 
+  .club-logo{
+    margin-top: 20px;
   }
   
   .logo-container {
@@ -60,4 +43,68 @@ app-root {
     height: 100%;
   }
   
+  .club-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .club-logo {
+    position: relative;
+    width: 150px;
+    margin: 20px auto;
+    text-align: center; /* Centriranje teksta iznad slike */
+  }
+  
+  .curved-text {
+    position: static; /* Uklonite apsolutno pozicioniranje */
+    margin-bottom: 10px; /* Razmak između teksta i slike */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  
+  .club-image {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%; /* Čini sliku kružnom */
+    object-fit: cover; /* Da se slika lepo uklopi */
+    border: 5px solid #ccc; /* Okvir oko slike */
+  }
+  
+  /* .club-logo {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  
+  .club-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+    border: 5px solid #ccc; 
+    margin-top: 5px;
+  }
+  
+  .curved-text {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+  
+    
+    text-align: center;
+    white-space: nowrap;
+    clip-path: circle(50% at 50% 50%);
+    transform: translate(-50%, 0) rotate(-15deg);
+    transform-origin: 50% 150%;
+  } */
   

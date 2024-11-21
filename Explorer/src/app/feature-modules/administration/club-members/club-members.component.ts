@@ -12,8 +12,12 @@ import { environment } from 'src/env/environment';
 export class ClubMembersComponent implements OnInit{
   members: Member[] = [];
   @Input() clubId!: number; 
+  @Input() ownerId!: number; 
   userId: number;
   errorMessage: string | null = null;
+  isChatOpen: boolean = false; 
+  chatMessage: string = "Manage your clubs effortlessly! View all members, view tours that you can buy for great price, win xp and much more!";
+  
 
   constructor(private route: ActivatedRoute, private service: AdministrationService) {}
 
@@ -33,9 +37,12 @@ export class ClubMembersComponent implements OnInit{
 
 }
 removeMember(memberId: number): void {
-  this.service.deleteMember(memberId, this.clubId, this.userId).subscribe({
+  console.log("member");
+  console.log(memberId);
+  this.service.deleteMember(memberId, this.clubId, this.ownerId).subscribe({
     next: () => {
       // Ukloni člana iz lokalnog niza
+   
       this.members = this.members.filter(member => member.id !== memberId);
       console.log(`Member with id ${memberId} removed successfully.`);
     },
@@ -48,5 +55,8 @@ removeMember(memberId: number): void {
 
 getImage(profilePicture: string): string {
   return  environment.webroot + profilePicture ;
+}
+toggleChat(isChat: boolean): void {
+  this.isChatOpen = isChat;
 }
 }

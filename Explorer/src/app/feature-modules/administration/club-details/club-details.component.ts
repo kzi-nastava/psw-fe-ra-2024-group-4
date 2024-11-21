@@ -44,14 +44,13 @@ export class ClubDetailsComponent implements OnInit {
       }
     });
   }
-  getImage(image: string): string {
-    return `https://localhost:44333/images/clubs/${image}`;
-  }
-
+  
   selectComponent(component: string) {
     this.selectedComponent = component;
   }
-
+  getImage(image: string): string {
+    return environment.webroot + image;
+  }
 
 }
 // export class ClubDetailsComponent implements OnInit{

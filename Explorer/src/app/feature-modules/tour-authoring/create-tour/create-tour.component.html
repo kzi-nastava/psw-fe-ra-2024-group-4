@@ -24,8 +24,12 @@
                     formControlName="description"
                     cdkAutosizeMaxRows="5" required></textarea>
             </mat-form-field>
-            <button color="primary" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
-            <p>{{error_message}}</p>
+            <mat-form-field>
+                <mat-label>Price in $</mat-label>
+                <input matInput formControlName="price" type="text" required/>
+            </mat-form-field>
+            <button color="accent" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
+            <p class="error">{{error_message}}</p>
         </div>
     </form>
     
@@ -42,5 +46,15 @@
             </div>
         </mat-selection-list>
     </div>
+    <div class="chat-container">
+        <a (mouseenter)="toggleChat(true)" 
+        (mouseleave)="toggleChat(false)" class="fixed-circle">
+          ? 
+        </a>
+      
+        <div *ngIf="isChatOpen" class="chat-box">
+          <p>{{chatMessage}}</p>
+        </div>
+      </div>
 </div>
 

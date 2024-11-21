@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <div (mouseleave)="closeAllMenus()" class="toolbar-container">
     <mat-toolbar color="primary">
-        <div class="links-container">            
+        <div class="links-container">
+            <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;"><img class="logo" src="assets/icons/traveltaleslogo3.svg"/></a>
 
             <div class="links">
                 <a mat-raised-button  class="hover-icon" 
@@ -19,6 +20,26 @@
             </div>
         </div>
         
+        <div id="buttons">
+            <button *ngIf="user && user.username === ''"  mat-raised-button color="accent" [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== ''"  mat-raised-button color="accent" (click)="onLogout()">Logout</button>
+        </div>
+
+        <div class="user-content" *ngIf="user && user.username !== ''">
+            <button mat-icon-button class="notification-button" (click)="toggleNotifications()">
+              <mat-icon class="notification-icon">notifications</mat-icon>
+            </button>
+            <xp-notifications *ngIf="showNotifications" (toggleNotifications)="toggleNotifications()"></xp-notifications>
+        </div>
+          
+        <div class="user-content" [routerLink]="['profile']" *ngIf="user && (user.role === 'tourist' || user.role === 'author')"  >  
+            <mat-icon class="account-icon" >account_circle</mat-icon>
+            <span class="user-text">account</span>
+        </div>
+        <div class="user-content" [routerLink]="['account']" *ngIf="user && (user.role === 'administrator')"  >  
+            <mat-icon class="account-icon" >account_circle</mat-icon>
+            <span class="user-text">accounts</span>
+        </div>
     </mat-toolbar>
 
 
@@ -81,6 +102,7 @@
         <div class="menu-list-container" *ngIf="user && (user.role === 'administrator')" >
             <ul class="menu-list">
                 <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="public-status-request">Key Points and Objects public requests</a></li>
             </ul>
 
         </div>

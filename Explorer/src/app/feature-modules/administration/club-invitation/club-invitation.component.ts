@@ -87,6 +87,7 @@ export class ClubInvitationComponent {
           this.service.sendClubInvitation(invitation).subscribe({
             next: () => {
               console.log('Invitation sent successfully!');
+              this.refreshData();
             },
             error: () => {
               console.error('Error sending invitation');
@@ -95,36 +96,52 @@ export class ClubInvitationComponent {
         });
       }
 
-      // getMemberName(memberId: number): string {
-      //   //const member = this.membersForInvite.find((m) => m.id === memberId);
-      //  // if(!member){
-      //     const member = this.members.find((m) => m.id === memberId);
-      //   console.log(memberId);
-      //   return member ? member.username : 'Unknown Member'; 
-      // }
-      getMemberName(memberId: number): string {
-        // Prvo tražimo člana u listi
-        const member = this.members.find((m) => m.id === memberId);
-        if (member) {
-          // Ako član postoji, vraćamo njegovo ime
-          return member.username;
-        } else {
-          // Ako član ne postoji, pozivamo getUsername metodom
-          this.service.getUsername(memberId).subscribe({
-            next: (username) => {
-              // Ažuriramo username kada se završi poziv
-              const memberToUpdate = this.members.find((m) => m.id === memberId);
-              if (memberToUpdate) {
-                memberToUpdate.username = username; // Dodeljujemo username
-              }
-            },
-            error: () => {
-              console.error('Error fetching username');
-            }
-          });
-          return 'Unknown Member'; // Vraćamo "Unknown Member" dok čekamo odgovor
-        }
+      private refreshData(): void {
+        // Učitaj listu članova za pozivanje
+        this.service.getMembersForInvite(this.clubId).subscribe({
+          next: (membersForInvite: Member[]) => {
+            this.membersForInvite = membersForInvite;
+            console.log('Updated members for invite:', membersForInvite);
+          },
+          error: () => {
+            console.error('Error refreshing members for invite');
+          }
+        });
+      
+        // Učitaj listu pozivnica
+        this.fetchInvitations();
       }
+
+      getMemberName(memberId: number): string {
+        //const member = this.membersForInvite.find((m) => m.id === memberId);
+       // if(!member){
+          const member = this.members.find((m) => m.id === memberId);
+        console.log(memberId);
+        return member ? member.username : 'Unknown Member'; 
+      }
+      // getMemberName(memberId: number): string {
+      //   // Prvo tražimo člana u listi
+      //   const member = this.members.find((m) => m.id === memberId);
+      //   if (member) {
+      //     // Ako član postoji, vraćamo njegovo ime
+      //     return member.username;
+      //   } else {
+      //     // Ako član ne postoji, pozivamo getUsername metodom
+      //     this.service.getUsername(memberId).subscribe({
+      //       next: (username) => {
+      //         // Ažuriramo username kada se završi poziv
+      //         const memberToUpdate = this.members.find((m) => m.id === memberId);
+      //         if (memberToUpdate) {
+      //         //  this.member.username = username; // Dodeljujemo username
+      //         }
+      //       },
+      //       error: () => {
+      //         console.error('Error fetching username');
+      //       }
+      //     });
+      //     return 'Unknown Member'; // Vraćamo "Unknown Member" dok čekamo odgovor
+      //   }
+      // }
     
 
 }
