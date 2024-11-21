@@ -1,1 +1,72 @@
-<p>club-invitation works!</p>
+<main class="full-height-content">
+  
+  <div class="lists-container">
+    <div class="invite-list">
+  <h2 class="heading invite-heading">Invite Members to Join the Club</h2>
+  <p class="description">
+    Select members from the list below to send them an invitation to your club!
+  </p>
+  <div class="member-list" *ngIf="membersForInvite && membersForInvite.length > 0; else noMembersForInvite">
+    <div class="member-card" *ngFor="let memberForInvite of membersForInvite">
+      <div class="member-info">
+        <span class="username">{{ memberForInvite.username }}</span>
+      </div>
+      <button (click)="sendClubInvitation(memberForInvite.id)" class="btn-invite">
+        Invite
+      </button>
+    </div>
+  </div>
+  <ng-template #noMembersForInvite>
+    <p class="no-members">No members found to invite. Try adding more members!</p>
+  </ng-template>
+
+</div>
+
+<div class="processing-list">
+  <h2 class="heading processing-heading">Processing Club Invitations</h2>
+  <p class="description">
+    Below is the list of all invitations currently being processed.
+  </p>
+  <!-- <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Club ID</th>
+        <th>Member Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invitation of invitations">
+        <td>{{ invitation.id }}</td>
+        <td>{{ invitation.clubId }}</td>
+        <td>{{ getMemberName(invitation.memberId) }}</td>
+        <td>
+            {{ invitation.status === 0 ? 'PROCESSING' : (invitation.status === 1 ? 'ACCEPTED' : 'DENIED') }}
+          </td>
+      </tr>
+    </tbody>
+  </table> -->
+  <div class="card-container">
+    <div *ngFor="let invitation of invitations" class="invitation-card">
+      <div class="card-content">
+        
+        <p class="member-name"><strong>Member:</strong> {{ getMemberName(invitation.memberId) }}</p>
+        <p class="status">
+          <strong>Status:</strong>
+          <span [ngClass]="{
+            'status-processing': invitation.status === 0,
+            'status-accepted': invitation.status === 1,
+            'status-denied': invitation.status === 2
+          }">
+            {{ invitation.status === 0 ? 'PROCESSING' : (invitation.status === 1 ? 'ACCEPTED' : 'DENIED') }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</main>

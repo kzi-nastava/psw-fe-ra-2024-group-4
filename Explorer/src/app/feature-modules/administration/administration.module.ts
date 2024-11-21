@@ -14,6 +14,7 @@ import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ClubMembersComponent } from './club-members/club-members.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    ClubMembersComponent,
 
   ],
   imports: [

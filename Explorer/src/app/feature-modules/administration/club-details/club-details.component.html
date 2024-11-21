@@ -1,4 +1,63 @@
-<h1>CLUB DETAILS</h1>
+<main class="full-height-content">
+  
+<div class="container">
+    <!-- Leva strana: 30% -->
+    <div class="left-panel">
+      
+        <div *ngIf="club">
+          <!-- <div class="club-logo" >
+                 
+           <img [src]="club.image" alt="{{ club.name }} image" class="club-image" /> 
+              <div>
+                <p>{{ club.name }}</p>
+                <p>{{ club.description }}</p>
+             </div>
+            </div> -->
+          </div>
+
+          <button 
+          class="custom-btn" >
+          Tours
+        </button>
+      <button 
+        class="custom-btn" 
+        (click)="selectComponent('xp-club-members')">
+        Members
+      </button>
+       <button 
+        class="custom-btn" 
+        (click)="selectComponent('xp-club-invitation')">
+        Invitations
+      </button>
+      <button 
+          class="custom-btn" >
+          Achievements
+        </button>
+        <button 
+          class="custom-btn" >
+          Join requests
+        </button>
+    </div>
+  
+    <!-- Desna strana: 70% -->
+    <div class="right-panel">
+      <!-- <xp-club-members 
+        *ngIf="selectedComponent === 'comp1'" 
+        [clubId]="clubId">
+      </xp-club-members> -->
+      <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"></xp-club-members>
+       <xp-club-invitation 
+       *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId">
+      </xp-club-invitation>
+    <!--  <app-component3 
+        *ngIf="selectedComponent === 'comp3'" 
+        [clubId]="clubId">
+      </app-component3> -->
+    </div>
+  </div>
+  
+</main>
+<!-- <h1>CLUB DETAILS</h1>
 
 <h2>Club Members</h2>
 <table>
@@ -61,4 +120,4 @@
         <td>PROCCESSING</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->

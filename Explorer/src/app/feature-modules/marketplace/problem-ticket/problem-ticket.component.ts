@@ -74,9 +74,9 @@ export class ProblemTicketComponent implements OnInit {
     }, 200);
     this.problem = history.state.problem;
     const problemId = history.state.problemId;
-
-
-    if (problemId) {
+   
+    if (this.problem.id) {
+      console.log("pozvana metoda");
       this.loadProblem(problemId);
     }
     //this.problem = this.problemm;
@@ -90,6 +90,8 @@ export class ProblemTicketComponent implements OnInit {
       (problem: Problem) => {
         this.problem = problem;
         this.initializeComponent();
+        console.log("UCITAO SEEEEEE");
+        console.log(problem);
       },
       (error) => {
         console.error('Error loading problem:', error);
@@ -196,6 +198,7 @@ export class ProblemTicketComponent implements OnInit {
 
     if (!this.hasAuthorComment()) {
       alert('You cannot close this problem! Author must first add a comment before closing the issue.');
+      this.isModalOpen= false;
       return;
   }
 
@@ -396,11 +399,17 @@ postComment(): void {
       this.service.postProblemCommentAsAuthor(this.newComment) :
       this.service.postProblemCommentAsAdmin(this.newComment); // Dodajemo podršku za admina
 
+      this.loadProblem(this.problem.id!);
+      this.problem.comments = this.problem.comments;
+      console.log(this.problem.comments);
+
   postCommentObservable.subscribe(
       (response: Problem) => {
           this.problem = response;
+          
           this.newComment.text = ''; // Resetuje unos komentara
-
+          
+        
           // Kreiramo osnovu za notifikaciju
           const notification = {
               id: 0,

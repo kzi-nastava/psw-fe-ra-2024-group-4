@@ -1,0 +1,48 @@
+<!-- <h2>Club Members</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Member Username</th>
+            <th></th> 
+        </tr>
+    </thead>
+    <tbody *ngIf="members && members.length > 0; else noMembers">
+        <tr *ngFor="let member of members">
+            <td>{{ member.username }}</td>
+            <td> <button  (click)="removeMember(member.id)">Remove member</button></td> 
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noMembers>
+    <p>No members found.</p>
+</ng-template> -->
+<h2>Club Members</h2>
+
+<div *ngIf="members && members.length > 0; else noMembers" class="member-cards">
+    <div *ngFor="let member of members" class="member-card">
+        <div class="member-image">
+            <!-- Prikazujemo sliku člana sa malim okvirom -->
+            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Profile picture" height="30" class="member-avatar" />
+           
+        </div>
+        
+        <div class="member-info">
+            <!-- Username je najistaknutiji -->
+            <div class="username">{{ member.username }}</div>
+            
+            <!-- Ispod korisničkog imena dodajemo ime i prezime -->
+            <div class="name">{{ member.name }} {{ member.surname }}</div>
+            
+            <!-- Email člana -->
+            <div class="email">{{ member.email }}</div>
+            
+            <!-- Dugme za uklanjanje člana -->
+            <button (click)="removeMember(member.id)" class="remove-button">Remove member</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #noMembers>
+    <p>No members found.</p>
+</ng-template>

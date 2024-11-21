@@ -1,0 +1,80 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100vh;  /* Postavi visinu na 100% visine ekrana */
+    background: #f0f0f0; /* Pozadina po želji */
+  }
+  /* Ovaj div će se koristiti za sve članove, raspoređene u kartice */
+.member-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Stil za svaku karticu */
+.member-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 250px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Stil za avatar (sliku člana) */
+.member-image {
+  margin-right: 15px; /* Razmak između slike i teksta */
+}
+
+.member-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;  /* Da se slika lepo uklopi u krug */
+  border: 2px solid #ddd; /* Obod oko slike */
+}
+
+/* Info o članu (ime, prezime, email) */
+.member-info {
+  flex-grow: 1;
+}
+
+.username {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.name {
+  font-size: 1em;
+  color: #555;
+  margin-top: 5px;
+}
+
+.email {
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Dugme za uklanjanje člana */
+.remove-button {
+  background-color: #f44336;  /* Crvena boja za dugme */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.remove-button:hover {
+  background-color: #d32f2f;  /* Tamnija crvena pri hover-u */
+}

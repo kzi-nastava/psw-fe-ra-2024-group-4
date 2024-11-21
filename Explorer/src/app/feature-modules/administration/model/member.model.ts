@@ -1,4 +1,10 @@
 export interface Member {
     id: number;
-    username: string
+    username: string;
+    name?: string;  
+    surname?: string; 
+  email?: string; 
+  imageUrl ?: string; 
+  biography ?: string; 
+  motto ?: string; 
 }
