@@ -1,7 +1,7 @@
 <div id="equipment">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <p>Necessary equipment</p>
-        <button class="edit-button" (click)="openEditDialog(equipment)">Edit</button>
+        <button class="edit-button" (click)="openEditDialog(equipment)">Add</button>
     </div>
     <hr>
     <div id="equipment-details">
@@ -18,7 +18,7 @@
                     <td>{{eq.name}}</td>
                     <td>{{eq.description}}</td>
                     <td>
-                        <mat-icon (click)="deleteEquipment(i,eq)">delete</mat-icon>
+                        <mat-icon class="delete-icon" (click)="deleteEquipment(i,eq)">delete</mat-icon>
                     </td>
                 </tr>
             </tbody>

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ManageTourEquipmentComponent } from '../manage-tour-equipment/manage-tour-equipment.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-necessary-equipment',
@@ -16,6 +17,7 @@ export class NecessaryEquipmentComponent implements OnInit {
   equipment: Equipment[] = [];
   tourId: number;
   tour: Tour;
+  
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -35,7 +37,7 @@ export class NecessaryEquipmentComponent implements OnInit {
     14: 'SelfGuided'
   };
 
-  constructor(private service: TourService, private route: ActivatedRoute, public dialog: MatDialog) {}
+  constructor(private service: TourService, private route: ActivatedRoute, public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -85,6 +87,11 @@ export class NecessaryEquipmentComponent implements OnInit {
       if (result) {
         console.log('Izmenjena oprema:', result);
         this.getEquipment();
+        this.snackBar.open('Equipment successfully added!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
       }
     });
   }

@@ -1,22 +1,25 @@
 <h2 mat-dialog-title>
-  Izmeni listu opreme
-  <button mat-icon-button (click)="onNoClick()" style="float: right;">
+  Add equipment to tour
+  <button mat-icon-button (click)="onCancel()" style="float: right;">
     <mat-icon>close</mat-icon>
   </button>
 </h2>
 <mat-dialog-content>
   <div id="equipment">
     <div id="equipment-details">
-      <div *ngFor="let eq of equipment" class="equipment-item">
+      <div *ngFor="let eq of filteredEquipment" class="equipment-item">
         <label>
-          <input type="checkbox" id="{{eq.id}}" name="{{eq.name}}" [(ngModel)]="eq.selected"> 
-          <span class="name">{{eq.name}}</span>
+          <input 
+            type="checkbox" 
+            [checked]="selectedEquipment.includes(eq)" 
+            (change)="toggleSelection(eq)"> 
+          <span class="name">{{ eq.name }}</span>
         </label>
-        <p class="description">{{eq.description}}</p>
+        <p class="description">{{ eq.description }}</p>
       </div>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions style="justify-content: center;">
-  <button class="save-btn" (click)="saveChanges()">Sačuvaj izmene</button>
+  <button class="save-btn" (click)="onSave()">Add selected items</button>
 </mat-dialog-actions>

@@ -79,6 +79,15 @@ tbody tr.active-row {
     padding: 16px;
     border-right: 1px solid #ddd;
 }
+.delete-icon {
+    cursor: pointer;
+    color: #f44336; /* Red for delete */
+    transition: color 0.3s;
+}
+
+.delete-icon:hover {
+    color: #d32f2f;
+}
 
 /*Tour card*/
 .card {

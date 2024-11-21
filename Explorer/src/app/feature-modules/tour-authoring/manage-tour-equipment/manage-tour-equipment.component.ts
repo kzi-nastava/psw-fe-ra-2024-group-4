@@ -5,6 +5,7 @@ import { Tour } from '../model/tour.model';
 import { TourService } from '../tour.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model'; 
 import { forkJoin } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-manage-tour-equipment',
@@ -13,10 +14,9 @@ import { forkJoin } from 'rxjs';
 })
 export class ManageTourEquipmentComponent implements OnInit {
   tourId: number; 
-  equipment: Equipment[] = [];
-  filteredEquipment: Equipment[] = [];
-  selectedEquipment: Equipment[] = [];
-  addedEquipment: Equipment[] = []; 
+  allEquipment: Equipment[] = []; // All available equipment
+  filteredEquipment: Equipment[] = []; // Equipment not in the current tour
+  selectedEquipment: Equipment[] = []; // Equipment selected for addition
 
   constructor(
     public dialogRef: MatDialogRef<ManageTourEquipmentComponent>,
@@ -31,87 +31,62 @@ export class ManageTourEquipmentComponent implements OnInit {
     }
 
     this.tourId = this.data.tourId; 
-    this.getTourEquipment(); 
+    this.fetchTourAndAvailableEquipment(); 
   }
 
-  getTourEquipment(): void {
-    console.log(`Fetching equipment for tour ID: ${this.tourId}`); 
+  fetchTourAndAvailableEquipment(): void {
+    // Get currently added equipment
     this.service.getTourEquipment(this.tourId).subscribe({
-        next: (result: PagedResults<Equipment>) => {
-            this.addedEquipment = result.results;
-            console.log('Added Equipment:', this.addedEquipment); 
-            this.getEquipment();
-        },
-        error: (err) => {
-            console.error('Error fetching equipment for tour', err); 
-        }
-    });
-  }
+      next: (result: PagedResults<Equipment>) => {
+        const addedEquipment = result.results;
 
-  getEquipment(): void {
-    this.service.getEquipment().subscribe({
-        next: (result: PagedResults<Equipment>) => {
-            this.equipment = result.results;
-            this.setSelectedEquipment(); 
-        },
-        error: () => {
+        // Fetch all equipment
+        this.service.getEquipment().subscribe({
+          next: (result: PagedResults<Equipment>) => {
+            this.allEquipment = result.results;
+
+            // Filter out equipment already in the tour
+            this.filteredEquipment = this.allEquipment.filter(eq =>
+              !addedEquipment.some(addedEq => addedEq.id === eq.id)
+            );
+          },
+          error: () => {
             console.error('Error fetching available equipment'); 
-        }
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching equipment for tour', err); 
+      }
     });
   }
 
-  setSelectedEquipment(): void {
-    this.equipment.forEach(eq => {
-      eq.selected = this.addedEquipment.some(addedEq => addedEq.id === eq.id);
-      console.log(`Equipment ID: ${eq.id}, Selected: ${eq.selected}`);
-    });
-  }
-  
-  
-
-  onNoClick(): void {
-    this.dialogRef.close(); 
+  toggleSelection(equipment: Equipment): void {
+    if (this.selectedEquipment.includes(equipment)) {
+      this.selectedEquipment = this.selectedEquipment.filter(eq => eq.id !== equipment.id);
+    } else {
+      this.selectedEquipment.push(equipment);
+    }
   }
 
-  //TODO: refactor
-  saveChanges(): void {
-    const changes = this.equipment.filter(eq => eq.selected !== this.addedEquipment.some(addedEq => addedEq.id === eq.id));
-  
-    const addEquipmentObservables = changes
-      .filter(eq => eq.selected)
-      .map(eq => {
-        if (eq.id != null) {
-          return this.service.addTourEquipment(eq.id!, { id: this.tourId! } as Tour);
-        } else {
-          console.error(`Equipment ID is undefined for equipment: ${eq.name}`);
-          return null;
-        }
-      })
-      .filter(obs => obs !== null); 
+  onSave(): void {
+    const addEquipmentObservables = this.selectedEquipment.map(eq => {
+      if (eq.id != null) {
+        return this.service.addTourEquipment(eq.id, { id: this.tourId } as Tour);
+      } else {
+        console.error(`Equipment ID is undefined for equipment: ${eq.name}`);
+        return null;
+      }
+    }).filter(obs => obs !== null); 
 
-      const removeEquipmentObservables = changes
-      .filter(eq => !eq.selected) 
-      .map(eq => {
-        if (eq.id != null) {
-          return this.service.removeEquipmentFromTour(eq.id!, this.tourId!); 
-        } else {
-          console.error(`Equipment ID is undefined for equipment: ${eq.name}`);
-          return null;
-        }
-      })
-      .filter(obs => obs !== null); 
-    
-
-    const allChanges = [...addEquipmentObservables, ...removeEquipmentObservables];
-    
-    if (allChanges.length > 0) {
-      forkJoin(allChanges).subscribe({
+    if (addEquipmentObservables.length > 0) {
+      forkJoin(addEquipmentObservables).subscribe({
         next: results => {
-          console.log('All changes saved successfully:', results);
+          console.log('Added equipment successfully:', results);
           this.dialogRef.close(true); 
         },
         error: err => {
-          console.error('Error saving equipment changes:', err);
+          console.error('Error adding equipment:', err);
           this.dialogRef.close(false); 
         }
       });
@@ -119,9 +94,8 @@ export class ManageTourEquipmentComponent implements OnInit {
       this.dialogRef.close(false); 
     }
   }
+
+  onCancel(): void {
+    this.dialogRef.close(false); 
+  }
 }
-
-  
-  
-  
-
