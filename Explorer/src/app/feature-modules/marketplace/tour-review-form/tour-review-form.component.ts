@@ -198,8 +198,16 @@ export class TourReviewFormComponent implements OnInit {
     if (this.existingReview) {
       this.service.deleteTourReview(this.existingReview).subscribe(() => {
         this.existingReview = null;
-        this.reviewForm.reset();
-        this.showDeleteAlert();
+      this.reviewForm.reset();
+      this.reviewForm.patchValue({
+        rating: null,
+        comment: '',
+        image: '',
+        imageBase64: ''
+      });
+      this.editMode = false;
+      this.showDeleteAlert();
+      this.ngOnInit();
       });
     }
   }

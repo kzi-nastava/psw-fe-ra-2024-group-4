@@ -10,7 +10,6 @@
 </ng-template>
 
 <div *ngIf="existingReview && !editMode" class="header-section">
-  <h2>Your Review for This Tour</h2>
   <p><strong>Rating:</strong> {{ existingReview.rating }}</p>
   <p><strong>Comment:</strong> {{ existingReview.comment }}</p>
 
@@ -21,7 +20,7 @@
   <button mat-icon-button (click)="editReview()">
     <mat-icon>edit</mat-icon> 
   </button>
-  <button mat-raised-button color="warn" class="delete-button" (click)="deleteReview()">Delete</button>
+  <button mat-raised-button  class="submit-button" (click)="deleteReview()">Delete</button>
 </div>
 
 
