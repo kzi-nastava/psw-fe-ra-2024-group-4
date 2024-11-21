@@ -4,7 +4,8 @@ export interface Registration {
     email: string,
     username: string,
     password: string,
-    profilePicture: string,
-    biography: string,
-    motto: string
+    profilePicture?: string,
+    imageBase64: string;
+    biography?: string,
+    motto?: string
 }

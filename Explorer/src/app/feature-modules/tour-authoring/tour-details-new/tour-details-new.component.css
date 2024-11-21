@@ -1,18 +1,56 @@
-body {
-  margin: 0;
-  padding: 0;
+
+.create-new-btn{
+  width: 120%;
 }
 
-.header {
-  height: 10vh;
-  background-color: #f1f1f1;
-  position: relative;
+.add-existing-btn{
+  margin-top: 2%;
 }
 
-.navbar {
-  background-color: #333;
-  color: white;
+.add-createdkp-tour-div{
+  display: flex;
+  align-items: center;
+  
 }
+
+
+.imgContainer{
+  height: 15vh;
+}
+
+.form-div {
+  width: 100%; 
+  height: 80vh; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0;
+}
+
+.tour-details-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: linear-gradient(to top, rgb(241, 226, 251), rgb(253, 248, 255));
+  overflow: hidden;
+}
+
+.tour-info-left {
+  flex: 1;
+  padding: 20px;
+  width: 80vh; 
+  border-radius: 8px;
+  height: 83vh;
+}
+
+.tour-map-right {
+  flex: 2;
+}
+
+::ng-deep .leaflet-routing-alternatives-container {
+  display: none;  
+}
+
 
 .fixed-circle {
   position: fixed;
@@ -67,6 +105,16 @@ body {
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -196,6 +196,7 @@ export class ProblemTicketComponent implements OnInit {
 
     if (!this.hasAuthorComment()) {
       alert('You cannot close this problem! Author must first add a comment before closing the issue.');
+      this.isModalOpen = false;
       return;
   }
 
