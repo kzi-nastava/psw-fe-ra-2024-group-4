@@ -12,8 +12,21 @@
                 <h2>{{ infoPerson.name }} {{ infoPerson.surname }}</h2>
                 
                 <div class="profile-info">
-                    <p><strong>Biography:</strong> {{ infoPerson.biography }}</p>
-                    <p><strong>Motto:</strong> {{ infoPerson.motto }}</p>
+                    <!-- Prikaz za biografiju -->
+                    <p *ngIf="infoPerson.biography; else biographyPlaceholder">
+                        <strong>Biography:</strong> {{ infoPerson.biography }}
+                    </p>
+                    <ng-template #biographyPlaceholder>
+                        <p class="placeholder"><strong>Biography:</strong> Not provided. Click edit to add your biography.</p>
+                    </ng-template>
+                
+                    <!-- Prikaz za moto -->
+                    <p *ngIf="infoPerson.motto; else mottoPlaceholder">
+                        <strong>Motto:</strong> {{ infoPerson.motto }}
+                    </p>
+                    <ng-template #mottoPlaceholder>
+                        <p class="placeholder"><strong>Motto:</strong> Not provided. Click edit to add your motto.</p>
+                    </ng-template>
                 </div>
                 
                 <button mat-raised-button color="primary" (click)="enableEditMode()">Edit Profile</button>
@@ -22,42 +35,39 @@
 
         <!-- Prikaz za editovanje profila -->
         <ng-template #editTemplate>
-            <div class="box card">
+            <div class="box card edit-profile-container">
                 <div id="overlay">
                     <!-- Prikaz slike tokom uređivanja -->
-                    <div class="profile-image">
-                        <img *ngIf="imageBase64; else currentImage" [src]="imageBase64" alt="Profile Picture">
-                        <ng-template #currentImage>
-                            <img [src]="imageBase64 ? imageBase64 : getImage(infoPerson.imageUrl)" alt="Profile Picture">
-                         
-                        </ng-template>
+                    <div class="edit-image">
+                        <img [src]="imageBase64 ? imageBase64 : getImage(infoPerson.imageUrl)" alt="Profile Picture">
                     </div>
-
+        
                     <!-- Input za izmenu slike -->
                     <input type="file" (change)="onFileSelected($event)" />
+                    <mat-form-field appearance="outline" class="edit-field">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="editPerson.name" name="name" placeholder="Enter your name">
+                </mat-form-field>
 
-                    <mat-form-field appearance="fill">
-                        <mat-label>Name</mat-label>
-                        <input matInput [(ngModel)]="editPerson.name" name="name">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill">
-                        <mat-label>Surname</mat-label>
-                        <input matInput [(ngModel)]="editPerson.surname" name="surname">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill">
+            <!-- Polje za prezime -->
+            <mat-form-field appearance="outline" class="edit-field">
+                <mat-label>Surname</mat-label>
+                <input matInput [(ngModel)]="editPerson.surname" name="surname" placeholder="Enter your surname">
+            </mat-form-field>
+        
+                    <!-- Polja za biografiju i moto -->
+                    <mat-form-field appearance="outline" class="edit-field">
                         <mat-label>Biography</mat-label>
-                        <textarea matInput [(ngModel)]="editPerson.biography" name="biography"></textarea>
+                        <textarea matInput [(ngModel)]="editPerson.biography" name="biography" placeholder="Enter your biography"></textarea>
                     </mat-form-field>
-
-                    <mat-form-field appearance="fill">
+        
+                    <mat-form-field appearance="outline" class="edit-field">
                         <mat-label>Motto</mat-label>
-                        <input matInput [(ngModel)]="editPerson.motto" name="motto">
+                        <input matInput [(ngModel)]="editPerson.motto" name="motto" placeholder="Enter your motto">
                     </mat-form-field>
-
+        
                     <div class="form-actions">
-                        <button mat-raised-button color="primary" (click)="updateProfile()">Save Changes</button>
+                        <button mat-raised-button color="primary" (click)="updateProfile()">Save</button>
                         <button mat-button color="warn" (click)="cancelEdit()">Cancel</button>
                     </div>
                 </div>
