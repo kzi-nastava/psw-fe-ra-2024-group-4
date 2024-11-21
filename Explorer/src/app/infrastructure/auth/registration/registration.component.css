@@ -4,7 +4,10 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--background-color); /* Optional, to fill background */
+    width: 100%;
+    background: url('../../../../../background_pictures/s1.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
 }
 .one-input{
     width: 100%;
