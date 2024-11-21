@@ -88,6 +88,17 @@ export class NecessaryEquipmentComponent implements OnInit {
       }
     });
   }
+  deleteEquipment(index: number, equipment: Equipment): void {
+    // Remove the equipment from the local list
+    this.equipment.splice(index, 1);
+  
+    // Call the service to mark the tour as unchecked
+    this.service.removeEquipmentFromTour(equipment.id!, this.tourId).subscribe({
+      next: () => console.log(`Removed equipment ID: ${equipment.id} from tour ID: ${this.tourId}`),
+      error: (err) => console.error('Error removing equipment:', err),
+    });
+  }
+  
 
 
 }

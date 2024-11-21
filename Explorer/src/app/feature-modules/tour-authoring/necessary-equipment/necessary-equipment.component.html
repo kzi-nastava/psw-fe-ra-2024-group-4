@@ -14,9 +14,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let eq of equipment">
+                <tr *ngFor="let eq of equipment; let i = index">
                     <td>{{eq.name}}</td>
                     <td>{{eq.description}}</td>
+                    <td>
+                        <mat-icon (click)="deleteEquipment(i,eq)">delete</mat-icon>
+                    </td>
                 </tr>
             </tbody>
         </table>

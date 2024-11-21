@@ -13,7 +13,9 @@ import { forkJoin } from 'rxjs';
 })
 export class ManageTourEquipmentComponent implements OnInit {
   tourId: number; 
-  equipment: Equipment[] = []; 
+  equipment: Equipment[] = [];
+  filteredEquipment: Equipment[] = [];
+  selectedEquipment: Equipment[] = [];
   addedEquipment: Equipment[] = []; 
 
   constructor(
