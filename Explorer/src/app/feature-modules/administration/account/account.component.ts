@@ -51,6 +51,9 @@ export class AccountComponent implements OnInit {
         this.account = this.account.map(item => 
           item.id === ac.id ? result : item
         );
+        this.filteredAccounts = this.filteredAccounts.map(item => 
+          item.id === ac.id ? result : item
+        );
       },
       error: (err: any) => {
         console.log(err);

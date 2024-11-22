@@ -1,19 +1,22 @@
-<div class="">
-    <h2>Accounts</h2>
+<div>
+    <h2 id="title">Accounts</h2>
 </div>
 <div id="account">
-    <div class="filters">
-        <mat-form-field>
+    <div class="filters-container">
+        <div class="filters">
+            <p>Find account</p>
+            <mat-form-field>
                 <mat-label>Username</mat-label>
                 <input placeholder="Username or email" matInput type="text" [(ngModel)]="searchQuery" (input)="filterAccounts()"/>
-        </mat-form-field>    
-        <mat-form-field appearance="fill">
-            <mat-label>Role</mat-label>
-            <mat-select [(value)]="selectedRole" (selectionChange)="filterAccounts()">
-              <mat-option value="tourist">Tourist</mat-option>
-              <mat-option value="author">Author</mat-option>
-            </mat-select>
-          </mat-form-field>      
+            </mat-form-field>    
+            <mat-form-field appearance="fill">
+                <mat-label>Role</mat-label>
+                <mat-select [(value)]="selectedRole" (selectionChange)="filterAccounts()">
+                    <mat-option value="tourist">Tourist</mat-option>
+                    <mat-option value="author">Author</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div id="account-cards">
         <div *ngFor="let ac of filteredAccounts" class="card">
