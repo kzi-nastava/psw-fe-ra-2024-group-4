@@ -67,6 +67,8 @@ export class ManageTourEquipmentComponent implements OnInit {
       this.selectedEquipment = this.selectedEquipment.filter(eq => eq.id !== equipment.id);
     } else {
       this.selectedEquipment.push(equipment);
+      console.log('Added eq: ',equipment);
+      console.log('All selected eq:  ', this.selectedEquipment);
     }
   }
   filterEquipment(): void {

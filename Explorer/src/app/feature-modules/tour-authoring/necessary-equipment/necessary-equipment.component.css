@@ -105,17 +105,17 @@ tbody tr.active-row {
 
 /*Tour card*/
 .card {
-    position: fixed; /* Fixes the card on the screen */
-    top: 150px; /* Adds some spacing from the top of the viewport */
-    left: 20px; /* Adds some spacing from the left of the viewport */
-    width: 22vw; /* Keeps the same width */
-    height: 54vh; /* Keeps the same height */
+    position: fixed; 
+    top: 150px; 
+    left: 20px; 
+    width: 22vw; 
+    height: 54vh; 
     border-radius: calc(40 * 1px);
     text-decoration: none;
-    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3); /* Shadow effect */
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3); 
     overflow: hidden;
-    background-color: white; /* Ensure the card has a white background */
-    z-index: 10; /* Ensures it stays above other elements */
+    background-color: white; 
+    z-index: 10; 
 }
   
   .card-image {
@@ -130,8 +130,10 @@ tbody tr.active-row {
     right: 0;
     border-radius: calc(38 * 1px) 0 0 0;
     background-color: white;
-    transform: translateY(100%);
-    transition: .2s ease-in-out;
+    transform: translateY(0);
+    transition: none;
+    /*transform: translateY(100%);
+    transition: .2s ease-in-out;*/
   }
   
   .card:hover .card-overlay {
@@ -147,8 +149,10 @@ tbody tr.active-row {
     padding-bottom: 0;
     border-radius: calc(40*1px) 0 0 0;
     background-color: white;
-    transform: translateY(-100%);
-    transition: .2s ease-in-out;
+    transform: translateY(0);
+    transition: none;
+    height: fit-content;
+    margin-bottom: 6px;
   }
   
   .card-header-text {
@@ -169,8 +173,8 @@ tbody tr.active-row {
     line-height: 1.1;
     width: 100%;
     color: #6A515E;
-    overflow: hidden;
-    white-space: nowrap;
+    overflow:hidden;
+    white-space: wrap;
     background-color: rgb(255, 255, 255);
     text-align: center;
     margin-bottom: 1vh;

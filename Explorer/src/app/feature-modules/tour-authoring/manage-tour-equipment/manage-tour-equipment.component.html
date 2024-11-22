@@ -4,7 +4,9 @@
     <mat-icon>close</mat-icon>
   </button>
 </h2>
+
 <mat-dialog-content>
+  
   <div id="equipment">
     <input class="search"
       type="text" 
@@ -13,6 +15,7 @@
       placeholder="Search equipment..." 
       [(ngModel)]="searchQuery" 
       (input)="filterEquipment()"
+      
     />
     <label *ngIf="searchQuery" class="search-label">
       Search results for "{{ searchQuery }}"

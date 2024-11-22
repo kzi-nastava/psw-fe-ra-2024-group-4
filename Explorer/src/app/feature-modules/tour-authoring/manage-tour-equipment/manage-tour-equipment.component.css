@@ -2,6 +2,7 @@
     margin-top: 20px;
     margin-left: 20px;
     max-width: 500px;
+    height: 100%;
   }
   
   .header {
@@ -14,6 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    height: 100%;
   }
   
   .equipment-item {
@@ -82,6 +84,12 @@
   color: #333;
   text-align: left;
 }
-.fixed-actions{
-  justify-content: center;
+.fixed-actions {
+  position: sticky;
+  bottom: 0; /* Sticks to the bottom of the dialog */
+  z-index: 1;
+  background-color: white;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  justify-content: center; /* Center align the button */
 }

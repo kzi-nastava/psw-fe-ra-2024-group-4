@@ -108,6 +108,7 @@ export class NecessaryEquipmentComponent implements OnInit {
     // Remove the equipment from the local list
     this.equipment.splice(index, 1);
     this.filteredEquipment = [...this.equipment];
+    this.searchQuery='';
     
   
     // Call the service to mark the tour as unchecked
