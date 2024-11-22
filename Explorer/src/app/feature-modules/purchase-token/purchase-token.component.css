@@ -71,4 +71,9 @@
   .tour-card .tour-tag:last-child {
     margin-right: 0;
   }
+
+  /*masa dodala*/
+  .right-button {
+    margin-left: 200px;
+  }
   

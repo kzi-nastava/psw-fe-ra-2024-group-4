@@ -14,6 +14,10 @@ import { AccountComponent } from './account/account.component';
 import { AppReviewTableComponent } from './app-review-table/app-review-table.component';
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -38,6 +42,10 @@ import { MatOptionModule } from '@angular/material/core';
     MaterialModule,
     ReactiveFormsModule,
     RouterModule,
+    MatCheckboxModule,       
+    MatListModule,   
+    MatFormFieldModule,      
+    MatInputModule,
     FormsModule,
     MatSelectModule,
     MatOptionModule,

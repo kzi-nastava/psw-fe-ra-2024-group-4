@@ -53,32 +53,13 @@
             </mat-form-field>
         </div>
         <div class="one-input">
-            <mat-form-field appearance="fill" floatLabel="auto">
-                <mat-label>Profile picture</mat-label>
-                <input matInput type="text" formControlName="profilePicture" placeholder="Enter your picture" required>
-                <mat-error *ngIf="registrationForm.get('profilePicture')?.hasError('required') && registrationForm.get('profilePicture')?.dirty">
-                    This field is required
-                </mat-error>
-            </mat-form-field>
+            <label>Profile picture</label>
+            <input type="file" (change)="onFileSelected($event)" />
+            <mat-error *ngIf="registrationForm.get('profilePicture')?.touched">
+                Image is required.
+            </mat-error>
         </div>
-        <div class="one-input">
-            <mat-form-field appearance="fill" floatLabel="auto">
-                <mat-label>Biography</mat-label>
-                <textarea matInput formControlName="biography" placeholder="Enter your bio" required spellcheck="false"></textarea>
-                <mat-error *ngIf="registrationForm.get('biography')?.hasError('required') && registrationForm.get('biography')?.dirty">
-                    This field is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="one-input">
-            <mat-form-field appearance="fill" floatLabel="auto">
-                <mat-label>Motto</mat-label>
-                <textarea matInput type="text" formControlName="motto" placeholder="Enter your bio" required spellcheck="false"></textarea>
-                <mat-error *ngIf="registrationForm.get('motto')?.hasError('required') && registrationForm.get('motto')?.dirty">
-                    This field is required
-                </mat-error>
-            </mat-form-field>
-        </div>
+    
         <!-- Submit Button -->
         <div class="field">
             <button color="primary" type="submit" mat-raised-button class="submit-button">Register</button>
