@@ -15,7 +15,7 @@
   
   .map-container{
      width: 70%;
-     
+     margin-bottom: 10px;   
      
      
   }
@@ -25,7 +25,7 @@
     font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
     font-weight: 400; /* Debljina fonta */
     line-height: 1.6; /* Visina linije, kako bi tekst bio čitljiviji */
-    margin: 20px 0;   /* Gornji i donji razmak */
+    margin: 5px 0;   /* Gornji i donji razmak */
     padding: 10px;    /* Unutrašnji razmak */
     text-align: center; /* Centriranje teksta */
     background-color: #f4f4f4; /* Pozadinska boja */
@@ -33,23 +33,38 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
   }
 
-  h2 {
-    font-size: 19px; /* Veličina fonta */
+  .sub-container p{
+    font-size: 17px; /* Veličina fonta */
     color: #333;     /* Boja teksta */
     font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
-    font-weight: 600; /* Debljina fonta */
-    margin-left: 10px;
+    font-weight: 400; /* Debljina fonta */
+    line-height: 1.6; /* Visina linije, kako bi tekst bio čitljiviji */
+    margin: 10px 0;   /* Gornji i donji razmak */
+    text-align: center; /* Centriranje teksta */
+    background-color: #f4f4f4; /* Pozadinska boja */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
+  }
+
+  
+
+  mat-icon {
+    margin-right: 5px;
   }
 
 
   
-  form > div {
+ 
+
+  .field-container {
     display: flex;
     align-items: center; /* Postavlja input i "km" u isti red */
   }
   
+
+  
   mat-form-field {
-    width: 400px; /* Smanjite širinu forme */
+    width: 200px; /* Smanjite širinu forme */
     margin-right: 10px; /* Razmak između inputa i "km" */
   }
   
@@ -68,7 +83,7 @@
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
-    margin: 5;
+    margin: 5px;
   }
 
   mat-selection-list {
@@ -93,3 +108,7 @@
     line-height: 1.6; 
     text-align: left; /* Centriranje teksta */
   }
+
+
+
+  

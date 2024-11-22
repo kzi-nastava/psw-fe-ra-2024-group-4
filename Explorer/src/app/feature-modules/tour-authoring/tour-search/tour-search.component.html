@@ -1,40 +1,84 @@
 <div class="container">
-    <h2>Search Tours</h2>
 
-    <form [formGroup]="tourSearchForm1">
-
-        
-        <div>
-            <p>Search by Name</p>
-            <mat-form-field>
-                <mat-label>Tour Name</mat-label>
-                <input matInput formControlName="name" type="text" />
-            </mat-form-field>
-        </div>
-
-        
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>Search by location</mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="map-container">
-                    <p>Choose location and find nearest tours:</p>
-                    <div>
+    <mat-accordion multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> 
+                    <mat-icon>search</mat-icon>
+                    Search tours by name and location
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <form [formGroup]="tourSearchForm">        
+                <div class="sub-container">
+                    <p>Search tours by Name</p>
+                    <div class="field-container">
+                        <mat-form-field>
+                            <mat-label>Tour Name</mat-label>
+                            <input matInput formControlName="name" type="text" />
+                        </mat-form-field>
+                    </div>            
+                </div>
+                <div class="sub-container">
+                    <p>Choose location and find nearest tours!</p>
+                    <div class="field-container">
                         <mat-form-field>
                             <mat-label>Distance</mat-label>
                             <input matInput formControlName="distance" type="text" />
-                        </mat-form-field>
-                        <span class="km-label">km</span>
+                            </mat-form-field>
+                            <span class="km-label">km</span> <!-- Dodajte "km" pored forme -->
                     </div>
                     <div class="map-container">
-                        <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated]="tourSearchActivated" (tourSearchLon)="setLongitude($event)"></xp-map>
+                      <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated]="tourSearchActivated" (tourSearchLon)="setLongitude($event)"></xp-map>
                     </div>
+                    <button class="search" mat-raised-button type="submit" color="primary" (click)="search()">Search</button>
                 </div>
-            </mat-expansion-panel>
+            </form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>filter_list</mat-icon>
+                    Filter results                    
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <form [formGroup]="filterForm">
+                <div class="sub-container">                    
+                    <p>Filter by Difficulty:</p>
+                    <div class="field-container">
+                        <mat-form-field>
+                            <mat-label>Difficulty</mat-label>
+                            <mat-select formControlName="difficulty">
+                                <mat-option *ngFor="let diff of availableDiff" [value]="diff">{{ diff }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>                        
+                </div>
+                <div class="tags-container">
+                    <p>Filter by Tags:</p>
+                    <mat-selection-list>
+                        <div *ngFor="let tag of availableTags; let index = index">
+                            <mat-checkbox 
+                                (change)="onTagChange($event, index)"
+                                [checked]="filterForm.get('tags')?.value?.includes(index)">
+                                {{ tag.label }}
+                            </mat-checkbox>
+                        </div>
+                    </mat-selection-list>
+                </div>  
+            </form>    
+            <button class="search" mat-raised-button color="primary" (click)="search()">Filter</button>           
+            
+        </mat-expansion-panel>
+    </mat-accordion>
+
+
+        
+    
+    
+</div>
 
             
-            <mat-expansion-panel>
+            <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>Search by City and Country</mat-panel-title>
                 </mat-expansion-panel-header>
@@ -56,9 +100,9 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-            </mat-expansion-panel>
+            </mat-expansion-panel> -->
 
-            <mat-expansion-panel>
+            <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>Search by Difficulty</mat-panel-title>
                 </mat-expansion-panel-header>
@@ -72,10 +116,10 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-            </mat-expansion-panel>
+            </mat-expansion-panel> -->
 
             
-            <mat-expansion-panel>
+            <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>Search by Tags</mat-panel-title>
                 </mat-expansion-panel-header>
@@ -91,9 +135,6 @@
                     </mat-selection-list>
                 </div>
             </mat-expansion-panel>
-        </mat-accordion>
-    </form>
+        </mat-accordion> -->  
 
-    
-    <button class="search" mat-raised-button color="primary" (click)="search()">Search</button>
-</div>
+
