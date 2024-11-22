@@ -31,8 +31,10 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   width: 300px; /* Širina za zakrivljenje */
-  text-align: center; /* Centriranje teksta */
-  margin: 20px auto;
+  text-align: left; /* Centriranje teksta */
+  /*margin: 20px auto;*/
+  margin-left: 30px;
+  margin-top:15px;
   overflow: hidden;
 }
 .club-Name::before {

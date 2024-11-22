@@ -12,6 +12,12 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  margin-bottom: 5px;
+  
+}
+.member-card-owner-card{
+  box-shadow: 0 4px 8px rgba(152, 16, 16, 0.2); /* Efekat senke */
+    transition: box-shadow 0.3s ease;
 }
 .owner-text {
   font-weight: bold;
@@ -29,6 +35,13 @@
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  margin: 5px;
+}
+.members-container {
+  display: flex;
+  flex-wrap: wrap; /* Omogućava prelamanje u novi red */
+  gap: 20px; /* Razmak između kartica */
+  justify-content: center;
 }
 
 
@@ -140,4 +153,26 @@
   border-left: 1px solid #ef7ad9;
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
+}
+
+.owner-card {
+
+  background-color: #fff;
+ /* border: 1px solid #ddd;*/
+  border-radius: 40px;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+  transition: transform 0.2s;
+  margin: 5px;
+  box-shadow: 0 4px 8px rgba(205, 29, 170, 0.3); 
+  border: 2px solid rgb(205, 50, 177); 
+  transition: box-shadow 0.3s ease, transform 0.3s ease; 
+}
+
+.owner-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); 
+  transform: translateY(-2px); 
 }

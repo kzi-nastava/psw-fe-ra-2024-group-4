@@ -50,8 +50,9 @@
   <h2>Club Members</h2>
 
 <div *ngFor="let member of members" class="member-cards">
-    <div *ngIf="member.id === ownerId" class="member-card owner-card">
+    <div *ngIf="member.id === ownerId"  class="member-card owner-card">
         <!-- Prikaz vlasnika -->
+     
         <div class="member-image">
             <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
         </div>
@@ -62,11 +63,13 @@
             <div>
                 <i class="fas fa-star" style="color: yellow;"></i> OWNER
             </div>
-        </div>
+       
+    </div>
     </div>
 </div>
 
-<div *ngFor="let member of members" class="member-cards">
+<div class="members-container">
+<div *ngFor="let member of members"  >
     <div *ngIf="member.id !== ownerId" class="member-card">
         <!-- Prikaz ostalih članova -->
         <div class="member-image">
@@ -81,6 +84,7 @@
             </button>
         </div>
     </div>
+</div>
 </div>
 
 <ng-template #noMembers>
