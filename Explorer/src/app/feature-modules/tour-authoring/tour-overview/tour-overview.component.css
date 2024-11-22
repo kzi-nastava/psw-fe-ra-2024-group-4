@@ -232,11 +232,10 @@ button[mat-icon-button] mat-icon {
   .left-side-container {
     flex: 0 0 20%;
     /*background-color: #d1e7dd;*/
-    margin-right: 5%;
+    margin-right: 1%;
     display: flex;
     justify-content: center;
     align-items: baseline;
-    padding-top: 10%;
     text-align: center;
   }
   

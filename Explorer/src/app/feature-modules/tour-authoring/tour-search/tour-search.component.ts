@@ -19,13 +19,24 @@ export class TourSearchComponent implements OnInit {
   longitude: number = 12.4798;
 
   tourSearchActivated: boolean = true;
-  availableTags = Object.keys(TourTags)
-  .filter(key => isNaN(Number(key)))
-  .map((tag, index) => ({ index, label: tag }));
-  availableCountries: string[] = ['Serbia', 'Croatia'];
-  availableCities: string[] = ['Belgrade', 'Novi Sad'];
-  availableDiff =[ 0, 1, 2]
-  currentTags: number[] = [];
+  availableTags = ['Cycling',
+    'Culture',
+    'Adventure',
+    'FamilyFriendly',
+    'Nature',
+    'CityTour',
+    'Historical',
+    'Relaxation',
+    'Wildlife',
+    'NightTour',
+    'Beach',
+    'Mountains',
+    'Photography',
+    'Guided',
+    'SelfGuided']
+  availableDiff =[ 'Easy', 'Medium', 'Hard']
+  currentTags: string[] = [];
+  resultingTours:TourOverview[] = []; 
   
 
   constructor(private servis: TourOverviewService){}
@@ -36,6 +47,7 @@ export class TourSearchComponent implements OnInit {
   getAllTours(): void {
     this.servis.getAllWithoutReviews().subscribe({
       next: (data: PagedResults<TourOverview>) => {
+        this.resultingTours = data.results;
         this.tourSearchResults.emit(data.results);
         console.log(data.results);
       },
@@ -51,8 +63,8 @@ export class TourSearchComponent implements OnInit {
   })
 
   filterForm = new FormGroup({
-    tags: new FormControl<number[]>([]),
-    difficulty: new FormControl(0)
+    tags: new FormControl<string[]>([]),
+    difficulty: new FormControl('')
 });
   
   search(): void {
@@ -62,10 +74,10 @@ export class TourSearchComponent implements OnInit {
     if(distanceValue === 0 && nameValue === ''){
       Swal.fire({
         title: 'Warning!',
-        text: 'You must enter at least one search parameter!',
+        text: "You haven't enterd any search parameters.",
         icon: 'warning',
         confirmButtonText: 'OK'
-    });
+      });
     this.getAllTours();
     return;
     }
@@ -73,7 +85,7 @@ export class TourSearchComponent implements OnInit {
     if(distanceValue === 0){
       this.servis.getAllWithoutReviews().subscribe({
         next: (data: PagedResults<TourOverview>) => {
-           
+          this.resultingTours = data.results;
           // Emitujemo rezultat pretrage
           this.tourSearchResults.emit(data.results);
           console.log(data.results);
@@ -87,12 +99,13 @@ export class TourSearchComponent implements OnInit {
     this.servis.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
       next: (data: PagedResults<TourOverview>) => {
         let filteredResults = data.results;
-
+            
             if (nameValue) {
                 filteredResults = filteredResults.filter(tour =>
                     tour.tourName.toLowerCase().includes(nameValue)
                 );
             }
+            this.resultingTours = data.results;
         // Emitujemo rezultat pretrage
         this.tourSearchResults.emit(filteredResults);
         console.log(filteredResults);
@@ -103,21 +116,74 @@ export class TourSearchComponent implements OnInit {
     });
   }
 
+  filter(): void {
+    console.log("filtrira");
+    const difficultyValue = this.filterForm.value.difficulty ?? '';
+    console.log(difficultyValue);
 
-  onTagChange(event: MatCheckboxChange, index: number): void {
+    if(difficultyValue === '' && this.currentTags.length === 0){
+      Swal.fire({
+        title: 'Warning!',
+        text: "You haven't enterd any filter parameters.",
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return
+    }
+
+    let filteredResults = this.resultingTours;
+    if(difficultyValue === ''){
+      filteredResults =  this.resultingTours.filter(tour => {
+        return this.currentTags.every(tag => tour.tags.includes(tag));
+      });
+      this.tourSearchResults.emit(filteredResults);
+    }
+
+    if(this.currentTags.length === 0){
+      filteredResults = this.resultingTours.filter(tour => tour.tourDifficulty === difficultyValue);
+      this.tourSearchResults.emit(filteredResults);
+    }
+
+    filteredResults =  this.resultingTours.filter(tour => {
+      return this.currentTags.every(tag => tour.tags.includes(tag));
+    });
+    filteredResults = this.resultingTours.filter(tour => tour.tourDifficulty === difficultyValue);
+    this.tourSearchResults.emit(filteredResults);
+
+
+
+
+  }
+
+
+  onTagChange(event: MatCheckboxChange, tag: string): void {
     this.currentTags = this.filterForm.get('tags')?.value || [];
 
     if (event.checked) {
-      this.currentTags.push(index);
+        // Dodaj tag u listu ako je checkbox selektovan
+        this.currentTags.push(tag);
     } else {
-
-      const tagIndex = this.currentTags.indexOf(index);
-      if (tagIndex >= 0) {
-        this.currentTags.splice(tagIndex, 1);
-      }
+        // Ukloni tag iz liste ako je checkbox poništen
+        const tagIndex = this.currentTags.indexOf(tag);
+        if (tagIndex >= 0) {
+            this.currentTags.splice(tagIndex, 1);
+        }
     }
-    this.filterForm.get('tags')?.setValue(this.currentTags);
 
+    // Ažuriraj formu sa izmenjenom listom tagova
+    this.filterForm.get('tags')?.setValue(this.currentTags);
+    console.log(this.currentTags)
+  }
+
+  clearFilters(): void {
+    this.tourSearchResults.emit(this.resultingTours);
+    this.filterForm.reset();
+  }
+
+  clearSearch(): void {
+    this.getAllTours()
+    this.tourSearchForm.reset();
+    this.filterForm.reset();
   }
   
 
