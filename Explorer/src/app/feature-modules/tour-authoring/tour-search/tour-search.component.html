@@ -1,18 +1,99 @@
 <div class="container">
-    <p>Choose location and find nearest tours!</p>
-    <form [formGroup]="tourSearchForm">
+    <h2>Search Tours</h2>
+
+    <form [formGroup]="tourSearchForm1">
+
+        
         <div>
+            <p>Search by Name</p>
             <mat-form-field>
-                <mat-label>Distance</mat-label>
-                <input matInput formControlName="distance" type="text" />
-              </mat-form-field>
-              <span class="km-label">km</span> <!-- Dodajte "km" pored forme -->
+                <mat-label>Tour Name</mat-label>
+                <input matInput formControlName="name" type="text" />
+            </mat-form-field>
         </div>
-      
+
+        
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Search by location</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="map-container">
+                    <p>Choose location and find nearest tours:</p>
+                    <div>
+                        <mat-form-field>
+                            <mat-label>Distance</mat-label>
+                            <input matInput formControlName="distance" type="text" />
+                        </mat-form-field>
+                        <span class="km-label">km</span>
+                    </div>
+                    <div class="map-container">
+                        <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated]="tourSearchActivated" (tourSearchLon)="setLongitude($event)"></xp-map>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Search by City and Country</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div>                    
+                    <p>Search by Country:</p>
+                    <mat-form-field>
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="country">
+                            <mat-option *ngFor="let country of availableCountries" [value]="country">{{ country }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <p>Search by City:</p>
+                    <mat-form-field>
+                        <mat-label>City</mat-label>
+                        <mat-select formControlName="city">
+                            <mat-option *ngFor="let city of availableCities" [value]="city">{{ city }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Search by Difficulty</mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <div>
+                    <p>Search by Difficulty:</p>
+                    <mat-form-field>
+                        <mat-label>Difficulty</mat-label>
+                        <mat-select formControlName="difficulty">
+                            <mat-option *ngFor="let diff of availableDiff" [value]="diff">{{ diff }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+
+            
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Search by Tags</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="tags-container">
+                    <mat-selection-list>
+                        <div *ngFor="let tag of availableTags; let index = index">
+                            <mat-checkbox 
+                                (change)="onTagChange($event, index)"
+                                [checked]="tourSearchForm1.get('tags')?.value?.includes(index)">
+                                {{ tag.label }}
+                            </mat-checkbox>
+                        </div>
+                    </mat-selection-list>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
     </form>
-    <div class="map-container">
-      <xp-map (tourSearchLat)="setLatitude($event)" [tourSearchActivated]="tourSearchActivated" (tourSearchLon)="setLongitude($event)"></xp-map>
-    </div>
-    <button class="search" mat-raised-button type="submit" color="primary" (click)="search()">Search</button>
-  </div>
-  
+
+    
+    <button class="search" mat-raised-button color="primary" (click)="search()">Search</button>
+</div>
