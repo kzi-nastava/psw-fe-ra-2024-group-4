@@ -10,6 +10,7 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { Notification } from '../../administration/model/notifications.model';
 
 @Component({
   selector: 'app-cart-overview',
@@ -25,6 +26,9 @@ export class CartOverviewComponent implements OnInit {
   user: PersonInfo;
   currentCart: ShoppingCart;
   purchaseToken: TourPurchaseToken;
+
+
+  purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
   constructor(private cartService: CartService,
@@ -159,6 +163,32 @@ export class CartOverviewComponent implements OnInit {
               
               
             //  alert("Korpa uspešno očišćena.");
+
+             this.purchaseNotification = {
+              description: "You successfully purchased tour/tours.",
+              creationTime: new Date(),
+              isRead: false,
+              userId: this.user.id,
+              notificationsType: 2,
+              resourceId: this.currentCart.id || -1
+             }
+
+             this.cartService.createNotification('tourist', this.purchaseNotification).subscribe({
+              next: (result: Notification) =>
+              {
+
+              },
+              error:(err: any) =>
+              {
+                console.log("Error creating notification");
+              }
+
+             })
+           
+
+           
+             
+               
               },
               error: (err: any) => alert("Error updating wallet")
              });
