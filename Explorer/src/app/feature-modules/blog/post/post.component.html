@@ -1,19 +1,46 @@
 <div class="main-container">
     <div class="top-container">
         <header>
-        <h1>Blog Posts</h1>
-    </header>
-    </div>
-    <div class="content-container">
-        <div class="left-side-container">
-            <div *ngIf="user && user.role==='author'">
-            <p>Add your blog!</p>
-            <div class="add-button-container">
-                <button  color="primary" (click)="onAddClicked()" mat-icon-button>
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
+          <h1>Blog Posts</h1>
+          <p class="sub-header">Discover the latest updates and inspiring stories from around the world.</p>
+        </header>
+      </div>
+      
+      <div class="filter-container">
+        <div class="filter-buttons">
+          <button 
+            class="filter-button" 
+            [ngClass]="{ 'selected': selectedStatus === null }" 
+            (click)="onStatusChange(null)">
+            All
+          </button>
+          <button 
+            class="filter-button" 
+            [ngClass]="{ 'selected': selectedStatus === BlogStatus.Active }" 
+            (click)="onStatusChange(BlogStatus.Active)">
+            Active
+          </button>
+          <button 
+            class="filter-button" 
+            [ngClass]="{ 'selected': selectedStatus === BlogStatus.Famous }" 
+            (click)="onStatusChange(BlogStatus.Famous)">
+            Famous
+          </button>
         </div>
+    
+        <div class="filter-actions">
+          <button class="filter-apply" (click)="applyFilter()">Apply</button>
+          <button class="filter-clear" (click)="clearFilter()">Clear</button>
+        </div>
+      </div>
+    <div class="content-container">
+      <!-- Left side -->
+      <div class="left-side-container">
+        <div *ngIf="user && user.role === 'author'" class="add-post-container">
+        <button class="add-post-button" (click)="onAddClicked()">Add New Post</button>
+        </div>
+      </div>
+        <!--
             <p>Filter Blogs</p>
             <div class="filter-container">
                 <label for="statusFilter" class="filter-label">Display:</label>
@@ -23,9 +50,12 @@
                   <option [ngValue]="BlogStatus.Famous" class="filter-option">Famous</option>
                 </select>
             </div>
-        </div>
+        </div>-->
         <div class="center-container">
-            <div class ="cards">
+            <div *ngIf="posts.length === 0" class="no-results">
+                <p>No results found. Try adjusting your filters.</p>
+              </div>
+            <div class ="cards" *ngIf="posts.length > 0">        
                 <a [routerLink]="['/aboutPost', post.id]" *ngFor="let post of posts" class="card">
                     <img [src]="getImage(post.imageUrl)" alt="{{ post.title }}" class="image">
                     <div class ="card-overlay">
@@ -63,10 +93,6 @@
                       </mat-menu>        
                 </a>
             </div>
-
-            <!--<div>
-                <xp-post-form *ngIf="shouldRenderForm" [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"></xp-post-form>
-            </div>-->
             <div class="overlay" *ngIf="shouldRenderForm" (click)="closeForm()" (mousedown)="mouseDownOverlay()" (mouseup)="mouseUpOverlay()">
                 <xp-post-form (mousedown)="mouseDownForm($event)" (mouseup)="mouseUpForm()" (click)="$event.stopPropagation()"  class="form" *ngIf="shouldRenderForm" 
                 [shouldEdit]="shouldEdit" [post]="selectedPost" (postUpdated)="getPosts()"

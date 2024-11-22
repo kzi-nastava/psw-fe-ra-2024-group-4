@@ -6,7 +6,7 @@
       <!-- Prikaz slike u režimu uređivanja -->
       <div *ngIf="shouldEdit; else imageSelector">
         <div class="image-preview">
-          <img [src]="imageBase64 || getImage(post?.imageUrl)" alt="Post Image" />
+          <img [src]="imageBase64 || getImage(post.imageUrl)" alt="Post Image" />
           <label class="change-image-btn">
             <input type="file" (change)="onFileSelected($event)" hidden />
             <span class="upload-btn">Change Image</span>

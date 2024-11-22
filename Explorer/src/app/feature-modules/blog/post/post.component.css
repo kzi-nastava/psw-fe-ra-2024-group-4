@@ -1,79 +1,166 @@
-h1 {
-    text-align: center;
-}
+
 p {
     font-size: 24px;
     font-weight: 500;
-    color: var(--highlight-color);
     text-align: center;
-    border-bottom: 2px solid var(--highlight-color);
     padding-bottom: 10px;
     width: fit-content;
 }
-.add-button-container {
+/* Naslov sa animacijom */
+h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+    position: relative;
+    animation: fadeInTitle 1s ease-in-out;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Shadow efekat */
+  }
+  
+  /* Keyframe za animaciju naslova */
+  @keyframes fadeInTitle {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Podnaslov sa animacijom i shadow efektom */
+  .sub-header {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+    position: relative;
+    animation: fadeInSubtitle 1.2s ease-in-out;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1); /* Blagi shadow efekat */
+  }
+  
+  /* Keyframe za animaciju podnaslova */
+  @keyframes fadeInSubtitle {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Kontejner za filtere sa lepšim efektima */
+  .filter-container {
     display: flex;
-    margin-top: 20px;
-    margin-bottom: 50px;
-    margin-left: 50px;
-}
-
-button {
-    border-radius: 10px;
-}
-
-/*filteri*/
-.filter-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Smanjen padding da smanjimo razmak */
+    background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+    border-radius: 20px;
+    margin: 0 auto; /* Centrirano na sredinu stranice */
+    width: 70%; /* Ograničimo širinu */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-container:hover {
+    transform: scale(1.02); /* Blagi zoom efekat na hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Jača senka na hover */
+  }
+  
+  /* Dugmad za filtere */
+  .filter-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px; /* Razmak između dugmadi i Clear/Apply */
+  }
+  
+  .filter-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .filter-button {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .filter-button:hover {
+    background-color: #eaeaea;
+  }
+  
+  .filter-button.selected {
+    background-color: #a36484;
+    color: white;
+    border-color: #a36484;
+  }
+  
+  .filter-apply, .filter-clear {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-apply {
+    background-color: #a36484;
+    color: white;
+  }
+  
+  .filter-apply:hover {
+    background-color: #833b5d;
+  }
+  
+  .filter-clear {
+    background-color: #d6d6d6;
+    color: #333;
+  }
+  
+  .filter-clear:hover {
+    background-color: #bbb;
+  }
+  
+  /* Poruka za prazne rezultate */
+  .no-results {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    justify-content: flex-start; /* Poravnanje u levom delu */
+    text-align: center;
+    font-size: 2rem; /* Prilagodjena veličina fonta */
+    font-weight: bold; /* Istaknut tekst */
+    color: #a36484; /* Naglašena boja */
+    margin: 20px auto; /* Centrirano na stranici */
+    animation: fadeIn 1s ease-in-out; /* Animacija za lep efekat prikaza */
 }
 
-/* Stil za labelu */
-.filter-label {
-    margin-right: 10px;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-/* Stil za selekt element */
-.filter-select {
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: bold;;
-    border: 2px solid var(--secondary-color);
-    border-radius: 16px;
-    background-color: var(--primary-color);
-    color: #333;
-    width: 12em;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-    cursor: pointer;
-}
-
-/* Hover efekat za selekt */
-.filter-select:hover {
-    background-color: var(--secondary-color);
-    cursor:pointer;
-    border-color: var(--highlight-color);
-}
-
-/* Fokus na selekt elementu */
-.filter-select:focus {
-    outline: none;
-    border-color: var(--highlight-color);
-    background-color: var(--primary-color);
-}
-
-/* Stil za option elemente */
-.filter-option {
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 22px;
-    color: var(--text-color-dark);
-    cursor: pointer;
-}
-.filter-option:hover{
-    color:red;
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 * {
 box-sizing: border-box;
@@ -360,6 +447,28 @@ box-sizing: border-box;
     pointer-events: auto;
 }
 
-.card-bottom-button-publish:hover {
+.card-bottom-button-publish:hover .add-post-button:hover {
     background-color: #303f9f; /* Hover efekat */
 }
+/* Kontejner za dugme */
+.add-post-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start; /* Dugme ostaje levo */
+    align-items: center;
+    margin-left: 20px; /* Dodaje malo razmaka od leve ivice */
+}
+
+/* Stil za Add New Post dugme */
+.add-post-button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #a36484;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+

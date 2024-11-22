@@ -60,8 +60,6 @@ export class PostComponent implements OnInit{
     });
   }
   
-  
-
   onEditClicked(post:Post):void{
       this.selectedPost=post;
       this.shouldRenderForm=true;
@@ -115,7 +113,7 @@ export class PostComponent implements OnInit{
     })
   }
   //filtriranje blogova
-
+/*
   getFilteredBlogs() {
     if (this.selectedStatus === null) {
       return this.allPosts;
@@ -136,9 +134,26 @@ export class PostComponent implements OnInit{
       this.getPosts();
       await new Promise(resolve => setTimeout(resolve, 100));
       this.posts = this.getFilteredBlogs();
-    }*/
+    }
     this.posts = this.getFilteredBlogs();
-  }
+  }*/
+    clearFilter(): void {
+      this.selectedStatus = null; // Resetuje selekciju
+      this.posts = [...this.allPosts]; // Resetuje listu postova
+    }
+    
+    applyFilter(): void {
+      if (this.selectedStatus === null) {
+        this.posts = [...this.allPosts];
+      } else {
+        this.posts = this.allPosts.filter(post => post.status === this.selectedStatus);
+      }
+    }
+    
+    onStatusChange(status: BlogStatus | null): void {
+      this.selectedStatus = status; // Postavlja selektovani status
+    }
+    
 
   closeForm(){
     console.log("overlay click");
