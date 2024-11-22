@@ -57,9 +57,7 @@ export class PurchaseTokenComponent implements OnInit{
     this.shouldDisplayMap = true;
   }
   closeMapForTour() {
-    this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
+    this.shouldDisplayMap = false; 
   }
-
-
   
 }
