@@ -9,7 +9,7 @@
                     <th>Description</th>
                     <th>Priority</th>
                     <th>Time</th>
-                    <th>Actions</th>
+                    <th [attr.colspan]="user.role === 'tourist' ? 2 : 1">Actions</th>
                     <th *ngIf="user.role == 'administrator'">Deadline</th> 
                 </tr>
             </thead>
@@ -48,7 +48,10 @@
             </tbody>
         </table>
     </div>
-    <button (click)="onAddClick()">Add problem</button>
+    <div class="addButton">
+        <button  (click)="onAddClick()" color="primary" mat-raised-button>Add problem</button>
+    </div>
+    
 
     <div class="modal" *ngIf="showDeadlineModal">
         <div class="modal-content">
