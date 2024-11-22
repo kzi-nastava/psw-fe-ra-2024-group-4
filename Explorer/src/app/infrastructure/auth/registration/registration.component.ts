@@ -28,13 +28,29 @@ export class RegistrationComponent {
   registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     surname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required,Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    profilePicture: new FormControl('', [Validators.required]),
-    biography: new FormControl('', [Validators.required]),
-    motto: new FormControl('', [Validators.required])
+    profilePicture: new FormControl(''), // Ovo je za URL slike
+    imageBase64: new FormControl('') // Novo polje za enkodovanu sliku
+    
   });
+  
+  
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.registrationForm.patchValue({
+          imageBase64: base64String // Postavite base64 string
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
 
   register(): void {
     const registration: Registration = {
@@ -43,25 +59,25 @@ export class RegistrationComponent {
       email: this.registrationForm.value.email || "",
       username: this.registrationForm.value.username || "",
       password: this.registrationForm.value.password || "",
-      profilePicture: this.registrationForm.value.profilePicture || "",
-      biography: this.registrationForm.value.biography || "",
-      motto: this.registrationForm.value.motto || ""
+      profilePicture: this.registrationForm.value.profilePicture || "", // URL slike, nakon što se obradi na backendu
+      imageBase64: this.registrationForm.value.imageBase64 || "" // Base64 string za inicijalno slanje
+  
     };
-    const message = 'Pleas fill in all fields correctly.';
+  
     if (this.registrationForm.valid) {
       this.authService.register(registration).subscribe({
         next: () => {
           this.router.navigate(['home']);
-        },
+        }
+      });
+    } else {
+      this.snackBar.open('Please fill in all fields correctly.', 'Close', {
+        duration: 3000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+        panelClass: ['error-snackbar']
       });
     }
-    else{
-      this.snackBar.open(message,'Close', {
-       duration: 3000,
-       verticalPosition: 'bottom',
-       horizontalPosition: 'center',
-       panelClass: ['error-snackbar']
-      })
-    }
   }
+  
 }

@@ -20,6 +20,8 @@ export class TourDetailsNewComponent implements OnInit {
   tourId: number = -1;
   tours: Tour[] = [];
   tour: Tour;
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome! Explore our map and click to create new key points!';
   @Input() tourKeypoints: KeyPoint[] = [];
   @Output() tourUpdated = new EventEmitter<Tour>();
   @Output() distanceChanged = new EventEmitter<number>();
@@ -159,6 +161,10 @@ export class TourDetailsNewComponent implements OnInit {
       case PublicStatus.PUBLIC: return 'Public';
       default: return 'Unknown';
     }
+  }
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
 
   

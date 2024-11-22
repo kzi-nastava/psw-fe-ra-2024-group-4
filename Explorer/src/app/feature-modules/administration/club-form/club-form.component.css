@@ -1,14 +1,180 @@
-div {
-    width: 400px;
-    display:flex;
-    gap: 20px;
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .club-form-container {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    width: 90%;
+    padding: 20px;
+  }
+  
+  .club-left-section {
+    flex: 1;
+    background: linear-gradient(135deg, #f7d1d1, #fbecec);
+    padding: 30px;
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .image-wrapper {
+    position: relative;
+    width: 80%;
+    max-width: 250px;
+    margin-bottom: 20px;
+    object-fit: cover; 
+
+  }
+  
+  .image-preview img {
+    width: 100%; 
+    max-width: 250px; 
+    max-height: 200px; 
+    object-fit: cover; 
+    border-radius: 10px; 
 }
 
-.mat-icon {
-    vertical-align: middle;
+  
+  .remove-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .upload-placeholder {
+    border: 2px dashed white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .upload-placeholder .upload-btn {
+    background: white;
+    color: #f5a9a9;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .club-description h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+  }
+  
+  .club-description p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333333;
+  }
+  
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .error-message {
+    font-size: 12px;
+    color: red;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .tags-section h4 {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .tag {
+    padding: 8px 15px;
+    background: #e0e0e0;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .tag.selected {
+    background: #f7a9a9;
+    color: white;
+  }
+  
+  .club-right-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    min-height: 370px; 
+    padding-bottom: 20px; 
 }
-.error-message {
-    color: red; 
-    font-size: 12px; 
+
+.submit-btn {
+    align-self: flex-end; 
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #4caf50;
+    color: white;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px; 
+    margin-left: 250px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
 }
+
+  
+  .submit-btn:hover {
+    background: #45a049;
+  }
+  
+  
+  .submit-btn:hover {
+    background: #45a049;
+  }
+  .tags-section h4 {
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color:gray ; 
+  }
+  

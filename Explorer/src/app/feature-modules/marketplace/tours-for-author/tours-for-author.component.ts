@@ -12,6 +12,7 @@ import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { Subscription } from 'rxjs';
 import { MapService } from 'src/app/shared/map/map.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -25,6 +26,8 @@ export class ToursForAuthorComponent implements OnInit {
   shouldViewTour: boolean = false;
   selectedKeypoints: KeyPoint[] = [];
   private lengthUpdatedSubscription!: Subscription;
+  isChatOpen: boolean = false; 
+  chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
   
 
   tourTagMap: { [key: number]: string } = {
@@ -58,6 +61,8 @@ export class ToursForAuthorComponent implements OnInit {
 
         
       }
+      
+      
     });
 
     this.mapService.currentDistance.subscribe(distance =>
@@ -80,14 +85,44 @@ export class ToursForAuthorComponent implements OnInit {
         console.log(this.tours)
         console.log(this.tours);
         console.log(this.tours[0].keyPoints[0].tourId);
+        if(this.tours.length === 0)
+          {
+            this.showNoToursAlert();
+          }
        
       },
       error: (error) => {
         console.error('Error fetching tours:', error);
+        if(this.tours.length === 0)
+          {
+            this.showNoToursAlert();
+          }
         
       }
     });
+
+    
   }
+
+  private showNoToursAlert(): void {
+    Swal.fire({
+      title: 'No Tours Available!',
+      text: 'You don’t have any tours yet. Start by creating your first tour!',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Create Tour',
+      cancelButtonText: 'Close',
+      customClass: {
+        confirmButton: 'swal2-confirm-button',
+        cancelButton: 'swal2-cancel-button',
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/create-tour']);
+      }
+    });
+  }
+  
 
   onDistanceChanged(newDistance: number) { //nije dosao 
   console.log('tours for author')
@@ -223,6 +258,10 @@ ngOnDestroy() {
   if (this.lengthUpdatedSubscription) {
     this.lengthUpdatedSubscription.unsubscribe();
   }
+}
+
+toggleChat(isChat: boolean): void {
+  this.isChatOpen = isChat;
 }
 
   

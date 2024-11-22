@@ -32,8 +32,8 @@
                     <mat-label>Upload Image</mat-label>
                 
                 
-                <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="primary" (click)="createKeyPoint()">Create Keypoint</button>
-                <button mat-raised-button *ngIf="shouldEdit" type="submit" color="primary" (click) = "updateKeyPoint()">Update Keypoint</button>
+                <button mat-raised-button *ngIf="!shouldEdit"  type="submit" color="accent" (click)="createKeyPoint()">Create Keypoint</button>
+                <button mat-raised-button *ngIf="shouldEdit" type="submit" color="accent" (click) = "updateKeyPoint()">Update Keypoint</button>
             </div>
         
         </form>

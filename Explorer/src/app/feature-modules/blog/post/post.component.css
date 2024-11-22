@@ -1,164 +1,167 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: var(--background-color);
-}
 
 p {
     font-size: 24px;
-    font-weight: bold;
-    color: var(--highlight-color);
+    font-weight: 500;
     text-align: center;
-    border-bottom: 2px solid var(--highlight-color);
     padding-bottom: 10px;
     width: fit-content;
 }
-
-#post-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.post-card mat-card {
-    width: 350px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: var(--primary-color);
-    color: var(--text-color-dark);
-    position: relative;
-}
-
-.mat-card-header .mat-card-title {
-    font-size: 1.5em;
+/* Naslov sa animacijom */
+h1 {
+    text-align: center;
+    font-size: 2.8rem;
     font-weight: bold;
-    color: var(--highlight-color);
+    margin: 10px 0;
+    color: #333;
+    position: relative;
+    animation: fadeInTitle 1s ease-in-out;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Shadow efekat */
+  }
+  
+  /* Keyframe za animaciju naslova */
+  @keyframes fadeInTitle {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Podnaslov sa animacijom i shadow efektom */
+  .sub-header {
     text-align: center;
-    margin-bottom: 5px;
-}
-
-/* Datum pozicioniran u donjem desnom uglu */
-.date-container {
-    font-size: 0.8em;
-    color: var(--text-color-dark);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
-
-.img-container {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid var(--secondary-color);
-    margin: 0 auto;
-}
-
-.mat-card-content {
-    font-size: 1.1em;
-    color: var(--text-color-dark);
-    text-align: center;
-    margin-top: 10px;
-}
-
-.mat-card-actions {
+    font-size: 1.4rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+    position: relative;
+    animation: fadeInSubtitle 1.2s ease-in-out;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1); /* Blagi shadow efekat */
+  }
+  
+  /* Keyframe za animaciju podnaslova */
+  @keyframes fadeInSubtitle {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Kontejner za filtere sa lepšim efektima */
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Smanjen padding da smanjimo razmak */
+    background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+    border-radius: 20px;
+    margin: 0 auto; /* Centrirano na sredinu stranice */
+    width: 70%; /* Ograničimo širinu */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-container:hover {
+    transform: scale(1.02); /* Blagi zoom efekat na hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Jača senka na hover */
+  }
+  
+  /* Dugmad za filtere */
+  .filter-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px; /* Razmak između dugmadi i Clear/Apply */
+  }
+  
+  .filter-actions {
     display: flex;
     gap: 15px;
     justify-content: center;
-    padding-top: 10px;
-}
-
-.add-button-container {
-    display: flex;
-    margin-top: 20px;
-    margin-bottom: 50px;
-}
-
-button {
-    border-radius: 10px;
-}
-
-/*filteri*/
-.filter-container {
+    margin-top: 10px;
+  }
+  
+  .filter-button {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .filter-button:hover {
+    background-color: #eaeaea;
+  }
+  
+  .filter-button.selected {
+    background-color: #a36484;
+    color: white;
+    border-color: #a36484;
+  }
+  
+  .filter-apply, .filter-clear {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-apply {
+    background-color: #a36484;
+    color: white;
+  }
+  
+  .filter-apply:hover {
+    background-color: #833b5d;
+  }
+  
+  .filter-clear {
+    background-color: #d6d6d6;
+    color: #333;
+  }
+  
+  .filter-clear:hover {
+    background-color: #bbb;
+  }
+  
+  /* Poruka za prazne rezultate */
+  .no-results {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    justify-content: flex-start; /* Poravnanje u levom delu */
+    text-align: center;
+    font-size: 2rem; /* Prilagodjena veličina fonta */
+    font-weight: bold; /* Istaknut tekst */
+    color: #a36484; /* Naglašena boja */
+    margin: 20px auto; /* Centrirano na stranici */
+    animation: fadeIn 1s ease-in-out; /* Animacija za lep efekat prikaza */
 }
 
-/* Stil za labelu */
-.filter-label {
-    margin-right: 10px;
-    font-weight: bold;
-    font-size: 16px;
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
-
-/* Stil za selekt element */
-.filter-select {
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: bold;;
-    border: 2px solid var(--secondary-color);
-    border-radius: 16px;
-    background-color: var(--primary-color);
-    color: #333;
-    width: 12em;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-    cursor: pointer;
-}
-
-/* Hover efekat za selekt */
-.filter-select:hover {
-    background-color: var(--secondary-color);
-    cursor:pointer;
-    border-color: var(--highlight-color);
-}
-
-/* Fokus na selekt elementu */
-.filter-select:focus {
-    outline: none;
-    border-color: var(--highlight-color);
-    background-color: var(--primary-color);
-}
-
-/* Stil za option elemente */
-.filter-option {
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 22px;
-    color: var(--text-color-dark);
-    cursor: pointer;
-}
-.filter-option:hover{
-    color:red;
-}
-/*ovaj status badge je template, moze da se doda -closed, -active pa da se pojedinacno izmeni izgled*/
-.status-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    border: 1px solid var(--highlight-color);
-    color: var(--highlight-color);
-    background-color: white;
-    padding: 5px 10px;
-    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
-    overflow: hidden; /* Sakriva tekst koji izlazi izvan dugmeta */
-    text-overflow: ellipsis; /* Prikazuje "..." kada tekst ne stane */
-    pointer-events: none;
-    cursor: not-allowed;
-}
-
-.status-badge:hover {
-    background-color: transparent; /* Uklanja hover efekat */
-    color: var(--highlight-color);  /* Ostavlja boju nepromenjenom pri hover-u */
-}
-
 * {
 box-sizing: border-box;
 }
@@ -182,8 +185,8 @@ box-sizing: border-box;
 .card {
     position: relative;
     display: block; 
-    width: 16vw; 
-    height: 16vw;
+    width: 18vw; 
+    height: 18vw;
     min-width: 250px; /*mozda nije lose piksele za min     width: 16vw; 
     height: 16vw;*/
     max-width: 25vw;
@@ -351,31 +354,22 @@ box-sizing: border-box;
 }
 
 
-.overlay{
-    position: fixed; /* Fiksira overlay na ekranu */
+.overlay {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75); /* Poluprozirna pozadina */
-    z-index: 999; /* Ispod mape, iznad ostalih elemenata */
-}
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
 
-.form{
-    width: 80%;
-    height: 80%;
-    position: relative;
-    left: 40%;
-    top: 30%;
-    background: rgba(190, 190, 190, 1);
-    overflow: hidden;
-    opacity: 100%;
-    width: max-content;
-    height: max-content;
-    color: white;
-    display: grid;
-    padding: 1%;
-}
+
+
+
 
 /*novi layout*/
 .main-container {
@@ -386,10 +380,8 @@ box-sizing: border-box;
     background-color: #fff;
 }
 .top-container {
-    flex: 0 0 10%; /* 10% visine stranice */
-    /*background-color: #e0e0e0;*/
+    flex: 0 0 5%; 
     display: flex;
-    padding-top: 1%;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -424,3 +416,59 @@ box-sizing: border-box;
     /*background-color: #d1e7dd;*/
     display: flex;
 }
+.blog-status{
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #6A515E;
+    margin-left: 30%;
+    opacity: 95%;
+}
+.created-date {
+    text-align: right;
+    margin-right: 20%;
+    font-size: 0.9em;
+    color: #6A515E; 
+}
+.card-bottom-button-publish {
+    position: absolute; /* Omogućava precizno postavljanje unutar kartice */
+    bottom: 10px; /* Veća udaljenost od dna */
+    left: 15px; /* Veća udaljenost od leve ivice */
+    width: 80px; /* Smanjena širina dugmeta */
+    padding: 5px; /* Smanjen padding */
+    background-color: #a36484;
+    color: white; 
+    border: none; 
+    border-radius: 4px; /* Lagano zaobljeni uglovi */
+    font-size: 0.75em; /* Manji font */
+    opacity: 100%;
+    z-index: 10;
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    pointer-events: auto;
+}
+
+.card-bottom-button-publish:hover .add-post-button:hover {
+    background-color: #303f9f; /* Hover efekat */
+}
+/* Kontejner za dugme */
+.add-post-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start; /* Dugme ostaje levo */
+    align-items: center;
+    margin-left: 20px; /* Dodaje malo razmaka od leve ivice */
+}
+
+/* Stil za Add New Post dugme */
+.add-post-button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #a36484;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
