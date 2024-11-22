@@ -1,16 +1,21 @@
 #account {
-    margin-top: 20px;
-    margin-left: 20px;
+    display: flex; /* Horizontalni raspored za filtere i kartice */
+    justify-content: space-between; /* Razmak između filtera i kartica */
+    align-items: flex-start; /* Poravnanje po vrhu */
+    margin: 20px; /* Margina oko kontejnera */
 }
 
-p {
-    font-size: 20px;
+.filters {
+    flex: 1; /* Pruža dodatni prostor filterima */
+    max-width: 300px; /* Maksimalna širina filtera */
+    margin-right: 20px; /* Razmak između filtera i kartica */
 }
 
 #account-cards {
+    flex: 2; /* Kartice zauzimaju više prostora */
     display: flex;
     flex-direction: column; /* Kartice su jedna ispod druge */
-    align-items: center; /* Centriranje svih kartica */
+    align-items: center; /* Centriranje kartica horizontalno */
     gap: 20px;
     margin-top: 20px;
 }
@@ -21,13 +26,13 @@ p {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    display: flex; /* Horizontalno raspoređuje sadržaj */
-    align-items: center; /* Vertikalno poravnanje sadržaja */
-    justify-content: space-between; /* Raspoređuje stavke unutar kartice */
-    gap: 10px; /* Razmak između stavki */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-right: 50px;
     font-family: sans-serif;
-    margin: 20px auto;
-    width: 90%; /* Širina kartice relativna ekranu */
+    width: 100%; 
 }
 
 .card h3 {
@@ -46,19 +51,18 @@ p {
     background-color: #3f51b5;
     color: white;
     border: none;
-    padding: 10px 15px; /* Više paddinga za bolju čitljivost */
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em; /* Uvećana veličina teksta za bolje čitanje */
-    white-space: nowrap; /* Sprečava lomljenje teksta */
-    text-transform: uppercase; /* Tekst u velikim slovima za naglašavanje */
+    font-size: 0.9em;
+    white-space: nowrap;
+    text-transform: uppercase;
 }
 
 .card button[disabled] {
     background-color: #bbb;
     cursor: not-allowed;
 }
-
 
 img {
     width: 40px;

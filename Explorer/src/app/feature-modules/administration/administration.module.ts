@@ -15,6 +15,8 @@ import { AppReviewTableComponent } from './app-review-table/app-review-table.com
 import { PublicStatusRequestComponent } from './public-status-request/public-status-request.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { FormsModule } from '@angular/forms';
     MaterialModule,
     ReactiveFormsModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   exports: [
     EquipmentComponent,

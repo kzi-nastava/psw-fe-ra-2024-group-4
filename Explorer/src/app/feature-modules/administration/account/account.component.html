@@ -1,7 +1,22 @@
+<div class="">
+    <h2>Accounts</h2>
+</div>
 <div id="account">
-    <p>Accounts</p>
+    <div class="filters">
+        <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input placeholder="Username or email" matInput type="text" [(ngModel)]="searchQuery" (input)="filterAccounts()"/>
+        </mat-form-field>    
+        <mat-form-field appearance="fill">
+            <mat-label>Role</mat-label>
+            <mat-select [(value)]="selectedRole" (selectionChange)="filterAccounts()">
+              <mat-option value="tourist">Tourist</mat-option>
+              <mat-option value="author">Author</mat-option>
+            </mat-select>
+          </mat-form-field>      
+    </div>
     <div id="account-cards">
-        <div *ngFor="let ac of account" class="card">
+        <div *ngFor="let ac of filteredAccounts" class="card">
             <img src="assets/images/user.png"> 
             <h3>{{ ac.username }}</h3>
             <p><strong>Password:</strong> {{ ac.password }}</p>
