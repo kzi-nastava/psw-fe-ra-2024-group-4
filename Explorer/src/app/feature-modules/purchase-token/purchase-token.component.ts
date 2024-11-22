@@ -7,6 +7,7 @@ import { PurchaseService } from 'src/app/feature-modules/tour-authoring/tour-pur
 import { TourService } from 'src/app/feature-modules/tour-authoring/tour.service';
 import { TourTags } from 'src/app/feature-modules/tour-authoring/model/tour.tags.model';
 import { KeyPoint } from '../tour-authoring/model/keypoint.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-purchase-token',
@@ -20,7 +21,16 @@ export class PurchaseTokenComponent implements OnInit{
   selectedTour: Tour;
   @Input() tourKeypoints: KeyPoint[] = [];
 
-  constructor(private purchaseService: PurchaseService, private authService: AuthService) {}
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Click the View Map button to see the map with the tours key points.Click the Start Tour button to begin the selected tour.Use the Report Problem button to report any issues you encounter.';  
+
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
+  constructor(private purchaseService: PurchaseService, private authService: AuthService, private router: Router) {}
+
 
   ngOnInit(): void {
     
@@ -47,8 +57,13 @@ export class PurchaseTokenComponent implements OnInit{
     this.selectedTour = tour;
     this.shouldDisplayMap = true;
   }
+
+  reviewTour(tour: Tour){
+    this.router.navigate(['/tour-review', tour.id]);
+  }
+
   closeMapForTour() {
-    this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
+    this.shouldDisplayMap = false; 
   }
   
 }
