@@ -17,7 +17,7 @@
                 <tr *ngFor="let p of problems" [ngClass]="{'late-problem': p.isLate}"> 
                     <td>{{ p.category }}</td>
                     <td>{{ p.description }}</td>
-                    <td>{{ p.priority }}</td>
+                    <td>{{ priorityMap[p.priority] }}</td>
                     <td>{{ p.time | date: 'dd.MM.yyyy HH:mm' }}</td>
                     <td>
                         <button class="open-ticket-button" (click)="openTicket(p)" mat-icon-button>
@@ -72,5 +72,4 @@
     <div *ngIf="user.role == 'administrator'">
         <p class="note">*** Problems that are red were not solved in 5 days!</p>
     </div>
-    <xp-problem-form *ngIf="showProblemForm" [tourId]="tourId" (problemAdded)="onProblemAdded()"></xp-problem-form>
 </div>

@@ -8,3 +8,13 @@ div {
 .mat-icon {
     vertical-align: middle;
 }
+
+label {
+    display: block;  
+    text-align: center;
+    margin: 10px 0; 
+}
+
+form {
+    margin: 20px;
+  }
