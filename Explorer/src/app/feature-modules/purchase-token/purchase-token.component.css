@@ -1,3 +1,4 @@
+
 /* General container for the tours */
 .tour-container {
   margin: 20px;
@@ -235,3 +236,82 @@ mat-icon {
   transform: rotate(-45deg);
 }
 
+/* Svi containeri za ture */
+.tour-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Razmak između kartica */
+    max-width: 800px; /* Smanjena maksimalna širina */
+    margin: 0 auto; /* Centriraj container */
+    padding: 20px;
+  }
+  
+  /* Stil za karticu ture */
+  .tour-card {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 500px; /* Ograničena širina kartice */
+    margin: 0 auto; /* Centriraj karticu */
+  }
+  
+  /* Hover efekat za karticu ture */
+  .tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Naslov ture (centrirano ime ture) */
+  .tour-card h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center; /* Centriraj ime ture */
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Opis ture */
+  .tour-card p {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #666;
+    text-align: left; /* Poravnaj levo */
+    margin-left: 30px;
+  }
+  
+  /* Cena ture */
+  .tour-card p.price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2ecc71; /* Zelena za cenu */
+    text-align: left; /* Poravnaj levo */
+    margin-left: 30px;
+  }
+  
+  /* Razlikovanje tagova */
+  .tour-tag {
+    background-color: #3498db; /* Plava pozadina za tag */
+    color: white;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 16px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    display: inline-block;
+    margin-left: 30px;
+  }
+  
+  /* Stil za razmak između tagova */
+  .tour-card .tour-tag:last-child {
+    margin-right: 0;
+  }
+
+  /*masa dodala*/
+  .right-button {
+    margin-left: 200px;
+  }
+  

@@ -7,6 +7,7 @@ import { PurchaseService } from 'src/app/feature-modules/tour-authoring/tour-pur
 import { TourService } from 'src/app/feature-modules/tour-authoring/tour.service';
 import { TourTags } from 'src/app/feature-modules/tour-authoring/model/tour.tags.model';
 import { KeyPoint } from '../tour-authoring/model/keypoint.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-purchase-token',
@@ -28,8 +29,8 @@ export class PurchaseTokenComponent implements OnInit{
     this.isChatOpen = isChat;
   }
 
+  constructor(private purchaseService: PurchaseService, private authService: AuthService, private router: Router) {}
 
-  constructor(private purchaseService: PurchaseService, private authService: AuthService) {}
 
   ngOnInit(): void {
     
@@ -56,6 +57,11 @@ export class PurchaseTokenComponent implements OnInit{
     this.selectedTour = tour;
     this.shouldDisplayMap = true;
   }
+
+  reviewTour(tour: Tour){
+    this.router.navigate(['/tour-review', tour.id]);
+  }
+
   closeMapForTour() {
     this.shouldDisplayMap = false; 
   }

@@ -58,6 +58,20 @@
           
         </mat-card-content>
       </mat-card>
+
+<div class="tour-card-container">
+  <div *ngFor="let tour of tours" class="tour-card">
+    <h2>{{ tour.name }}</h2>
+    <p>{{ tour.description }}</p>
+    <p>Difficulty: {{ tour.difficulty }}</p>
+    <p class="price">Price: ${{ tour.price }}</p>
+    <div>
+      <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
+    </div>
+    <div>
+      <button mat-raised-button color="accent" (click)="showMapForTour(tour)">View map</button>
+      <button class="right-button" mat-raised-button color="accent" (click)="reviewTour(tour)">Review tour</button>
+
     </div>
   </div>
 </div>

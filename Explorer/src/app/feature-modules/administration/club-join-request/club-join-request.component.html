@@ -4,8 +4,8 @@
     <thead>
         <tr>
             <th>Request id</th>
-            <th>Club id</th>
-            <th>Member id</th>
+            <th>Club</th>
+            <th>Member</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -13,8 +13,8 @@
     <tbody>
         <tr *ngFor="let cr of userClubRequests">
             <td>{{cr.id}}</td>
-            <td>{{cr.clubId}}</td>
-            <td>{{cr.userId}}</td>
+            <td>{{getClubName(cr.clubId)}}</td>
+            <td>{{ personNames[cr.userId] }}</td>
             <td>    <span *ngIf="cr.status === 0">PENDING</span>
                 <span *ngIf="cr.status === 1">ACCEPTED</span>
                 <span *ngIf="cr.status === 2">DENIED</span></td>
