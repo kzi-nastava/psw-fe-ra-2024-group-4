@@ -1,9 +1,10 @@
 
   h2 {
     text-align: center; /* Centriranje teksta */
-    font-size: 35px; /* Veličina fonta */
-    font-weight: bold; /* Podebljan tekst */
+    font-size:xx-large; /* Veličina fonta */
+ /* Podebljan tekst */
     color: rgb(62, 51, 70);
+    margin-top: 10px;
   }
   /* Ovaj div će se koristiti za sve članove, raspoređene u kartice */
 .member-cards {
@@ -18,7 +19,6 @@
   font-size: 14px;
 }
 
-/* Stil za svaku karticu */
 .member-card {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -30,6 +30,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
+
 
 .member-card:hover {
   transform: translateY(-5px);

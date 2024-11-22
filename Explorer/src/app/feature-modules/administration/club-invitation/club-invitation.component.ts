@@ -6,6 +6,7 @@ import { AdministrationService } from '../administration.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/env/environment';
+import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'xp-club-invitation',
@@ -17,6 +18,7 @@ export class ClubInvitationComponent {
 
 
   members: Member[] = [];
+  membersOut: Member[]  | null = [];
   membersForInvite: Member[] = [];
   invitations: ClubInvitation[] = [];
   user: User | null = null;
@@ -61,12 +63,72 @@ export class ClubInvitationComponent {
 
     this.fetchInvitations();
   }
+  // private fetchInvitations(): void {
+  //   this.service.getInvitationsByClubId(this.clubId).subscribe({
+  //     next: (invitations: ClubInvitation[]) => {
+  //       console.log('Invitations:', invitations);
+  
+  //       // Mapirajte pozivnice i za svaku dohvatite username
+  //       const invitationsWithUsernames$ = invitations.map(invitation => 
+  //         this.service.getUsernameForClub(invitation.memberId).pipe(
+            
+  //           map(username => ({
+  //             ...invitation, 
+  //             username // Dodaj username u objekat pozivnice
+  //           }))
+  //         )
+  //       );
+  
+  //       // Kombinujte sve Observable objekte u jedan
+  //       forkJoin(invitationsWithUsernames$).subscribe({
+  //         next: updatedInvitations => {
+  //           this.invitations = updatedInvitations; // Ažurirajte pozivnice sa username
+  //           console.log('Updated Invitations:', this.invitations);
+  //         },
+  //         error: () => {
+  //           this.errorMessage = 'Error fetching usernames for invitations.';
+  //           console.error('Error fetching usernames for invitations');
+  //         }
+  //       });
+  //     },
+  //     error: () => {
+  //       this.errorMessage = 'Error fetching invitations.';
+  //       console.error('Error fetching invitations');
+  //     }
+  //   });
+  // }
   
   private fetchInvitations(): void {
     this.service.getInvitationsByClubId(this.clubId).subscribe({
       next: (invitations: ClubInvitation[]) => {
         console.log('Invitations:', invitations);
-        this.invitations = invitations; 
+  
+        // Mapirajte pozivnice i za svaku dohvatite objekat korisnika
+        const invitationsWithUserDetails$ = invitations.map(invitation => 
+          this.service.getUsernameForClub(invitation.memberId).pipe(
+            map(user => {
+              // Sačuvaj ceo objekat korisnika ako je potrebno
+              
+              // Dodeli username u invitation
+              return {
+                ...invitation,
+                username: user.username// Pretpostavlja se da user ima svojstvo `username`
+              };
+            })
+          )
+        );
+  
+        // Kombinujte sve Observable objekte u jedan
+        forkJoin(invitationsWithUserDetails$).subscribe({
+          next: updatedInvitations => {
+            this.invitations = updatedInvitations; // Ažurirajte pozivnice sa dodatim podacima
+            console.log('Updated Invitations with User Details:', this.invitations);
+          },
+          error: () => {
+            this.errorMessage = 'Error fetching user details for invitations.';
+            console.error('Error fetching user details for invitations');
+          }
+        });
       },
       error: () => {
         this.errorMessage = 'Error fetching invitations.';
@@ -74,6 +136,8 @@ export class ClubInvitationComponent {
       }
     });
   }
+  
+
    
       sendClubInvitation(memberId: number): void {
         this.service.getNextClubInvitationId().subscribe((nextId: number) => {
@@ -117,37 +181,66 @@ export class ClubInvitationComponent {
         return  environment.webroot + profilePicture ;
       }
 
+   
+    /*  getMemberName(memberId: number): Observable<string> {
+        const member = this.membersForInvite.find((m) => m.id === memberId);
+      
+        if (member) {
+          return of(member.username); // Ako je član pronađen, vraćamo ime
+        } else {
+          return this.service.getMembersOutClub(this.clubId).pipe(
+            map((membersOut: Member[]) => {
+              const foundMember = membersOut.find((m) => m.id === memberId);
+              if (foundMember) {
+                // Ažuriraj lokalnu listu članova za buduće pozive
+                this.membersForInvite.push(foundMember);
+                return foundMember.username;
+              }
+              return 'Unknown Member'; // Ako član nije pronađen
+            }),
+            catchError(() => {
+              console.error('Error fetching members out of club');
+              return of('Unknown Member'); // Vraćamo podrazumevani odgovor u slučaju greške
+            })
+          );
+        }
+      }*/
+      
       getMemberName(memberId: number): string {
         //const member = this.membersForInvite.find((m) => m.id === memberId);
        // if(!member){
           const member = this.members.find((m) => m.id === memberId);
-        console.log(memberId);
+        if(!member){
+
+        }
         return member ? member.username : 'Unknown Member'; 
       }
+      
       // getMemberName(memberId: number): string {
-      //   // Prvo tražimo člana u listi
-      //   const member = this.members.find((m) => m.id === memberId);
+      //   const member = this.membersForInvite.find((m) => m.id === memberId);
+      
       //   if (member) {
-      //     // Ako član postoji, vraćamo njegovo ime
-      //     return member.username;
+      //     return member.username; // Ako je član već pronađen, vrati ime
       //   } else {
-      //     // Ako član ne postoji, pozivamo getUsername metodom
-      //     this.service.getUsername(memberId).subscribe({
-      //       next: (username) => {
-      //         // Ažuriramo username kada se završi poziv
-      //         const memberToUpdate = this.members.find((m) => m.id === memberId);
-      //         if (memberToUpdate) {
-      //         //  this.member.username = username; // Dodeljujemo username
+      //     // Ako član nije pronađen, traži podatke o njemu
+      //     this.service.getMembersOutClub(this.clubId).subscribe({
+      //       next: (membersOut: Member[]) => {
+      //         const foundMember = membersOut.find((m) => m.id === memberId);
+      //         if (foundMember) {
+      //           // Ažuriraj `username` za člana u lokalnoj listi
+      //           this.membersForInvite.push(foundMember);
+      //           return foundMember.username;
       //         }
       //       },
       //       error: () => {
-      //         console.error('Error fetching username');
+      //         console.error('Error fetching members out of club');
       //       }
       //     });
-      //     return 'Unknown Member'; // Vraćamo "Unknown Member" dok čekamo odgovor
+      
+      //     return 'Unknown Member'; // Vraća privremeni tekst dok se podaci ne dobiju
       //   }
       // }
-    
+      
 
 }
 /*import { Component, OnInit } from '@angular/core';

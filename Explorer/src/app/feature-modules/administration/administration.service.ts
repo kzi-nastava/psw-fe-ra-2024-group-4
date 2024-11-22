@@ -13,6 +13,7 @@ import { Account } from './model/account.model';
 import { KeyPoint } from '../tour-authoring/model/keypoint.model';
 import { TourObject } from '../tour-authoring/model/object.model';
 import { Notification } from './model/notifications.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 
 @Injectable({
@@ -111,6 +112,41 @@ export class AdministrationService {
   );
 
   }
+
+  getMembersOutClub(clubId: number): Observable<Member[]> {
+   
+    return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/out-club-users`).pipe(
+     // Zatim za svakog člana pozivamo 'getPersonId', pa zatim 'person' podatke
+     switchMap(members => {
+       // Za svakog člana prvo pozivamo getPersonId
+       const personRequests = members.map(member => 
+         this.getPersonId(member.id).pipe(
+           switchMap(personId => {
+             // Kada dobijemo personId, pozivamo 'person' API
+             return this.http.get<any>(`${environment.apiHost}tourist/person/${personId}`).pipe(
+               map(personData => {
+                 // Vraćamo kompletan objekat member sa podacima iz 'person'
+                 return {
+                   ...member,  // postojeći podaci o članu
+                   name: personData.name,
+                   surname: personData.surname,
+                   email: personData.email,
+                   imageUrl: personData.imageUrl,
+                   biography: personData.biography,
+                   motto: personData.motto
+                 };
+               })
+             );
+           })
+         )
+       );
+       // Paralelno pozivanje svih 'person' podataka
+       return forkJoin(personRequests);
+     })
+   );
+ 
+   }
+
   sendClubInvitation(invitation: ClubInvitation): Observable<void> {
     return this.http.post<void>(`https://localhost:44333/api/clubInvitation`, invitation);
   }
@@ -165,6 +201,9 @@ export class AdministrationService {
   getUsername(id: number): Observable<string> {
       return this.http.get<string>(`${environment.apiHost}/api/user/${id}`);
   }
+  getUsernameForClub(id: number): Observable<User> {
+    return this.http.get<User>(`${environment.apiHost}user/${id}`);
+}
   addClub(club:Club):Observable<Club>{
     return this.http.post<Club>(environment.apiHost+'club',club)
   }

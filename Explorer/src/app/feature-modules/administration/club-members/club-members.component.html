@@ -1,48 +1,30 @@
-<!-- <h2>Club Members</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Member Username</th>
-            <th></th> 
-        </tr>
-    </thead>
-    <tbody *ngIf="members && members.length > 0; else noMembers">
-        <tr *ngFor="let member of members">
-            <td>{{ member.username }}</td>
-            <td> <button  (click)="removeMember(member.id)">Remove member</button></td> 
-        </tr>
-    </tbody>
-</table>
-
-<ng-template #noMembers>
-    <p>No members found.</p>
-</ng-template> -->
+<!-- 
 <h2>Club Members</h2>
 
 <div *ngIf="members && members.length > 0; else noMembers" class="member-cards">
     <div *ngFor="let member of members" class="member-card">
         <div class="member-image">
-            <!-- Prikazujemo sliku člana sa malim okvirom -->
+          
             <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof  pict" height="30" class="member-avatar" />
            
         </div>
         
         <div class="member-info">
-            <!-- Username je najistaknutiji -->
+            
             <div class="username">{{ member.username }}</div>
             
-            <!-- Ispod korisničkog imena dodajemo ime i prezime -->
+            
             <div class="name">{{ member.name }} {{ member.surname }}</div>
             
-            <!-- Email člana -->
+           
             <div class="email">{{ member.email }}</div>
             
-            <!-- Dugme za uklanjanje člana -->
+         
             <div *ngIf="member.id === ownerId; else removeButton">
                 <i class="fas fa-star" style="color: yellow;"></i> OWNER
             </div>
 
-            <!-- Dugme za uklanjanje člana -->
+      
             <ng-template #removeButton>
                 <button (click)="removeMember(member.id)" class="remove-button">
                     <i class="fas fa-user-minus"></i> Remove member
@@ -64,4 +46,43 @@
     <div *ngIf="isChatOpen" class="chat-box">
       <p>{{chatMessage}}</p>
     </div>
-  </div>
+  </div> -->
+  <h2>Club Members</h2>
+
+<div *ngFor="let member of members" class="member-cards">
+    <div *ngIf="member.id === ownerId" class="member-card owner-card">
+        <!-- Prikaz vlasnika -->
+        <div class="member-image">
+            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
+        </div>
+        <div class="member-info">
+            <div class="username">{{ member.username }}</div>
+            <div class="name">{{ member.name }} {{ member.surname }}</div>
+            <div class="email">{{ member.email }}</div>
+            <div>
+                <i class="fas fa-star" style="color: yellow;"></i> OWNER
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngFor="let member of members" class="member-cards">
+    <div *ngIf="member.id !== ownerId" class="member-card">
+        <!-- Prikaz ostalih članova -->
+        <div class="member-image">
+            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
+        </div>
+        <div class="member-info">
+            <div class="username">{{ member.username }}</div>
+            <div class="name">{{ member.name }} {{ member.surname }}</div>
+            <div class="email">{{ member.email }}</div>
+            <button (click)="removeMember(member.id)" class="remove-button">
+                <i class="fas fa-user-minus"></i> Remove member
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #noMembers>
+    <p>No members found.</p>
+</ng-template>

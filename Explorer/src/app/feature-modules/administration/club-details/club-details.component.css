@@ -1,3 +1,4 @@
+
 .containeR-member {
   display: flex;
   height: 100vh; /* 100% visine ekrana */
@@ -14,22 +15,56 @@
   background-color: rgb(232, 212, 246);
   height: 100%;
 }
-p {
-  width: 300px; /* Postavlja širinu na 300px */
-  /* Centriranje na stranici */
-  font-style: italic; /* Zadržava kursivni tekst */
- /* Tekst se poravnava sa obe strane */
+/*p {
+  width: 300px; 
+  font-style: italic; 
+ 
   text-align: left;
+}*/
+.club-Name{
+  font-style: italic;
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 300px; /* Širina za zakrivljenje */
+  text-align: center; /* Centriranje teksta */
+  margin: 20px auto;
+  overflow: hidden;
+}
+.club-Name::before {
+  content: attr(data-text); /* Postavlja tekst za zakrivljenje */
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  transform: rotate(-5deg); /* Zakrivljenje teksta */
+  transform-origin: center bottom;
+}
+
+
+
+
+svg {
+  display: block; /* Ukloni automatski razmak */
+  margin: 0;
+  padding: 0;
 }
 .club-description{
-    
-  width: 300PX; /* Osiguraj da zauzima celu širinu roditelja */
-  margin: 0; /* Ukloni bilo koju marginu sa svih strana */
+ 
+  width: 250px; /* Osiguraj da zauzima celu širinu roditelja */
+  margin:0; /* Ukloni bilo koju marginu sa svih strana */
   padding: 0; /* Ukloni bilo koji unutrašnji razmak */
   text-align: left; /* Poravnaj tekst sa leve strane */
   font-style: italic; /* Kursivni stil */
   display: block;
-  margin-right: 20px;
+  
 }
   
   .custom-btn {
@@ -67,13 +102,13 @@ p {
   .club-logo {
     position: relative;
     width: 150px;
-    margin: 20px auto;
+    margin: 5px 5px 5px 30px;
     text-align: center; /* Centriranje teksta iznad slike */
   }
   
   .curved-text {
     position: static; /* Uklonite apsolutno pozicioniranje */
-    margin-bottom: 10px; /* Razmak između teksta i slike */
+    margin-bottom: 1px; /* Razmak između teksta i slike */
     font-size: 16px;
     font-weight: bold;
     color: #333;
@@ -82,6 +117,7 @@ p {
   }
   
   .club-image {
+    margin-top: 2px;
     width: 170px;
     height: 170px;
     border-radius: 50%; /* Čini sliku kružnom */
