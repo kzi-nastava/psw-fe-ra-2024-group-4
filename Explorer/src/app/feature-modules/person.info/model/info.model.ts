@@ -5,9 +5,9 @@ export interface PersonInfo {
     name: string;
     surname: string;
     imageUrl: string;
-    biography: string;
-    motto: string;
-    imageBase64: string;
+    biography?: string;
+    motto?: string;
+    imageBase64?: string;
     equipment: number[];
     wallet: number
 }

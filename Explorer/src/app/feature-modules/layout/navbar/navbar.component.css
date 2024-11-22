@@ -175,8 +175,11 @@ a[mat-raised-button]:hover {
 }
 
 .logo{
-    height: 15vh;
+    height: 18vh;
+    margin-top: 2vh;
 }
+
+
 .notification-button {
     display: flex;
     align-items: center;

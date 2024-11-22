@@ -39,6 +39,11 @@ export class MarketplaceService {
   {
     return this.http.get<PagedResults<TourReview>>(environment.apiHost + 'tourReviewing/tourReview');
   }
+
+  getTourReview(userId: number, tourId: number): Observable<TourReview>
+  {
+    return this.http.get<TourReview>(environment.apiHost+ 'tourReviewing/tourReview/by_tourist_and_tour/' + userId + '/' + tourId)
+  }
   
   addTourReview(tourReview : TourReview): Observable<TourReview>
   {
@@ -91,6 +96,11 @@ export class MarketplaceService {
   getTourById(id: number,  role: 'tourist' | 'author' | 'admin' ): Observable<Tour> {
     return this.http.get<Tour>(`${environment.apiHost}${role}/tour/getByTourId/${id}`);
   }
+
+  getTourWithKp(tourId: number): Observable<Tour> {
+    return this.http.get<Tour>(`${environment.apiHost}person/tourist/tour/${tourId}`);
+  }
+
   updateProblem(problem: Problem): Observable<Problem> {
     return this.http.put<Problem>(`${environment.apiHost}problem/updateProblem/${problem.id}`, problem);
 } 

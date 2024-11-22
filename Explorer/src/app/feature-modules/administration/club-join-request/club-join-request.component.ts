@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AdministrationService } from '../administration.service';
-
 import { ClubJoinRequest } from '../model/club-join-request.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Club } from '../model/club.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { PersonInfoService } from '../../person.info/person.info.service';
+import { PersonInfo } from '../../person.info/model/info.model';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'xp-club-join-request',
@@ -18,9 +21,11 @@ export class ClubJoinRequestComponent implements OnInit {
   clubs: Club[]=[];
   userClubIds: number[]=[];
   user: User | null = null;
+  personNames: { [key: number]: string } = {};
 
   constructor(private service:AdministrationService,
-    private authService: AuthService){
+    private authService: AuthService,
+    private personInfoService: PersonInfoService){
       this.authService.user$.subscribe((user) => {
         this.user = user; 
         console.log(user); 
@@ -53,13 +58,13 @@ export class ClubJoinRequestComponent implements OnInit {
         console.log('clubs:', this.clubs);
         this.getUserClubIds();
         this.filterRequestsForThisUser();
+
+
       },
       error:(err:any)=>{
         console.log(err)
       }
     });
-    
-
   }
 
   getUserClubIds(){
@@ -68,13 +73,13 @@ export class ClubJoinRequestComponent implements OnInit {
         this.userClubIds.push(club.id);
       }
     }
-
   }
 
   filterRequestsForThisUser(){
     for(const request of this.clubRequests){
       if(this.userClubIds.includes(request.clubId)){
         this.userClubRequests.push(request);
+        this.loadPersonName(request.userId);
       }
     }
     console.log(this.userClubRequests);
@@ -125,5 +130,22 @@ export class ClubJoinRequestComponent implements OnInit {
     //this.getRequests();
   }
 
+  getClubName(clubId: number){
+    const club = this.clubs.find(cl => cl.id === clubId);
+    return club?.name;
+  }
+
+  loadPersonName(userId: number): void {
+    if (!this.personNames[userId]) {
+      this.personInfoService.getTouristInfo(userId).subscribe({
+        next: (result: PersonInfo) => {
+          this.personNames[userId] = `${result.name} ${result.surname}`;
+        },
+        error: () => {
+          this.personNames[userId] = "greska";
+        }
+      });
+    }
+  }
 
 }

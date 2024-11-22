@@ -52,7 +52,6 @@ tbody tr.active-row {
 
     color: red;                 
     font-weight: bold !important;  
-    /*text-shadow: 0 0 5px rgba(248, 2, 2, 0.7), 0 0 10px rgba(249, 9, 9, 0.5); */
    
 }
 .note {
@@ -64,7 +63,6 @@ tbody tr.active-row {
     text-shadow: 0 0 5px rgba(255, 102, 102, 0.7), 
     0 0 10px rgba(255, 102, 102, 0.5); 
 }
-/* Stil za modal prozor */
 .modal {
     display: flex;
     position: fixed;
@@ -110,5 +108,5 @@ tbody tr.active-row {
 }
 .error-mess{
     color:red;
-    font-size: 10px;
+    font-size: 15px;
 }
