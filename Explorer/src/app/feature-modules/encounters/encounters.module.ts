@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdminEncounterComponent } from './admin-encounter/admin-encounter.component';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from "src/app/shared/shared.module";
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AdminEncounterComponent
+  ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    FormsModule,
+    SharedModule
+]
 })
 export class EncounterModule { }
