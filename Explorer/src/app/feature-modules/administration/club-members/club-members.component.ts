@@ -3,6 +3,8 @@ import { Member } from '../model/member.model';
 import { ActivatedRoute } from '@angular/router';
 import { AdministrationService } from '../administration.service';
 import { environment } from 'src/env/environment';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-club-members',
@@ -17,11 +19,19 @@ export class ClubMembersComponent implements OnInit{
   errorMessage: string | null = null;
   isChatOpen: boolean = false; 
   chatMessage: string = "Manage your clubs effortlessly! View all members, view tours that you can buy for great price, win xp and much more!";
-  
+  user: User | null = null;
+  currentUserId: number | null = null;
 
-  constructor(private route: ActivatedRoute, private service: AdministrationService) {}
+  constructor(private route: ActivatedRoute, private service: AdministrationService,private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.user$.subscribe((user: User | null) => {
+      this.currentUserId = user ? user.id : null; 
+      this.user = user;
+      console.log(user);
+
+    });
+
   this.service.getMembers(this.clubId).subscribe({
     next: (members: Member[]) => { 
       console.log('Members:', members);

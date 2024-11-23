@@ -19,10 +19,19 @@ export class ClubDetailsComponent implements OnInit {
   selectedComponent: string = 'xp-club-members'; // Podrazumevano prikazivanje prve komponente
   clubId: number | null = null;
   club: Club | null = null;  // Dodajemo promenljivu za čuvanje kluba
-
-  constructor(private route: ActivatedRoute, private service: AdministrationService) {}
+  user: User | null = null;
+  currentUserId: number | null = null;
+  constructor(private route: ActivatedRoute, private service: AdministrationService,private authService: AuthService) {}
 
   ngOnInit(): void {
+
+    this.authService.user$.subscribe((user: User | null) => {
+      this.currentUserId = user ? user.id : null; 
+      this.user = user;
+      console.log(user);
+
+    });
+
     this.route.paramMap.subscribe((params) => {
       const id = params.get('clubid');
       if (id) {
