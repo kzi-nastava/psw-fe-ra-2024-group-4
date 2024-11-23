@@ -15,7 +15,14 @@
     <label *ngIf="searchQuery" class="search-label">
         Search results for "{{ searchQuery }}"
     </label>
-    <div id="equipment-details">
+
+    <!-- Display message if no equipment is available -->
+    <div *ngIf="filteredEquipment.length === 0" class="no-equipment-label">
+        No equipment added.
+    </div>
+
+    <!-- Display table only if there is equipment -->
+    <div *ngIf="filteredEquipment.length > 0" id="equipment-details">
         <table>
             <thead>
                 <tr>
@@ -36,6 +43,7 @@
         </table>
     </div>
 </div>
+
 <div class="card">
     <img [src]="'assets/images/tag' + (tour.tags[0] + 1) + '.jpg'" class="card-image">
     

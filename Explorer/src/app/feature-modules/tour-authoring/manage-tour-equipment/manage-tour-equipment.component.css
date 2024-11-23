@@ -93,3 +93,9 @@
   border-top: 1px solid #ddd;
   justify-content: center; /* Center align the button */
 }
+.no-equipment-label {
+  text-align: center;
+  font-size: 1.2em;
+  color: gray;
+  margin-top: 1em;
+}

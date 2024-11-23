@@ -208,4 +208,10 @@ tbody tr.active-row {
     text-overflow: ellipsis;
   
   }
+  .no-equipment-label {
+    text-align: center;
+    font-size: 1.2em;
+    color: gray;
+    margin-top: 1em;
+  }
   
