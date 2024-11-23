@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { EncounterModule } from './feature-modules/encounters/encounters.module';
 
 
 
@@ -63,7 +64,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatMenuModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    EncounterModule
   ],
   providers: [
     {
