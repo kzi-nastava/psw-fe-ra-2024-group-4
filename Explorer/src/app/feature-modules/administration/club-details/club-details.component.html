@@ -42,12 +42,9 @@
         </button>
     </div>
   
-    <!-- Desna strana: 70% -->
+   
     <div class="right-panel">
-      <!-- <xp-club-members 
-        *ngIf="selectedComponent === 'comp1'" 
-        [clubId]="clubId">
-      </xp-club-members> -->
+    
       <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"  [ownerId]="club?.userId ?? 0"></xp-club-members>
        <xp-club-invitation 
        *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId">
