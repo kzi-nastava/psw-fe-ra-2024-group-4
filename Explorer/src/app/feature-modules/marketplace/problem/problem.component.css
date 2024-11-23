@@ -1,6 +1,5 @@
 #problems {
-    margin-top: 20px;
-    margin-left: 20px;
+    margin: 20px
 }
 
 #problem-details {
@@ -12,6 +11,9 @@
 
 p {
     font-size: 20px;
+    display: block;  
+    text-align: center;
+    margin: 10px 0; 
 }
 
 table {
@@ -30,6 +32,7 @@ thead tr {
 
 th, td {
     padding: 12px 15px;
+    text-align: center;
 }
 
 tbody tr {
@@ -109,4 +112,11 @@ tbody tr.active-row {
 .error-mess{
     color:red;
     font-size: 15px;
+}
+
+.addButton {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    align-items: center; 
 }

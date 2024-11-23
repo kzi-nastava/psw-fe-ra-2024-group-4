@@ -4,9 +4,7 @@ import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatDialog } from '@angular/material/dialog';
 import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
-import { KeyPoint } from '../model/keypoint.model';
 import { MapService } from 'src/app/shared/map/map.service';
-
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../../payments/cart-overview.service';
@@ -16,9 +14,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-
 import { PositionSimulator } from '../model/position-simulator.model';
-import { Tour } from '../model/tour.model';
+import { ProblemComponent } from '../../marketplace/problem/problem.component';
 
 
 @Component({
@@ -188,10 +185,6 @@ export class TourOverviewComponent implements OnInit {
     }
   }
 
-  reportProblem(tourId: number): void {
-    this.router.navigate(['/problem'], { queryParams: { tourId: tourId } });
-  }
-
   startTour(tourId: number): void {
     if (!this.position) {
         console.error('Position is null. Cannot start tour without a position.');
@@ -262,6 +255,16 @@ export class TourOverviewComponent implements OnInit {
         tourId: tourId
       },
     });
+  }
+  
+  reportProblem(tourId: number): void {
+    this.dialog.open(ProblemComponent, {
+      width: '40%',
+      data : {
+        tourId: tourId
+      }
+    });
+    
   }
 
   loadTourExecutions(): void {
