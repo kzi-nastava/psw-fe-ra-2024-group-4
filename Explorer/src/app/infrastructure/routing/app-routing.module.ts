@@ -72,7 +72,8 @@ const routes: Routes = [
   {path: 'public-status-request', component: PublicStatusRequestComponent},
   {path: 'cart/:cartId', component: CartOverviewComponent},
   {path: 'purchased-tours', component: PurchaseTokenComponent },
-  {path: 'tour-review/:tourId', component: TourReviewFormComponent}
+  {path: 'tour-review/:tourId', component: TourReviewFormComponent},
+  {path: 'equipment', component: EquipmentComponent}
 ];
 
 @NgModule({

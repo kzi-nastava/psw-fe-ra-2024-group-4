@@ -80,30 +80,29 @@ export class ManageTourEquipmentComponent implements OnInit {
   }
 
   onSave(): void {
-    const addEquipmentObservables = this.selectedEquipment.map(eq => {
-      if (eq.id != null) {
-        return this.service.addTourEquipment(eq.id, { id: this.tourId } as Tour);
-      } else {
-        console.error(`Equipment ID is undefined for equipment: ${eq.name}`);
-        return null;
-      }
-    }).filter(obs => obs !== null); 
-
-    if (addEquipmentObservables.length > 0) {
-      forkJoin(addEquipmentObservables).subscribe({
-        next: results => {
-          console.log('Added equipment successfully:', results);
-          this.dialogRef.close(true); 
+    // Filter out undefined IDs and create a valid number array
+    const equipmentIds: number[] = this.selectedEquipment
+      .map(eq => eq.id) // Extract the IDs
+      .filter((id): id is number => id !== undefined); // Remove undefined values
+  
+    if (equipmentIds.length > 0) {
+      this.service.addTourEquipment(this.tourId, equipmentIds).subscribe({
+        next: () => {
+          console.log('Added equipment successfully.');
+          this.dialogRef.close(true);
         },
         error: err => {
           console.error('Error adding equipment:', err);
-          this.dialogRef.close(false); 
+          this.dialogRef.close(false);
         }
       });
     } else {
-      this.dialogRef.close(false); 
+      console.error('No valid equipment selected.');
+      this.dialogRef.close(false);
     }
   }
+  
+  
 
   onCancel(): void {
     this.dialogRef.close(false); 
