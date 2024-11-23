@@ -1,6 +1,5 @@
 #problems {
-    margin-top: 20px;
-    margin-left: 20px;
+    margin: 20px
 }
 
 #problem-details {
@@ -12,6 +11,9 @@
 
 p {
     font-size: 20px;
+    display: block;  
+    text-align: center;
+    margin: 10px 0; 
 }
 
 table {
@@ -30,6 +32,7 @@ thead tr {
 
 th, td {
     padding: 12px 15px;
+    text-align: center;
 }
 
 tbody tr {
@@ -52,7 +55,6 @@ tbody tr.active-row {
 
     color: red;                 
     font-weight: bold !important;  
-    /*text-shadow: 0 0 5px rgba(248, 2, 2, 0.7), 0 0 10px rgba(249, 9, 9, 0.5); */
    
 }
 .note {
@@ -64,7 +66,6 @@ tbody tr.active-row {
     text-shadow: 0 0 5px rgba(255, 102, 102, 0.7), 
     0 0 10px rgba(255, 102, 102, 0.5); 
 }
-/* Stil za modal prozor */
 .modal {
     display: flex;
     position: fixed;
@@ -110,5 +111,12 @@ tbody tr.active-row {
 }
 .error-mess{
     color:red;
-    font-size: 10px;
+    font-size: 15px;
+}
+
+.addButton {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    align-items: center; 
 }

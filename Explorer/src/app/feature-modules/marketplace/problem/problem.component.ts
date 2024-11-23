@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Problem } from '../model/problem.model';
 import { Notification } from '../../administration/model/notifications.model';
 import { MarketplaceService } from '../marketplace.service';
@@ -9,6 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
+import { ProblemFormComponent } from '../problem-form/problem-form.component';
 
 @Component({
   selector: 'xp-problem',
@@ -29,9 +32,19 @@ export class ProblemComponent implements OnInit{
   newDeadline: number = 0;
   daysSinceCreation: number = 0; 
   isDeadlineInvalid: boolean = false;
+  readonly dialog = inject(MatDialog)
 
-
-  constructor(private service: MarketplaceService, private authService: AuthService, private router: Router){  }
+  tourId: number;
+  priorityMap: { [key: number]: string } = {
+    1: 'Low',
+    2: 'Medium Low',
+    3: 'Medium',
+    4: 'Medium High',
+    5: 'High'
+  };
+  constructor(private service: MarketplaceService, private authService: AuthService, private router: Router,@Inject(MAT_DIALOG_DATA) private data: {tourId: number }){
+    this.tourId = data.tourId;
+  }
 
   ngOnInit(): void {    
     this.authService.user$.subscribe((user: User) => {
@@ -50,6 +63,7 @@ export class ProblemComponent implements OnInit{
    
 
   }
+  displayedColumns: string[] = ['category', 'description', 'priority', 'time', 'actions', 'deadline' ];
 
   checkIfOverDeadline(deadline: number): boolean {
     const now = new Date();
@@ -139,7 +153,7 @@ export class ProblemComponent implements OnInit{
       this.service.getProblemsByTouristId(this.user.id).subscribe({
         next: (result: Problem[]) => {
           console.log(result);
-          this.problems = result;
+          this.problems = result.filter(problem => problem.tourId === this.tourId);
         },
         error: (err: any) => {
           console.log(err);
@@ -240,15 +254,23 @@ confirmUpdateDeadline(): void {
     this.shoudAdd=true;
     this.shouldEdit=false;
     this.showProblemForm=true;
-  }
+    const dialogRef = this.dialog.open(ProblemFormComponent, {
+      data : {
+        height: 'auto',
+        width: '100%',        
+        maxWidth: '500px',
+        tourId: this.tourId
+      }
+    });
 
-  onProblemAdded(): void {
-    this.getProblems();
-    this.showProblemForm = false; 
+    dialogRef.componentInstance.problemAdded.subscribe(() => {
+      this.getProblems(); 
+    });
   }
 
   openTicket(p: Problem) {
     //console.log(p);
+    this.dialog.closeAll();
     this.router.navigate(['/problem-ticket'], { state: { problem: p}});
   }
 

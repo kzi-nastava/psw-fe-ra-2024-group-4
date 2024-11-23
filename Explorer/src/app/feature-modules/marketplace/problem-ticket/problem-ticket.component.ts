@@ -184,7 +184,7 @@ export class ProblemTicketComponent implements OnInit {
   }*/
 
   returnToAll(): void{
-    this.router.navigate(['/problem']);
+    this.router.navigate(['/tour-overview']);
   }
 
   setRoles(){

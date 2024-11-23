@@ -1,30 +1,69 @@
-<form [formGroup]="clubForm" (ngSubmit)="shouldEdit ? updateClub() : addClub()">
-    <div>
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text" />
+<div class="overlay" (click)="formClosed.emit()">
+  <div class="club-form-container" (click)="$event.stopPropagation()">
+    <div class="club-left-section">
+      <div class="image-wrapper">
+        <div class="image-preview" *ngIf="imageBase64; else uploadPrompt">
+          <img [src]="imageBase64" alt="Club Image" />
+          <button class="remove-image-btn" (click)="removeImage()">Remove Image</button>
+        </div>
+        <ng-template #uploadPrompt>
+          <div class="upload-placeholder">
+            <p>No image selected yet.</p>
+            <label>
+              <input type="file" (change)="onFileSelected($event)" hidden />
+              <span class="upload-btn">Upload Image</span>
+            </label>
+          </div>
+        </ng-template>
+      </div>
+      <div class="club-description">
+        <h2>Create Your Unique Club</h2>
+        <p>
+          Bring your vision to life! Name your club, describe it, and select the perfect tags to represent your passion.
+        </p>
+      </div>
+    </div>
+
+    <div class="club-right-section">
+      <form [formGroup]="clubForm" (ngSubmit)="shouldEdit ? updateClub() : addClub()">
+        <mat-form-field appearance="outline">
+          <mat-label>Club Name</mat-label>
+          <input matInput formControlName="name" placeholder="E.g., Adventure Seekers" />
         </mat-form-field>
         <div *ngIf="nameInvalid" class="error-message">
-            Name is required and cannot contain numbers.
+          Name is required and cannot contain numbers.
         </div>
-        
-        <mat-form-field>
-            <mat-label>Description</mat-label>
-            <textarea matInput
-                      cdkTextareaAutosize
-                      cdkAutosizeMinRows="1"
-                      formControlName="description"
-                      cdkAutosizeMaxRows="5"></textarea>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Write a short description of your club's mission and activities."
+          ></textarea>
         </mat-form-field>
         <div *ngIf="descriptionInvalid" class="error-message">
-            Description is required and cannot contain numbers.
+          Description is required and cannot contain numbers.
         </div>
-            <mat-label>Image</mat-label>
-            <input
-            type="file"
-            (change)="onFileSelected($event)"/>
-        <button mat-raised-button type="submit" color="primary">
-            {{ shouldEdit ? 'Update' : 'Done' }}
+
+        <div class="tags-section" *ngIf="!shouldEdit">
+          <h4>Tell us about your club's spirit</h4>
+          <div class="tags">
+            <div
+              *ngFor="let tag of clubTags; let index = index"
+              class="tag"
+              [class.selected]="clubForm.get('tags')?.value?.includes(index)"
+              (click)="toggleTag(index)"
+            >
+              {{ tag.label }}
+            </div>
+          </div>
+        </div>
+
+        <button mat-raised-button type="submit" color="primary" class="submit-btn">
+          {{ shouldEdit ? 'Update Club' : 'Create Club' }}
         </button>
+      </form>
     </div>
-</form>
+  </div>
+</div>
