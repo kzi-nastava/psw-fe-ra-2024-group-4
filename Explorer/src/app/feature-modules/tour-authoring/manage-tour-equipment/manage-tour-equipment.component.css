@@ -1,8 +1,9 @@
 #equipment {
+    flex: 1;
+    overflow-y: auto;
     margin-top: 20px;
     margin-left: 20px;
     max-width: 500px;
-    height: 100%;
   }
   
   .header {
@@ -15,7 +16,6 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 100%;
   }
   
   .equipment-item {
@@ -85,9 +85,10 @@
   text-align: left;
 }
 .fixed-actions {
+  display: flex;
   position: sticky;
   bottom: 0; /* Sticks to the bottom of the dialog */
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   padding: 10px;
   border-top: 1px solid #ddd;
@@ -98,4 +99,10 @@
   font-size: 1.2em;
   color: gray;
   margin-top: 1em;
+}
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Ensure the dialog content doesn't overflow */
 }
