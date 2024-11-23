@@ -1,11 +1,10 @@
-import { Component, createNgModule, EventEmitter, Output, Input } from '@angular/core';
+import { Component, createNgModule, EventEmitter, Output, Input, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MarketplaceService } from '../marketplace.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Problem } from '../model/problem.model';
-import { ActivatedRoute } from '@angular/router';
-import { ProblemComment } from '../model/problem-comment.model';
+import { MAT_DIALOG_DATA, MatDialogRef  } from '@angular/material/dialog';
 
 @Component({
   selector: 'xp-problem-form',
@@ -16,20 +15,29 @@ export class ProblemFormComponent {
 
   user: User | null = null;
   @Output() problemAdded = new EventEmitter<void>();
-  @Input() tourId: number;
+  @Input() tourId!: number;
 
-  constructor(private servis: MarketplaceService, private authService: AuthService, private route: ActivatedRoute){
+  priorities = [
+    { value: '1', label: 'Low' },
+    { value: '2', label: 'Medium-Low' },
+    { value: '3', label: 'Medium' },
+    { value: '4', label: 'Medium-High' },
+    { value: '5', label: 'High' },
+  ];
+
+  
+  constructor(private servis: MarketplaceService, 
+              private authService: AuthService, 
+              private dialogRef: MatDialogRef<ProblemFormComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: {tourId: number }){
+                
     this.authService.user$.subscribe((user)=>{
       this.user=user;    
+      this.tourId = data.tourId
    })
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.tourId = +params['tourId']; 
-      console.log('tourId from queryParams:', this.tourId);
-  });
-  }
+  ngOnInit(): void {}
   
   problemForm=new FormGroup({
     category: new FormControl('', [Validators.required]),
@@ -57,7 +65,9 @@ export class ProblemFormComponent {
       this.servis.addProblem(problem).subscribe({
         next: (_)=>{
           console.log("Uspesan zahtev!");
+          this.problemForm.reset(); // Optionally reset the form after submissio
           this.problemAdded.emit();
+          this.dialogRef.close();
         }
       });
     }

@@ -1,3 +1,4 @@
+<label>Add Problem</label>
 <form [formGroup]="problemForm">
     <div>
         <mat-form-field>
@@ -14,7 +15,11 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Priority</mat-label>
-            <input matInput formControlName="priority" type="text"/>
+            <mat-select formControlName="priority">
+                <mat-option *ngFor="let priority of priorities" [value]="priority.value">
+                  {{ priority.label }}
+                </mat-option>
+              </mat-select>
         </mat-form-field>
         <button  color="primary" type="submit" (click)="addProblem()" mat-raised-button>Done</button>
     </div>

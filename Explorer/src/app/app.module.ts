@@ -32,7 +32,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 
 
-
 @NgModule({
   declarations: [
     AppComponent
