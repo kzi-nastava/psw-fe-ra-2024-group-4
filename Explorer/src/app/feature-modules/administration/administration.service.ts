@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Equipment } from './model/equipment.model';
 import { AppReview } from './model/appreview.model';
@@ -248,7 +248,5 @@ export class AdministrationService {
   updateKeyPoint(keyPoint: KeyPoint): Observable<KeyPoint>{
     return this.http.put<KeyPoint>(environment.apiHost + 'administration/publicRequest/updateKeyPoint', keyPoint);
   }
-
-  
 }
 
