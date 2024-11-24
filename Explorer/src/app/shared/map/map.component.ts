@@ -238,9 +238,47 @@ export class MapComponent {
     this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude], {icon: this.keypointIcon}).addTo(this.map);
   }
 
-  showFirstKeypoint(point: KeyPoint) : void
+  async showFirstKeypoint(point: KeyPoint) : Promise<void>
   {
     this.currentMarker = new L.Marker([point.latitude, point.longitude], {icon: this.keypointIcon}).addTo(this.map);
+    const address = await this.getAddress(point.latitude, point.longitude);
+    console.log(address);
+    const popupContent = `
+   <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
+  <div class="imgContainer" style="width: 100%; height: 120px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+    <img src="${this.getImage(point.image)}" alt="Item Image" style="width: 100%; height: 100%; object-fit: contain;">
+  </div>
+
+      <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
+          <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+            ${point.name}
+          </div>
+          <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777;  text-align: center; overflow: hidden;">
+            ${point.description}
+          </div>
+        </div>
+  
+       <div class="card-footer">
+          <div class="card-footer-item" style="
+            font-size: 0.8em; 
+            color: #6A515E; 
+            display: flex; 
+            flex-direction: column; 
+            margin-left: 1vh; 
+            margin-right: 1vh; 
+            justify-content: center; 
+            align-items: center;">
+      
+          <!-- Naslov "Address" -->
+          <p style="font-weight: bold; margin-bottom: 0.5em;">Address</p>
+          
+          <!-- Prikaz adrese -->
+          <p style="margin: 0; text-align: center;">${address || 'Loading address...'}</p>
+        </div>
+      </div>
+    </div>`;
+    this.currentMarker.bindPopup(popupContent).openPopup();
   }
 
 
@@ -460,7 +498,7 @@ export class MapComponent {
           // Bind popup content without immediately opening it
           const popupContent = `
   <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
-    <div class="imgContainer" style="width: 100%; height: 150px; overflow: hidden;">
+    <div class="imgContainer" style="width: 100%; height: 130px; overflow: hidden;">
       <img src="${this.getImage(point.image)}" alt="Item Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
     </div>
 

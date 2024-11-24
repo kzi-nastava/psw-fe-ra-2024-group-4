@@ -1,50 +1,165 @@
-/* Stilizacija naslova */
-h2 {
-    color: darkblue; /* Tamnoplava boja za naslov */
-    margin-bottom: 15px; /* Razmak ispod naslova */
+
+.containeR-member {
+  display: flex;
+  height: 100vh; /* 100% visine ekrana */
+  align-items: flex-start; /* Centriraj ih na vrh */
+  margin: 0; /* Ukloni marginu oko celog container-a */
+}
+.right-panel {
+  width: 80%;
+  background-color: #ffffff;
+  overflow-y: auto; /* Ako sadržaj u desnom panelu premašuje visinu */
+}
+.left-panel {
+  width: 20%;
+  background-color: rgb(232, 212, 246);
+  height: 100%;
+}
+/*p {
+  width: 300px; 
+  font-style: italic; 
+ 
+  text-align: left;
+}*/
+.club-Name{
+  font-style: italic;
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 300px; /* Širina za zakrivljenje */
+  text-align: left; /* Centriranje teksta */
+  /*margin: 20px auto;*/
+  margin-left: 30px;
+  margin-top:15px;
+  overflow: hidden;
+}
+.club-Name::before {
+  content: attr(data-text); /* Postavlja tekst za zakrivljenje */
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  transform: rotate(-5deg); /* Zakrivljenje teksta */
+  transform-origin: center bottom;
 }
 
-/* Stilizacija tabele */
-table {
-    width: 100%; /* Širina tabele na 100% */
-    border-collapse: collapse; /* Spoji ivice */
-    border-radius: 10px; /* Zaobljeni uglovi */
-    overflow: hidden; /* Sakrij delove koji izlaze iz okvira */
+
+
+
+svg {
+  display: block; /* Ukloni automatski razmak */
+  margin: 0;
+  padding: 0;
 }
-
-
-th {
-    background-color: lightblue; /* Svetloplava pozadina za header */
-    color: darkblue; /* Tamna boja teksta za header */
-    padding: 10px; /* Razmak unutar ćelija */
-    text-align: left; /* Poravnanje teksta levo */
+.club-description{
+ 
+  width: 250px; /* Osiguraj da zauzima celu širinu roditelja */
+  margin:0; /* Ukloni bilo koju marginu sa svih strana */
+  padding: 0; /* Ukloni bilo koji unutrašnji razmak */
+  text-align: left; /* Poravnaj tekst sa leve strane */
+  font-style: italic; /* Kursivni stil */
+  display: block;
+  
 }
-
-td {
-    border: 2px solid darkblue; /* Tamno plava boja ivica ćelija */
-    padding: 10px; /* Razmak unutar ćelija */
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1; /* Svetla pozadina na hover */
-}
-
-
-button {
-    background-color: rgba(255, 0, 0, 0.7); /* Polu-prozirna crvena boja */
-    color: white; /* Bele slova */
-    border: none; /* Bez ivica */
-    border-radius: 8px; /* Zaobljene ivice */
-    padding: 10px 15px; /* Razmak unutar dugmeta */
-    cursor: pointer; /* Pokazivač ruke na hover */
-    transition: background-color 0.3s; /* Glatka promena boje pri hover */
-}
-
-button:hover {
-    background-color: rgba(255, 0, 0, 0.9); /* Tamnija crvena boja na hover */
-}
-h1{
-    color:darkblue;
-    align-items: center;
+  
+  .custom-btn {
+    display: block;
+    width: 250px;
+    max-width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+     background-color: rgb(146, 122, 163);
+    border: none;
+    text-align: left;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .custom-btn:hover {
+    background-color: #ddd;
+    color: #333;
+  }
+  .club-logo{
+    margin-top: 20px;
+  }
+  
+  .logo-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .club-info {
     text-align: center;
-}
+    margin-bottom: 20px;
+  }
+  .club-logo {
+    position: relative;
+    width: 150px;
+    margin: 5px 5px 5px 30px;
+    text-align: center; /* Centriranje teksta iznad slike */
+  }
+  
+  .curved-text {
+    position: static; /* Uklonite apsolutno pozicioniranje */
+    margin-bottom: 1px; /* Razmak između teksta i slike */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  
+  .club-image {
+    margin-top: 2px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%; /* Čini sliku kružnom */
+    object-fit: cover; /* Da se slika lepo uklopi */
+    border: 5px solid #ccc; /* Okvir oko slike */
+  }
+  
+  /* .club-logo {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  
+  .club-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+    border: 5px solid #ccc; 
+    margin-top: 5px;
+  }
+  
+  .curved-text {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+  
+    
+    text-align: center;
+    white-space: nowrap;
+    clip-path: circle(50% at 50% 50%);
+    transform: translate(-50%, 0) rotate(-15deg);
+    transform-origin: 50% 150%;
+  } */
+  

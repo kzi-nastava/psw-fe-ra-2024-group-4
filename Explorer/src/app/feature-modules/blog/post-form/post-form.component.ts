@@ -6,6 +6,7 @@ import { Comment } from '../model/comment.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { marked } from 'marked';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-post-form',
@@ -20,14 +21,20 @@ export class PostFormComponent implements OnChanges{
   @Input() shouldEdit: boolean=false;
   renderedDescription: string = '';
   imageBase64: string;
+  @Output() formClosed = new EventEmitter<void>();
 
   ngOnChanges(): void {
     this.postForm.reset();
-    if(this.shouldEdit){
+    if (this.shouldEdit && this.post) {
       this.postForm.patchValue(this.post);
+      this.imageBase64 = this.getImage(this.post.imageUrl); // Postavi sliku za edit mod
+    } else {
+      this.imageBase64 = ''; // Resetuj sliku za add mod
     }
   }
-
+  getImage(imageUrl: string | undefined): string {
+    return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png';
+  }
   constructor(private service: PostService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 
@@ -106,4 +113,43 @@ export class PostFormComponent implements OnChanges{
     };
     reader.readAsDataURL(file); 
 }
+applyStyle(style: string): void {
+  const textarea = document.querySelector('textarea'); // Ili koristi ViewChild za bolju selekciju
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = this.postForm.get('description')?.value || '';
+
+  let before = text.substring(0, start);
+  let after = text.substring(end);
+  let styledText = '';
+
+  // Dodavanje odgovarajućih Markdown oznaka
+  switch (style) {
+    case 'italic':
+      styledText = '*italic*'; // Italic placeholder
+      break;
+    case 'bold':
+      styledText = '**bold**'; // Bold placeholder
+      break;
+    case 'underline':
+      styledText = '<u>underline</u>'; // Underline placeholder
+      break;
+  }
+
+  // Kombinovanje teksta pre, umetanja i posle
+  const updatedText = `${before}${styledText}${after}`;
+  this.postForm.get('description')?.setValue(updatedText);
+
+  // Kursor ostaje na kraju umetnutog teksta
+  setTimeout(() => {
+    textarea.focus(); // Fokus na textarea
+    textarea.setSelectionRange(updatedText.length, updatedText.length); // Kursor na kraju
+  }, 0);
+}
+  removeImage(): void{
+    this.imageBase64="";
+    this.postForm.patchValue({imageBase64:""});
+  }
 }

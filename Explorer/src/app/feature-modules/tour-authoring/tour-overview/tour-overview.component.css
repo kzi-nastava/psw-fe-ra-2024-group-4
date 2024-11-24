@@ -356,9 +356,10 @@ button[mat-icon-button] mat-icon {
     justify-content: center;
 }
 
-.map-keypoint{
+/*.map-keypoint{
     width: 100%;
 }
+*/
 
 
 
@@ -434,3 +435,11 @@ button[mat-icon-button] mat-icon {
     margin-top: 10px;
     margin-left: 130px;
 }
+
+
+
+  /*
+:host ::ng-deep .leaflet-container {
+     height: 150% !important;
+    }*/ 
+
