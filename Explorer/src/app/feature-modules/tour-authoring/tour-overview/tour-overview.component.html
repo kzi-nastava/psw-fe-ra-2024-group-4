@@ -9,7 +9,7 @@
         <xp-map-for-tour class="map-keypoint" [tourOverview]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
     </div>
     <div class="top-container">
-        <h1>Tours</h1>
+        <header><h1>Tours</h1></header>
     </div>
     <div class="content-container">
         <div class="left-side-container">
@@ -19,7 +19,10 @@
         <div class="center-container">
             <div class="cards">
                 <div class="card" *ngFor="let t of tours">
-                    <img src="https://live.staticflickr.com/4028/4657831272_425d20fea7_b.jpg" class="card-image">
+                    <img 
+  [src]="'assets/images/tag' + (getTagNumber(t.tags[0]) + 1) + '.jpg'" 
+  class="card-image"
+>
                     
                     
                     <div class="card-overlay">

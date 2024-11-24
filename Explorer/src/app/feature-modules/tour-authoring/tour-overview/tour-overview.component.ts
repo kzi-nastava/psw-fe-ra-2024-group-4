@@ -52,6 +52,25 @@ export class TourOverviewComponent implements OnInit {
     private tourExecutionService: TourExecutionService,
   private authService: AuthService) {}
 
+
+  tourTagMap: { [key: number]: string } = {
+    0: 'Cycling',
+    1: 'Culture',
+    2: 'Adventure',
+    3: 'FamilyFriendly',
+    4: 'Nature',
+    5: 'CityTour',
+    6: 'Historical',
+    7: 'Relaxation',
+    8: 'Wildlife',
+    9: 'NightTour',
+    10: 'Beach',
+    11: 'Mountains',
+    12: 'Photography',
+    13: 'Guided',
+    14: 'SelfGuided'
+  };
+
   ngOnInit(): void {
 
     this.orderItem = {
@@ -61,6 +80,8 @@ export class TourOverviewComponent implements OnInit {
       tourId: 0,
       cartId: 0
     };
+
+    
 
     
   
@@ -338,4 +359,14 @@ export class TourOverviewComponent implements OnInit {
   openCart(cartId: number): void {
     this.router.navigate([`/cart/${cartId}`]);
   }
+
+  getTagNumber(word: string): number { //daj broj od tada
+    for (const [key, value] of Object.entries(this.tourTagMap)) {
+      if (value === word) {
+        return +key; // Convert the key back to a number
+      }
+    }
+    return -1; // Return -1 or any default value if the word is not found
+  }
+  
 }
