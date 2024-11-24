@@ -3,6 +3,7 @@
    .position-simulator-container {
     width: 85%;
     height: 40% !important;
+    overflow: hidden;
   }
 
   
