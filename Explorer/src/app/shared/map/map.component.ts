@@ -233,6 +233,10 @@ export class MapComponent {
         if (changes['objects']) {
             this.plotExistingObjects(); 
         }
+        if (changes['selectedEncounterPoints']) {
+          console.log("Novi encounter-i za prikaz na mapi:", this.selectedEncounterPoints);
+          this.showEncounterOnMap();
+        }
     }
 }
 
@@ -489,6 +493,7 @@ export class MapComponent {
 
 private async showEncounterOnMap(): Promise<void> {
   console.log("Showing encunters in radius");
+  console.log("Selected Encounter Points:", this.selectedEncounterPoints); 
   this.selectedEncounterMarkers.forEach(marker => this.map.removeLayer(marker));
   this.selectedEncounterMarkers = [];
 

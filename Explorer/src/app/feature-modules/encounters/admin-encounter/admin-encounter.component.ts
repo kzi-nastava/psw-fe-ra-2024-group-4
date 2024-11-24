@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto} from '../model/encounter.model';
 import { EncounterServiceService } from '../encounter.service.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'xp-admin-encounter',
@@ -49,11 +50,17 @@ export class AdminEncounterComponent implements OnInit {
 
   ngOnInit() {
     // Initialize encounter and load any existing encounter data if needed
-    this.encounterService.getInRadius(1, 45.2671, 19.8335).subscribe({
+    //this.encounterService.getInRadius(1, 45.2671, 19.8335).subscribe({
+    //ovaj deo iznad je zakomentarisan jer mislim da nije prakticno da se prikazuju samo izazovi na 1km od centra NS
+    //i ovo ispod je malo bzv, mislim da bi trebalo da imamo na backu dobavljanje svih encountera bez radijusa i lat i long
+    //ali nije moj posao pa nisam ispravljala
+      const globalRadius = 20000; // 20.000 km pokriva celu planetu
+      this.encounterService.getInRadius(globalRadius, 0, 0).subscribe({
       next: ((data) => {
+        console.log("Odgovor sa servera:", data);
         console.log("Uspesno uzete na pocetku");
         this.encounters = data.results;
-        console.log(this.encounters);
+        console.log("Encounters prosleđeni u xp-map:", this.encounters);
       }),
       error: (err) => {
         console.error('Error loading tours:', err);

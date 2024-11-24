@@ -4,6 +4,7 @@ import { Encounter } from './model/encounter.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/env/environment';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,15 @@ export class EncounterServiceService {
       .set('radius', radius.toString())
       .set('lat', lat.toString())
       .set('lon', lon.toString()); // Add query parameters
+
+      console.log('Šaljem parametre na server:', {
+        radius,
+        lat,
+        lon});
   
-    return this.http.get<PagedResults<Encounter>>(url, { params });
+    return this.http.get<{ value: PagedResults<Encounter> }>(url, { params }).pipe(
+      map((response) => response.value) // Ekstrahuj `value` koji sadrži `results` i `totalCount`
+    );
   }
+  
 }
