@@ -13,6 +13,7 @@ import { TourAuthoringService } from '../../tour-authoring/tour-authoring.servic
 import { Subscription } from 'rxjs';
 import { MapService } from 'src/app/shared/map/map.service';
 import Swal from 'sweetalert2';
+import { CouponService } from '../../payments/coupon.service';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -28,7 +29,8 @@ export class ToursForAuthorComponent implements OnInit {
   private lengthUpdatedSubscription!: Subscription;
   isChatOpen: boolean = false; 
   chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
-  
+  shouldRenderCouponForm: boolean=false;
+  couponMap: Map<number, boolean> = new Map();
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -48,7 +50,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog) { }
+  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog,private couponService: CouponService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -58,7 +60,7 @@ export class ToursForAuthorComponent implements OnInit {
       if(user !== null && user.role === 'author')
       {
         this.getTours(user.id);
-
+        this.getAllCoupons(user.id);
         
       }
       
@@ -82,6 +84,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
+        this.getAllCoupons(this.user?.id || 0);
         console.log(this.tours)
         console.log(this.tours);
         console.log(this.tours[0].keyPoints[0].tourId);
@@ -260,6 +263,34 @@ ngOnDestroy() {
 toggleChat(isChat: boolean): void {
   this.isChatOpen = isChat;
 }
+//kuponi
+getAllCoupons(authorId: number): void {
+  this.couponService.getAll(authorId).subscribe({
+    next: (coupons) => {
+      this.couponMap.clear();
+      coupons.results.forEach((coupon) => {
+        if(coupon.tourId){
+        this.couponMap.set(coupon.tourId, true);
+        }
+      });
+      console.log(this.couponMap); 
+    },
+    error: (error) => {
+      console.error('Error fetching coupons:', error);
+    },
+  });
+}
 
-  
+openCouponForm(tour: Tour): void {
+  this.selectedTour = tour;
+  this.shouldRenderCouponForm = true;
+}
+viewCouponDetails(tour:Tour):void{
+
+}
+closeCouponForm(): void {
+  this.shouldRenderCouponForm = false;
+}
+addCouponForAll(): void {}
+
 }

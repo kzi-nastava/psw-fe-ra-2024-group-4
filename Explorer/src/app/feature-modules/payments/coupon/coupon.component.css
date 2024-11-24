@@ -1,0 +1,67 @@
+.coupon-left-section {
+    flex: 1;
+    background: linear-gradient(135deg, #f7d1d1, #fbecec);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .coupon-form-container {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff; /* Beli background */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Suptilna senka */
+    max-width: 900px;
+    width: 90%;
+    padding: 20px;
+    gap: 20px; /* Razmak između sekcija */
+}
+
+  .coupon-left-section h2 {
+    font-size: 1.5rem;
+    color: #a36484;
+    margin-bottom: 10px;
+  }
+  
+  .coupon-left-section p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .coupon-right-section {
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  mat-form-field {
+    width: 100%; /* Input polja zauzimaju ceo prostor */
+}
+  .submit-btn {
+    background-color: #a36484;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    display: block;
+  }
+  
+  .submit-btn:hover {
+    background-color: #303f9f;
+    transform: translateY(-2px);
+  }
+  .error-message {
+    font-size: 12px;
+    color: red;
+    font-family: 'Poppins', sans-serif;
+  }
+  

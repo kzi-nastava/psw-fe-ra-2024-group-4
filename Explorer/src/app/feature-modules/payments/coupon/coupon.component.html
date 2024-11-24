@@ -1,0 +1,41 @@
+<div class="coupon-form-container">
+    <!-- Leva sekcija -->
+    <div class="coupon-left-section">
+      <h2>Coupon for {{ tour.name || 'All Tours' }}</h2>
+      <p>
+        Create a special coupon for your tour to attract more customers! Set the discount percentage, 
+        optionally add an expiration date, and let your customers enjoy the deal.
+      </p>
+    </div>
+  
+    <!-- Desna sekcija -->
+    <div class="coupon-right-section">
+      <form [formGroup]="couponForm" (ngSubmit)="submitCoupon()">
+  
+        <!-- Procenat popusta -->
+        <mat-form-field appearance="outline">
+          <mat-label>Discount (%)</mat-label>
+          <input matInput type="number" formControlName="discount" placeholder="Enter discount percentage" />
+        </mat-form-field>
+        <div *ngIf="discountInvalid" class="error-message">
+          Discount is required and must be between 1 and 100.
+        </div>
+  
+        <!-- Datum važenja -->
+        <mat-form-field appearance="outline">
+          <mat-label>Expiration Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="expirationDate" placeholder="Select expiration date" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="dateInvalid" class="error-message">
+            Expiration date must be in the future.
+          </div>
+        <!-- Dugme za kreiranje kupona -->
+        <button type="submit" class="submit-btn">
+          Create Coupon
+        </button>
+      </form>
+    </div>
+  </div>
+  
