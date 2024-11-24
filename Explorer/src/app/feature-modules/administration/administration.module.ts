@@ -19,6 +19,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { QuizComponent } from './quiz/quiz.component';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { FormsModule } from '@angular/forms';
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    QuizComponent
 
   ],
   imports: [
@@ -44,7 +48,9 @@ import { FormsModule } from '@angular/forms';
     MatListModule,   
     MatFormFieldModule,      
     MatInputModule,
-    FormsModule
+    FormsModule,
+    DragDropModule,
+    CdkDrag
   ],
   exports: [
     EquipmentComponent,
@@ -56,7 +62,7 @@ import { FormsModule } from '@angular/forms';
     AccountComponent,
     AppReviewTableComponent,
     PublicStatusRequestComponent,
-    NotificationsComponent
+    NotificationsComponent,
   ]
 })
 export class AdministrationModule { }
