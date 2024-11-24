@@ -41,9 +41,10 @@ mdc-evolution-chip__text-label mat-mdc-chip-action-label{
 }
 
 .cart-container {
-    margin-top: 3vh;
+    margin-top: 30px;
     display: flex;
-    justify-content: left;
+    justify-content: right;
+    margin-right: 50px;
 }
 button[mat-icon-button] {
     /*position: relative; 
@@ -358,9 +359,87 @@ button[mat-icon-button] mat-icon {
 /*.map-keypoint{
     width: 100%;
 }
-}*/
+*/
+
+
+
+
+.cart-container {
+    position: relative;
+}
+
+.cart-preview {
+    position: absolute;
+    top: 50px;  /* Adjust as necessary */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 700px;
+    z-index: 1000;
+    border-radius: 8px; 
+    display: flex;              /* Flexbox for the entire preview */
+    flex-direction: column;     /* Stack items vertically */
+}
+
+.cart-item-preview {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-preview:last-child {
+    border-bottom: none;
+}
+
+.cart-item {
+    display: flex;              /* Flexbox container */
+    align-items: center;        /* Vertically center the items */
+    gap: 10px;                  /* Adds space between image and text */
+}
+
+.card-image-preview {
+    width: 150px;               /* Set the image size */
+    height: 100px;
+    object-fit: cover;          /* Makes sure the image maintains aspect ratio */
+}
+
+.tour-info {
+    display: flex;
+    flex-direction: column;      /* Stack text elements vertically */
+    justify-content: center;     /* Vertically center text */
+}
+
+.tour-name {
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #666;
+    font-size: 16px;
+}
+
+.tour-price {
+    font-size: 14px;
+}
+
+.divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-top: 2px solid #333;
+}
+
+.price-total {
+    align-self: flex-end;           /* Push the total price to the right */
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 130px;
+}
+
+
 
   /*
 :host ::ng-deep .leaflet-container {
      height: 150% !important;
     }*/ 
+
