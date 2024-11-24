@@ -19,6 +19,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { QuizComponent } from './quiz/quiz.component';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClubMembersComponent } from './club-members/club-members.component';
 
 
@@ -35,6 +38,7 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    QuizComponent,
     ClubMembersComponent,
 
   ],
@@ -47,7 +51,9 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     MatListModule,   
     MatFormFieldModule,      
     MatInputModule,
-    FormsModule
+    FormsModule,
+    DragDropModule,
+    CdkDrag
   ],
   exports: [
     EquipmentComponent,
@@ -59,7 +65,7 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     AccountComponent,
     AppReviewTableComponent,
     PublicStatusRequestComponent,
-    NotificationsComponent
+    NotificationsComponent,
   ]
 })
 export class AdministrationModule { }
