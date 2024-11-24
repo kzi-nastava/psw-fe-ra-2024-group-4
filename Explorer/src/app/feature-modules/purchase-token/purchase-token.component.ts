@@ -30,8 +30,20 @@ export class PurchaseTokenComponent implements OnInit{
   userId: number = -1;
   @Input() tourKeypoints: KeyPoint[] = [];
 
+
   constructor(private purchaseService: PurchaseService, private authService: AuthService, private router: Router,
     private tourExecutionService: TourExecutionService) {}
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Click the View Map button to see the map with the tours key points.Click the Start Tour button to begin the selected tour.Use the Report Problem button to report any issues you encounter.';  
+
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
+
+
 
   ngOnInit(): void {
     
@@ -79,7 +91,7 @@ export class PurchaseTokenComponent implements OnInit{
   }
 
   closeMapForTour() {
-    this.shouldDisplayMap = false; // Postavljamo na false kada zatvorimo mapu
+    this.shouldDisplayMap = false; 
   }
 
 
