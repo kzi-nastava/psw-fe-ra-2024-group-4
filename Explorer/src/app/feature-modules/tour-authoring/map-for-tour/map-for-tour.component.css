@@ -8,7 +8,7 @@
     z-index: 999; /* Ispod mape, iznad ostalih elemenata */
 }
 
-.map-container{
+ .map-container{
     width: 80%;
     height: 80%;
     position: relative;

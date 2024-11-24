@@ -1,21 +1,71 @@
-<div class="cart-overview">
-  <div *ngFor="let item of cartItems">
-    <mat-card>
-      <mat-card-header class="card-header">
-        <div class="header-content">
-          <div>
-            <mat-card-title>{{ item.tourName }}</mat-card-title>
-            <mat-card-subtitle>Price: {{ item.price }}</mat-card-subtitle>
+<div class="shopping-cart-container">
+  <h1 mat-typography class="cart-title">
+    Shopping Cart
+    <span class="items-count">
+      ({{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }})
+    </span>
+  </h1>
+
+  <div class="cart-items-scroll">
+    <div *ngFor="let item of cartItems" class="cart-item-card">
+      <mat-card class="cart-item">
+        <mat-card-content class="cart-item-content">
+       
+            <!-- Slika koja pokriva celu karticu -->
+            <img [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
+          
+          
+          <!-- Informacije o turi -->
+          <div class="tour-details">
+            <div class="tour-info-left">
+              <h3 mat-typography>{{ item.tourName }}</h3>
+              <p>{{ item.tourDetails?.description }}</p>
+              <p>Difficulty: {{ item.tourDetails?.difficulty }}</p>
+
+
+              <div *ngIf="item.tourDetails?.tags?.length; else noTags">
+               
+                <div class="tags-container">
+                  <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{getTagName(tag)}} </span>
+                 
+                </div>
+              </div>
+              <ng-template #noTags>
+                <p>Tags: N/A</p>
+              </ng-template>
+            </div>
+
+            <button mat-icon-button class="action-button" (click)="removeCartItem(item)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
-        </div>
-        <button mat-button color="warn" (click)="removeCartItem(item)">Remove</button>
-      </mat-card-header>
-    </mat-card>
+
+          <div class="price-container">
+            <p><strong>{{ item.price }} $</strong></p>
+          </div>
+         
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 
-  <div class="total">
-    <h3>Total: {{ totalPrice }}</h3>
+  <div class="cart-footer">
+    <div class="footer-content">
+      <span class="total-price">Total: {{ totalPrice }} $</span>
+      <div class="divider"></div> 
+      <button mat-raised-button class="checkout" color="accent" (click)="checkout()">Checkout</button>
+    </div>
   </div>
+</div>
 
-  <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
 </div>
