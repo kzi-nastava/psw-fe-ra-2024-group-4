@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .encounter-form {
+    width: 40%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .encounter-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .encounter-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .encounter-form label {
+    margin-bottom: 5px;
+  }
+  
+  .encounter-form input,
+  .encounter-form select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .encounter-form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .encounter-form button:disabled {
+    background-color: #ccc;
+  }
+  
+  .map {
+    width: 55%;
+    height: 500px;
+    background-color: #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  ::ng-deep #map {
+    height: 500px !important; /* Or any other value you'd like */
+  }
