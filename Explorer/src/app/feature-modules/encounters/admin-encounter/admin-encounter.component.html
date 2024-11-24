@@ -15,25 +15,25 @@
         <!-- Social Encounter Type -->
         <div *ngIf="selectedEncounterType === 'Social'">
             <label for="requiredParticipants">Required Participants</label>
-            <input type="number" id="requiredParticipants" [(ngModel)]="encounter.socialData.requiredParticipants" 
+            <input type="number" id="requiredParticipants" [(ngModel)]="social.requiredParticipants " 
             name="requiredParticipants" />
-            <label for="radius">Radius (meters)</label>
-            <input type="number" id="radius" [(ngModel)]="encounter.socialData.radius" name="radius" />
+            <label for="radius">Radius (km)</label>
+            <input type="number" id="radius" [(ngModel)]="social.radius" name="radius" />
         </div>
   
         <!-- HiddenLocation Encounter Type -->
         <div *ngIf="selectedEncounterType === 'HiddenLocation'">
-            <label for="imageUrl">Image URL</label>
-            <input type="text" id="imageUrl" [(ngModel)]="encounter.hiddenLocationData.imageUrl" name="imageUrl" />
+            <label for="imageUrl">!!!Image URL //PROMENITI U FILE</label>
+            <input type="text" id="imageUrl" [(ngModel)]="hiddenLocation.imageUrl" name="imageUrl" />
   
             <label for="activationRadius">Activation Radius</label>
-            <input type="number" id="activationRadius" [(ngModel)]="encounter.hiddenLocationData.activationRadius" name="activationRadius" />
+            <input type="number" id="activationRadius" [(ngModel)]="hiddenLocation.activationRadius" name="activationRadius" />
         </div>
   
         <!-- Misc Encounter Type -->
         <div *ngIf="selectedEncounterType === 'Misc'">
             <label for="actionDescription">Action Description</label>
-            <input type="text" id="actionDescription" [(ngModel)]="encounter.miscData.actionDescription" name="actionDescription" />
+            <input type="text" id="actionDescription" [(ngModel)]="misc.actionDescription" name="actionDescription" />
         </div>
   
   
@@ -61,6 +61,8 @@
   
     <!-- Map Component -->
     <div class="map">
-        <xp-map class="card-map" [showEncounters]="true" [selectedEncounterPoints]="encounters" (mapClick)="onMapClick($event)"></xp-map>
+        <xp-map class="card-map" [showEncounters]="true" [selectedEncounterPoints]="encounters" 
+        [registeringObject]="true" [shouldEditKp]="false" (latitudeChanged)="onLatitudeChanged($event)"
+        (longitudeChanged)="onLongitudeChanged($event)" (mapClick)="onMapClick($event)"></xp-map>
     </div>
   </div>  

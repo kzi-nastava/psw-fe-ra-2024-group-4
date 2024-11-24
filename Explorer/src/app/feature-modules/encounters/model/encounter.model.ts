@@ -34,8 +34,8 @@ export enum EncounterStatus {
     status: EncounterStatus;    
     type: EncounterType;  
     data?: any;                  
-    socialData: SocialDataDto ;  
-    hiddenLocationData: HiddenLocationDataDto; 
-    miscData: MiscDataDto;      
+    socialData: SocialDataDto | null;  
+    hiddenLocationData: HiddenLocationDataDto | null; 
+    miscData: MiscDataDto | null;      
   }
   

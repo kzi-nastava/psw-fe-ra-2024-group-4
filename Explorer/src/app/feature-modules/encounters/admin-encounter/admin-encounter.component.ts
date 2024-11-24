@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto} from '../model/encounter.model';
+import { EncounterServiceService } from '../encounter.service.service';
 
 @Component({
   selector: 'xp-admin-encounter',
@@ -8,8 +9,14 @@ import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocatio
 })
 export class AdminEncounterComponent implements OnInit {
 
+  constructor(private encounterService: EncounterServiceService) {}
+
   encounterTypes: string[] = Object.values(EncounterType);  // Dynamically fetch the encounter types
   selectedEncounterType: string = EncounterType.Social;  // Default type
+
+  social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
+  hiddenLocation: { imageUrl: '', activationRadius: 0 } = { imageUrl: '', activationRadius: 0 }; // Default values
+  misc: { actionDescription: '' } = { actionDescription: '' };  // Default values  
 
   encounter: Encounter = {
     id: 0,
@@ -21,15 +28,37 @@ export class AdminEncounterComponent implements OnInit {
     status: EncounterStatus.Draft,
     type: EncounterType.Social,
     data: null,
-    socialData: { requiredParticipants: 0, radius: 0 },  // Default values
-    hiddenLocationData: { imageUrl: '', activationRadius: 0 }, // Default values
-    miscData: { actionDescription: '' }  // Default values
+    socialData: null,  // Default values
+    hiddenLocationData: null, // Default values
+    miscData: null  // Default values
   };
+
+  // Event handler for latitude change
+  onLatitudeChanged(lat: number): void {
+    this.encounter.latitude = lat;
+    console.log('Latitude changed:', this.encounter.latitude);
+  }
+
+  // Event handler for longitude change
+  onLongitudeChanged(lng: number): void {
+    this.encounter.longitude = lng;
+    console.log('Longitude changed:', this.encounter.longitude);
+  }
 
   encounters: Encounter[] = [];
 
   ngOnInit() {
     // Initialize encounter and load any existing encounter data if needed
+    this.encounterService.getInRadius(1, 45.2671, 19.8335).subscribe({
+      next: ((data) => {
+        console.log("Uspesno uzete na pocetku");
+        this.encounters = data.results;
+        console.log(this.encounters);
+      }),
+      error: (err) => {
+        console.error('Error loading tours:', err);
+      }
+    });
   }
 
   onEncounterTypeChange() {
@@ -37,21 +66,21 @@ export class AdminEncounterComponent implements OnInit {
     switch (this.selectedEncounterType) {
       case EncounterType.Social:
         // Ensure socialData is always initialized
-        this.encounter.socialData = { requiredParticipants: 0, radius: 0 };
-        this.encounter.hiddenLocationData = { imageUrl: '', activationRadius: 0 };
-        this.encounter.miscData = { actionDescription: '' };
+        this.encounter.socialData = this.social;
+        this.encounter.hiddenLocationData = null;
+        this.encounter.miscData = null;
         break;
       case EncounterType.HiddenLocation:
         // Ensure hiddenLocationData is always initialized
-        this.encounter.hiddenLocationData = { imageUrl: '', activationRadius: 0 };
-        this.encounter.socialData = { requiredParticipants: 0, radius: 0 };
-        this.encounter.miscData = { actionDescription: '' };
+        this.encounter.hiddenLocationData = this.hiddenLocation;
+        this.encounter.socialData = null;
+        this.encounter.miscData = null;
         break;
       case EncounterType.Misc:
         // Ensure miscData is always initialized
-        this.encounter.miscData = { actionDescription: '' };
-        this.encounter.socialData = { requiredParticipants: 0, radius: 0 };
-        this.encounter.hiddenLocationData = { imageUrl: '', activationRadius: 0 };
+        this.encounter.miscData = this.misc;
+        this.encounter.socialData = null;
+        this.encounter.hiddenLocationData = null;
         break;
     }
   }
