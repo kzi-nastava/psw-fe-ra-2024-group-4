@@ -15,6 +15,4 @@ export class PostServiceTsService {
   getPosts(): Observable<PagedResults<Post>>{
     return this.http.get<PagedResults<Post>>(environment.apiHost+ 'postmanagement/post')
   }
-
-
 }
