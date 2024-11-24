@@ -191,69 +191,6 @@ export class TourOverviewComponent implements OnInit {
     }
   }
 
-  startTour(tourId: number): void {
-    if (!this.position) {
-        console.error('Position is null. Cannot start tour without a position.');
-        return;
-    }
-
-    // Ensure tourExecution is initialized with all required properties
-    this.tourExecution = {
-        locationId: this.position.id,
-        tourId: tourId,
-        status: 0,
-        lastActivity: new Date(),
-        touristId: this.user?.id || 0, // Default to 0 if user ID is null
-        completedKeys: [] // Ensure this is sent as an empty array
-    };
-
-    this.tourExecutionService.startTourExecution(this.tourExecution).subscribe({
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = true;
-            this.loadTourExecutions();
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-}
-
-  completeTourExecution(tourExecutionId?: number)
-  {
-    
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-    {
-      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = false;
-            this.loadTourExecutions()
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-    }
-    
-  }
-
-  abandonTourExecution(tourExecutionId?: number)
-  {
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-      {
-    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
-      next: (data: TourExecution) => {
-          this.isActive = false;
-          this.loadTourExecutions();
-      },
-      error: (err) => {
-          console.error('Error creating execution:', err);
-      }
-  });
-}
-  }
-
   openReviews(tourId: number): void {
     this.dialog.open(TourOverviewDetailsComponent, {
       data: {

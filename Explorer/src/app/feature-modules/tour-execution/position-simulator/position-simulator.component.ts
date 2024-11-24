@@ -32,6 +32,9 @@ export class PositionSimulatorComponent implements OnInit {
   completedKeyPointIds: Set<number> = new Set()
   completedKeypoint: KeyPoint;
   tour: Tour;
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'You can put your location on the map to get started.';
+
   
 
   constructor(private service: TourExecutionService, private authService: AuthService, 
@@ -59,6 +62,8 @@ export class PositionSimulatorComponent implements OnInit {
       if (tour && tour.id) {
         this.tourExecution = tour;
         this.getTourById(tour.tourId);
+        this.chatMessage = 'Your tour is active! Track your location on the map, and as you approach key points, they will be marked as completed. To finish the tour, ensure you complete the last key point.';
+
         console.log('Tour Execution:', this.tourExecution);
 
         if (!this.tourExecution.completedKeys) {
@@ -295,6 +300,10 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       this.completeTourExecution(this.tourExecution.id);
     }
 
+  }
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
   
   

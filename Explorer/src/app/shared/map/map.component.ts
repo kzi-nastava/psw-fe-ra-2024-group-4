@@ -52,9 +52,10 @@ export class MapComponent {
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
-
+   
   
    user: User;
+   
   
 
    private map: any;
