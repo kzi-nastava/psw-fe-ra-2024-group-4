@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Cela visina prozora */
-  overflow: hidden;
+  
 }
 
 .tour-title {

@@ -41,8 +41,6 @@
               <span >View map</span>
             </div>
           </button>
-          <button mat-raised-button color="accent" >Start tour</button>
-      <button mat-raised-button color="accent"   >Abandon tour</button>
 
           <button class="card-bottom-button1" color="accent" *ngIf="tourExecutions.get(tour.id || -1)?.status === null && !isActive" (click)="startTour(tour.id || -1)">
             <div class="icon-text-container">
