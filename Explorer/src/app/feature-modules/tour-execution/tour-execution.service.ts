@@ -57,7 +57,7 @@ export class TourExecutionService {
   }
   
 
-  getTourExecutionByTourAndTourist(touristId: number, tourId: number): Observable<TourExecution> {
+  getTourExecutionByTourAndTourist(touristId: number, tourId?: number): Observable<TourExecution> {
     return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/by_tour_and_tourist/${touristId}/${tourId}`);
   }
 

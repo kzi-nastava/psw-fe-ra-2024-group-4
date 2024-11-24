@@ -6,12 +6,18 @@
     <h2>{{ tour.name }}</h2>
     <p>{{ tour.description }}</p>
     <p>Difficulty: {{ tour.difficulty }}</p>
+    <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 0">Status: Active</p>
+    <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 1">Status: Completed</p>
+    <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 2">Status: Abandoned</p>
+    <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === null">Status: Not Started</p>
     <p class="price">Price: ${{ tour.price }}</p>
     <div>
       <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
     </div>
-    <div>
+    <div class="button-group">
       <button mat-raised-button color="accent" (click)="showMapForTour(tour)">View map</button>
+      <button mat-raised-button color="accent" *ngIf="tourExecutions.get(tour.id || -1)?.status === null && !isActive" (click)="startTour(tour.id || -1)">Start tour</button>
+      <button mat-raised-button color="accent"  *ngIf="tourExecutions.get(tour.id || -1)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(tour.id || -1)?.id)" >Abandon tour</button>
       <button class="right-button" mat-raised-button color="accent" (click)="reviewTour(tour)">Review tour</button>
     </div>
   </div>

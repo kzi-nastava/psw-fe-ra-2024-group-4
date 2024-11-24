@@ -72,8 +72,31 @@
     margin-right: 0;
   }
 
-  /*masa dodala*/
-  .right-button {
-    margin-left: 200px;
-  }
+  /* css za dugmice Katarina */
+.button-group {
+  display: flex;
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 16px; 
+}
+
+.right-button {
+  margin-left: auto; 
+}
+
+/*sweet alert css */
+.swal2-confirm-button {
+  background-color: #6a51fe;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.swal2-cancel-button {
+  background-color: #f1f1f1;
+  color: #333;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
   

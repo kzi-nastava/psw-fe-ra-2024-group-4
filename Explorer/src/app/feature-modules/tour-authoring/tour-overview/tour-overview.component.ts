@@ -120,22 +120,7 @@ export class TourOverviewComponent implements OnInit {
       
      
     });
-    this.authService.user$.subscribe((user) => {
-      this.user = user; 
-      console.log(user);
-      if (user) {
-        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
-            next: (position: PositionSimulator) => {
-                console.log('Position retrieved:', position);
-                this.position = position;
-                this.loadTours();
-            },
-            error: (err) => {
-                console.error('Error retrieving position:', err);
-            }
-        });
-    }
-    });
+    
 
     
     this.loadTours();
@@ -259,7 +244,6 @@ export class TourOverviewComponent implements OnInit {
       {
     this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
       next: (data: TourExecution) => {
-          console.log('Tour execution started:', data);
           this.isActive = false;
           this.loadTourExecutions();
       },

@@ -10,6 +10,9 @@ import { TourExecution } from '../../tour-authoring/model/tour-execution.model';
 import { CompletedKeys } from '../../tour-authoring/model/tour-execution.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import Swal from 'sweetalert2';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { CartService } from '../../payments/cart-overview.service';
+import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -28,8 +31,11 @@ export class PositionSimulatorComponent implements OnInit {
   private userSubscription: Subscription; 
   completedKeyPointIds: Set<number> = new Set()
   completedKeypoint: KeyPoint;
+  tour: Tour;
+  
 
-  constructor(private service: TourExecutionService, private authService: AuthService, private authorService: TourAuthoringService){}
+  constructor(private service: TourExecutionService, private authService: AuthService, 
+    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService){}
 
   ngOnInit(): void {
     this.positionSimulatorActivated = true;
@@ -52,6 +58,7 @@ export class PositionSimulatorComponent implements OnInit {
     this.service.getActiveTour(this.user.id).subscribe(tour => {
       if (tour && tour.id) {
         this.tourExecution = tour;
+        this.getTourById(tour.tourId);
         console.log('Tour Execution:', this.tourExecution);
 
         if (!this.tourExecution.completedKeys) {
@@ -70,6 +77,14 @@ export class PositionSimulatorComponent implements OnInit {
         this.selectedTourPoints = [];
       }
     });
+  }
+
+  getTourById(tourId: number): void {
+    this.purchaseService.getTour(tourId).subscribe(result => {
+      this.tour = result;
+      console.log(this.tour);
+    })
+
   }
 
   getCurrentPosition(): void {
@@ -163,6 +178,7 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
             const alreadyExists = this.tourExecution.completedKeys.some(key => key.keyPointId === completedKey.keyPointId);
             if (!alreadyExists) {
                 this.tourExecution.completedKeys.push(completedKey);
+                this.FinishTour(completedKey.keyPointId);
                 console.log('Updated Completed Keys:', this.tourExecution.completedKeys); 
             } else {
                 console.warn('Key Point is already recorded as completed:', completedKey);
@@ -236,5 +252,53 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       this.userSubscription.unsubscribe();
     }
   }
+
+  abandonTourExecution(tourExecutionId?: number)
+  {
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+      {
+    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
+      next: (data: TourExecution) => {
+        this.tourExecution = data;
+          
+      },
+      error: (err: any) => {
+          console.error('Error creating execution:', err);
+      }
+  });
+}
+  }
+
+  completeTourExecution(tourExecutionId?: number)
+  {
+    
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+    {
+      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
+        next: (data: TourExecution) => {
+            
+            this.tourExecution = data;
+        },
+        error: (err) => {
+            console.error('Error creating execution:', err);
+        }
+    });
+    }
+    
+  }
+
+  //pozovi da se tura zavrsi ako je poslednji key point
+  FinishTour(keyPointId?: number) : void {
+    const lastKeyPoint = this.tour.keyPoints[this.tour.keyPoints.length - 1];
+    if(lastKeyPoint.id === keyPointId)
+    {
+      this.completeTourExecution(this.tourExecution.id);
+    }
+
+  }
+  
+  
+  
+  
 
 }

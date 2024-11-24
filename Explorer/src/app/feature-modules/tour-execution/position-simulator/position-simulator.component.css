@@ -1,0 +1,42 @@
+
+
+   .position-simulator-container {
+    width: 85%;
+    height: 89vh !important;
+  }
+
+  .tour-details-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: linear-gradient(to top, rgb(241, 226, 251), rgb(253, 248, 255));
+    overflow: hidden;
+  }
+
+  .tour-info-left {
+    flex: 1;
+    padding: 20px;
+    width: 80vh; 
+    border-radius: 8px;
+    height: 83vh;
+  }
+
+  .imgContainer{
+  height: 15vh;
+}
+
+.form-div {
+  width: 100%; 
+  height: 80vh; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0;
+}
+
+button {
+    color: white;
+    border: 0;
+    font-weight: bold;
+    font-size: 14px;
+}
