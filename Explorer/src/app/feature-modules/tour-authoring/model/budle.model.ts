@@ -1,10 +1,13 @@
+import { TourOverview } from "./touroverview.model";
+
 export interface Bundle {
     id?: number;
     name: string;
     price: number;
     status: Status;
     authorId: number;
-    tourIds: number[]; 
+    tourIds: number[];
+    tours: TourOverview[];
 }
 
 export enum Status {

@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatTabsModule} from '@angular/material/tabs'; 
 
 
 // Import Custom Components
@@ -90,7 +91,8 @@ import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.com
     MatCardModule,
     MatChipsModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTabsModule
   ],
   exports: [
     // Export components to be used in other modules

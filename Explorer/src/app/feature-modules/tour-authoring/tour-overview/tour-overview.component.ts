@@ -18,6 +18,8 @@ import { PositionSimulator } from '../model/position-simulator.model';
 import { Tour } from '../model/tour.model';
 import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
+import { Bundle } from '../model/budle.model';
+import { PaymentsService } from '../../payments/payments.service';
 
 
 
@@ -28,6 +30,7 @@ import { ProblemComponent } from '../../marketplace/problem/problem.component';
 })
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
+  bundles:Bundle[] = [];
   tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
   tourExecutions: Map<number, TourExecution> = new Map();
@@ -57,6 +60,8 @@ export class TourOverviewComponent implements OnInit {
     private cartService: CartService,
     private tourExecutionService: TourExecutionService,
     private purchaseService: PurchaseService,
+    private paymentService: PaymentsService,
+    private overviewService: TourOverviewService,
   private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -123,7 +128,47 @@ export class TourOverviewComponent implements OnInit {
 
     
     this.loadTours();
+    this.loadBundles();
     
+  }
+
+  loadBundles(): void{
+    this.paymentService.getAllWithoutTours().subscribe({
+      next: (data: PagedResults<Bundle>) => {
+        console.log('Tours loaded:', data);
+        this.bundles = data.results;
+        this.loadToursForBundle();
+        
+      },
+      error: (err) => {
+        console.error('Error loading bundles:', err);
+      }
+    });
+  }
+
+  loadToursForBundle(): void {
+    for (const bundle of this.bundles) {
+      bundle.tours = [];
+
+      for (const tourId of bundle.tourIds) {
+        try {
+          this.overviewService.getById(tourId).subscribe({
+            next: (data: TourOverview) => {
+              console.log(data);
+              bundle.tours.push(data);
+              
+            },
+            error: (err) => {
+              console.error('Error tour:', err);
+            }
+          });
+        } catch (error) {
+          console.error(`Failed to load tour with ID ${tourId}`, error);
+        }
+      }
+    }
+
+
   }
   
   calculateTotalPrice(): void {
@@ -328,6 +373,10 @@ export class TourOverviewComponent implements OnInit {
     this.cartItemCount.next(currentCount + 1);
    
    
+  }
+
+  addBundleToCart(bundle: Bundle) {
+    return;
   }
 
   openCart(cartId: number): void {

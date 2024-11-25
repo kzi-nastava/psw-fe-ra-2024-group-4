@@ -100,7 +100,8 @@ getTours(id: number): void {
       price: this.bundleForm.value.price || 0,           
       authorId: this.user?.id ?? -1,
       status: Status.DRAFT,
-      tourIds: selectedTourIds
+      tourIds: selectedTourIds,
+      tours: []
     };
     console.log(bundle)
       this.service.addBundle(bundle).subscribe({
