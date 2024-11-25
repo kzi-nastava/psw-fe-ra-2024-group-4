@@ -36,6 +36,18 @@ export enum EncounterStatus {
     data?: any;                  
     socialData: SocialDataDto | null;  
     hiddenLocationData: HiddenLocationDataDto | null; 
-    miscData: MiscDataDto | null;      
+    miscData: MiscDataDto | null;     
+    instances?: EncounterInstance[]; 
+  }
+  
+  export interface EncounterInstance {
+    userId: number; 
+    status: EncounterInstanceStatus; 
+    completionTime?: Date; 
+  }
+  
+  export enum EncounterInstanceStatus {
+    Active = 0,
+    Completed = 1,
   }
   

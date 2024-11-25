@@ -186,17 +186,47 @@ checkProximityToChallenges(): void {
 
   
   this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
-    next: ((data) => {
+    next: (data) => {
       this.encounters = data.results;
-      console.log("Encounters prosleđeni u xp-map:", this.encounters);
-    }),
+  
+      this.encounters.forEach(encounter => {
+        console.log(`Checking instances for encounter: ${encounter.title}`);
+  
+        const userInstance = encounter.instances?.find(
+          instance => instance.userId === this.user.id
+        );
+  
+        if (userInstance?.status === 1) {
+          console.log(`Encounter "${encounter.title}" is already completed by this user. Skipping.`);
+          return; 
+        }
+  
+        if (userInstance?.status === 0) {
+          console.log(`Encounter "${encounter.title}" is already active for this user. Skipping.`);
+          return; 
+        }
+  
+        const encounterLatLng = L.latLng(encounter.latitude, encounter.longitude);
+        const distance = currentLatLng.distanceTo(encounterLatLng);
+  
+        if (distance < 50 && encounter.id !== undefined) {
+          console.log(`User is close to encounter: ${encounter.title}`);
+          this.showEncounterDialogNoKeypoint(encounter);
+          this.completeChallengeNoKeypoint(encounter);
+        }
+      });
+    },
     error: (err) => {
-      console.error('Error loading tours:', err);
+      console.error("Error loading encounters:", err);
     }
   });
+  
 }
 
 completeChallenge(keyPoint: KeyPoint): void {
+  console.log('Encounter ID:', keyPoint.id);
+  console.log('Sending completion request for KP:', keyPoint);
+
   if (keyPoint.id !== undefined) {
     this.encounterService.completeEncounter(keyPoint.id).subscribe({
       next: (updatedEncounter) => {
@@ -218,6 +248,32 @@ completeChallenge(keyPoint: KeyPoint): void {
 }
 
 
+completeChallengeNoKeypoint(encounter: Encounter): void {
+  console.log('Encounter ID:', encounter.id);
+  console.log('Sending completion request for ENC:', encounter);
+
+  if (encounter.id !== undefined) {
+    console.log("usao u completion encounter proces");
+    this.encounterService.completeEncounter(encounter.id).subscribe({
+      next: (updatedEncounter) => {
+        console.log(`Challenge completed for encounter: ${encounter.title}`);
+        Swal.fire({
+          title: 'Challenge Completed!',
+          text: `You have completed the challenge: ${encounter.title}`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      },
+      error: (err) => {
+        console.error('Error completing challenge:', err);
+      }
+    });
+  } else {
+    console.error('Encounter ID is undefined, cannot complete challenge.');
+  }
+}
+
+
 
 updateLastActivity(executionId: number): void {
   this.service.updateLastActivity(executionId).subscribe({
@@ -229,6 +285,7 @@ updateLastActivity(executionId: number): void {
       }
   });
 }
+
 
 showEncounterDialog(keyPoint: KeyPoint): void {
   const dialogRef = this.dialog.open(EncounterComponent, {
@@ -245,6 +302,24 @@ showEncounterDialog(keyPoint: KeyPoint): void {
   });
 }
 
+
+showEncounterDialogNoKeypoint(encounter: Encounter): void {
+  const dialogRef = this.dialog.open(EncounterComponent, {
+    width: '400px',
+    data: encounter 
+  });
+
+  dialogRef.afterClosed().subscribe((encounterActivated: boolean) => {
+    this.completeChallengeNoKeypoint(encounter);
+    if (!encounterActivated) {
+      console.warn(`Encounter "${encounter.title}" was not activated.`);
+    } else {
+      console.log(`Encounter "${encounter.title}" was successfully activated.`);
+    }
+  });
+}
+
+
 completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): void { 
   const isCompleted = this.tourExecution.completedKeys?.some(key => key.keyPointId === keyPointId); 
 
@@ -259,6 +334,7 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
           console.log(`Key Point ${keyPointId} completed for execution ${executionId}`);
           this.showKeypointSecret(keyPoint); 
           this.showEncounterDialog(keyPoint); 
+
           const completedKey: CompletedKeys = {
               keyPointId: keyPointId,
               completionTime: new Date()
