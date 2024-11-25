@@ -14,4 +14,5 @@ export interface Tour {
     archiveTime?: Date;
     equipmentIds: number[] | null; 
     keyPoints: KeyPoint[];
+    selected?: boolean;
   }
