@@ -28,7 +28,9 @@
         [selectedLongitude]="currentPosition.longitude" 
         [positionSimulatorActivated]="positionSimulatorActivated" 
         (touristPositionCreate)="createPosition($event)" 
-        (touristPositionUpdate)="updatePosition($event)">
+        (touristPositionUpdate)="updatePosition($event)"
+        [selectedEncounterPoints]="encounters"
+        [showEncounters]="true">
     </xp-map>
 </div>
 <div class="chat-container">

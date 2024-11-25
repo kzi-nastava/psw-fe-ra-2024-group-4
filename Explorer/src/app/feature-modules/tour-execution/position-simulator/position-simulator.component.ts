@@ -16,6 +16,7 @@ import { Tour } from '../../tour-authoring/model/tour.model';
 import { CartService } from '../../payments/cart-overview.service';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { EncounterServiceService } from '../../encounters/encounter.service.service';
+import { Encounter } from '../../encounters/model/encounter.model';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -38,12 +39,14 @@ export class PositionSimulatorComponent implements OnInit {
   isChatOpen: boolean = false; 
   chatMessage: string = 'You can put your location on the map to get started.';
 
-
+  encounters: Encounter[] = [];
  
   
 
-  constructor(private service: TourExecutionService, private authService: AuthService, 
-    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService, private dialog: MatDialog){}
+  constructor(private service: TourExecutionService, private authService: AuthService,
+    private authorService: TourAuthoringService, private purchaseService: PurchaseService, 
+    private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService,
+    private dialog: MatDialog){}
 
 
   ngOnInit(): void {
@@ -179,6 +182,17 @@ checkProximityToChallenges(): void {
       } else {
           console.error('Invalid key point data:', keyPoint);
       }
+  });
+
+  
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: ((data) => {
+      this.encounters = data.results;
+      console.log("Encounters prosleđeni u xp-map:", this.encounters);
+    }),
+    error: (err) => {
+      console.error('Error loading tours:', err);
+    }
   });
 }
 
