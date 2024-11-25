@@ -86,6 +86,7 @@
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
                 0 8px 10px 1px rgba(0, 0, 0, 0.14),
                 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    transform: scale(1.5);
   }
 
   .sticker{
@@ -380,7 +381,8 @@
     display: flex;
     justify-content: space-around;
     gap: 2px;
-    margin-top: 20px;
+    width: 100%;
+    height: 70%;
   }
   
   .image-wrapper {
@@ -457,36 +459,42 @@
   }
   
 .background-wrapper {
-  
-  width: 80%; 
-  height: 50vh; 
+  width: 70%; 
+  height: 65%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 2%; 
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   position: relative;
-  padding: 2%; 
-  margin: 5vh auto;
+  padding: 1%; /* Prilagođeno za proporcije unutrašnjeg prostora */
+  margin-left: 14%; 
+  margin-top: 2%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.background-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px; /* Dodato zaobljenje slike */
 }
 
 .image-description {
   position: absolute;
-  top: 20px; 
+  top: 5%; /* Postavljeno u procentima za stabilnost */
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.6);
   color: #34495e;
-  padding: 10px 15px;
+  padding: 1% 2%; /* Unutrašnji razmaci u procentima */
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  max-width: 90%;
+  max-width: 80%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -525,10 +533,9 @@
 
 .select-button {
   position: absolute; 
-  bottom: 20px; 
-  left: 45%; 
-  /* transform: translateX(-50%); */
-  padding: 12px 40px;
+  bottom: 5%; /* 5% od visine roditeljskog elementa */
+  left: 45%;  /* 45% od širine roditeljskog elementa */
+  padding: 1% 2%;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
@@ -552,7 +559,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 150px;
+  margin-top: 10%;  
 }
 
 .image-container img {
@@ -582,53 +589,310 @@
   background-color: #0056b3;
 } */
 .scaled-image img {
-  width: 300px; 
-  height: 130px;
+  width: 205%; 
+  height: 95%;
 }
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.background-image{
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0; 
-  }
-  to {
-    opacity: 1; 
-  }
+.carousel {
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
+.carousel__container {
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.categories__title {
+ color: rgb(77, 55, 102);
+  font-size: 28px;
+  position: absolute;
+  padding-left: 30px;
+}
+
+.carousel-item1 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item2 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item3 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item4 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+#carousel-item-last{
+  margin-right: 1%;
 }
 
 
-.slide-in-left {
-  animation: slideInLeft 0.5s ease-out;
+
+.carousel__container:hover .carousel-item1 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item2 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item3 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item4 {
+  opacity: 0.3;
 }
 
-.slide-in-right {
-  animation: slideInRight 0.5s ease-out;
+.carousel__container:hover .carousel-item1:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item2:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item3:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item4:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  z-index: 2;
+}
+.carousel-item1.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
 }
 
-.scaled-image img {
-  transform: scale(1.2);
-  transition: transform 0.3s ease;
+.carousel-item2.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel-item3.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+}
+.carousel-item4.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+}
+
+/* .carousel-item1.clicked ~ .carousel-item2,
+.carousel-item1.clicked ~ .carousel-item3,
+.carousel-item1.clicked ~ .carousel-item4{
+  opacity: 0.3;
+}
+.carousel-item2.clicked ~ .carousel-item1,
+.carousel-item2.clicked ~ .carousel-item3,
+.carousel-item2.clicked ~ .carousel-item4{
+    opacity: 0.3;
+  }
+.carousel-item3.clicked ~ .carousel-item4,
+.carousel-item3.clicked ~ .carousel-item2,
+.carousel-item3.clicked ~ .carousel-item1{
+  opacity: 0.3;
+}
+.carousel-item4.clicked ~ .carousel-item2,
+.carousel-item4.clicked ~ .carousel-item3,
+.carousel-item4.clicked ~ .carousel-item1{
+  opacity: 0.3;
+} */
+ /* Kada je .carousel-item1 kliknut 
+.carousel-item1.clicked ~ .carousel-item2,
+.carousel-item1.clicked ~ .carousel-item3,
+.carousel-item1.clicked ~ .carousel-item4,
+.carousel-item1.clicked + .carousel-item2,
+.carousel-item1.clicked + .carousel-item3,
+.carousel-item1.clicked + .carousel-item4 {
+  opacity: 0.3;
+}
+
+ Kada je .carousel-item2 kliknut 
+.carousel-item2.clicked ~ .carousel-item3,
+.carousel-item2.clicked ~ .carousel-item4,
+.carousel-item2.clicked + .carousel-item1,
+.carousel-item2.clicked + .carousel-item4,
+.carousel-item2.clicked + .carousel-item3 {
+  opacity: 0.3;
+}
+ Kada je .carousel-item3 kliknut 
+.carousel-item3.clicked ~ .carousel-item4,
+.carousel-item3.clicked + .carousel-item1,
+.carousel-item3.clicked + .carousel-item2 {
+  opacity: 0.3;
+}
+
+ Kada je .carousel-item4 kliknut 
+.carousel-item4.clicked ~ .carousel-item1,
+.carousel-item4.clicked + .carousel-item2,
+.carousel-item4.clicked + .carousel-item3 {
+  opacity: 0.3;
+}*/
+.carousel-item3.clicked ~ .carousel__container{
+  opacity: 0.3;
+}
+.carousel-item2.dimmed, .carousel-item1.dimmed, .carousel-item3.dimmed, .carousel-item4.dimmed{
+  opacity: 0.3;
+}
+
+
+
+.carousel-item__img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+
+
+.carousel-item__details .carousel-item__details--title,
+.carousel-item__details--subtitle {
+  color: #fff;
+  margin: 5px 0;
+}
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* button img {
+  width: 50px; 
+  height: 80px;
+  display: block;
+} */
+.lightbulb-image {
+  position: absolute; /* Omogućava pozicioniranje u odnosu na roditeljski element */
+  top: 0; /* Postavlja element na vrh ekrana */
+  left: 50%; /* Horizontalno centriranje */
+  transform: translateX(-50%); /* Poravnava element tako da mu je centar na sredini ekrana */
+  /* Održava proporcije slike */
+  width: 30px; /* Prilagodite veličinu prema potrebama */
+  height: 90px;
+  display: block;
+  transform-origin: top center; /* Fiksiramo vrh slike kao tačku rotacije */
+  animation: swing-fast 4s infinite ; /* Animacija traje po 0.5 sekundi */
+  /* Traje 5 sekundi */
+  animation-fill-mode: forwards;
+}
+
+@keyframes swing-fast {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.image-toggle-container {
+  margin-top: 3%; /* Uklanja spoljne razmake */
+  padding: 0; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.toggle-image{
+  width: 80%;
+  height: 70%;
+}
+.on {
+  color: #dada21; /* Svetla žuta boja za ON */
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(226, 245, 103, 0.7), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3); /* Efekat svetlosti */
+}
+
+.off {
+  color: #4d4d4d; /* Tamno siva boja za OFF */
+  font-weight: normal;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3); /* Siva senka za OFF */
+
 }

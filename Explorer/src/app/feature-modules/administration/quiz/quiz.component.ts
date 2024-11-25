@@ -5,6 +5,7 @@ import { CdkDragMove, CdkDropList } from '@angular/cdk/drag-drop';
 import { environment } from 'src/env/environment';
 import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -16,9 +17,14 @@ import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 export class QuizComponent implements AfterViewInit {
   @ViewChild('customTourList', { static: false }) customTourList!: CdkDropList;
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
+  @ViewChild('carouselContainer', { static: false }) container!: ElementRef;
+
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
   selectedPicture = '';
+  imagesPool: string[] = ['day.png', 'night.jpg']; 
+  currentPoolIndex: number = 0;
+  lightbulbImages : string[] = ['off.png', 'on.png'];
   els = document.getElementsByClassName('step') as HTMLCollectionOf<HTMLElement>;
   steps: HTMLElement[] = [];
 
@@ -42,6 +48,7 @@ export class QuizComponent implements AfterViewInit {
   get currentImage(): string {
     return this.images[this.currentImageIndex];
   }
+ 
   
   animationClass: string = ''; 
   descriptionAnimationClass: string = ''; 
@@ -86,15 +93,40 @@ export class QuizComponent implements AfterViewInit {
   }
   
   selectOption(): void {
-    alert(`You selected: ${this.images[this.currentImageIndex]}`);
+    const selectedImage = this.images[this.currentImageIndex];
+  
+    if (selectedImage === 'self_guide1.png') {
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 13); 
+      this.selectedTagList.push(14); 
+    } else if (selectedImage === 'guide_tour.png') {
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14); 
+      this.selectedTagList.push(13); 
+    }
+  
+    console.log(`Selected tags: ${this.selectedTagList}`);
+    
+    this.nextSlide();
   }
   
 
   selectedTagList: number[]=[];
 
+  get currentPoolImage(): string {
+    return this.imagesPool[this.currentPoolIndex];
+  }
+  get currentLightbulbImage(): string {
+    // Obrnuto stanje u odnosu na `currentImage`
+    return this.lightbulbImages[(this.currentPoolIndex + 1) % this.lightbulbImages.length];
+  }
+
+  toggleImage(): void {
+    this.currentPoolIndex = (this.currentPoolIndex + 1) % this.imagesPool.length; // Prebacivanje između slika
+  }
+
   constructor(private tourPreferenceService: TourPreferenceService) { }
   ngOnInit(): void {
-    
+    localStorage.removeItem('picture');
+
     const savedImageName = localStorage.getItem('picture');
     console.log(`Učitana slika iz localStorage: ${savedImageName}`);
     if (savedImageName) {
@@ -102,10 +134,19 @@ export class QuizComponent implements AfterViewInit {
       this.highlightSelectedImage(savedImageName);
     }
   
-    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+    document.querySelectorAll('.carousel-item1').forEach(wrapper => {
       wrapper.addEventListener('click', () => {
    
-        document.querySelectorAll('.image-wrapper').forEach(el => {
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
           (el as HTMLElement).classList.remove('clicked');
         });
   
@@ -115,13 +156,82 @@ export class QuizComponent implements AfterViewInit {
          localStorage.setItem('picture', imageName);
       });
     });
-
+    document.querySelectorAll('.carousel-item2').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    document.querySelectorAll('.carousel-item3').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    document.querySelectorAll('.carousel-item4').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    console.log(this.selectedTags);
   
   }
 
   highlightSelectedImage(imageName: string): void {
     
-    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+    document.querySelectorAll('.carousel-item1').forEach(wrapper => {
+      wrapper.classList.remove('clicked');
+    });
+    document.querySelectorAll('.carousel-item2').forEach(wrapper => {
       wrapper.classList.remove('clicked');
     });
   
@@ -138,18 +248,40 @@ export class QuizComponent implements AfterViewInit {
 
       if(this.currentSlideIndex==1){
         const image = localStorage.getItem('picture');
+        if(!image ){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'You need to choose one picture before we continue!',
+            confirmButtonText: 'OK'
+          });
+          this.currentSlideIndex--;
+        }
         if(image== 'beach.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5);
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5 && num!==1);
           this.selectedTagList.push(10);
         }else if(image=='download.png'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10);
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10 && num!==1);
           this.selectedTagList.push(5);
         }else if(image =='forest1.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5);
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==1);
           this.selectedTagList.push(4);
+        }else if(image =='museum-background.jpg'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==4);
+          this.selectedTagList.push(1);
         }
         console.log(this.selectedTagList);
+      }else if(this.currentSlideIndex ==4){
+      
+        if(this.currentPoolIndex=== 0){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 9 );
+          this.selectedTagList.push(7);
+        }else{
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 7);
+          this.selectedTagList.push(9);
+        }
       }
+      console.log(this.selectedTagList);
     }
     else{
       //this.currentSlideIndex=0;
@@ -193,9 +325,17 @@ export class QuizComponent implements AfterViewInit {
     return environment.webroot + "images/quiz/" + image;
   }
   selectPicture(imageName: string): void {
+    //const container = document.getElementById('carousel-container');
     this.selectedPicture = imageName;
     console.log(`Selektovana slika: ${this.selectedPicture}`);
     localStorage.setItem('picture', this.selectedPicture);
+    if(this.container !==null){
+
+      this.container.nativeElement.classList.toggle('no-hover');
+    }
+    else{
+    }
+    
   }
 
   
