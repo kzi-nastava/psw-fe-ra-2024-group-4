@@ -1,18 +1,83 @@
 <div class="overlay" *ngIf="shouldDisplayMap" class="map-container" >
   <xp-map-for-tour [tour]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
 </div>
-<div class="tour-card-container">
-  <div *ngFor="let tour of tours; let i = index" class="tour-card">
-    <h2>{{ tour.name }}</h2>
-    <p>{{ tour.description }}</p>
-    <p>Difficulty: {{ tour.difficulty }}</p>
-    <p class="price">Price: ${{ purchasedTokens[i].price || tour.price }}</p>
-    <div>
-      <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
-    </div>
-    <div>
-      <button mat-raised-button color="accent" (click)="showMapForTour(tour)">View map</button>
-      <button class="right-button" mat-raised-button color="accent" (click)="reviewTour(tour)">Review tour</button>
-    </div>
+
+<div class="tour-container">
+  <h1 mat-typography class="tour-title">
+    Available Tours
+  </h1>
+
+  <div class="tours-scroll">
+    <div *ngFor="let tour of tours; let i = index" class="tour-card">
+      <mat-card class="tour-item">
+        <mat-card-content class="tour-item-content">
+        
+          <!-- Image covering the entire card -->
+          <img [src]="'assets/images/tag' + (tour.tags[0] + 1) + '.jpg'" class="card-image">
+          
+          <!-- Tour details -->
+          <div class="tour-details">
+            <div class="tour-info-left">
+              <h3 mat-typography>{{ tour.name }}</h3>
+              <p>{{ tour.description }}</p>
+              <p>Difficulty: {{ tour.difficulty }}</p>
+              <p class="price">Price: ${{ purchasedTokens[i].price || tour.price }}</p>
+
+              <div *ngIf="tour.tags?.length; else noTags">
+                <div class="tags-container">
+                  <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
+                </div>
+              </div>
+              <ng-template #noTags>
+                <p>Tags: N/A</p>
+              </ng-template>
+            </div>
+            <div class="button-group">
+          <button mat-icon-button class="view-map-button" (click)="showMapForTour(tour)" color="accent">
+            <div class="icon-text-container">
+              <mat-icon>map</mat-icon>
+              <span >View map</span>
+            </div>
+          </button>
+
+          <button class="card-bottom-button1" color="accent">
+            <div class="icon-text-container">
+              <mat-icon>flag</mat-icon>
+              <span>START TOUR</span>
+            </div>
+          </button>
+
+          <button class="card-bottom-button1" color="accent" >
+            <div class="icon-text-container">
+              <mat-icon>warning</mat-icon>
+              <span>REPORT PROBLEM</span>
+            </div>
+          </button>
+
+          <button class="card-bottom-button1" color="accent" (click)="reviewTour(tour)">
+            <div class="icon-text-container">
+              <mat-icon>rate_review</mat-icon>
+              <span>REVIEW TOUR</span>
+            </div>
+          </button>
+
+
+          </div>
+
+        </div>
+          
+        </mat-card-content>
+      </mat-card>
+</div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+
   </div>
 </div>

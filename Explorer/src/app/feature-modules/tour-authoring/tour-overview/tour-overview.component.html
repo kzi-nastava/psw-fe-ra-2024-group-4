@@ -1,8 +1,39 @@
-    <div class="cart-container">
-        <button mat-icon-button color="primary" (click)="openCart(shoppingCart.id || -1)" [matBadge]="cartItemCount$ | async" matBadgeColor="warn">
-            <mat-icon>shopping_cart</mat-icon>
-          </button>
+
+<div class="cart-container">
+    <button mat-icon-button color="primary" 
+            (click)="openCart(shoppingCart.id || -1)" 
+            [matBadge]="cartItemCount$ | async" 
+            matBadgeColor="warn"
+            (mouseenter)="showCartPreview()" 
+            (mouseleave)="hideCartPreview()">
+        <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <div *ngIf="isCartPreviewVisible" class="cart-preview">
+        <div *ngFor="let item of shoppingCart.items" class="cart-item-preview">
+            <div class="cart-item">
+                <img [src]="'assets/images/tag' + ((item.tourDetails?.tags?.[0] ?? 0) + 1) + '.jpg'" class="card-image-preview">
+                <div class="tour-info">
+                    <div class="tour-name">{{ item.tourName }}</div>
+                    <div class="tour-price">Price: {{ item.price | currency }}</div>
+                    <div class="tags-container">
+                        <span *ngFor="let tag of item.tourDetails?.tags" class="tag">{{tag}} </span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div *ngIf="shoppingCart.items.length === 0">No items in cart</div>
+        <div *ngIf="shoppingCart.items.length > 0">
+            <hr class="divider">
+            <strong class="price-total">Total: {{ totalPrice | currency }}</strong>
+        </div>
+
     </div>
+</div>
+
+
+      
   
 <div class="main-container">
     <div *ngIf="shouldDisplayKeypoint" class="map-container" >
@@ -20,7 +51,7 @@
             <div class="cards">
                 <div class="card" *ngFor="let t of tours">
                     <img src="https://live.staticflickr.com/4028/4657831272_425d20fea7_b.jpg" class="card-image">
-                    
+                    <!-- <img [src]="'assets/images/tag' + (t.tags[0] + 1) + '.jpg'" class="card-image"> -->
                     
                     <div class="card-overlay">
                         <div class="card-header">

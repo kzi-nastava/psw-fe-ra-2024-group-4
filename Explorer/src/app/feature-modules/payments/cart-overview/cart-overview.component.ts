@@ -12,6 +12,9 @@ import { environment } from 'src/env/environment';
 import { TourService } from '../../tour-authoring/tour.service';
 import { TourPurchaseToken } from '../model/tour-purchase-token.model';
 import { Notification } from '../../administration/model/notifications.model';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
+import { TourTags } from '../../tour-authoring/model/tour.tags.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -32,10 +35,17 @@ export class CartOverviewComponent implements OnInit {
   purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to your shopping cart! You can remove any items you no longer want by clicking the trash icon next to them.Once you are ready, click Checkout to complete your purchase.';  
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+  
   constructor(private cartService: CartService,
      private route: ActivatedRoute,
      private personInfoService: PersonInfoService,
-     private authService: AuthService,private tourService: TourService ) {} 
+     private authService: AuthService,private tourService: TourService,  private purchaseService: PurchaseService ) {} 
+
 
   ngOnInit(): void {
    
@@ -71,22 +81,44 @@ export class CartOverviewComponent implements OnInit {
   loadCartItems(): void {
     this.cartService.getCartItems(this.cartId || -1).subscribe({
       next: (result: OrderItem[]) => {
-        this.cartItems = result;
-        this.calculateTotalPrice(); // Izračunaj ukupnu cenu
-        this.fetchAuthorIds(); // Dohvati AuthorId za svaku stavku
+        this.cartItems = result.map(item => ({
+          ...item,
+          tourDetails: item.tourDetails || {}, // Osigurajte da postoji tourDetails
+        }));
+        this.currentCart.items = result;
+        this.fetchAuthorIds();
+  
+        const tourRequests = this.cartItems.map(item =>
+          this.purchaseService.getTour(item.tourId).toPromise().then(
+            (tour: Tour | undefined) => {
+              if (tour) {
+                item.tourDetails = tour;
+              } else {
+                console.warn(`Tura sa ID ${item.tourId} nije pronađena.`);
+                item.tourDetails = { tags: [] }; // Osigurajte prazne tagove ako tour nije pronađen
+              }
+            },
+            (err) => {
+              console.error(`Greška pri dohvaćanju ture za stavku sa ID ${item.tourId}:`, err);
+              item.tourDetails = { tags: [] }; // Prazna vrednost ako dođe do greške
+            }
+          )
+        );
+  
+        Promise.all(tourRequests).then(() => {
+          this.calculateTotalPrice();
+        });
       },
       error: (err) => {
-        alert("Error loading items");
+        Swal.fire('Error', 'Error loading cart items.', 'error');
       },
     });
   }
+  
+  
+  
 
   calculateTotalPrice(): void {
-   /* this.totalPrice = this.cartItems.reduce((total, item) => {
-      return total + item.price; 
-    }, 0);*/
-
-    
     this.totalPrice = 0;
     this.cartItems.forEach(item => {
       this.totalPrice += item.price;
@@ -143,8 +175,11 @@ export class CartOverviewComponent implements OnInit {
 
           // Ažurirajte stavke u korpi
           this.cartItems = updatedCart.items;
+      
+          this.refreshTourDetails();
+
           this.calculateTotalPrice();
-      },
+        },
       error: (err) => {
           Swal.fire({
               icon: 'error',
@@ -154,7 +189,28 @@ export class CartOverviewComponent implements OnInit {
       },
   });
 }
+refreshTourDetails(): void {
+  const tourRequests = this.cartItems.map((item) =>
+    this.purchaseService.getTour(item.tourId).toPromise().then(
+      (tour: Tour | undefined) => {
+        if (tour) {
+          item.tourDetails = tour;
+        } else {
+          console.warn(`Tour with ID ${item.tourId} not found.`);
+          item.tourDetails = { tags: [], description: 'No description', difficulty: 'N/A' }; // Default values
+        }
+      },
+      (err) => {
+        console.error(`Error fetching tour details for ID ${item.tourId}:`, err);
+        item.tourDetails = { tags: [], description: 'Error fetching data', difficulty: 'N/A' };
+      }
+    )
+  );
 
+  Promise.all(tourRequests).then(() => {
+    console.log('Tour details refreshed successfully.');
+  });
+}
   checkout(): void {
     if (this.totalPrice > this.wallet) {
       Swal.fire({
@@ -168,13 +224,8 @@ export class CartOverviewComponent implements OnInit {
 
     if(this.cartItems.length == 0)
     {
-      Swal.fire({
-        icon: 'error',
-        title: 'Cart is empty',
-        text: 'The cart is empty.',
-    });
-    return;
-  
+      Swal.fire('Warning', 'The cart is empty.', 'warning');
+      return;
     }
 
   
@@ -184,15 +235,11 @@ export class CartOverviewComponent implements OnInit {
             this.user = result;
             this.user.wallet = result.wallet - this.totalPrice;
             let imagePath = environment.webroot + this.user.imageUrl;
-           /* alert(imagePath);
-            this.convertToImageBase64(imagePath).then(base64 => {
-              this.user.imageBase64 = base64;
-            });*/
 
-            // Stavicu ovde privremeno sliku dok ostali ne dodaju uploadovanje slike na usera
+            
             if(!this.user.imageBase64)
               this.user.imageBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgEBAXE8s9QAAAAASUVORK5CYII=";
-           // alert(this.user.wallet);
+           
              
            this.personInfoService.updateTouristInfo(this.user).subscribe({
             next: () => {
@@ -214,19 +261,22 @@ export class CartOverviewComponent implements OnInit {
 
                 this.cartService.createToken(this.purchaseToken).subscribe({
                   next: (result: TourPurchaseToken) => {
-                    alert("Created token!");
+                    Swal.fire('Success', 'Created token!', 'success');
+
                   },
                   error: (err: any) => {
-                    alert("Error creating token");
+                    Swal.fire('Error', 'Error creating token', 'error');
+
                   }
                 });
                 this.cartService.removeFromCart(item.id || -1).subscribe({
                   next: () => {
-                    //alert("Successfully removed item.");
+                  
                    
                   },
                   error: (err: any) => {
-                    alert("Error removing item");
+                    Swal.fire('Error', 'Error removing item', 'error');
+
                   }
                 });
               });
@@ -256,7 +306,9 @@ export class CartOverviewComponent implements OnInit {
         
                
               },
-              error: (err: any) => alert("Error updating wallet")
+              error: (err: any) =>
+                 Swal.fire('Error', 'Error updating wallet', 'error')
+
              });
           
          
@@ -277,11 +329,13 @@ export class CartOverviewComponent implements OnInit {
     this.cartItems = this.cartItems.filter(cartItem => cartItem !== item);
     this.cartService.removeFromCart(item.id || -1).subscribe({
       next: (result: void) => {
-        alert("Successfully removed item.");
+        Swal.fire('Success', 'Successfully removed item.', 'success');
+
         this.loadCartItems();
       },
       error: (err: any) => {
-        alert("Error removing item");
+        Swal.fire('Error', 'Error removing item', 'error');
+
       }
     });
     console.log(`Tura "${item.tourName}" je uklonjena iz korpe.`);
@@ -302,6 +356,7 @@ export class CartOverviewComponent implements OnInit {
     });
   }
 
+
   fetchAuthorIds(): void {
     this.cartItems.forEach((item) => {
       this.tourService.getAuthorIdByTourId(item.tourId).subscribe({
@@ -315,5 +370,11 @@ export class CartOverviewComponent implements OnInit {
       });
     });
   }
+
+  getTagName(tagId: number): string {
+    return TourTags[tagId];
+  }
+
+
   
 }
