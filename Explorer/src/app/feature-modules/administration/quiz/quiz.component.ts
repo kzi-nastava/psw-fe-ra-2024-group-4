@@ -16,6 +16,8 @@ import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 export class QuizComponent implements AfterViewInit {
   @ViewChild('customTourList', { static: false }) customTourList!: CdkDropList;
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
+  @ViewChild('carouselContainer', { static: false }) container!: ElementRef;
+
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
   selectedPicture = '';
@@ -114,10 +116,19 @@ export class QuizComponent implements AfterViewInit {
       this.highlightSelectedImage(savedImageName);
     }
   
-    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+    document.querySelectorAll('.carousel-item1').forEach(wrapper => {
       wrapper.addEventListener('click', () => {
    
-        document.querySelectorAll('.image-wrapper').forEach(el => {
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
           (el as HTMLElement).classList.remove('clicked');
         });
   
@@ -127,13 +138,82 @@ export class QuizComponent implements AfterViewInit {
          localStorage.setItem('picture', imageName);
       });
     });
-
+    document.querySelectorAll('.carousel-item2').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    document.querySelectorAll('.carousel-item3').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    document.querySelectorAll('.carousel-item4').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        
+        document.querySelectorAll('.carousel-item1').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item2').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item3').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+        document.querySelectorAll('.carousel-item4').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
+    console.log(this.selectedTags);
   
   }
 
   highlightSelectedImage(imageName: string): void {
     
-    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+    document.querySelectorAll('.carousel-item1').forEach(wrapper => {
+      wrapper.classList.remove('clicked');
+    });
+    document.querySelectorAll('.carousel-item2').forEach(wrapper => {
       wrapper.classList.remove('clicked');
     });
   
@@ -205,9 +285,17 @@ export class QuizComponent implements AfterViewInit {
     return environment.webroot + "images/quiz/" + image;
   }
   selectPicture(imageName: string): void {
+    //const container = document.getElementById('carousel-container');
     this.selectedPicture = imageName;
     console.log(`Selektovana slika: ${this.selectedPicture}`);
     localStorage.setItem('picture', this.selectedPicture);
+    if(this.container !==null){
+
+      this.container.nativeElement.classList.toggle('no-hover');
+    }
+    else{
+    }
+    
   }
 
   
