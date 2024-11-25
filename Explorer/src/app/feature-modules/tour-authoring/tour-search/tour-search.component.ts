@@ -69,7 +69,9 @@ export class TourSearchComponent implements OnInit {
   
   search(): void {
     const distanceValue = this.tourSearchForm.value.distance ?? 0;
-    const nameValue = this.tourSearchForm.value.name ?? '';
+    const nameValue = this.tourSearchForm.value.name?.toLowerCase() ?? '';
+    
+    
 
     if(distanceValue === 0 && nameValue === ''){
       Swal.fire({
@@ -83,18 +85,44 @@ export class TourSearchComponent implements OnInit {
     }
 
     if(distanceValue === 0){
+      console.log('Usli u ime')
       this.servis.getAllWithoutReviews().subscribe({
         next: (data: PagedResults<TourOverview>) => {
-          this.resultingTours = data.results;
+          let filteredResults = data.results;
+          console.log('poziv servisu prosao')
+          
+          filteredResults = filteredResults.filter(tour =>
+            tour.tourName.toLowerCase().includes(nameValue)
+          );
+          console.log(filteredResults)
+          this.resultingTours = filteredResults;
           // Emitujemo rezultat pretrage
-          this.tourSearchResults.emit(data.results);
-          console.log(data.results);
+          this.tourSearchResults.emit(this.resultingTours);
+          console.log(this.resultingTours);
         },
         error: (err) => {
           console.error('Error searching tours:', err);
         }
       });
+      return;
     }
+
+    if(nameValue === ''){
+      this.servis.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
+        next: (data: PagedResults<TourOverview>) => {
+          this.resultingTours = data.results;
+         
+          this.tourSearchResults.emit(data.results);
+          
+        },
+        error: (err) => {
+          console.error('Error searching tours:', err);
+        }
+      });
+      return;
+    }
+
+    
     
     this.servis.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
       next: (data: PagedResults<TourOverview>) => {
@@ -105,7 +133,7 @@ export class TourSearchComponent implements OnInit {
                     tour.tourName.toLowerCase().includes(nameValue)
                 );
             }
-            this.resultingTours = data.results;
+        this.resultingTours = data.results;
         // Emitujemo rezultat pretrage
         this.tourSearchResults.emit(filteredResults);
         console.log(filteredResults);
@@ -117,9 +145,9 @@ export class TourSearchComponent implements OnInit {
   }
 
   filter(): void {
-    console.log("filtrira");
     const difficultyValue = this.filterForm.value.difficulty ?? '';
-    console.log(difficultyValue);
+    const tags = this.currentTags ?? [];
+    console.log(tags);
 
     if(difficultyValue === '' && this.currentTags.length === 0){
       Swal.fire({
@@ -133,21 +161,28 @@ export class TourSearchComponent implements OnInit {
 
     let filteredResults = this.resultingTours;
     if(difficultyValue === ''){
+      console.log(1);
       filteredResults =  this.resultingTours.filter(tour => {
         return this.currentTags.every(tag => tour.tags.includes(tag));
       });
       this.tourSearchResults.emit(filteredResults);
+      return;
     }
 
     if(this.currentTags.length === 0){
+      console.log(2);
       filteredResults = this.resultingTours.filter(tour => tour.tourDifficulty === difficultyValue);
       this.tourSearchResults.emit(filteredResults);
+      return;
     }
+
+    console.log(this.currentTags);
+    console.log(difficultyValue);
 
     filteredResults =  this.resultingTours.filter(tour => {
       return this.currentTags.every(tag => tour.tags.includes(tag));
     });
-    filteredResults = this.resultingTours.filter(tour => tour.tourDifficulty === difficultyValue);
+    filteredResults = filteredResults.filter(tour => tour.tourDifficulty === difficultyValue);
     this.tourSearchResults.emit(filteredResults);
 
 
