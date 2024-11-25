@@ -1,23 +1,23 @@
-<div mat-dialog-content>
+<div mat-dialog-content class="encounterContent">
   <ng-container *ngIf="activationSuccess; else encounterContent">
     <p>Encounter successfully activated!</p>
   </ng-container>
   <ng-template #encounterContent>
-  <ng-container *ngIf="encounter; else noEncounter">
-    <label>{{ encounter.title }}</label>
-    <mat-label>{{ encounter.description }}</mat-label>
-    <mat-label>{{ encounter.xp }}</mat-label>
-    <mat-label>{{ encounter.status }}</mat-label>
-    <mat-label>{{ encounter.type }}</mat-label>
+  <ng-container *ngIf="encounter; else noEncounter" >
+    <label style="font-size: 1.5rem; font-weight: bold;">{{ encounter.title }}</label>
+    <mat-label >Description: {{ encounter.description }}</mat-label>
+    <mat-label>XP: {{ encounter.xp }}</mat-label>
+    <mat-label>Status: {{ encounter.status }}</mat-label>
+    <mat-label>Type: {{ encounter.type }}</mat-label>
   
     <div *ngIf="encounter.type === 'Social'">
-      <mat-label>Required Participants: {{ encounter.socialData?.requiredParticipants }}</mat-label>
+      <mat-label>Required Participants: {{ encounter.socialData?.requiredParticipants }}</mat-label><br>
       <mat-label>Radius: {{ encounter.socialData?.radius }}</mat-label>
     </div>
   
     <div *ngIf="encounter.type === 'HiddenLocation'">
-      <mat-label>Image URL: {{ encounter.hiddenLocationData?.imageUrl }}</mat-label>
-      <mat-label>Activation Radius: {{ encounter.hiddenLocationData?.activationRadius }}</mat-label>
+      <mat-label>Activation Radius: {{ encounter.hiddenLocationData?.activationRadius }}</mat-label><br>
+      <img [src]="getImage(encounter.hiddenLocationData?.imageUrl)" alt="Item Image" height="100">
     </div>
   
     <div *ngIf="encounter.type === 'Misc'">
@@ -29,7 +29,7 @@
   </ng-template>
 </ng-template>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="encounterButtons">
   <button mat-button *ngIf="encounter" (click)="activateEncounter()">Activate</button>
   <button mat-button (click)="closeDialog()">Close</button>
 </div>
