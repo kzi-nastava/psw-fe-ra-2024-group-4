@@ -1,5 +1,5 @@
 import { OrderItem } from "./order-item.model";
-import { TourPurchaseToken } from "./tour-purchase-token.model";
+import { TourPurchaseToken } from "../../payments/model/tour-purchase-token.model";
 
 export interface ShoppingCart {
     id?:number;

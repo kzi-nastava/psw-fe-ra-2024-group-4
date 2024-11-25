@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { OrderItem } from '../tour-authoring/model/order-item.model';
+import { OrderItem } from './model/order-item.model';
 import { environment } from 'src/env/environment';
-import { TourPurchaseToken } from '../tour-authoring/model/tour-purchase-token.model';
-import { ShoppingCart } from '../tour-authoring/model/shopping-cart.model';
+import { TourPurchaseToken } from './model/tour-purchase-token.model';
+import { ShoppingCart } from './model/shopping-cart.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Notification } from '../administration/model/notifications.model';
 
 @Injectable({
   providedIn: 'root' 
@@ -64,5 +66,23 @@ export class CartService {
 
   updateCart(cartId: number, cart: ShoppingCart): Observable<ShoppingCart>{
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
+  }
+
+  
+
+  getAllNotifications(userId: number, role: 'tourist' | 'author' | 'administrator'): Observable<PagedResults<Notification>> {
+    const url = `${environment.apiHost}${role}/notification/getall/${userId}`;
+    return this.http.get<PagedResults<Notification>>(url);
+  }
+
+  updateNotification(role: 'tourist' | 'author' | 'administrator', notification: Notification): Observable<any> {
+    const url = `${environment.apiHost}${role}/notification/${notification.id}`;
+    return this.http.put(url, notification);
+  }
+
+  createNotification(role: 'tourist' | 'author' | 'administrator', notification: Notification): Observable<Notification>
+  {
+    const url = `${environment.apiHost}${role}/notification/`;
+    return this.http.post<Notification>(url, notification);
   }
 }

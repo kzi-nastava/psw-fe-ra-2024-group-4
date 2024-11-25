@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart-overview.service';
 import { ActivatedRoute } from '@angular/router';
-import { OrderItem } from '../../tour-authoring/model/order-item.model';
+import { OrderItem } from '../model/order-item.model';
 import { Subscription } from 'rxjs';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
-import { ShoppingCart } from '../../tour-authoring/model/shopping-cart.model';
+import { ShoppingCart } from '../model/shopping-cart.model';
 import { environment } from 'src/env/environment';
-import { TourPurchaseToken } from '../../tour-authoring/model/tour-purchase-token.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { TourTags } from '../../tour-authoring/model/tour.tags.model';
 import Swal from 'sweetalert2';
+import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { Notification } from '../../administration/model/notifications.model';
 
 @Component({
   selector: 'app-cart-overview',
@@ -29,6 +30,9 @@ export class CartOverviewComponent implements OnInit {
   user: PersonInfo;
   currentCart: ShoppingCart;
   purchaseToken: TourPurchaseToken;
+
+
+  purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
   isChatOpen: boolean = false; 
@@ -153,6 +157,8 @@ export class CartOverviewComponent implements OnInit {
                   userId: this.user.id,
                   cartId: this.currentCart.id,
                   tourId: item.tourId,
+                  price: item.price,
+                  purchaseDate: new Date()
                  
                  
                 }
@@ -181,6 +187,33 @@ export class CartOverviewComponent implements OnInit {
               this.totalPrice = 0; // Resetujte ukupnu cenu
               
               
+            //  alert("Korpa uspešno očišćena.");
+
+             this.purchaseNotification = {
+              description: "You successfully purchased tour/tours.",
+              creationTime: new Date(),
+              isRead: false,
+              userId: this.user.id,
+              notificationsType: 2,
+              resourceId: this.currentCart.id || -1
+             }
+
+             this.cartService.createNotification('tourist', this.purchaseNotification).subscribe({
+              next: (result: Notification) =>
+              {
+
+              },
+              error:(err: any) =>
+              {
+                console.log("Error creating notification");
+              }
+
+             })
+           
+
+           
+             
+               
               },
               error: (err: any) =>
                  Swal.fire('Error', 'Error updating wallet', 'error')
