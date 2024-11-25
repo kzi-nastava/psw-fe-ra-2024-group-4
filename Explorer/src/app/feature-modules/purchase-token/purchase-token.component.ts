@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { forkJoin } from 'rxjs';
-import { TourPurchaseToken } from 'src/app/feature-modules/tour-authoring/model/tour-purchase-token.model';
+import { TourPurchaseToken } from 'src/app/feature-modules/payments/model/tour-purchase-token.model';
 import { Tour } from 'src/app/feature-modules/tour-authoring/model/tour.model';
 import { PurchaseService } from 'src/app/feature-modules/tour-authoring/tour-purchase-token.service';
 import { TourService } from 'src/app/feature-modules/tour-authoring/tour.service';
@@ -34,7 +34,13 @@ export class PurchaseTokenComponent implements OnInit{
         const tourRequests = tokens.map(token => this.purchaseService.getTour(token.tourId));
         
         forkJoin(tourRequests).subscribe(tourDetails => {
-          this.tours = tourDetails;
+          this.tours = tourDetails.map((tour, index) => {
+            const token = tokens[index];
+            return {
+              ...tour,
+              price: token.price
+            };
+          });
         });
       });
     });
