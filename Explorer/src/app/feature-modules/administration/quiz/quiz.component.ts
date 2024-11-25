@@ -79,15 +79,27 @@ export class QuizComponent implements AfterViewInit {
       this.animationClass = 'slide-in-right'; 
     }
   
-    // Uklanjanje klase nakon animacije (500ms je trajanje animacije)
     setTimeout(() => {
       this.animationClass = '';
     }, 500);
   }
   
   selectOption(): void {
-    alert(`You selected: ${this.images[this.currentImageIndex]}`);
+    const selectedImage = this.images[this.currentImageIndex];
+  
+    if (selectedImage === 'self_guide1.png') {
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 13); 
+      this.selectedTagList.push(14); 
+    } else if (selectedImage === 'guide_tour.png') {
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14); 
+      this.selectedTagList.push(13); 
+    }
+  
+    console.log(`Selected tags: ${this.selectedTagList}`);
+    
+    this.nextSlide();
   }
+  
   
 
   selectedTagList: number[]=[];
