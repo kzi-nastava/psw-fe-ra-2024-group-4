@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class EncounterComponent {
 
+  /*
   encounter: Encounter =  {
     id: 1,
     title: "kako ste",
@@ -29,6 +30,8 @@ export class EncounterComponent {
     miscData:  null,
 
   }
+  */
+  encounter: Encounter | null = null;
 
   constructor(private service: EncounterServiceService, 
     @Inject(MAT_DIALOG_DATA) public keyPoint: KeyPoint,
@@ -37,22 +40,18 @@ export class EncounterComponent {
 
   }
 
-  ngOnInit(): void{
-    
+  ngOnInit(): void {
+    console.log("KeyPoint data provided to dialog:", this.keyPoint);
     this.service.GetByLatLong(this.keyPoint.latitude, this.keyPoint.longitude).subscribe({
       next: (encounter) => {
-        /*this.encounter = encounter*/
+        console.log("Received Encounter from backend:", encounter);
+        this.encounter = encounter; 
       },
-      error: () => {
+      error: (err) => {
+        console.error("Error fetching encounter from backend:", err);
+        this.encounter = null; 
       }
     });
-    console.log("--------------------------")
-    console.log("This encounter:")
-    console.log(this.encounter)
-    console.log("This KeyPoint:")
-    console.log(this.keyPoint)
-    console.log("--------------------------")
-    
   }
 
   closeDialog(): void {

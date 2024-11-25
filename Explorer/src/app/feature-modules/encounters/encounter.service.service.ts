@@ -30,12 +30,20 @@ export class EncounterServiceService {
         lon});
   
     return this.http.get<{ value: PagedResults<Encounter> }>(url, { params }).pipe(
-      map((response) => response.value) // Ekstrahuj `value` koji sadrži `results` i `totalCount`
+      map((response) => response.value) 
     );
   }
 
   GetByLatLong(latitude: number, longitude: number): Observable<Encounter> {
     const params = { latitude: latitude.toString(), longitude: longitude.toString() };
-    return this.http.get<Encounter>(`${environment.apiHost}encounters`, { params });
-  }
+    console.log("Making HTTP request with params:", params);
+
+    return this.http.get<{ value: Encounter }>(`${environment.apiHost}encounters`, { params }).pipe(
+        map((response) => {
+            console.log("Response from server (GetByLatLong):", response);
+            return response.value; 
+        })
+    );
+}
+
 }
