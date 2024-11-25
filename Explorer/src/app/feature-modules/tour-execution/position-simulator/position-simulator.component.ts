@@ -169,22 +169,6 @@ checkProximityToChallenges(): void {
   }
 
   const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
-
-  this.selectedTourPoints.forEach(keyPoint => {
-      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
-          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
-          const distance = currentLatLng.distanceTo(keyPointLatLng);
-
-          if (distance < 50 && keyPoint.id !== undefined) {
-              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
-              this.completeChallenge(keyPoint);
-          }
-      } else {
-          console.error('Invalid key point data:', keyPoint);
-      }
-  });
-
-  
   this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: (data) => {
       this.encounters = data.results;
@@ -224,9 +208,6 @@ checkProximityToChallenges(): void {
 }
 
 completeChallenge(keyPoint: KeyPoint): void {
-  console.log('Encounter ID:', keyPoint.id);
-  console.log('Sending completion request for KP:', keyPoint);
-
   if (keyPoint.id !== undefined) {
     this.encounterService.completeEncounter(keyPoint.id).subscribe({
       next: (updatedEncounter) => {
@@ -249,9 +230,6 @@ completeChallenge(keyPoint: KeyPoint): void {
 
 
 completeChallengeNoKeypoint(encounter: Encounter): void {
-  console.log('Encounter ID:', encounter.id);
-  console.log('Sending completion request for ENC:', encounter);
-
   if (encounter.id !== undefined) {
     console.log("usao u completion encounter proces");
     this.encounterService.completeEncounter(encounter.id).subscribe({
