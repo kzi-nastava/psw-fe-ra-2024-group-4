@@ -3,6 +3,8 @@ import {CdkDrag} from '@angular/cdk/drag-drop';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CdkDragMove, CdkDropList } from '@angular/cdk/drag-drop';
 import { environment } from 'src/env/environment';
+import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
+import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -16,25 +18,100 @@ export class QuizComponent implements AfterViewInit {
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
   slides = [0, 1, 2, 3, 4]; // Indeksi slajdova
   currentSlideIndex = 0; // Početni slajd (s3)
-
+  selectedPicture = '';
   // Uzima sve elemente sa klasom 'step'
   els = document.getElementsByClassName('step') as HTMLCollectionOf<HTMLElement>;
   steps: HTMLElement[] = [];
 
   //tagove koje je izabrao turista:
   selectedTags: string[] = [];
+  selectedTagList: number[]=[];
 
+  constructor(private tourPreferenceService: TourPreferenceService) { }
+  ngOnInit(): void {
+    
+    const savedImageName = localStorage.getItem('picture');
+    console.log(`Učitana slika iz localStorage: ${savedImageName}`);
+    if (savedImageName) {
+      this.selectedPicture = savedImageName;
+      this.highlightSelectedImage(savedImageName);
+    }
+  
+    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+   
+        document.querySelectorAll('.image-wrapper').forEach(el => {
+          (el as HTMLElement).classList.remove('clicked');
+        });
+  
+       
+        (wrapper as HTMLElement).classList.add('clicked');
+        const imageName = (wrapper as HTMLElement).getAttribute('data-image-name')!;
+         localStorage.setItem('picture', imageName);
+      });
+    });
 
+  
+  }
 
+  highlightSelectedImage(imageName: string): void {
+    
+    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+      wrapper.classList.remove('clicked');
+    });
+  
+    const selectedWrapper = document.querySelector(`.image-wrapper[data-image-name="${imageName}"]`);
+    if (selectedWrapper) {
+      selectedWrapper.classList.add('clicked');
+    }
+  }
   
   nextSlide(): void {
     if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentSlideIndex++;
       this.progress(this.currentSlideIndex);
 
+      if(this.currentSlideIndex==1){
+        const image = localStorage.getItem('picture');
+        if(image== 'beach.jpg'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5);
+          this.selectedTagList.push(10);
+        }else if(image=='download.png'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10);
+          this.selectedTagList.push(5);
+        }else if(image =='forest1.jpg'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5);
+          this.selectedTagList.push(4);
+        }
+        console.log(this.selectedTagList);
+      }
     }
     else{
-      this.currentSlideIndex=0;
+      //this.currentSlideIndex=0;
+      console.log('cuvaj');
+
+      const preference: TourPreference = {
+       
+        weightPreference: 1,
+        walkingRating: 1,
+        bikeRating: 1,
+        carRating: 1,
+        boatRating: 1,
+        id:0,
+        tags: this.selectedTagList,
+        touristId:0
+
+      };
+    
+      this.tourPreferenceService.savePreference(preference).subscribe(
+        (response) => {
+          console.log('Preference saved successfully', response);
+        },
+        (error) => {
+          console.error('Error saving preference', error);
+        }
+      );
+
     }
   }
   previousSlide(): void {
@@ -50,6 +127,14 @@ export class QuizComponent implements AfterViewInit {
   getImage(image: string): string {
     return environment.webroot + "images/quiz/" + image;
   }
+  selectPicture(imageName: string): void {
+    this.selectedPicture = imageName;
+    console.log(`Selektovana slika: ${this.selectedPicture}`);
+    localStorage.setItem('picture', this.selectedPicture);
+  }
+
+  
+
   ngAfterViewInit() {
     // Ovdje možemo proveriti da li je customTourList dostupan nakon što se komponenta učita
     console.log('ngAfterViewInit - customTourList:', this.customTourList);

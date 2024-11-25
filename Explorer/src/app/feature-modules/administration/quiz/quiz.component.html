@@ -26,10 +26,34 @@
             <input type="radio" name="slider" id="s5" [checked]="currentSlideIndex === 4">
             <!--1-->
             <div class="quiz-card" for="s1" id="slide1">
+                <p>Escape to Your Dreamscape: Choose Your Perfect View!</p>
+                <div class="image-container">
+                    <div
+                      class="image-wrapper" data-image-name="beach.jpg"
+                      (click)="selectPicture('beach.jpg')"
+                    >
+                      <img [src]="getImage('beach.jpg')" alt="Slika 1"  />
+                    </div>
+                    <div
+                      class="image-wrapper"  data-image-name="forest1.jpg"
+                      (click)="selectPicture('forest1.jpg')"
+                    >
+                      <img [src]="getImage('forest1.jpg')" alt="Slika 2" />
+                    </div>
+                    <div
+                      class="image-wrapper"  data-image-name="download.png"
+                      (click)="selectPicture('download.png')"
+                    >
+                      <img [src]="getImage('download.png')" alt="Slika 3" />
+                    </div>
+                  </div>
+
+                  <p>{{ this.selectedPicture || 'No picture selected' }}</p>
                 <button *ngIf="currentSlideIndex === 0" id="next" class="next-button" (click)="nextSlide()">Next</button>
             </div>
             <!--2-->
             <div class="quiz-card" for="s2" id="slide2">
+                <p>{{ this.selectedPicture || 'No picture selected' }}</p>
                 <div class="choice-container" >
                     <div class="choice" id="cycling" cdkDrag (cdkDragMoved)="onDragMove($event)">
                         <img class="stikertest" [src]="getImage('cycling.png')">

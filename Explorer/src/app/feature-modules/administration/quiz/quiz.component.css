@@ -178,11 +178,26 @@
     transform: translateY(1500px);
   }
   
-  #slide1 { background: #642984ff }
-  #slide2 { background: #4e1f7f }
-  #slide3 { background: #392b74 }
-  #slide4 { background: #251f69 }
-  #slide5 { background: #17097cff }
+  #slide1 { 
+    background: #BFA8D7; 
+    border: 2px solid rgb(188, 162, 216); 
+}
+#slide2 { 
+    background: #A3BEDC; 
+    border: 2px solid rgb(163, 190, 220); 
+}
+#slide3 { 
+    background: #E7C89E; 
+    border: 2px solid rgb(231, 200, 158); 
+}
+#slide4 { 
+    background: #D8A7B8; 
+    border: 2px solid rgb(216, 167, 184); 
+}
+#slide5 { 
+    background: #C2C599; 
+    border: 2px solid rgb(194, 197, 153); 
+}
 
 #s1:checked ~ #slide1 {
     box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
@@ -359,3 +374,67 @@
     z-index: 1;
     transition: width 1s;
   }
+
+  .image-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 2px;
+    margin-top: 20px;
+  }
+  
+  .image-wrapper {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-wrapper img {
+    width: 300px; /* Povećana širina */
+    height: 300px; /* Fiksirana visina */
+    object-fit: cover; /* Održava proporcije sadržaja unutar okvira */
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  
+  
+  .image-wrapper:hover img {
+    transform: scale(1.1);
+    border: 3px solid transparent;
+  border-image: linear-gradient(90deg, #ff79ff, #aa00ff, #ff79ff);
+  border-image-slice: 1;
+
+  /* Dodaj senku */
+  box-shadow: 0 0 10px 5px rgba(170, 0, 255, 0.5);
+  /*animation: swing 1.5s ease infinite;*/
+  }
+  @keyframes swing {
+    0% { transform: rotate(0deg) translateX(0) scale(1.1); }
+    25% { transform: rotate(-5deg) translateX(-10px) scale(1.1); }
+    50% { transform: rotate(5deg) translateX(10px) scale(1.1); }
+    75% { transform: rotate(-5deg) translateX(-10px) scale(1.1); }
+    100% { transform: rotate(0deg) translateX(0) scale(1.1); }
+  }
+  
+  .image-wrapper p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  p {
+    font-family: 'Playfair Display', serif; /* Elegantna serif font porodica */
+    font-size: 20px; /* Prilagodite veličinu fonta */
+    color: #333; /* Tamno siva za sofisticirani izgled */
+    text-align: center; /* Centriranje teksta */
+    margin-top: 10px; /* Razmak iznad */
+    margin-bottom: 20px; /* Razmak ispod */
+    letter-spacing: 1px; /* Blago razmaknuta slova za eleganciju */
+    line-height: 1.5; /* Poboljšana čitljivost */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Suptilna senka za dubinu */
+    
+  }
+  
+.image-wrapper.clicked img {
+  transform: scale(1.1);
+  border-color: #db2cd2;
+}
