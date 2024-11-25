@@ -28,7 +28,37 @@
             <div class="quiz-card" for="s1" id="slide1">
                 <p>Escape to Your Dreamscape: Choose Your Perfect View!</p>
                 <div class="image-container1">
-                    <div
+                  <section class="carousel">
+                    <div class="carousel__container" id="carousel-container" #carouselContainer>
+                      <div class="carousel-item1" data-image-name="beach.jpg" (click)="selectPicture('beach.jpg')"
+                      [class.dimmed]="selectedPicture ==='forest1.jpg' || selectedPicture ==='download.png' || selectedPicture ==='museum-background.jpg'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('beach.jpg')" alt="Slika 1"
+                        >
+                      </div>
+                      <div class="carousel-item2" data-image-name="forest1.jpg" (click)="selectPicture('forest1.jpg')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='download.png' || selectedPicture ==='museum-background.jpg'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('forest1.jpg')" alt="Slika 2"
+                        >
+                      </div>
+                      <div class="carousel-item3" data-image-name="download.png" (click)="selectPicture('download.png')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='forest1.jpg' || selectedPicture ==='museum-background.jpg'"
+                      >
+                        <img class="carousel-item__img"
+                        [src]="getImage('download.png')" alt="Slika 3"
+                        >
+                      </div>
+                      <div class="carousel-item4" id="carousel-item-last" data-image-name="museum-background.jpg" (click)="selectPicture('museum-background.jpg')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='forest1.jpg' || selectedPicture ==='download.png'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('museum-background.jpg')" alt="Slika 4"
+                        >
+                      </div>
+                    
+                    </div>
+                  </section>
+                    <!-- <div
                       class="image-wrapper" data-image-name="beach.jpg"
                       (click)="selectPicture('beach.jpg')"
                     >
@@ -46,7 +76,13 @@
                     >
                       <img [src]="getImage('download.png')" alt="Slika 3" />
                     </div>
-                  </div>
+                    <div
+                      class="image-wrapper"  data-image-name="museum-background.jpg"
+                      (click)="selectPicture('museum-background.jpg')"
+                    >
+                      <img [src]="getImage('museum-background.jpg')" alt="Slika 4" />
+                    </div> -->
+                </div>
 
                   <p>{{ this.selectedPicture || 'No picture selected' }}</p>
                 <button *ngIf="currentSlideIndex === 0" id="next" class="next-button" (click)="nextSlide()">Next</button>
@@ -81,8 +117,10 @@
                 <p class="quiz-description">
                   Choose one option that truly reflects your spirit:
                 </p>
+                <!-- [style.background-image]="'url(' + getImage('slide3_background2.png') + ')'" -->
+                <div class="background-wrapper" >
+                    <img class="background-image" [src]="getImage('slide3_background2.png')">
 
-                <div class="background-wrapper" [style.background-image]="'url(' + getImage('slide3_background2.png') + ')'">
                     <p class="image-description" [ngClass]="descriptionAnimationClass">{{ currentDescription }}</p> 
                     <div class="image-navigation">
                       <div class="arrow arrow-left" (click)="previousButton('left')">&#8249;</div>
