@@ -10,6 +10,8 @@ import { TourExecution } from '../../tour-authoring/model/tour-execution.model';
 import { CompletedKeys } from '../../tour-authoring/model/tour-execution.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import Swal from 'sweetalert2';
+import { EncounterComponent } from '../../encounters/encounter/encounter.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -29,7 +31,7 @@ export class PositionSimulatorComponent implements OnInit {
   completedKeyPointIds: Set<number> = new Set()
   completedKeypoint: KeyPoint;
 
-  constructor(private service: TourExecutionService, private authService: AuthService, private authorService: TourAuthoringService){}
+  constructor(private service: TourExecutionService, private authService: AuthService, private authorService: TourAuthoringService, private dialog: MatDialog){}
 
   ngOnInit(): void {
     this.positionSimulatorActivated = true;
@@ -138,6 +140,20 @@ updateLastActivity(executionId: number): void {
   });
 }
 
+showEncounterDialog(keyPoint: KeyPoint): void {
+  const dialogRef = this.dialog.open(EncounterComponent, {
+    width: '400px',
+    data: keyPoint, 
+  });
+
+  dialogRef.afterClosed().subscribe((encounterExists: boolean) => {
+    if (!encounterExists) {
+      console.warn(`Encounter for keyPoint "${keyPoint.name}" does not exist.`);
+    } else {
+      console.log(`Encounter for keyPoint "${keyPoint.name}" exists.`);
+    }
+  });
+}
 
 completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): void { 
   const isCompleted = this.tourExecution.completedKeys?.some(key => key.keyPointId === keyPointId); 
@@ -152,6 +168,7 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
       next: (result) => {
           console.log(`Key Point ${keyPointId} completed for execution ${executionId}`);
           this.showKeypointSecret(keyPoint); 
+          this.showEncounterDialog(keyPoint); 
           const completedKey: CompletedKeys = {
               keyPointId: keyPointId,
               completionTime: new Date()

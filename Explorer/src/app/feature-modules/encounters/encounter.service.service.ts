@@ -25,4 +25,9 @@ export class EncounterServiceService {
   
     return this.http.get<PagedResults<Encounter>>(url, { params });
   }
+
+  GetByLatLong(latitude: number, longitude: number): Observable<Encounter> {
+    const params = { latitude: latitude.toString(), longitude: longitude.toString() };
+    return this.http.get<Encounter>(`${environment.apiHost}encounters`, { params });
+  }
 }

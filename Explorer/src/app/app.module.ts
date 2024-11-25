@@ -34,7 +34,7 @@ import { EncounterModule } from './feature-modules/encounters/encounters.module'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     CommonModule,
