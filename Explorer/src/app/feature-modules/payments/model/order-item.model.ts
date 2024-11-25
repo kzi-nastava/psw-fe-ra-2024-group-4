@@ -1,4 +1,4 @@
-import { Tour } from "./tour.model";
+import { Tour } from "../../tour-authoring/model/tour.model";
 
 export interface OrderItem{
     id?: number;
