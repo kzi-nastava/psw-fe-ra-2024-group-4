@@ -1,7 +1,10 @@
 <div class="coupon-form-container">
     <!-- Leva sekcija -->
     <div class="coupon-left-section">
-      <h2>Coupon for {{ tour.name || 'All Tours' }}</h2>
+      <h2 *ngIf="tour; else allToursTitle">Coupon for {{ tour.name }}</h2>
+        <ng-template #allToursTitle>
+          <h2>Coupon for All Tours</h2>
+        </ng-template>
       <p>
         Create a special coupon for your tour to attract more customers! Set the discount percentage, 
         optionally add an expiration date, and let your customers enjoy the deal.

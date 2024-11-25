@@ -12,9 +12,12 @@ import { Coupon } from '../model/coupon.model';
   styleUrls: ['./coupon.component.css']
 })
 export class CouponComponent  implements OnChanges{
-  @Input() tour: Tour; //selektovana tura
   @Output() close = new EventEmitter<void>();
   @Output() couponCreated = new EventEmitter<any>();
+  @Input() tour?: Tour; // Specifična tura (može biti undefined za sve ture)
+  @Input() isForAllTours: boolean = false; // Signalizuje da je za sve ture
+
+
   user:User| null=null;
   ngOnChanges(): void {
     this.couponForm.reset();
@@ -76,7 +79,7 @@ validation():boolean{
       const coupon:Coupon={
         discountPercentage: this.couponForm.value.discount || 0,
         expirationDate: this.couponForm.value.expirationDate,
-        tourId: this.tour.id,
+        tourId: this.isForAllTours ? undefined: this.tour?.id,
         authorId: this.user?.id || 0,
       }
       this.service.addCoupon(coupon).subscribe({

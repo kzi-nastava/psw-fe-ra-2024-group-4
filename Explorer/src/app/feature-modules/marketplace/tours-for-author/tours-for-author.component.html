@@ -81,8 +81,9 @@
         <div class="overlay" *ngIf="shouldRenderCouponForm"
         (click)="closeCouponForm()">
             <xp-coupon
+            [tour]="selectedCouponTour"
             (click)="$event.stopPropagation()"
-                [tour]="selectedTour"
+                [isForAllTours]="!selectedCouponTour"
                 (close)="closeCouponForm()"
                 (couponCreated)="getTours(user?.id || 0)"
             ></xp-coupon>

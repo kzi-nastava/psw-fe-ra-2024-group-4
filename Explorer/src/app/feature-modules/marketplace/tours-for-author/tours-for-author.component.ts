@@ -24,6 +24,7 @@ export class ToursForAuthorComponent implements OnInit {
   tours: Tour[] = [];
   user: User | null = null;
   selectedTour: Tour;
+  selectedCouponTour: Tour| undefined;
   shouldViewTour: boolean = false;
   selectedKeypoints: KeyPoint[] = [];
   private lengthUpdatedSubscription!: Subscription;
@@ -282,7 +283,7 @@ getAllCoupons(authorId: number): void {
 }
 
 openCouponForm(tour: Tour): void {
-  this.selectedTour = tour;
+  this.selectedCouponTour = tour;
   this.shouldRenderCouponForm = true;
 }
 viewCouponDetails(tour:Tour):void{
@@ -291,6 +292,8 @@ viewCouponDetails(tour:Tour):void{
 closeCouponForm(): void {
   this.shouldRenderCouponForm = false;
 }
-addCouponForAll(): void {}
-
+addCouponForAll(): void {
+  this.selectedCouponTour = undefined;
+  this.shouldRenderCouponForm = true;
+}
 }
