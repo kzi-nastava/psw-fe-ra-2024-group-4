@@ -46,6 +46,7 @@
                     >
                       <img [src]="getImage('download.png')" alt="Slika 3" />
                     </div>
+                    
                   </div>
 
                   <p>{{ this.selectedPicture || 'No picture selected' }}</p>
@@ -83,6 +84,7 @@
                 </p>
 
                 <div class="background-wrapper" [style.background-image]="'url(' + getImage('slide3_background2.png') + ')'">
+                  
                     <p class="image-description" [ngClass]="descriptionAnimationClass">{{ currentDescription }}</p> 
                     <div class="image-navigation">
                       <div class="arrow arrow-left" (click)="previousButton('left')">&#8249;</div>
