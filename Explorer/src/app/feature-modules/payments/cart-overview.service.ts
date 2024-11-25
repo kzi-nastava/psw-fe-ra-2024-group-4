@@ -65,4 +65,12 @@ export class CartService {
   updateCart(cartId: number, cart: ShoppingCart): Observable<ShoppingCart>{
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
   }
+
+  applyCoupon(cartId: number, promoCode: string): Observable<ShoppingCart> {
+    // Koristimo HttpParams za dodavanje query parametara
+    const url = `${environment.apiHost}shopping/applyCoupon/${cartId}`;
+    return this.http.put<ShoppingCart>(url, null, {
+      params: { promoCode }, // Query param
+    });
+  }
 }

@@ -17,5 +17,13 @@
     <h3>Total: {{ totalPrice }}</h3>
   </div>
 
+  <div class="coupon-input">
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Coupon Code</mat-label>
+      <input matInput [(ngModel)]="promoCode" placeholder="Coupon Code">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="applyCoupon()">Apply Coupon</button>
+  </div>
+
   <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
 </div>

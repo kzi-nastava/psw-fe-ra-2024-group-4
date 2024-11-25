@@ -10,6 +10,7 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../../tour-authoring/model/shopping-cart.model';
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from '../../tour-authoring/model/tour-purchase-token.model';
+import { TourService } from '../../tour-authoring/tour.service';
 
 @Component({
   selector: 'app-cart-overview',
@@ -25,12 +26,13 @@ export class CartOverviewComponent implements OnInit {
   user: PersonInfo;
   currentCart: ShoppingCart;
   purchaseToken: TourPurchaseToken;
+  promoCode: string = '';
   private userSubscription: Subscription | null = null;
   
   constructor(private cartService: CartService,
      private route: ActivatedRoute,
      private personInfoService: PersonInfoService,
-     private authService: AuthService ) {} 
+     private authService: AuthService,private tourService: TourService ) {} 
 
   ngOnInit(): void {
    
@@ -64,18 +66,16 @@ export class CartOverviewComponent implements OnInit {
   }
 
   loadCartItems(): void {
-   /* this.cartItems = this.cartService.getCartItems(); 
-    this.calculateTotalPrice(); */
-    
     this.cartService.getCartItems(this.cartId || -1).subscribe({
       next: (result: OrderItem[]) => {
         this.cartItems = result;
-        this.currentCart.items = result;
-        this.calculateTotalPrice();
+        this.calculateTotalPrice(); // Izračunaj ukupnu cenu
+        this.fetchAuthorIds(); // Dohvati AuthorId za svaku stavku
       },
-    error: (err) => { alert("error loading items");} });
-      
-    
+      error: (err) => {
+        alert("Error loading items");
+      },
+    });
   }
 
   calculateTotalPrice(): void {
@@ -90,6 +90,32 @@ export class CartOverviewComponent implements OnInit {
     })
   }
   
+  applyCoupon(): void {
+    if (!this.promoCode.trim()) {
+        alert('Please enter a valid coupon code.');
+        return;
+    }
+
+    // Proveri da su svi authorId podaci učitani
+    const missingAuthorIds = this.cartItems.some(item => !item.authorId);
+    if (missingAuthorIds) {
+        alert('Author information is missing for some items. Please try again later.');
+        return;
+    }
+
+    this.cartService.applyCoupon(this.cartId!, this.promoCode).subscribe({
+        next: (updatedCart) => {
+            this.cartItems = updatedCart.items;
+            this.calculateTotalPrice();
+            alert('Coupon applied successfully!');
+        },
+        error: (err) => {
+            alert('Failed to apply coupon: ' + err.message);
+        },
+    });
+}
+
+
 
   checkout(): void {
     if (this.totalPrice > this.wallet) {
@@ -203,4 +229,19 @@ export class CartOverviewComponent implements OnInit {
       reader.readAsDataURL(blob);
     });
   }
+
+  fetchAuthorIds(): void {
+    this.cartItems.forEach((item) => {
+      this.tourService.getAuthorIdByTourId(item.tourId).subscribe({
+        next: (authorId) => {
+          item.authorId = authorId; 
+        },
+        error: (err) => {
+          console.error(`Error fetching authorId for tourId ${item.tourId}:`, err);
+          alert("Author information is missing for some items. Please try again later.");
+        },
+      });
+    });
+  }
+  
 }
