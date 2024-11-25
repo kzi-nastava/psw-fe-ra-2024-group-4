@@ -62,16 +62,9 @@ button[mat-icon-button] mat-icon {
 }
 .cards {
     display: grid;
-    height: 100%;
-    width: 100%; /*ovo je upitno*/
-    grid-template-columns: repeat(auto-fit, minmax(250px, 24vw));
-    gap: 6vh;
-    margin: 0;
-    padding: 2vh;
-    list-style-type: none;
-    align-content: top;
-    justify-items: center;
-    padding-top: 10%;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
 }
 
 .card {
@@ -242,9 +235,8 @@ button[mat-icon-button] mat-icon {
   /* Center container */
   .center-container {
     width: 60%;
-    flex: 0 0 60%;
-   /* background-color: #f8d7da;*/
-    display: flex;
+
+   
   }
   
   /* Right side container */
