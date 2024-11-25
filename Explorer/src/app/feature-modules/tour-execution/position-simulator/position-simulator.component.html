@@ -1,5 +1,28 @@
+
+<div class="tour-details-container">
+<div class="tour-info-left" >
+    <div>
+        <h2 style="font-family: 'Poppins', sans-serif;" >Your location:</h2>
+        <p *ngIf="!currentPosition">Please select your current position on map.</p>
+        <p *ngIf="currentPosition"><strong>Latitude: </strong>{{currentPosition.latitude | number:'1.2-2'}}</p>
+        <p *ngIf="currentPosition"><strong>Longitude: </strong>{{currentPosition.longitude | number:'1.2-2'}}</p>
+    </div>
+    <div *ngIf="tourExecution">
+    <h2 style="font-family: 'Poppins', sans-serif;">Tour Information:</h2>
+    <p><strong>Name:</strong> {{tour.name}}</p>
+    <p><strong>Description:</strong> {{tour.description}}</p>
+    <p><strong>Difficulty:</strong> {{tour.difficulty}}</p>
+    <p><strong>Length:</strong> {{ tour.lengthInKm | number: '1.2-2'}}km</p>
+    <p  *ngIf="tourExecution.status === 0"><strong>Status:</strong> Active</p>
+    <p  *ngIf="tourExecution.status === 1"><strong>Status:</strong> Completed</p>
+    <p  *ngIf="tourExecution.status === 2"><strong>Status:</strong> Abandoned</p>
+    
+</div>  
+<button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" >Abandon tour</button>  
+
+  </div>
 <div class="position-simulator-container">
-    <xp-map 
+    <xp-map  
         [selectedTourPoints]="selectedTourPoints" 
         [selectedLatitude]="currentPosition.latitude" 
         [selectedLongitude]="currentPosition.longitude" 
@@ -8,3 +31,16 @@
         (touristPositionUpdate)="updatePosition($event)">
     </xp-map>
 </div>
+<div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>
+</div>
+
+

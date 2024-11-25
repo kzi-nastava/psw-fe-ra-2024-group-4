@@ -34,5 +34,10 @@ export class PostService {
   updateRating(postId: number,rating:Rating):Observable<Post>{
     return this.http.put<Post>(environment.apiHost+'blogfeedback/rating/'+postId,rating);
   }
+  publishPost(postId: number):Observable<Post>{
+    return this.http.put<Post>(environment.apiHost+'postmanagement/post/publish/'+postId,{headers :{
+      'Content-Type':'application/json'
+    }});
+  }
 
 }

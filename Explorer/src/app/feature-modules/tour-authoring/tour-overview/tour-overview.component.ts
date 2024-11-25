@@ -4,21 +4,21 @@ import { TourOverviewService } from '../tour-overview.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatDialog } from '@angular/material/dialog';
 import { TourOverviewDetailsComponent } from '../tour-overview-details/tour-overview-details.component';
-import { KeyPoint } from '../model/keypoint.model';
 import { MapService } from 'src/app/shared/map/map.service';
-
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import { CartService } from '../cart-overview.service';
+import { CartService } from '../../payments/cart-overview.service';
 import { OrderItem } from '../model/order-item.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecution } from '../model/tour-execution.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-
 import { PositionSimulator } from '../model/position-simulator.model';
 import { Tour } from '../model/tour.model';
+import { PurchaseService } from '../tour-purchase-token.service';
+import { ProblemComponent } from '../../marketplace/problem/problem.component';
+
 
 
 @Component({
@@ -38,6 +38,9 @@ export class TourOverviewComponent implements OnInit {
   position: PositionSimulator | null = null;
   shouldDisplayKeypoint: boolean = false;
   selectedTour: TourOverview;
+  totalPrice: number = 0;
+
+  isCartPreviewVisible = false;
 
   private cartItemCount = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCount.asObservable(); 
@@ -53,7 +56,27 @@ export class TourOverviewComponent implements OnInit {
     private router: Router,
     private cartService: CartService,
     private tourExecutionService: TourExecutionService,
+    private purchaseService: PurchaseService,
   private authService: AuthService) {}
+
+
+  tourTagMap: { [key: number]: string } = {
+    0: 'Cycling',
+    1: 'Culture',
+    2: 'Adventure',
+    3: 'FamilyFriendly',
+    4: 'Nature',
+    5: 'CityTour',
+    6: 'Historical',
+    7: 'Relaxation',
+    8: 'Wildlife',
+    9: 'NightTour',
+    10: 'Beach',
+    11: 'Mountains',
+    12: 'Photography',
+    13: 'Guided',
+    14: 'SelfGuided'
+  };
 
   ngOnInit(): void {
 
@@ -64,10 +87,7 @@ export class TourOverviewComponent implements OnInit {
       tourId: 0,
       cartId: 0
     };
-
-    
   
-   
    /* if(this.tourExecutions.get(3)?.status === null &&!this.isActive)
       alert("uslo");*/
 
@@ -91,7 +111,8 @@ export class TourOverviewComponent implements OnInit {
         next: (result: ShoppingCart[]) => {
           if(result[0])
            { this.shoppingCart = result[0];
-           
+            this.calculateTotalPrice();
+            this.loadCartItemDetails();
           
              }  else
             this.createNewCart(this.user.id);
@@ -102,27 +123,21 @@ export class TourOverviewComponent implements OnInit {
       
      
     });
-    this.authService.user$.subscribe((user) => {
-      this.user = user; 
-      console.log(user);
-      if (user) {
-        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
-            next: (position: PositionSimulator) => {
-                console.log('Position retrieved:', position);
-                this.position = position;
-                this.loadTours();
-            },
-            error: (err) => {
-                console.error('Error retrieving position:', err);
-            }
-        });
-    }
-    });
+    
 
     
     this.loadTours();
     
   }
+  
+  calculateTotalPrice(): void {
+    this.totalPrice = 0;
+    if (this.shoppingCart && this.shoppingCart.items) {
+        this.shoppingCart.items.forEach(item => {
+            this.totalPrice += item.price || 0; // Osiguranje da cena ne bude NaN
+        });
+    }
+}
   
   updateTours(tours: TourOverview[]): void {
     this.tours = tours;
@@ -188,80 +203,22 @@ export class TourOverviewComponent implements OnInit {
     }
   }
 
-  reportProblem(tourId: number): void {
-    this.router.navigate(['/problem'], { queryParams: { tourId: tourId } });
-  }
-
-  startTour(tourId: number): void {
-    if (!this.position) {
-        console.error('Position is null. Cannot start tour without a position.');
-        return;
-    }
-
-    // Ensure tourExecution is initialized with all required properties
-    this.tourExecution = {
-        locationId: this.position.id,
-        tourId: tourId,
-        status: 0,
-        lastActivity: new Date(),
-        touristId: this.user?.id || 0, // Default to 0 if user ID is null
-        completedKeys: [] // Ensure this is sent as an empty array
-    };
-
-    this.tourExecutionService.startTourExecution(this.tourExecution).subscribe({
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = true;
-            this.loadTourExecutions();
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-}
-
-  completeTourExecution(tourExecutionId?: number)
-  {
-    
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-    {
-      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = false;
-            this.loadTourExecutions()
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-    }
-    
-  }
-
-  abandonTourExecution(tourExecutionId?: number)
-  {
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-      {
-    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
-      next: (data: TourExecution) => {
-          console.log('Tour execution started:', data);
-          this.isActive = false;
-          this.loadTourExecutions();
-      },
-      error: (err) => {
-          console.error('Error creating execution:', err);
-      }
-  });
-}
-  }
-
   openReviews(tourId: number): void {
     this.dialog.open(TourOverviewDetailsComponent, {
       data: {
         tourId: tourId
       },
     });
+  }
+  
+  reportProblem(tourId: number): void {
+    this.dialog.open(ProblemComponent, {
+      width: '40%',
+      data : {
+        tourId: tourId
+      }
+    });
+    
   }
 
   loadTourExecutions(): void {
@@ -272,9 +229,6 @@ export class TourOverviewComponent implements OnInit {
                 if (execution) {
                   
                     this.tourExecutions.set(tour.tourId, execution);
-                 /*  console.log("execution");
-                    console.log(execution);
-                    console.log(this.tourExecutions.get(1)?.lastActivity);*/
                     
                     if(execution.status === 0)
                       this.isActive = true;
@@ -291,13 +245,6 @@ export class TourOverviewComponent implements OnInit {
   }
 
   addToCart(tour: TourOverview): void {
-   /* this.cartService.addToCart({
-      tourId : tour.tourId,
-      tourName: tour.tourName, 
-      price: tour.price 
-    });
-    const currentCount = this.cartItemCount.value;
-    this.cartItemCount.next(currentCount + 1); */
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
@@ -309,6 +256,7 @@ export class TourOverviewComponent implements OnInit {
           this.cartService.addToCart(this.orderItem).subscribe({
             next: (result: OrderItem) => {
               alert("Item successfully added.");
+              this.calculateTotalPrice();
             },
             error: (err:any) => alert("Error adding item.")
           });
@@ -322,17 +270,39 @@ export class TourOverviewComponent implements OnInit {
    
   }
 
-//   addToCart(tour: TourOverview): void {
-//     const fullTour = this.cartService.getTourById(tour.tourId); 
-//     this.cartService.addToCart({
-//         tourName: tour.tourName, 
-//         price: fullTour ? fullTour.price : 0 
-//     });
-//     const currentCount = this.cartItemCount.value;
-//     this.cartItemCount.next(currentCount + 1); 
-// }
-
   openCart(cartId: number): void {
     this.router.navigate([`/cart/${cartId}`]);
   }
+
+  getTagNumber(word: string): number { //daj broj od tada
+    for (const [key, value] of Object.entries(this.tourTagMap)) {
+      if (value === word) {
+        return +key; // Convert the key back to a number
+      }
+    }
+    return -1; // Return -1 or any default value if the word is not found
+  }
+  showCartPreview(): void {
+    this.isCartPreviewVisible = true;
+  }
+
+  hideCartPreview(): void {
+    this.isCartPreviewVisible = false;
+  }
+
+  loadCartItemDetails(): void {
+    if (this.shoppingCart && this.shoppingCart.items) {
+      this.shoppingCart.items.forEach((item) => {
+        this.purchaseService.getTour(item.tourId).subscribe({
+          next: (tour) => {
+            item.tourDetails = tour; // Dodavanje detalja ture
+          },
+          error: (err) => {
+            console.error(`Error loading tour details for item ${item.tourId}:`, err);
+          }
+        });
+      });
+    }
+  }
+  
 }

@@ -20,7 +20,7 @@ body {
   right: 8vh;
   width: 10vh;
   height: 10vh;
-  background-color: rgb(192, 153, 218);;
+  background-color: rgb(192, 153, 218);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -28,12 +28,17 @@ body {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 9999; /* Ensure it's on top */
+  color: white; /* White question mark */
+  font-size: 5vh; /* Adjust size as needed */
+  font-weight: bold; /* Optional for styling */
 }
 
 .fixed-circle:hover {
   transform: scale(1.1);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
 }
+
 
 .chat-box {
   position: fixed;
@@ -47,7 +52,7 @@ body {
   border-width: #4b464a;
   border-width: 5px;
   border: 1px solid #ef7ad9;
-  z-index: 50;
+  z-index: 9999;
 }
 
 .chat-box::before {
@@ -62,3 +67,6 @@ body {
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
 }
+
+
+

@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Input, Output, EventEmitter,SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-control-geocoder';
 import { MapService } from './map.service';
 import { KeypointFormComponent } from 'src/app/feature-modules/tour-authoring/keypoint-form/keypoint-form.component';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/keypoint.model';
@@ -12,6 +13,12 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { outputAst } from '@angular/compiler';
 import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 import { TourOverview } from 'src/app/feature-modules/tour-authoring/model/touroverview.model';
+import { environment } from 'src/env/environment';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -45,13 +52,16 @@ export class MapComponent {
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+   
   
    user: User;
+   
   
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
    private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
+   
 
 
    private redIcon = L.icon({
@@ -76,7 +86,8 @@ export class MapComponent {
   });
 
 
-   constructor(private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
 
 
    
@@ -138,6 +149,7 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
+
     
     
    /* let DefaultIcon = L.icon({
@@ -151,6 +163,9 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
+
+
+    
 
     if(this.registeringObject && !this.shouldEditKp)
       { 
@@ -229,9 +244,47 @@ export class MapComponent {
     this.currentMarker = new L.Marker([this.selectedKeypoint.latitude, this.selectedKeypoint.longitude], {icon: this.keypointIcon}).addTo(this.map);
   }
 
-  showFirstKeypoint(point: KeyPoint) : void
+  async showFirstKeypoint(point: KeyPoint) : Promise<void>
   {
     this.currentMarker = new L.Marker([point.latitude, point.longitude], {icon: this.keypointIcon}).addTo(this.map);
+    const address = await this.getAddress(point.latitude, point.longitude);
+    console.log(address);
+    const popupContent = `
+   <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
+  <div class="imgContainer" style="width: 100%; height: 120px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+    <img src="${this.getImage(point.image)}" alt="Item Image" style="width: 100%; height: 100%; object-fit: contain;">
+  </div>
+
+      <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
+          <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+            ${point.name}
+          </div>
+          <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777;  text-align: center; overflow: hidden;">
+            ${point.description}
+          </div>
+        </div>
+  
+       <div class="card-footer">
+          <div class="card-footer-item" style="
+            font-size: 0.8em; 
+            color: #6A515E; 
+            display: flex; 
+            flex-direction: column; 
+            margin-left: 1vh; 
+            margin-right: 1vh; 
+            justify-content: center; 
+            align-items: center;">
+      
+          <!-- Naslov "Address" -->
+          <p style="font-weight: bold; margin-bottom: 0.5em;">Address</p>
+          
+          <!-- Prikaz adrese -->
+          <p style="margin: 0; text-align: center;">${address || 'Loading address...'}</p>
+        </div>
+      </div>
+    </div>`;
+    this.currentMarker.bindPopup(popupContent).openPopup();
   }
 
 
@@ -429,21 +482,68 @@ export class MapComponent {
     });
   }
 
-  private plotKeyPoints(): void {
+  getImage(image: string)
+  {
+    return environment.webroot + image;
+  }
+
+  private async plotKeyPoints(): Promise<void> {
     console.log('Selected Tour Points:', this.selectedTourPoints);
     // Clear existing markers if re-plotting is needed
     this.selectedTourPointsMarkers.forEach(marker => this.map.removeLayer(marker));
     this.selectedTourPointsMarkers = [];
 
     if (this.selectedTourPoints && this.selectedTourPoints.length > 0) {
-      this.selectedTourPoints.forEach(point => {
+      this.selectedTourPoints.forEach(async point => {
         const marker = L.marker([point.latitude, point.longitude], {icon: this.keypointIcon})
-          .addTo(this.map)
-          .bindPopup(`<strong>${point.name}</strong>`);
-        this.selectedTourPointsMarkers.push(marker);
-        console.log(`Marker added for: ${point.name} at [${point.latitude}, ${point.longitude}]`);
+          .addTo(this.map);
 
+          
+          const address = await this.getAddress(point.latitude, point.longitude);
+
+          // Bind popup content without immediately opening it
+          const popupContent = `
+  <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
+    <div class="imgContainer" style="width: 100%; height: 130px; overflow: hidden;">
+      <img src="${this.getImage(point.image)}" alt="Item Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+    </div>
+
+    <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
+        <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+          ${point.name}
+        </div>
+        <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777;  text-align: center; overflow: hidden;">
+          ${point.description}
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="card-footer-item" style="font-size: 0.8em; color: #6A515E; display: flex; margin-left: 1vh; margin-right: 1vh; justify-content: center;">
+          <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+
+
+    
+          // Use mouseover and mouseout events to show/hide the popup
+          marker.on('mouseover', () => {
+            marker.bindPopup(popupContent).openPopup();
+          });
+    
+          marker.on('mouseout', () => {
+            marker.closePopup();
+          });
+        this.selectedTourPointsMarkers.push(marker);
+        
+
+        
       });
+      
+      
       this.setRoute(this.selectedTourPoints)
     } else {
       console.warn('No key points available to plot.');
@@ -455,6 +555,32 @@ export class MapComponent {
   refreshPage():void{
     window.location.reload();
   }
+
+  private async getAddress(latitude: number, longitude: number): Promise<string> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+      );
+      const data = await response.json();
+  
+      // Extract the house number and street
+      const { house_number, road } = data.address || {};
+  
+      // Format the address with street and house number
+      if (road && house_number) {
+        return `${road} ${house_number} `;
+      } else if (road) {
+        return `${road}`;
+      } else {
+        return 'Address not found';
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
+      return 'Error fetching address';
+    }
+  }
+  
+  
 
   
 

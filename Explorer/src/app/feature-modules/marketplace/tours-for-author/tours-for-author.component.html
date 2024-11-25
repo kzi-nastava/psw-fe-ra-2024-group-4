@@ -1,49 +1,79 @@
-<div id="equipment">
+
+<div class="main-container">
+<div class="top-container">
     <header><h1>Tours</h1></header>
-
-    <div id="equipment-details">
-        <div class="card-container" >
-            <div *ngFor="let tr of tours" class="global-card" >
-                <header><h3>{{ tr.name }}</h3></header>
-                <p><strong>Description:</strong> {{ tr.description }}</p>
-                <p><strong>Difficulty:</strong> {{ tr.difficulty }}</p>
-                <p><strong>Price:</strong> ${{ tr.price }}</p>
-                <p><strong>Status:</strong> 
-                    {{ 
-                        tr.status === 0 ? 'Draft' : 
-                        tr.status === 1 ? 'Published' : 
-                        tr.status === 2 ? 'Archived' : 
-                        '-' 
-                    }}
-                </p>
-                <p><strong>Length in km:</strong> {{ tr.lengthInKm | number: '1.2-2' }}</p>
-                <p><strong>Tags:</strong> {{ getTagNames(tr.tags).join(', ') }}</p>
+<div class="content-container">
+    
+    <div class="center-container">
+        <div class="cards">
+            <div class="card" *ngFor="let t of tours">
+                <img [src]="'assets/images/tag' + (t.tags[0] + 1) + '.jpg'" class="card-image">
                 
-                <div class="card-actions">
-                    <ng-container *ngIf="tr.status === 2; else archiveButton">
-                        <button mat-icon-button color="primary" 
-                            (click)="reactivateTour(tr)">
-                            <mat-icon>replay</mat-icon> 
-                        </button>
-                    </ng-container>
-                    <ng-template #archiveButton>
-                        <button mat-icon-button color="primary" 
-                            [disabled]="tr.status !== 1"
-                            (click)="archiveTour(tr)">
-                            <mat-icon>archive</mat-icon> 
-                        </button>
-                    </ng-template>
-                    <button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button>
+                
+                <div class="card-overlay">
+                    <div class="card-header">
+
+                        <div class="card-header-text">
+                            <div class="card-title">{{ t.name }}</div>
+                            <div class="card-status">Difficulty: {{ t.difficulty }}</div>
+                            <div class="card-status">Length: {{ t.lengthInKm | number: '1.2-2'}}km</div>
+                            <span class="card-status" *ngIf="t.status === 0">Status: Draft</span>
+                            <span class="card-status" *ngIf="t.status === 1">Status: Published</span>
+                            <span class="card-status" *ngIf="t.status === 2">Status: Archived</span>
+
+                        </div>
+                        <div class="card-button-container">
+                            
+                                <ng-container *ngIf="t.status === 2; else archiveButton">
+                                    <button mat-icon-button class="card-bottom-button" 
+                                        (click)="reactivateTour(t)">
+                                        <mat-icon>replay</mat-icon> 
+                                    </button>
+                                </ng-container>
+                                <ng-template #archiveButton>
+                                    <button mat-icon-button class="card-bottom-button"
+                                        [disabled]="t.status !== 1"
+                                        (click)="archiveTour(t)">
+                                        <mat-icon>archive</mat-icon> 
+                                    </button>
+                                </ng-template>
+                            <button mat-raised-button class="card-bottom-button" (click)="viewTourDetails(t)">View</button>
+                        
+                    
+                    </div>
+
+
+                    </div>
+                    <div class="card-footer">
+                        <!--<div class="card-footer-description">{{t.tourDescription}}</div>
+                    -->
+                        <div>
+                            <mat-card-subtitle>
+                                <span *ngFor="let tag of getTagNames(t.tags); let isFirst = first">
+                                    <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
+                                </span>
+                            </mat-card-subtitle>
+                        </div>
+                        <div class="card-footer-description">Price: ${{t.price}}</div>
+                        <div class="card-footer-description">{{t.description}}</div>
+                    </div>
+
                 </div>
-            </div>
+                
+                
         </div>
-
-
     </div>
-
-    <div class="tourDetails">
-        <xp-tour-details *ngIf="shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" 
-                         [tour]="selectedTour" [tourKeypoints]="selectedKeypoints" (distanceChanged)="onDistanceChanged($event)" >
-        </xp-tour-details>
-    </div>
+    
+        <div class="chat-container">
+            <a (mouseenter)="toggleChat(true)" 
+            (mouseleave)="toggleChat(false)" class="fixed-circle">
+              ? 
+            </a>
+          
+            <div *ngIf="isChatOpen" class="chat-box">
+              <p>{{chatMessage}}</p>
+            </div>
+          </div>
+    
+</div>
 </div>

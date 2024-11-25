@@ -11,9 +11,13 @@ import { TourReviewsComponent } from './tour-reviews/tour-reviews.component';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatError } from '@angular/material/form-field';
 import { ProblemTicketComponent } from './problem-ticket/problem-ticket.component';
-
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [ToursForAuthorComponent, KeypointDialogComponent, ProblemComponent,ProblemFormComponent, TourReviewsComponent, TourReviewFormComponent, ProblemTicketComponent], 
@@ -24,7 +28,13 @@ import { ProblemTicketComponent } from './problem-ticket/problem-ticket.componen
     TourAuthoringModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatChipsModule,
+    MatCardModule,
+    MatSelectModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [
     ToursForAuthorComponent,

@@ -1,0 +1,50 @@
+
+    <div class="tour-details-container">
+      
+
+      <div class="tour-info-left">
+        <h2 style="font-family: 'Poppins', sans-serif;">Tour Information:</h2>
+        <p><strong>Name:</strong> {{ tour.name }}</p>
+        <p><strong>Description:</strong> {{ tour.description }}</p>
+        <p><strong>Difficulty:</strong> {{ tour.difficulty }}</p>
+                <p><strong>Status:</strong> 
+                    {{ 
+                        tour.status === 0 ? 'Draft' : 
+                        tour.status === 1 ? 'Published' : 
+                        tour.status === 2 ? 'Archived' : 
+                        '-' 
+                    }}
+                </p>
+                <p><strong>Length in km:</strong> {{ tour.lengthInKm | number: '1.2-2' }}</p>
+
+      </div>
+  
+      <div class="tour-map-right">
+        <div class="form-div">
+          <xp-keypoint-form
+            [tourKeyPoints]="keyPoints"
+            (tourUpdated)="notifyKeypointAdded($event)"
+            *ngIf="shouldCreateNew"
+            [tourToAdd]="tour"
+            [shouldAddKeypoint]="shouldAddKeypoint"
+            (tourUpdated)="notifyTourUpdated()"
+            [registerObjRoute]="registerObjRoute">
+          </xp-keypoint-form>
+        </div>
+  
+        <div class="map-container">
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <a (mouseenter)="toggleChat(true)" 
+        (mouseleave)="toggleChat(false)" class="fixed-circle">
+          ? 
+        </a>
+      
+        <div *ngIf="isChatOpen" class="chat-box">
+          <p>{{chatMessage}}</p>
+        </div>
+      </div>
+  
+    </div>

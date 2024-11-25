@@ -1,17 +1,46 @@
 
-    <div class="cart-container">
-        <button mat-icon-button color="primary" (click)="openCart(shoppingCart.id || -1)" [matBadge]="cartItemCount$ | async" matBadgeColor="warn">
-            <mat-icon>shopping_cart</mat-icon>
-          </button>
+<div class="cart-container">
+    <button mat-icon-button color="primary" 
+            (click)="openCart(shoppingCart.id || -1)" 
+            [matBadge]="cartItemCount$ | async" 
+            matBadgeColor="warn"
+            (mouseenter)="showCartPreview()" 
+            (mouseleave)="hideCartPreview()">
+        <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <div *ngIf="isCartPreviewVisible" class="cart-preview">
+        <div *ngFor="let item of shoppingCart.items" class="cart-item-preview">
+            <div class="cart-item">
+                <img [src]="'assets/images/tag' + ((item.tourDetails?.tags?.[0] ?? 0) + 1) + '.jpg'" class="card-image-preview">
+                <div class="tour-info">
+                    <div class="tour-name">{{ item.tourName }}</div>
+                    <div class="tour-price">Price: {{ item.price | currency }}</div>
+                    <div class="tags-container">
+                        <span *ngFor="let tag of item.tourDetails?.tags" class="tag">{{tag}} </span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div *ngIf="shoppingCart.items.length === 0">No items in cart</div>
+        <div *ngIf="shoppingCart.items.length > 0">
+            <hr class="divider">
+            <strong class="price-total">Total: {{ totalPrice | currency }}</strong>
+        </div>
+
     </div>
+</div>
+
+
+      
   
 <div class="main-container">
+    <div *ngIf="shouldDisplayKeypoint" class="map-container" >
+        <xp-map-for-tour class="map-keypoint" [tourOverview]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
+    </div>
     <div class="top-container">
-        <h1>Tours</h1>
-
-        <div class="overlay" *ngIf="shouldDisplayKeypoint" class="map-container" >
-            <xp-map-for-tour class="map-keypoint" [tourOverview]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
-        </div>
+        <header><h1>Tours</h1></header>
     </div>
     <div class="content-container">
         <div class="left-side-container">
@@ -21,9 +50,10 @@
         <div class="center-container">
             <div class="cards">
                 <div class="card" *ngFor="let t of tours">
-                    <img src="https://live.staticflickr.com/4028/4657831272_425d20fea7_b.jpg" class="card-image">
-                    
-                    
+                    <img 
+  [src]="'assets/images/tag' + (getTagNumber(t.tags[0]) + 1) + '.jpg'" 
+  class="card-image"
+>                    
                     <div class="card-overlay">
                         <div class="card-header">
     
@@ -54,10 +84,7 @@
                     </div>
                     
                     <div class="card-button-container">
-                    <button class="card-bottom-button1" *ngIf="tourExecutions.get(t.tourId)?.status === null && !isActive" (click)="startTour(t.tourId)">START TOUR</button>
-                    <button class="card-bottom-button"  *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)">COMPLETE TOUR</button>
-                    <button class="card-bottom-button1"  *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" >ABANDON TOUR</button>
-                    <button class="card-bottom-button2" (click)="openReviews(t.tourId)">SEE REVIEWS</button>
+                    <button class="card-bottom-button2" (click)="openReviews(t.tourId)">See reviews</button>
                     <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
                     <button class="card-bottom-button4" (click)="reportProblem(t.tourId)">Report Problem</button>
                     <button class="card-bottom-button5" (click)="showKeypoint(t)">VIEW<br/>MAP</button>

@@ -41,6 +41,8 @@ export class CreateTourComponent  implements OnChanges {
   .map((tag, index) => ({ index, label: tag }));
   error_message = '';
   currentTags: number[] = [];
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Fill in all fields, add tags, and create a new tour.'; 
 
 
   constructor(private service: TourService, private authService: AuthService, private router: Router) {
@@ -63,11 +65,17 @@ export class CreateTourComponent  implements OnChanges {
     name: new FormControl('', [Validators.required]),
     difficulty: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    tags: new FormControl<number[]>([])
+    tags: new FormControl<number[]>([]),
+    price: new FormControl(0, [
+      Validators.required,
+      Validators.min(0.01) // Optional: Ensure price is greater than 0
+    ])
+    
   });
 
   addTour(): void {
-    if(this.user!== null && this.user?.role === 'author' && this.tourForm.value.name!=='' && this.tourForm.value.description!==''&& this.tourForm.value.difficulty!=='')
+    console.log(this.tourForm.value.price);
+    if(this.user!== null && this.user?.role === 'author'&& this.tourForm.value.price!>0 && this.tourForm.value.name!=='' && this.tourForm.value.description!==''&& this.tourForm.value.difficulty!=='')
     {
       if(this.currentTags.length === 0)
       {
@@ -82,7 +90,7 @@ export class CreateTourComponent  implements OnChanges {
       difficulty: this.tourForm.value.difficulty || "",
       tags: this.tourForm.value.tags || [],
       status: 0,
-      price: 0,
+      price: this.tourForm.value.price || 0,
       userId: this.user.id,
       lengthInKm: 0,
       publishedTime: undefined,
@@ -111,5 +119,8 @@ export class CreateTourComponent  implements OnChanges {
     }
     this.tourForm.get('tags')?.setValue(this.currentTags);
 
+  }
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
 }
