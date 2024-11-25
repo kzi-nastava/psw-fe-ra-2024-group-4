@@ -46,4 +46,19 @@ export class EncounterServiceService {
     );
 }
 
+  activateEncounter(encounterId: number, latitude: number, longitude: number): Observable<Encounter> {
+    const url = `${environment.apiHost}encounters/${encounterId}/activate`;
+    const body = { latitude, longitude };
+
+    console.log("Sending activation request:", { encounterId, latitude, longitude });
+
+    return this.http.post<{ value: Encounter }>(url, body).pipe(
+        map((response) => {
+            console.log("Response from server (activateEncounter):", response);
+            return response.value;
+        })
+    );
+  }
+
+
 }

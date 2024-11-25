@@ -32,6 +32,7 @@ export class EncounterComponent {
   }
   */
   encounter: Encounter | null = null;
+  activationSuccess = false;
 
   constructor(private service: EncounterServiceService, 
     @Inject(MAT_DIALOG_DATA) public keyPoint: KeyPoint,
@@ -57,7 +58,26 @@ export class EncounterComponent {
   closeDialog(): void {
     this.dialogRef.close(!!this.encounter);
   }
+  
   activateEncounter(): void {
+    if (!this.encounter) {
+      console.error("No encounter to activate.");
+      return;
+    }
 
+    this.service.activateEncounter(
+      this.encounter.id,
+      this.keyPoint.latitude,
+      this.keyPoint.longitude
+    ).subscribe({
+      next: (updatedEncounter) => {
+        console.log("Encounter successfully activated:", updatedEncounter);
+        this.activationSuccess = true; 
+        this.encounter = updatedEncounter; 
+      },
+      error: (err) => {
+        console.error("Error activating encounter:", err);
+      }
+    });
   }
 }
