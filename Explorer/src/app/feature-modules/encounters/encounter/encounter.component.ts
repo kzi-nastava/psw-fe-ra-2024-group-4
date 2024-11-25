@@ -3,6 +3,7 @@ import { Encounter ,EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDat
 import { EncounterServiceService } from '../encounter.service.service';
 import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-encounter',
@@ -20,13 +21,13 @@ export class EncounterComponent {
     longitude: 45,     
     xp: 100,        
     status: EncounterStatus.Archived,    
-    type: EncounterType.Social,  
+    type: EncounterType.HiddenLocation,  
     data: null,                  
-    socialData: {
-      requiredParticipants: 10,
-      radius: 10
-    } , 
-    hiddenLocationData:  null, 
+    socialData: null , 
+    hiddenLocationData:  {
+      imageUrl: "images/keypoints/2974ca10-051c-4898-bd43-89b2680f4bb6.png",
+      activationRadius: 15
+    }, 
     miscData:  null,
 
   }
@@ -42,6 +43,7 @@ export class EncounterComponent {
   }
 
   ngOnInit(): void {
+    
     console.log("KeyPoint data provided to dialog:", this.keyPoint);
     this.service.GetByLatLong(this.keyPoint.latitude, this.keyPoint.longitude).subscribe({
       next: (encounter) => {
@@ -79,5 +81,10 @@ export class EncounterComponent {
         console.error("Error activating encounter:", err);
       }
     });
+  }
+
+  getImage(image: String | undefined)
+  {
+    return environment.webroot + image;
   }
 }
