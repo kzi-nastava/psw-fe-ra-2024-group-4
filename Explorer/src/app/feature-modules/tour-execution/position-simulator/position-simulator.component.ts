@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { CartService } from '../../payments/cart-overview.service';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
+import { EncounterServiceService } from '../../encounters/encounter.service.service';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -42,7 +43,7 @@ export class PositionSimulatorComponent implements OnInit {
   
 
   constructor(private service: TourExecutionService, private authService: AuthService, 
-    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService,private dialog: MatDialog){}
+    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService, private dialog: MatDialog){}
 
 
   ngOnInit(): void {
@@ -103,6 +104,7 @@ export class PositionSimulatorComponent implements OnInit {
         this.currentPosition = position;
         console.log('Current Position:', this.currentPosition);
         this.checkProximityToKeyPoints(); 
+        this.checkProximityToChallenges(); 
       } else {
         this.currentPosition = { latitude: 0, longitude: 0, touristId: this.user.id }; 
         console.error('Current position is undefined. Setting to default values.');
@@ -151,6 +153,57 @@ export class PositionSimulatorComponent implements OnInit {
       }
     });
 } 
+
+checkProximityToChallenges(): void {
+  if (!this.currentPosition) {
+      console.error('Invalid current position:', this.currentPosition);
+      return;
+  }
+
+  if (!this.selectedTourPoints.length) {
+      console.error('No selected tour points:', this.selectedTourPoints);
+      return;
+  }
+
+  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
+
+  this.selectedTourPoints.forEach(keyPoint => {
+      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
+          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
+          const distance = currentLatLng.distanceTo(keyPointLatLng);
+
+          if (distance < 50 && keyPoint.id !== undefined) {
+              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              this.completeChallenge(keyPoint);
+          }
+      } else {
+          console.error('Invalid key point data:', keyPoint);
+      }
+  });
+}
+
+completeChallenge(keyPoint: KeyPoint): void {
+  if (keyPoint.id !== undefined) {
+    this.encounterService.completeEncounter(keyPoint.id).subscribe({
+      next: (updatedEncounter) => {
+        console.log(`Challenge completed for key point: ${keyPoint.name}`);
+        Swal.fire({
+          title: 'Challenge Completed!',
+          text: `You have completed the challenge at: ${keyPoint.name}`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      },
+      error: (err) => {
+        console.error('Error completing challenge:', err);
+      }
+    });
+  } else {
+    console.error('KeyPoint ID is undefined, cannot complete challenge.');
+  }
+}
+
+
 
 updateLastActivity(executionId: number): void {
   this.service.updateLastActivity(executionId).subscribe({

@@ -60,5 +60,17 @@ export class EncounterServiceService {
     );
   }
 
+  completeEncounter(encounterId: number): Observable<Encounter> {
+    const url = `${environment.apiHost}encounters/${encounterId}/complete`;
+  
+    console.log("Sending completion request:", { encounterId });
+  
+    return this.http.post<{ value: Encounter }>(url, {}).pipe(
+      map((response) => {
+        console.log("Response from server (completeEncounter):", response);
+        return response.value;
+      })
+    );
+  }
 
 }
