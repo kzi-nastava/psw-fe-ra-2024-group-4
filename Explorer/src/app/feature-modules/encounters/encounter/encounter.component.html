@@ -1,0 +1,35 @@
+<div mat-dialog-content>
+  <ng-container *ngIf="activationSuccess; else encounterContent">
+    <p>Encounter successfully activated!</p>
+  </ng-container>
+  <ng-template #encounterContent>
+  <ng-container *ngIf="encounter; else noEncounter">
+    <label>{{ encounter.title }}</label>
+    <mat-label>{{ encounter.description }}</mat-label>
+    <mat-label>{{ encounter.xp }}</mat-label>
+    <mat-label>{{ encounter.status }}</mat-label>
+    <mat-label>{{ encounter.type }}</mat-label>
+  
+    <div *ngIf="encounter.type === 'Social'">
+      <mat-label>Required Participants: {{ encounter.socialData?.requiredParticipants }}</mat-label>
+      <mat-label>Radius: {{ encounter.socialData?.radius }}</mat-label>
+    </div>
+  
+    <div *ngIf="encounter.type === 'HiddenLocation'">
+      <mat-label>Image URL: {{ encounter.hiddenLocationData?.imageUrl }}</mat-label>
+      <mat-label>Activation Radius: {{ encounter.hiddenLocationData?.activationRadius }}</mat-label>
+    </div>
+  
+    <div *ngIf="encounter.type === 'Misc'">
+      <mat-label>Action Description: {{ encounter.miscData?.actionDescription }}</mat-label>
+    </div>
+  </ng-container>
+  <ng-template #noEncounter>
+    <p>Encounter does not exist for this location.</p>
+  </ng-template>
+</ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-button *ngIf="encounter" (click)="activateEncounter()">Activate</button>
+  <button mat-button (click)="closeDialog()">Close</button>
+</div>

@@ -36,7 +36,6 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     PublicStatusRequestComponent,
     NotificationsComponent,
     ClubMembersComponent,
-
   ],
   imports: [
     CommonModule,

@@ -17,6 +17,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
+import { Router } from '@angular/router';
 
 
 
@@ -54,8 +55,10 @@ export class MapComponent {
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+   
   
    user: User;
+   
   
 
    private map: any;
@@ -87,7 +90,8 @@ export class MapComponent {
   });
 
 
-   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
 
 
    
@@ -149,6 +153,7 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
+
     
     
    /* let DefaultIcon = L.icon({
@@ -232,6 +237,10 @@ export class MapComponent {
         }
         if (changes['objects']) {
             this.plotExistingObjects(); 
+        }
+        if (changes['selectedEncounterPoints']) {
+          console.log("Novi encounter-i za prikaz na mapi:", this.selectedEncounterPoints);
+          this.showEncounterOnMap();
         }
     }
 }
@@ -489,6 +498,7 @@ export class MapComponent {
 
 private async showEncounterOnMap(): Promise<void> {
   console.log("Showing encunters in radius");
+  console.log("Selected Encounter Points:", this.selectedEncounterPoints); 
   this.selectedEncounterMarkers.forEach(marker => this.map.removeLayer(marker));
   this.selectedEncounterMarkers = [];
 

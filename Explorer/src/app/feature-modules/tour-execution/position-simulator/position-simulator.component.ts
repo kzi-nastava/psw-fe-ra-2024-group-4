@@ -10,6 +10,13 @@ import { TourExecution } from '../../tour-authoring/model/tour-execution.model';
 import { CompletedKeys } from '../../tour-authoring/model/tour-execution.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import Swal from 'sweetalert2';
+import { EncounterComponent } from '../../encounters/encounter/encounter.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { CartService } from '../../payments/cart-overview.service';
+import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
+import { EncounterServiceService } from '../../encounters/encounter.service.service';
+import { Encounter } from '../../encounters/model/encounter.model';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -28,8 +35,19 @@ export class PositionSimulatorComponent implements OnInit {
   private userSubscription: Subscription; 
   completedKeyPointIds: Set<number> = new Set()
   completedKeypoint: KeyPoint;
+  tour: Tour;
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'You can put your location on the map to get started.';
 
-  constructor(private service: TourExecutionService, private authService: AuthService, private authorService: TourAuthoringService){}
+  encounters: Encounter[] = [];
+ 
+  
+
+  constructor(private service: TourExecutionService, private authService: AuthService,
+    private authorService: TourAuthoringService, private purchaseService: PurchaseService, 
+    private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService,
+    private dialog: MatDialog){}
+
 
   ngOnInit(): void {
     this.positionSimulatorActivated = true;
@@ -52,6 +70,9 @@ export class PositionSimulatorComponent implements OnInit {
     this.service.getActiveTour(this.user.id).subscribe(tour => {
       if (tour && tour.id) {
         this.tourExecution = tour;
+        this.getTourById(tour.tourId);
+        this.chatMessage = 'Your tour is active! Track your location on the map, and as you approach key points, they will be marked as completed. To finish the tour, ensure you complete the last key point.';
+
         console.log('Tour Execution:', this.tourExecution);
 
         if (!this.tourExecution.completedKeys) {
@@ -72,12 +93,21 @@ export class PositionSimulatorComponent implements OnInit {
     });
   }
 
+  getTourById(tourId: number): void {
+    this.purchaseService.getTour(tourId).subscribe(result => {
+      this.tour = result;
+      console.log(this.tour);
+    })
+
+  }
+
   getCurrentPosition(): void {
     this.service.getPositionByTourist(this.user.id).subscribe(position => {
       if (position && position.latitude !== undefined && position.longitude !== undefined) {
         this.currentPosition = position;
         console.log('Current Position:', this.currentPosition);
         this.checkProximityToKeyPoints(); 
+        this.checkProximityToChallenges(); 
       } else {
         this.currentPosition = { latitude: 0, longitude: 0, touristId: this.user.id }; 
         console.error('Current position is undefined. Setting to default values.');
@@ -127,6 +157,68 @@ export class PositionSimulatorComponent implements OnInit {
     });
 } 
 
+checkProximityToChallenges(): void {
+  if (!this.currentPosition) {
+      console.error('Invalid current position:', this.currentPosition);
+      return;
+  }
+
+  if (!this.selectedTourPoints.length) {
+      console.error('No selected tour points:', this.selectedTourPoints);
+      return;
+  }
+
+  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
+
+  this.selectedTourPoints.forEach(keyPoint => {
+      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
+          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
+          const distance = currentLatLng.distanceTo(keyPointLatLng);
+
+          if (distance < 50 && keyPoint.id !== undefined) {
+              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              this.completeChallenge(keyPoint);
+          }
+      } else {
+          console.error('Invalid key point data:', keyPoint);
+      }
+  });
+
+  
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: ((data) => {
+      this.encounters = data.results;
+      console.log("Encounters prosleđeni u xp-map:", this.encounters);
+    }),
+    error: (err) => {
+      console.error('Error loading tours:', err);
+    }
+  });
+}
+
+completeChallenge(keyPoint: KeyPoint): void {
+  if (keyPoint.id !== undefined) {
+    this.encounterService.completeEncounter(keyPoint.id).subscribe({
+      next: (updatedEncounter) => {
+        console.log(`Challenge completed for key point: ${keyPoint.name}`);
+        Swal.fire({
+          title: 'Challenge Completed!',
+          text: `You have completed the challenge at: ${keyPoint.name}`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      },
+      error: (err) => {
+        console.error('Error completing challenge:', err);
+      }
+    });
+  } else {
+    console.error('KeyPoint ID is undefined, cannot complete challenge.');
+  }
+}
+
+
+
 updateLastActivity(executionId: number): void {
   this.service.updateLastActivity(executionId).subscribe({
       next: (result) => {
@@ -138,6 +230,20 @@ updateLastActivity(executionId: number): void {
   });
 }
 
+showEncounterDialog(keyPoint: KeyPoint): void {
+  const dialogRef = this.dialog.open(EncounterComponent, {
+    width: '400px',
+    data: keyPoint, 
+  });
+
+  dialogRef.afterClosed().subscribe((encounterExists: boolean) => {
+    if (!encounterExists) {
+      console.warn(`Encounter for keyPoint "${keyPoint.name}" does not exist.`);
+    } else {
+      console.log(`Encounter for keyPoint "${keyPoint.name}" exists.`);
+    }
+  });
+}
 
 completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): void { 
   const isCompleted = this.tourExecution.completedKeys?.some(key => key.keyPointId === keyPointId); 
@@ -152,6 +258,7 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
       next: (result) => {
           console.log(`Key Point ${keyPointId} completed for execution ${executionId}`);
           this.showKeypointSecret(keyPoint); 
+          this.showEncounterDialog(keyPoint); 
           const completedKey: CompletedKeys = {
               keyPointId: keyPointId,
               completionTime: new Date()
@@ -163,6 +270,7 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
             const alreadyExists = this.tourExecution.completedKeys.some(key => key.keyPointId === completedKey.keyPointId);
             if (!alreadyExists) {
                 this.tourExecution.completedKeys.push(completedKey);
+                this.FinishTour(completedKey.keyPointId);
                 console.log('Updated Completed Keys:', this.tourExecution.completedKeys); 
             } else {
                 console.warn('Key Point is already recorded as completed:', completedKey);
@@ -236,5 +344,57 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       this.userSubscription.unsubscribe();
     }
   }
+
+  abandonTourExecution(tourExecutionId?: number)
+  {
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+      {
+    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
+      next: (data: TourExecution) => {
+        this.tourExecution = data;
+          
+      },
+      error: (err: any) => {
+          console.error('Error creating execution:', err);
+      }
+  });
+}
+  }
+
+  completeTourExecution(tourExecutionId?: number)
+  {
+    
+    if(tourExecutionId !== null && tourExecutionId !== undefined)
+    {
+      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
+        next: (data: TourExecution) => {
+            
+            this.tourExecution = data;
+        },
+        error: (err) => {
+            console.error('Error creating execution:', err);
+        }
+    });
+    }
+    
+  }
+
+  //pozovi da se tura zavrsi ako je poslednji key point
+  FinishTour(keyPointId?: number) : void {
+    const lastKeyPoint = this.tour.keyPoints[this.tour.keyPoints.length - 1];
+    if(lastKeyPoint.id === keyPointId)
+    {
+      this.completeTourExecution(this.tourExecution.id);
+    }
+
+  }
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+  
+  
+  
+  
 
 }

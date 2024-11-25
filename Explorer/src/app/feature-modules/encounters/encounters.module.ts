@@ -3,17 +3,23 @@ import { CommonModule } from '@angular/common';
 import { AdminEncounterComponent } from './admin-encounter/admin-encounter.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from "src/app/shared/shared.module";
-
-
+import { EncounterComponent } from './encounter/encounter.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
-    AdminEncounterComponent
+    AdminEncounterComponent,
+    EncounterComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDialogModule,
 ]
 })
 export class EncounterModule { }
