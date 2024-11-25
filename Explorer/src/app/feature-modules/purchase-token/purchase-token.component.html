@@ -21,7 +21,10 @@
               <h3 mat-typography>{{ tour.name }}</h3>
               <p>{{ tour.description }}</p>
               <p>Difficulty: {{ tour.difficulty }}</p>
-
+              <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 0">Status: Active</p>
+              <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 1">Status: Completed</p>
+              <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 2">Status: Abandoned</p>
+              <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === null">Status: Not Started</p>
               <div *ngIf="tour.tags?.length; else noTags">
                 <div class="tags-container">
                   <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
@@ -39,10 +42,17 @@
             </div>
           </button>
 
-          <button class="card-bottom-button1" color="accent">
+          <button class="card-bottom-button1" color="accent" *ngIf="tourExecutions.get(tour.id || -1)?.status === null && !isActive" (click)="startTour(tour.id || -1)">
             <div class="icon-text-container">
               <mat-icon>flag</mat-icon>
               <span>START TOUR</span>
+            </div>
+          </button>
+
+          <button class="card-bottom-button1" color="accent" *ngIf="tourExecutions.get(tour.id || -1)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(tour.id || -1)?.id)">
+            <div class="icon-text-container">
+              <mat-icon>flag</mat-icon>
+              <span>ABANDON TOUR</span>
             </div>
           </button>
 

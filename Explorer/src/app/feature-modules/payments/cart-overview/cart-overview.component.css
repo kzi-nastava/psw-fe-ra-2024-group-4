@@ -11,9 +11,8 @@
 
 /* Lista tura */
 .cart-items-scroll {
-  flex: 1;
+  
   overflow-y: auto; /* Omogućava skrolovanje samo tura */
-  padding: 0%;
   margin-bottom: 60px; /* Prostor da ne "pređe" preko footera */
   width: 100%; /* Širina se širi */
   display: flex;

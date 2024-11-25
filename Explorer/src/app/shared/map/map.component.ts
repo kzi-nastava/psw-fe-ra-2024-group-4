@@ -17,6 +17,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
+import { Router } from '@angular/router';
 
 
 
@@ -54,8 +55,10 @@ export class MapComponent {
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+   
   
    user: User;
+   
   
 
    private map: any;
@@ -87,7 +90,8 @@ export class MapComponent {
   });
 
 
-   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
 
 
    
@@ -149,6 +153,7 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
+
     
     
    /* let DefaultIcon = L.icon({
