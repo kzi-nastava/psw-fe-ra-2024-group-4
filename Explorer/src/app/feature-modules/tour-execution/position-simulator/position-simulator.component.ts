@@ -415,6 +415,7 @@ showKeypointSecret(keyPoint: KeyPoint): void {
   ngOnDestroy(): void {
     if (this.positionUpdateInterval) {
       clearInterval(this.positionUpdateInterval);
+      this.positionUpdateInterval = null;
     }
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
