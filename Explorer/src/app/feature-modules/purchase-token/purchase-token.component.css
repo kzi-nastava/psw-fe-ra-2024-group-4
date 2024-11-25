@@ -1,79 +1,253 @@
-/* Svi containeri za ture */
-.tour-card-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Razmak između kartica */
-    max-width: 800px; /* Smanjena maksimalna širina */
-    margin: 0 auto; /* Centriraj container */
-    padding: 20px;
-  }
-  
-  /* Stil za karticu ture */
-  .tour-card {
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 500px; /* Ograničena širina kartice */
-    margin: 0 auto; /* Centriraj karticu */
-  }
-  
-  /* Hover efekat za karticu ture */
-  .tour-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Naslov ture (centrirano ime ture) */
-  .tour-card h2 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center; /* Centriraj ime ture */
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  /* Opis ture */
-  .tour-card p {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: #666;
-    text-align: left; /* Poravnaj levo */
-    margin-left: 30px;
-  }
-  
-  /* Cena ture */
-  .tour-card p.price {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #2ecc71; /* Zelena za cenu */
-    text-align: left; /* Poravnaj levo */
-    margin-left: 30px;
-  }
-  
-  /* Razlikovanje tagova */
-  .tour-tag {
-    background-color: #3498db; /* Plava pozadina za tag */
-    color: white;
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    border-radius: 16px;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    display: inline-block;
-    margin-left: 30px;
-  }
-  
-  /* Stil za razmak između tagova */
-  .tour-card .tour-tag:last-child {
-    margin-right: 0;
-  }
 
-  /*masa dodala*/
-  .right-button {
-    margin-left: 200px;
-  }
+/* General container for the tours */
+.tour-container {
+  margin: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Cela visina prozora */
   
+}
+
+.tour-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+h3 {
+  font-size: 20px;               /* Veća veličina fonta za isticanje */
+  font-weight: 600;              /* Podebljan font */
+  color: #666;                   /* Tamna boja teksta */
+  margin-bottom: 12px;           /* Razmak ispod naslova */
+  text-transform: uppercase;     /* Sve velike slova za naslov */
+  letter-spacing: 1px;           /* Prostor između slova */
+}
+
+p {
+  font-size: 16px;               /* Manji font za opis */
+  color: #666;                   /* Svedena, svetlija boja teksta */
+  margin-bottom: 8px;            /* Razmak između paragrafa */
+  line-height: 1.6;              /* Povećanje visine linije za lakše čitanje */
+}
+
+.tours-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* Individual tour card */
+.tour-card {
+  width: 360px; /* Manja širina kartica */
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-bottom: 20px;
+  justify-content: flex-start; /* Razmak između elemenata unutar kartice */
+  position: relative; /* Obezbeđuje da se pozicionirani elementi mogu smestiti unutar kartice */
+  padding: 0;
+  box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3);
+}
+
+.tour-item{
+  border-radius: 40px;
+}
+
+.tour-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Card image */
+.card-image {
+  width: 100%;
+  height: 250px; /* Definišite visinu slike */
+  object-fit: cover; /* Slika pokriva prostor kartice */
+  border-radius: calc(40*1px) ;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Tour details section */
+.tour-details {
+  display: flex;
+  flex-direction: column; /* Stavi elemente vertikalno */
+  justify-content: flex-start;
+  padding: 10px;
+  background-color: white;
+  position: relative;
+  margin-top: 235px; /* Razmak između slike i informacija */
+  z-index: 1;
+}
+
+.tour-info-left h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.tour-info-left p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.tour-tag {
+  background-color: #e0e0e0; 
+  color : #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin: 5px 5px 5px 0;
+  display: inline-block;
+}
+
+.noTags p {
+  color: #999;
+  font-size: 14px;
+}
+
+/* Button for viewing map */
+.view-map-button {
+  display: flex; /* Omogućava flexbox */
+  align-items: center; /* Vertikalno poravnava sadržaj */
+  justify-content: center; /* Horizontalno centriranje unutar dugmeta */
+  width: auto;
+  height: auto;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  gap: 3px; /* Razmak između ikone i teksta */
+  width: 78px;
+}
+
+.icon-text-container {
+  display: flex; /* Flexbox za ikonu i tekst */
+  align-items: center; /* Vertikalno poravnava ikonu i tekst */
+}
+
+mat-icon {
+  font-size: 16px; /* Postavi veličinu ikone */
+  line-height: 1; /* Uklanja dodatni prostor oko ikone */
+}
+
+/* General button styling */
+.card-bottom-button1 {
+  display: flex; /* Flexbox za ikonu i tekst */
+  align-items: center; /* Vertikalno poravnanje */
+  justify-content: center; /* Horizontalno centriranje */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  gap: 3px; /* Razmak između ikone i teksta */
+  transition: background-color 0.3s ease;
+  width: 78px;
+}
+
+/* Hover efekat */
+.card-bottom-button1:hover {
+  background-color: #303f9f;
+}
+
+/* Flexbox container for icon and text */
+.icon-text-container {
+  display: flex; /* Flexbox za ikonicu i tekst */
+  align-items: center; /* Vertikalno poravnanje */
+}
+
+/* Ikonica zastave */
+.card-bottom-button1 mat-icon {
+  font-size: 16px; /* Veličina ikone */
+  line-height: 1; /* Uklanja dodatni prostor oko ikone */
+}
+
+.button-group {
+  display: flex; /* Postavlja elemente u horizontalnu liniju */
+
+  align-items: center; /* Poravnava elemente vertikalno */
+  gap: 3px; /* Razmak između dugmića */
+  margin-top: 15px;
+  margin-left: -5px;
+}
+
+.button-group button {
+  flex-shrink: 0; /* Sprečava smanjivanje dugmića ako nema dovoljno prostora */
+}
+
+.fixed-circle {
+  position: fixed;
+  bottom: 7vh;
+  right: 8vh;
+  width: 10vh;
+  height: 10vh;
+  background-color: rgb(192, 153, 218);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 9999; 
+  color: white; 
+  font-size: 5vh; 
+  font-weight: bold;
+}
+
+.fixed-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
+.chat-box {
+  position: fixed;
+  bottom: 21vh; 
+  right: 7vh;
+  width: 200px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  border-width: #4b464a;
+  border-width: 5px;
+  border: 1px solid #ef7ad9;
+  z-index: 9999;
+}
+
+.chat-box::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 4vh;
+  width: 4vh;
+  height: 4vh;
+  background-color: #fff;
+  border-left: 1px solid #ef7ad9;
+  border-bottom: 1px solid #ef7ad9;
+  transform: rotate(-45deg);
+}
+
+.swal2-confirm-button {
+  background-color: #6a51fe;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.swal2-cancel-button {
+  background-color: #f1f1f1;
+  color: #333;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+

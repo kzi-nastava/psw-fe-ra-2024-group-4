@@ -33,5 +33,9 @@ export class EncounterServiceService {
       map((response) => response.value) // Ekstrahuj `value` koji sadrži `results` i `totalCount`
     );
   }
-  
+
+  GetByLatLong(latitude: number, longitude: number): Observable<Encounter> {
+    const params = { latitude: latitude.toString(), longitude: longitude.toString() };
+    return this.http.get<Encounter>(`${environment.apiHost}encounters`, { params });
+  }
 }
