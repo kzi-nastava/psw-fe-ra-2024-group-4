@@ -4,4 +4,5 @@ export interface ClubInvitation{
     memberId: number;
     clubId: number;
     status: number;
+    username? : string;
 }

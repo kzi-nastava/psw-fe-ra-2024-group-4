@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Equipment } from './model/equipment.model';
 import { AppReview } from './model/appreview.model';
 import { environment } from 'src/env/environment';
-import { Observable } from 'rxjs';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ClubJoinRequest } from './model/club-join-request.model';
 import { Member } from './model/member.model';
@@ -13,6 +13,7 @@ import { Account } from './model/account.model';
 import { KeyPoint } from '../tour-authoring/model/keypoint.model';
 import { TourObject } from '../tour-authoring/model/object.model';
 import { Notification } from './model/notifications.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 
 @Injectable({
@@ -39,16 +40,113 @@ export class AdministrationService {
   }
 
 
-  getMembers(clubId: number): Observable<Member[]> {
+  // getMembers(clubId: number): Observable<Member[]> {
     
-    return this.http.get<Member[]>(`https://localhost:44333/api/club/active-users/${clubId}`);
+  //   return this.http.get<Member[]>(`https://localhost:44333/api/club/active-users/${clubId}`);
 
+  // }
+
+  getMembers(clubId: number): Observable<Member[]> {
+    // Prvo uzimamo sve članove
+    return this.http.get<Member[]>(`https://localhost:44333/api/club/active-users/${clubId}`).pipe(
+      // Zatim za svakog člana pozivamo 'getPersonId', pa zatim 'person' podatke
+      switchMap(members => {
+        // Za svakog člana prvo pozivamo getPersonId
+        const personRequests = members.map(member => 
+          this.getPersonId(member.id).pipe(
+            switchMap(personId => {
+              // Kada dobijemo personId, pozivamo 'person' API
+              return this.http.get<any>(`${environment.apiHost}tourist/person/${personId}`).pipe(
+                map(personData => {
+                  // Vraćamo kompletan objekat member sa podacima iz 'person'
+                  return {
+                    ...member,  // postojeći podaci o članu
+                    name: personData.name,
+                    surname: personData.surname,
+                    email: personData.email,
+                    imageUrl: personData.imageUrl,
+                    biography: personData.biography,
+                    motto: personData.motto
+                  };
+                })
+              );
+            })
+          )
+        );
+        // Paralelno pozivanje svih 'person' podataka
+        return forkJoin(personRequests);
+      })
+    );
   }
+
   getMembersForInvite(clubId: number): Observable<Member[]> {
    
-   return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/eligible-users`);
+   return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/eligible-users`).pipe(
+    // Zatim za svakog člana pozivamo 'getPersonId', pa zatim 'person' podatke
+    switchMap(members => {
+      // Za svakog člana prvo pozivamo getPersonId
+      const personRequests = members.map(member => 
+        this.getPersonId(member.id).pipe(
+          switchMap(personId => {
+            // Kada dobijemo personId, pozivamo 'person' API
+            return this.http.get<any>(`${environment.apiHost}tourist/person/${personId}`).pipe(
+              map(personData => {
+                // Vraćamo kompletan objekat member sa podacima iz 'person'
+                return {
+                  ...member,  // postojeći podaci o članu
+                  name: personData.name,
+                  surname: personData.surname,
+                  email: personData.email,
+                  imageUrl: personData.imageUrl,
+                  biography: personData.biography,
+                  motto: personData.motto
+                };
+              })
+            );
+          })
+        )
+      );
+      // Paralelno pozivanje svih 'person' podataka
+      return forkJoin(personRequests);
+    })
+  );
 
   }
+
+  getMembersOutClub(clubId: number): Observable<Member[]> {
+   
+    return this.http.get<Member[]>(`https://localhost:44333/api/club/${clubId}/out-club-users`).pipe(
+     // Zatim za svakog člana pozivamo 'getPersonId', pa zatim 'person' podatke
+     switchMap(members => {
+       // Za svakog člana prvo pozivamo getPersonId
+       const personRequests = members.map(member => 
+         this.getPersonId(member.id).pipe(
+           switchMap(personId => {
+             // Kada dobijemo personId, pozivamo 'person' API
+             return this.http.get<any>(`${environment.apiHost}tourist/person/${personId}`).pipe(
+               map(personData => {
+                 // Vraćamo kompletan objekat member sa podacima iz 'person'
+                 return {
+                   ...member,  // postojeći podaci o članu
+                   name: personData.name,
+                   surname: personData.surname,
+                   email: personData.email,
+                   imageUrl: personData.imageUrl,
+                   biography: personData.biography,
+                   motto: personData.motto
+                 };
+               })
+             );
+           })
+         )
+       );
+       // Paralelno pozivanje svih 'person' podataka
+       return forkJoin(personRequests);
+     })
+   );
+ 
+   }
+
   sendClubInvitation(invitation: ClubInvitation): Observable<void> {
     return this.http.post<void>(`https://localhost:44333/api/clubInvitation`, invitation);
   }
@@ -94,7 +192,18 @@ export class AdministrationService {
   addMember(memberId: number, clubId: number, userId: number): Observable<void> {
     return this.http.get<void>(`https://localhost:44333/api/club/member/${memberId}/${clubId}/${userId}`);
   }
-
+  getPersonId(userId: number): Observable<number> {
+    return this.http.get<number>(`https://localhost:44333/api/user/${userId}/person-id`);
+  }
+  /*getPerson(id: number): Observable<Person> {
+    return this.http.get<Person>(`${environment.apiHost}api/tourist/person/${id}`);
+  }*/
+  getUsername(id: number): Observable<string> {
+      return this.http.get<string>(`${environment.apiHost}/api/user/${id}`);
+  }
+  getUsernameForClub(id: number): Observable<User> {
+    return this.http.get<User>(`${environment.apiHost}user/${id}`);
+}
   addClub(club:Club):Observable<Club>{
     return this.http.post<Club>(environment.apiHost+'club',club)
   }

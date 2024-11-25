@@ -1,3 +1,4 @@
+
 <div class="cart-container">
     <button mat-icon-button color="primary" 
             (click)="openCart(shoppingCart.id || -1)" 
@@ -27,6 +28,7 @@
             <hr class="divider">
             <strong class="price-total">Total: {{ totalPrice | currency }}</strong>
         </div>
+
     </div>
 </div>
 
@@ -34,12 +36,11 @@
       
   
 <div class="main-container">
+    <div *ngIf="shouldDisplayKeypoint" class="map-container" >
+        <xp-map-for-tour class="map-keypoint" [tourOverview]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
+    </div>
     <div class="top-container">
         <h1>Tours</h1>
-
-        <div class="overlay" *ngIf="shouldDisplayKeypoint" class="map-container" >
-            <xp-map-for-tour class="map-keypoint" [tourOverview]="selectedTour" (onCloseMap)="closeMapForTour()"></xp-map-for-tour>
-        </div>
     </div>
     <div class="content-container">
         <div class="left-side-container">

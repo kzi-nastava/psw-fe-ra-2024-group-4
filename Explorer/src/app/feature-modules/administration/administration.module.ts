@@ -19,6 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { ClubMembersComponent } from './club-members/club-members.component';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { FormsModule } from '@angular/forms';
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    ClubMembersComponent,
 
   ],
   imports: [

@@ -55,7 +55,6 @@ export class TourOverviewDetailsComponent implements OnInit {
                 },
                 error: (err) => {
                   console.error('Error loading username:', err);
-                  alert("AAAAAAAAAAAAAA");
                 }
               })
             },

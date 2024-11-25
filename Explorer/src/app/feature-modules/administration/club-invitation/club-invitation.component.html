@@ -1,1 +1,59 @@
-<p>club-invitation works!</p>
+<main class="full-height-content">
+  
+  <div class="lists-container">
+    <div class="invite-list">
+  <h2 class="heading invite-heading">Invite Members to Join the Club</h2>
+  <p class="description">
+    Select members from the list below to send them an invitation to your club!
+  </p>
+  <div class="member-list" *ngIf="membersForInvite && membersForInvite.length > 0; else noMembersForInvite">
+    <div class="member-card" *ngFor="let memberForInvite of membersForInvite">
+      <div class="member-info">
+        <div class="member-image">
+          <!-- Prikazujemo sliku člana sa malim okvirom -->
+          <img *ngIf="memberForInvite.imageUrl" [src]="getImage(memberForInvite.imageUrl)" alt="Prof  pict" height="30" class="member-avatar" />
+        </div>
+          <span class="username">{{ memberForInvite.username }}</span>
+      
+       
+      </div>
+      <button (click)="sendClubInvitation(memberForInvite.id)" class="btn-invite">
+        <i class="fas fa-user-plus"></i> Invite
+      </button>
+    </div>
+  </div>
+  <ng-template #noMembersForInvite>
+    <p class="no-members">No members found to invite. We`ll let you know when there are more members to invite!</p>
+  </ng-template>
+
+</div>
+
+<div class="processing-list">
+  <h2 class="heading processing-heading">Club Invitations</h2>
+  <p class="description">
+    Below is the list of all invitations with their current status.
+  </p>
+
+  <div class="card-container">
+    <div *ngFor="let invitation of invitations" class="invitation-card">
+      <div class="card-content">
+        
+        <p class="member-name"><strong class="letters">MEMBER:</strong> {{ invitation.username }}</p>
+        <p class="status">
+          <strong class="letters">STATUS: </strong>
+          <span [ngClass]="{
+            'status-processing': invitation.status === 0,
+            'status-accepted': invitation.status === 1,
+            'status-denied': invitation.status === 2
+          }">
+            {{ invitation.status === 0 ? 'PROCESSING' : (invitation.status === 1 ? 'ACCEPTED' : 'DENIED') }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</main>
