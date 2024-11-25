@@ -78,9 +78,15 @@
               Add Coupon for All Tours
             </button>
           </div>
+          <div class="view-all-container">
+            <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
+              View all my coupons
+            </button>
+          </div>
         <div class="overlay" *ngIf="shouldRenderCouponForm"
         (click)="closeCouponForm()">
             <xp-coupon
+            [viewMode]="viewMode"
             [tour]="selectedCouponTour"
             (click)="$event.stopPropagation()"
                 [isForAllTours]="!selectedCouponTour"
@@ -88,6 +94,14 @@
                 (couponCreated)="getTours(user?.id || 0)"
             ></xp-coupon>
         </div>
+        <div class="overlay" *ngIf="shouldRenderCouponView" (click)="closeCouponView()">
+            <xp-coupon-view
+              [authorId]="user?.id" 
+              [tours]="tours" 
+              (click)="$event.stopPropagation()"
+              (close)="closeCouponView()"
+            ></xp-coupon-view>
+          </div>
     </div>
     
     

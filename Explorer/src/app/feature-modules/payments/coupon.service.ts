@@ -19,6 +19,12 @@ export class CouponService {
     return this.http.get<PagedResults<Coupon>>(environment.apiHost+'author/coupon/'+ authorId);
   }
   getByTourId(id: number): Observable<Coupon>{
-    return this.http.get<Coupon>(environment.apiHost+'author/coupon/tour'+ id);
+    return this.http.get<Coupon>(environment.apiHost+'author/coupon/tour/'+ id);
+  }
+  update(coupon:Coupon):Observable<Coupon>{
+    return this.http.put<Coupon>(environment.apiHost+'author/coupon/'+coupon.id,coupon);
+  }
+  delete(couponId: number):Observable<Coupon>{
+      return this.http.delete<Coupon>(environment.apiHost+'author/coupon/'+couponId);
   }
 }

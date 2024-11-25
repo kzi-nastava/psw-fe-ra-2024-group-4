@@ -31,7 +31,9 @@ export class ToursForAuthorComponent implements OnInit {
   isChatOpen: boolean = false; 
   chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
   shouldRenderCouponForm: boolean=false;
+  shouldRenderCouponView: boolean=false;
   couponMap: Map<number, boolean> = new Map();
+  viewMode: boolean=false;
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -265,7 +267,12 @@ toggleChat(isChat: boolean): void {
   this.isChatOpen = isChat;
 }
 //kuponi
-getAllCoupons(authorId: number): void {
+viewAllCoupons(): void{
+  this.shouldRenderCouponForm = false; // Osiguravamo da se forma za pojedinačni kupon zatvori
+  this.shouldRenderCouponView = true;
+}
+getAllCoupons(authorId: number | undefined): void {
+  if(authorId){
   this.couponService.getAll(authorId).subscribe({
     next: (coupons) => {
       this.couponMap.clear();
@@ -281,19 +288,35 @@ getAllCoupons(authorId: number): void {
     },
   });
 }
+}
 
 openCouponForm(tour: Tour): void {
   this.selectedCouponTour = tour;
   this.shouldRenderCouponForm = true;
 }
-viewCouponDetails(tour:Tour):void{
+viewCouponDetails(tour: Tour): void {
+  console.log(tour);
+  if (!tour || !tour.id) {
+    console.error('Tour or Tour ID is missing.');
+    return;
+  }
 
+  this.selectedCouponTour = tour; 
+  this.viewMode = true; 
+  this.shouldRenderCouponForm = true; 
 }
+
 closeCouponForm(): void {
+  this.viewMode=false;
   this.shouldRenderCouponForm = false;
+  this.getAllCoupons(this.user?.id);
 }
 addCouponForAll(): void {
   this.selectedCouponTour = undefined;
   this.shouldRenderCouponForm = true;
+}
+closeCouponView(): void {
+  this.shouldRenderCouponView = false;
+  this.getAllCoupons(this.user?.id);
 }
 }

@@ -9,11 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CouponViewComponent } from './coupon-view/coupon-view.component';
 
 
 @NgModule({
   declarations: [
-    CouponComponent
+    CouponComponent,
+    CouponViewComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
   ],
   exports:[
-    CouponComponent
+    CouponComponent,
+    CouponViewComponent
   ]
 })
 export class PaymentsModule { }

@@ -1,5 +1,35 @@
 <div class="coupon-form-container">
     <!-- Leva sekcija -->
+    <ng-container *ngIf="viewMode && existingCoupon; else createMode">
+      <!-- Leva sekcija za prikaz -->
+      <div class="coupon-left-section">
+        <!-- Naslov sa nazivom ture -->
+        <h2>Coupon for {{ tour?.name || 'All Tours' }}</h2>
+    
+        <!-- Promo kod -->
+        <div class="promo-code">
+          PROMO CODE: {{ existingCoupon.promoCode }}
+        </div>
+      </div>
+    
+      <!-- Desna sekcija -->
+      <div class="coupon-right-section">
+        <!-- Popust -->
+        <div class="discount">
+          {{ existingCoupon.discountPercentage }}% OFF
+        </div>
+    
+        <!-- Datum važenja -->
+        <div class="expiration-date">
+          Validity period: 
+          <span>
+            {{ existingCoupon.expirationDate ? (existingCoupon.expirationDate | date) : 'Unlimited' }}
+          </span>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #createMode>
     <div class="coupon-left-section">
       <h2 *ngIf="tour; else allToursTitle">Coupon for {{ tour.name }}</h2>
         <ng-template #allToursTitle>
@@ -40,5 +70,6 @@
         </button>
       </form>
     </div>
+  </ng-template>
   </div>
   

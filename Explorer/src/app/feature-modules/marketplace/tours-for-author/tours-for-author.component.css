@@ -280,6 +280,11 @@ mat-card-subtitle {
   transform: rotate(-45deg);
 }
 
+.view-all-container{
+  position: absolute;
+  bottom: 50px;
+  left: 300px;
+}
 .add-coupon-all-container {
   position: absolute;
   bottom: 50px;
