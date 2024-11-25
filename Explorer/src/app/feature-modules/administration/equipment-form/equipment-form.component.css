@@ -5,6 +5,17 @@ div {
     flex-direction: column;
 }
 
-.mat-icon {
-    vertical-align: middle;
+.mat-form-field {
+    width: 100%;
+}
+ 
+.mat-form-field.mat-focused .mat-form-field-label {
+    color: #3498db; /* color for focused label */
+}
+  
+.mat-form-field-label {
+   transition: all 0.3s cubic-bezier(.64, .09, .08, 1);
+}
+.form-style {
+   position:fixed;
 }
