@@ -78,7 +78,7 @@ button[mat-icon-button] mat-icon {
     position: relative;
     display: block; 
     width: 24vw; 
-    height: 40vw;
+    height: 60vh;
     min-width: 250px; /*mozda nije lose piksele za min*/
     max-width: 25vw;
     min-height: 350px;
@@ -91,11 +91,11 @@ button[mat-icon-button] mat-icon {
 
 .card-image{
     width: 24vw; 
-    height: 40vw;
+    height: 45vh;
     min-width: 250px;
     max-width: 25vw;
-    min-height: 350px;
-    max-height: 30vw;
+    
+    
 }
 
 .card-overlay{
@@ -104,7 +104,7 @@ button[mat-icon-button] mat-icon {
     left: 0;
     right: 0;
     z-index: 1;
-    border-radius: calc(38 * 1px) 0 0 0;
+    border-radius: calc(38 * 1px) calc(38 * 1px) 0 0;
     background-color: white;
     transform: translateY(100%);
     transition: .2s ease-in-out;
@@ -130,7 +130,7 @@ button[mat-icon-button] mat-icon {
     /*max-height: 18em;*/
     padding: 1.5em;
     padding-bottom: 0;
-    border-radius: calc(40*1px) 0 0 0;
+    border-radius: calc(25*1px) calc(25*1px) 0 0;
     background-color: white;
     transform: translateY(-100%);
     transition: .2s ease-in-out;
@@ -181,6 +181,7 @@ button[mat-icon-button] mat-icon {
     color: #6A515E;
     margin-left: 3%;
     opacity: 95%;
+    
 }
 
 .card-footer{
