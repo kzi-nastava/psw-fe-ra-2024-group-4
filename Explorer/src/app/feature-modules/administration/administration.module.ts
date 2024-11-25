@@ -19,6 +19,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { ClubMembersComponent } from './club-members/club-members.component';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,7 @@ import { FormsModule } from '@angular/forms';
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    ClubMembersComponent,
 
   ],
   imports: [
@@ -44,7 +49,9 @@ import { FormsModule } from '@angular/forms';
     MatListModule,   
     MatFormFieldModule,      
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   exports: [
     EquipmentComponent,

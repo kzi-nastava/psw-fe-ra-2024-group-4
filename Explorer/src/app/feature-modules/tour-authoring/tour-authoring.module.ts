@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 // Import Custom Components
@@ -91,6 +92,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatChipsModule,
     MatBadgeModule,
     MatSnackBarModule
+    MatExpansionModule
   ],
   exports: [
     // Export components to be used in other modules
