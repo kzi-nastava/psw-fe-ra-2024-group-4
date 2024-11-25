@@ -27,7 +27,7 @@
             <!--1-->
             <div class="quiz-card" for="s1" id="slide1">
                 <p>Escape to Your Dreamscape: Choose Your Perfect View!</p>
-                <div class="image-container">
+                <div class="image-container1">
                     <div
                       class="image-wrapper" data-image-name="beach.jpg"
                       (click)="selectPicture('beach.jpg')"
@@ -72,10 +72,32 @@
                 <button *ngIf="currentSlideIndex === 1" id="back" class="back-button" (click)="previousSlide()" >Back</button>
                 <button *ngIf="currentSlideIndex === 1" id="next" class="next-button" (click)="nextSlide()">Next</button>
             </div>
-            <div class="quiz-card" for="s3" id="slide3">
-                <button *ngIf="currentSlideIndex === 2" id="back" class="back-button" (click)="previousSlide()" >Back</button>
-                <button *ngIf="currentSlideIndex === 2" id="next" class="next-button" (click)="nextSlide()">Next</button>
-            </div>
+            <div class="quiz-card" id="slide3">
+                <h2 class="quiz-title">
+                    Are you an independent explorer or do you love uncovering hidden gems with a guide?
+                </h2>
+
+
+                <p class="quiz-description">
+                  Choose one option that truly reflects your spirit:
+                </p>
+
+                <div class="background-wrapper" [style.background-image]="'url(' + getImage('slide3_background2.png') + ')'">
+                    <p class="image-description" [ngClass]="descriptionAnimationClass">{{ currentDescription }}</p> 
+                    <div class="image-navigation">
+                      <div class="arrow arrow-left" (click)="previousButton('left')">&#8249;</div>
+                      <div class="image-container" [ngClass]="[animationClass, isSmallerImage() ? 'scaled-image' : '']">
+                        <img [src]="getImage(currentImage)" alt="Current Option Image" />
+                      </div>
+                      <div class="arrow arrow-right" (click)="nextButton('right')">&#8250;</div>
+                    </div>
+                  </div>
+
+
+                <button class="select-button" (click)="selectOption()">Select</button>
+              </div>
+              
+            <!-- 4-porodicno ili ???? -->
             <div class="quiz-card" for="s4" id="slide4">
                 <button *ngIf="currentSlideIndex === 3" id="back" class="back-button" (click)="previousSlide()" >Back</button>
                 <button  *ngIf="currentSlideIndex === 3" id="next" class="next-button" (click)="nextSlide()">Next</button>

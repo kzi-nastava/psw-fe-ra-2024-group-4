@@ -199,6 +199,7 @@
     border: 2px solid rgb(194, 197, 153); 
 }
 
+
 #s1:checked ~ #slide1 {
     box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
     transform: translate3d(0, 0, 0); /* Središnja kartica */
@@ -375,7 +376,7 @@
     transition: width 1s;
   }
 
-  .image-container {
+  .image-container1 {
     display: flex;
     justify-content: space-around;
     gap: 2px;
@@ -437,4 +438,197 @@
 .image-wrapper.clicked img {
   transform: scale(1.1);
   border-color: #db2cd2;
+}
+  /*irina*/
+  .quiz-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .quiz-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #7f8c8d;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+.background-wrapper {
+  
+  width: 80%; 
+  height: 50vh; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 2%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 2%; 
+  margin: 5vh auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.image-description {
+  position: absolute;
+  top: 20px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  color: #34495e;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  max-width: 90%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-navigation {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%; 
+  transform: translateY(-50%); 
+  font-size: 70px;
+  font-weight: bolder;
+  color: #616161;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.arrow-left {
+  left: -50px;
+}
+
+.arrow-right {
+  right: -50px;
+}
+
+.arrow:hover {
+  color: #9E9E9E; /* Svetlija siva boja na hover */
+  transform: scale(1.1); 
+}
+
+.select-button {
+  position: absolute; 
+  bottom: 20px; 
+  left: 45%; 
+  /* transform: translateX(-50%); */
+  padding: 12px 40px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(192, 153, 218);
+  border: none;
+  border-radius: 4px; /* Minimalno zaobljeni uglovi */
+  cursor: pointer;
+  /* transition: background-color 0.3s ease, transform 0.2s ease; */
+}
+
+.select-button:hover {
+  background-color: rgb(192, 153, 218);
+  /* transform: scale(1.05);  */
+}
+
+.image-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 150px;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* .select-button {
+  position: absolute; 
+  bottom: 20px; 
+  left: 48%; 
+  padding: 12px 40px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.select-button:hover {
+  background-color: #0056b3;
+} */
+.scaled-image img {
+  width: 300px; 
+  height: 130px;
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0; 
+  }
+  to {
+    opacity: 1; 
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.scaled-image img {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
 }

@@ -16,15 +16,80 @@ import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 export class QuizComponent implements AfterViewInit {
   @ViewChild('customTourList', { static: false }) customTourList!: CdkDropList;
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
-  slides = [0, 1, 2, 3, 4]; // Indeksi slajdova
-  currentSlideIndex = 0; // Početni slajd (s3)
+  slides = [0, 1, 2, 3, 4]; 
+  currentSlideIndex = 0; 
   selectedPicture = '';
-  // Uzima sve elemente sa klasom 'step'
   els = document.getElementsByClassName('step') as HTMLCollectionOf<HTMLElement>;
   steps: HTMLElement[] = [];
 
-  //tagove koje je izabrao turista:
   selectedTags: string[] = [];
+  showDescription: boolean = true;
+
+  currentImageIndex = 0; 
+  images = ['self_guide1.png', 'guide_tour.png']; 
+  descriptions = [
+    "Explore alone, finding your path and creating unique memories.",
+    "Join a guided tour and discover hidden gems with a group."
+  ];
+  isSmallerImage(): boolean {
+    return this.currentImageIndex === 1; 
+  }
+  
+  
+  get currentDescription(): string {
+    return this.descriptions[this.currentImageIndex];
+  }
+  get currentImage(): string {
+    return this.images[this.currentImageIndex];
+  }
+  
+  animationClass: string = ''; 
+  descriptionAnimationClass: string = ''; 
+  setDescriptionAnimation(): void {
+    this.descriptionAnimationClass = 'fade-in'; 
+  
+    setTimeout(() => {
+      this.descriptionAnimationClass = '';
+    }, 500); 
+  }
+  previousButton(direction: string): void {
+    this.setAnimationClass(direction); 
+    this.setDescriptionAnimation(); 
+    if (this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+    } else {
+      this.currentImageIndex = this.images.length - 1; 
+    }
+  }
+  
+  nextButton(direction: string): void {
+    this.setAnimationClass(direction); 
+    this.setDescriptionAnimation(); 
+    if (this.currentImageIndex < this.images.length - 1) {
+      this.currentImageIndex++;
+    } else {
+      this.currentImageIndex = 0; 
+    }
+  }
+  
+  setAnimationClass(direction: string): void {
+    if (direction === 'left') {
+      this.animationClass = 'slide-in-left'; 
+    } else if (direction === 'right') {
+      this.animationClass = 'slide-in-right'; 
+    }
+  
+    // Uklanjanje klase nakon animacije (500ms je trajanje animacije)
+    setTimeout(() => {
+      this.animationClass = '';
+    }, 500);
+  }
+  
+  selectOption(): void {
+    alert(`You selected: ${this.images[this.currentImageIndex]}`);
+  }
+  
+
   selectedTagList: number[]=[];
 
   constructor(private tourPreferenceService: TourPreferenceService) { }
@@ -215,4 +280,21 @@ export class QuizComponent implements AfterViewInit {
   submitPreferences(): void{
     alert(this.selectedTags);
   }
+  // selectOption(): void {
+  //   // Dohvati trenutno prikazanu opciju
+  //   const currentOption = this.slides[this.currentSlideIndex];
+  
+  //   // Proveri da li je korisnik izabrao opciju (trenutni slajd)
+  //   console.log(`Selected option for slide ${this.currentSlideIndex}:`, currentOption);
+  
+  //   // Dodaj trenutnu opciju u listu izabranih ako već nije izabrana
+  //   if (!this.selectedTags.includes(`option-${currentOption}`)) {
+  //     this.selectedTags.push(`option-${currentOption}`);
+  //   }
+  
+  //   // Pokaži izabrane opcije (za testiranje, može se ukloniti kasnije)
+  //   alert(`Selected options: ${this.selectedTags.join(', ')}`);
+  // }
+  
+  
 }
