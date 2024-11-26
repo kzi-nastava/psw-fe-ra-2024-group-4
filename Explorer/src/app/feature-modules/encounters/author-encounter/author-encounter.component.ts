@@ -21,11 +21,12 @@ export class AuthorEncounterComponent {
     latitude: 0,
     longitude: 0,
     xp: 0,
-    status: EncounterStatus.Draft,
+    status: EncounterStatus.Archived,
     type: EncounterType.Social,
     socialData: null,  
     hiddenLocationData: null, 
-    miscData: null  
+    miscData: null,
+    instances: null
   };
 
   social: SocialDataDto = {
@@ -40,9 +41,11 @@ export class AuthorEncounterComponent {
   misc: MiscDataDto = {
     actionDescription: ''
   }
-  selectedEncounterType: EncounterType = EncounterType.Social
 
-  encounterTypes: string[] = Object.values(EncounterType)
+  
+  selectedEncounterType: string = "Social"
+
+  encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]
   
   constructor(private service: EncounterServiceService,@Inject(MAT_DIALOG_DATA) public keyPoint: KeyPoint, private dialogRef: MatDialogRef<AuthorEncounterComponent>){
     this.encounter.latitude = this.keyPoint.latitude
@@ -67,34 +70,40 @@ export class AuthorEncounterComponent {
     this.service.createEncounter(this.encounter).subscribe({
       next: () => {
           console.log("Encounter created: ", this.encounter)
+      }, error: (err) =>{
+        console.log(err)
+        console.log("Encounter NOT created: ", this.encounter)
       }
     })
-    console.log("Encounter NOT created: ", this.encounter)
     this.closeDialog();
   }
 
   onEncounterTypeChange(): void {
-    switch (this.selectedEncounterType) {
-      case EncounterType.Social:
-
+    
+    if (this.selectedEncounterType === 'Social') {
         this.encounter.socialData = this.social;
+        this.encounter.type = 0;
         this.encounter.hiddenLocationData = null;
         this.encounter.miscData = null;
-        break;
-      case EncounterType.HiddenLocation:
-        
-        this.encounter.hiddenLocationData = this.hiddenLocation;
-        this.encounter.socialData = null;
-        this.encounter.miscData = null;
-        break;
-      case EncounterType.Misc:
-        
-        this.encounter.miscData = this.misc;
-        this.encounter.socialData = null;
-        this.encounter.hiddenLocationData = null;
-        break;
     }
+     if (this.selectedEncounterType === 'HiddenLocation'){
+      this.encounter.hiddenLocationData = this.hiddenLocation;
+      this.encounter.type = 1;
+      this.encounter.socialData = null;
+      this.encounter.miscData = null;
+     }
+
+     if (this.selectedEncounterType === 'Misc'){
+      this.encounter.miscData = this.misc;
+      this.encounter.type = 2;
+      this.encounter.socialData = null;
+      this.encounter.hiddenLocationData = null;
+     }
+        
+        
+        
   }
+  
 
   onFileSelected(event: any){
     const file:File = event.target.files[0];

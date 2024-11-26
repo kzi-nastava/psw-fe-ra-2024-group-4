@@ -15,6 +15,7 @@ export class EncounterServiceService {
 
   createEncounter(encounter: Encounter): Observable<Encounter> {
     return this.http.post<Encounter>(environment.apiHost + 'encounters/create', encounter)
+    
   }
 
   getInRadius(radius: number, lat: number, lon: number): Observable<PagedResults<Encounter>> {

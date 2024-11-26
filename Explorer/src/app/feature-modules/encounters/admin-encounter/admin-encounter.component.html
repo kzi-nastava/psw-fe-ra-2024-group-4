@@ -13,7 +13,7 @@
         </div>
   
         <!-- Social Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'Social'">
+        <div *ngIf="selectedEncounterType === 0">
             <label for="requiredParticipants">Required Participants</label>
             <input type="number" id="requiredParticipants" [(ngModel)]="social.requiredParticipants " 
             name="requiredParticipants" />
@@ -22,7 +22,7 @@
         </div>
   
         <!-- HiddenLocation Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'HiddenLocation'">
+        <div *ngIf="selectedEncounterType === 1">
             <label for="imageUrl">!!!Image URL //PROMENITI U FILE</label>
             <input type="text" id="imageUrl" [(ngModel)]="hiddenLocation.imageUrl" name="imageUrl" />
   
@@ -31,7 +31,7 @@
         </div>
   
         <!-- Misc Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'Misc'">
+        <div *ngIf="selectedEncounterType === 2">
             <label for="actionDescription">Action Description</label>
             <input type="text" id="actionDescription" [(ngModel)]="misc.actionDescription" name="actionDescription" />
         </div>

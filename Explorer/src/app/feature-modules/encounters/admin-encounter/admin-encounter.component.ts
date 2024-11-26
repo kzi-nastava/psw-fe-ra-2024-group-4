@@ -12,8 +12,8 @@ export class AdminEncounterComponent implements OnInit {
 
   constructor(private encounterService: EncounterServiceService) {}
 
-  encounterTypes: string[] = Object.values(EncounterType);  // Dynamically fetch the encounter types
-  selectedEncounterType: string = EncounterType.Social;  // Default type
+  encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]  // Dynamically fetch the encounter types
+  selectedEncounterType: number = 0;  // Default type
 
   social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
   hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: ''} = { imageUrl: '', activationRadius: 0, imageBase64: ''}; // Default values
