@@ -33,8 +33,7 @@ export enum EncounterStatus {
     longitude: number;      
     xp: number;               
     status: EncounterStatus;    
-    type: EncounterType;  
-    data?: any;                  
+    type: EncounterType;        
     socialData: SocialDataDto | null;  
     hiddenLocationData: HiddenLocationDataDto | null; 
     miscData: MiscDataDto | null;      

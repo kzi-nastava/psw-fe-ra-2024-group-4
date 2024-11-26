@@ -28,7 +28,6 @@ export class AdminEncounterComponent implements OnInit {
     xp: 0,
     status: EncounterStatus.Draft,
     type: EncounterType.Social,
-    data: null,
     socialData: null,  // Default values
     hiddenLocationData: null, // Default values
     miscData: null  // Default values
@@ -106,7 +105,6 @@ export class AdminEncounterComponent implements OnInit {
       xp: 0,
       status: EncounterStatus.Draft,
       type: EncounterType.Social,
-      data: null,
       socialData: { requiredParticipants: 0, radius: 0 },
       hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: ''},
       miscData: { actionDescription: '' }

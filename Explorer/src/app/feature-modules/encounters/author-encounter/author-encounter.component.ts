@@ -23,7 +23,6 @@ export class AuthorEncounterComponent {
     xp: 0,
     status: EncounterStatus.Draft,
     type: EncounterType.Social,
-    data: null,
     socialData: null,  
     hiddenLocationData: null, 
     miscData: null  
@@ -53,20 +52,14 @@ export class AuthorEncounterComponent {
   createEncounter(): void {
     if(this.encounter.type == EncounterType.Social){
       this.encounter.socialData = this.social
-      this.encounter.miscData = null
-      this.encounter.hiddenLocationData = null
     }
 
     if(this.encounter.type == EncounterType.Misc){
       this.encounter.miscData = this.misc
-      this.encounter.socialData = null
-      this.encounter.hiddenLocationData = null
     }
 
     if(this.encounter.type == EncounterType.HiddenLocation){
       this.encounter.hiddenLocationData = this.hiddenLocation
-      this.encounter.miscData = null
-      this.encounter.socialData = null
     }
     
     
