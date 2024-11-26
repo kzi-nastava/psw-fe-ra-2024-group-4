@@ -5,6 +5,7 @@ import { CdkDragMove, CdkDropList } from '@angular/cdk/drag-drop';
 import { environment } from 'src/env/environment';
 import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -21,6 +22,9 @@ export class QuizComponent implements AfterViewInit {
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
   selectedPicture = '';
+  imagesPool: string[] = ['day.png', 'night.jpg']; 
+  currentPoolIndex: number = 0;
+  lightbulbImages : string[] = ['off.png', 'on.png'];
   els = document.getElementsByClassName('step') as HTMLCollectionOf<HTMLElement>;
   steps: HTMLElement[] = [];
   isSelectOptionCalled: boolean = false;
@@ -28,6 +32,7 @@ export class QuizComponent implements AfterViewInit {
 
   selectedTags: string[] = [];
   showDescription: boolean = true;
+  isStickerInside: {[key: string]: boolean} = {};
 
   currentImageIndex = 0; 
   images = ['self_guide1.png', 'guide_tour.png']; 
@@ -161,9 +166,22 @@ export class QuizComponent implements AfterViewInit {
 
   selectedTagList: number[]=[];
 
+  get currentPoolImage(): string {
+    return this.imagesPool[this.currentPoolIndex];
+  }
+  get currentLightbulbImage(): string {
+    // Obrnuto stanje u odnosu na `currentImage`
+    return this.lightbulbImages[(this.currentPoolIndex + 1) % this.lightbulbImages.length];
+  }
+
+  toggleImage(): void {
+    this.currentPoolIndex = (this.currentPoolIndex + 1) % this.imagesPool.length; // Prebacivanje između slika
+  }
+
   constructor(private tourPreferenceService: TourPreferenceService) { }
   ngOnInit(): void {
-    this.currentImageIndex = 0;
+    localStorage.removeItem('picture');
+this.currentImageIndex = 0;
     const savedImageName = localStorage.getItem('picture');
     console.log(`Učitana slika iz localStorage: ${savedImageName}`);
     if (savedImageName) {
@@ -277,6 +295,13 @@ export class QuizComponent implements AfterViewInit {
       selectedWrapper.classList.add('clicked');
     }
   }
+  addToSelectedTagListForKeyword(keyword: string, tagNumber: number): void {
+    const hasKeyword = this.selectedTags.some(tag => tag.includes(keyword));
+    if (hasKeyword && !this.selectedTagList.includes(tagNumber)) {
+      this.selectedTagList.push(tagNumber);
+    }
+  }
+  
   nextSlide(): void {
     if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentSlideIndex++;
@@ -284,17 +309,51 @@ export class QuizComponent implements AfterViewInit {
 
       if(this.currentSlideIndex==1){
         const image = localStorage.getItem('picture');
+        if(!image ){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'You need to choose one picture before we continue!',
+            confirmButtonText: 'OK'
+          });
+          this.currentSlideIndex--;
+        }
         if(image== 'beach.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5);
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5 && num!==1);
           this.selectedTagList.push(10);
-        }else if(image=='download.png'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10);
+        }else if(image=='city.png'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10 && num!==1);
           this.selectedTagList.push(5);
         }else if(image =='forest1.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5);
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==1);
           this.selectedTagList.push(4);
+        }else if(image =='museum-background.jpg'){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==4);
+          this.selectedTagList.push(1);
         }
         console.log(this.selectedTagList);
+      }else if(this.currentSlideIndex ==4){
+      
+        if(this.currentPoolIndex=== 0){
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 9 );
+          this.selectedTagList.push(7);
+        }else{
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 7);
+          this.selectedTagList.push(9);
+        }
+      }
+      console.log(this.selectedTagList);
+      //stiker tagovi 
+      if(this.currentSlideIndex==2){
+        //cycling
+        this.addToSelectedTagListForKeyword('cycling', 0);
+        this.addToSelectedTagListForKeyword('painting', 1);
+        this.addToSelectedTagListForKeyword('historical', 6);
+        this.addToSelectedTagListForKeyword('vibe', 7);
+        this.addToSelectedTagListForKeyword('wildlife', 8);
+        this.addToSelectedTagListForKeyword('photography', 12);
+
+       // alert(this.selectedTagList);
       }
     }
     else{
@@ -403,6 +462,7 @@ export class QuizComponent implements AfterViewInit {
     console.log(`Element moved to position: x=${x}, y=${y}`);
     // Uzimamo trenutnu poziciju dragovanog elementa
     const dragElement = event.source.getRootElement();
+    console.log(dragElement);
     const dragRect = dragElement.getBoundingClientRect();
 
 
@@ -420,19 +480,33 @@ export class QuizComponent implements AfterViewInit {
       console.log('Element je unutar custom-tour kontejnera');
       if(!this.selectedTags.includes(dragElement.id)){
         this.selectedTags.push(dragElement.id);
+        this.isStickerInside[dragElement.id] = true;
       }
+      //cycling 
+      if(dragElement.id.includes('cyc')){
+        this.selectedTagList = this.selectedTagList.filter(num => num !== 0);
+        this.selectedTagList.push(0);
+      }
+      //wildlife 
+      //if(dragElement.id.includes())
+      
     } else {
       console.log('Element nije unutar custom-tour kontejnera');
       const index = this.selectedTags.indexOf(dragElement.id);
+      this.isStickerInside[dragElement.id] = false;
       if (index !== -1) {
         //ako postoji, izbaci ga
         this.selectedTags.splice(index, 1);
+      }
+      if(dragElement.id.includes('cyc')){
+        this.selectedTagList = this.selectedTagList.filter(num => num !== 0);
       }
     }
   }
 
   submitPreferences(): void{
-    alert(this.selectedTags);
+    //alert(this.selectedTags);
+    alert(this.selectedTagList)
   }
   // selectOption(): void {
   //   // Dohvati trenutno prikazanu opciju
