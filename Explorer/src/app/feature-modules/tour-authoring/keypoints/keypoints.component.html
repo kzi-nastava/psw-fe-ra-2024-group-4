@@ -28,9 +28,15 @@
                 <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
                 <td>{{ getStatusLabel(item.publicStatus) }}</td>
                 <td>
-                    <button color="primary" (click)="onEditClicked(item)"  mat-icon-button>
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                    <div class="buttons">
+                        <button color="primary" matTooltip="Add Encounter" (click)="addEncounter(item)"  mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button color="primary" matTooltip="Edit KeyPoint" (click)="onEditClicked(item)"  mat-icon-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                    
                 </td>
             </tr>
            

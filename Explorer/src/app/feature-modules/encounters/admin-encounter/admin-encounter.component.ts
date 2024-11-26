@@ -16,7 +16,7 @@ export class AdminEncounterComponent implements OnInit {
   selectedEncounterType: string = EncounterType.Social;  // Default type
 
   social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
-  hiddenLocation: { imageUrl: '', activationRadius: 0 } = { imageUrl: '', activationRadius: 0 }; // Default values
+  hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: ''} = { imageUrl: '', activationRadius: 0, imageBase64: ''}; // Default values
   misc: { actionDescription: '' } = { actionDescription: '' };  // Default values  
 
   encounter: Encounter = {
@@ -108,7 +108,7 @@ export class AdminEncounterComponent implements OnInit {
       type: EncounterType.Social,
       data: null,
       socialData: { requiredParticipants: 0, radius: 0 },
-      hiddenLocationData: { imageUrl: '', activationRadius: 0 },
+      hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: ''},
       miscData: { actionDescription: '' }
     };
   }

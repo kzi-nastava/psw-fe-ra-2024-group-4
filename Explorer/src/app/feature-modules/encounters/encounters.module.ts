@@ -7,11 +7,14 @@ import { EncounterComponent } from './encounter/encounter.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AuthorEncounterComponent } from './author-encounter/author-encounter.component';
 
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AdminEncounterComponent,
-    EncounterComponent
+    EncounterComponent,
+    AuthorEncounterComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatInputModule,
     MatDialogModule,
+    MatSelectModule
 ]
 })
 export class EncounterModule { }
