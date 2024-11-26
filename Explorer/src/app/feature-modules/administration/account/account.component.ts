@@ -14,13 +14,18 @@ export class AccountComponent implements OnInit {
 
   account: Account[] = []
   user: User | undefined;
+  selectedRole: string = '';
+  searchQuery: string='';
+  filteredAccounts: Account[] = []
 
   constructor(private service: AdministrationService, private authService: AuthService) { }
 
   ngOnInit(): void {
+      //this.filterAccounts();
       this.authService.user$.subscribe(user => {
         this.user = user;
       });
+      console.log(this.user?.role);
 
       this.service.getAccount().subscribe({
         next: (result: PagedResults<Account>) => {
@@ -30,7 +35,9 @@ export class AccountComponent implements OnInit {
           }
           this.account.forEach(ac => {
             ac.password = '*'.repeat(ac.password.length);
+            console.log(ac.role);
           });
+          this.filteredAccounts=this.account;
         },
         error: (err: any) => {
           console.log(err);
@@ -44,10 +51,24 @@ export class AccountComponent implements OnInit {
         this.account = this.account.map(item => 
           item.id === ac.id ? result : item
         );
+        this.filteredAccounts = this.filteredAccounts.map(item => 
+          item.id === ac.id ? result : item
+        );
       },
       error: (err: any) => {
         console.log(err);
       }
     })
+  }
+
+  filterAccounts(): void {
+    this.filteredAccounts = this.account.filter(ac => {
+      const matchesRole = this.selectedRole ? ac.role.toLowerCase() === this.selectedRole.toLowerCase() : true;
+      const matchesSearchQuery = this.searchQuery
+        ? ac.username.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          ac.email.toLowerCase().includes(this.searchQuery.toLowerCase())
+        : true;
+      return matchesRole && matchesSearchQuery;
+    });
   }
 }

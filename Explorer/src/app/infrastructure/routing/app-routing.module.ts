@@ -73,6 +73,7 @@ const routes: Routes = [
   {path: 'cart/:cartId', component: CartOverviewComponent},
   {path: 'purchased-tours', component: PurchaseTokenComponent },
   {path: 'tour-review/:tourId', component: TourReviewFormComponent},
+  {path: 'equipment', component: EquipmentComponent},
   {path: 'quiz', component: QuizComponent}
 ];
 

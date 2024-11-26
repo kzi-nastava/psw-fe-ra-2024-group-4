@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 // Import Custom Components
@@ -38,6 +39,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverviewComponent } from '../payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
 import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -88,7 +90,9 @@ import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.com
     MatListModule,
     MatCardModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSnackBarModule,
+    MatExpansionModule
   ],
   exports: [
     // Export components to be used in other modules

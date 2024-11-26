@@ -24,6 +24,8 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClubMembersComponent } from './club-members/club-members.component';
 
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     MatFormFieldModule,      
     MatInputModule,
     FormsModule,
+    MatSelectModule,
+    MatOptionModule,
     DragDropModule,
     CdkDrag
   ],
