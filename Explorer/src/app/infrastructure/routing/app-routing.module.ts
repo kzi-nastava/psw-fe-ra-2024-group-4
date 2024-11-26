@@ -35,6 +35,7 @@ import { TourReviewFormComponent } from 'src/app/feature-modules/marketplace/tou
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
+import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
 
 
 
@@ -72,7 +73,8 @@ const routes: Routes = [
   {path: 'public-status-request', component: PublicStatusRequestComponent},
   {path: 'cart/:cartId', component: CartOverviewComponent},
   {path: 'purchased-tours', component: PurchaseTokenComponent },
-  {path: 'tour-review/:tourId', component: TourReviewFormComponent}
+  {path: 'tour-review/:tourId', component: TourReviewFormComponent},
+  {path: 'sales', component: SalesComponent}
 ];
 
 @NgModule({

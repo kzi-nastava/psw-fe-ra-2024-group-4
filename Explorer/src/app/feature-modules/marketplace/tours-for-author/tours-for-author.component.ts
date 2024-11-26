@@ -13,6 +13,8 @@ import { TourAuthoringService } from '../../tour-authoring/tour-authoring.servic
 import { Subscription } from 'rxjs';
 import { MapService } from 'src/app/shared/map/map.service';
 import Swal from 'sweetalert2';
+import { SalesService } from '../../payments/sales.service';
+import { Sale } from '../../payments/model/sales.model';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -29,6 +31,31 @@ export class ToursForAuthorComponent implements OnInit {
   isChatOpen: boolean = false; 
   chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
   
+  selectedToursForDiscount: Set<number> = new Set(); 
+  discount = 1;
+  showSaleCheckboxes = false;
+  startDate: Date | null = null;
+  endDate: Date | null = null;
+  dateError = false;
+  tourIds: number[] = [];
+  authorId: number;
+  
+  toggleSale() {
+    this.showSaleCheckboxes = !this.showSaleCheckboxes; 
+  }
+  toggleTourSelection(tourId: number, isChecked: boolean) {
+    if (isChecked) {
+      // Ako je turu označeno, dodajte njen ID u listu
+      this.tourIds.push(tourId);
+    } else {
+      // Ako je turu odznačeno, uklonite njen ID iz liste
+      const index = this.tourIds.indexOf(tourId);
+      if (index !== -1) {
+        this.tourIds.splice(index, 1);
+      }
+    }
+  }
+
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -48,7 +75,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog) { }
+  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog, private salesService: SalesService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -58,6 +85,7 @@ export class ToursForAuthorComponent implements OnInit {
       if(user !== null && user.role === 'author')
       {
         this.getTours(user.id);
+        this.authorId=user.id;
 
         
       }
@@ -259,10 +287,49 @@ ngOnDestroy() {
 
 toggleChat(isChat: boolean): void {
   this.isChatOpen = isChat;
+} 
+
+createDiscount() {
+  if (!this.startDate || !this.endDate || this.tourIds.length === 0) {
+    this.dateError = true;
+    return;
+  }
+
+  const diffInDays = (new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / (1000 * 60 * 60 * 24);
+
+  if (diffInDays > 14 || diffInDays < 0) {
+    this.dateError = true;
+    return;
+  }
+
+  this.dateError = false;
+  console.log('Discount being sent:', this.discount);
+
+  const newSale: Sale = {
+    discountPercentage: this.discount,
+    startDate: this.startDate,
+    endDate: this.endDate,
+    tourIds: this.tourIds ,
+    authorId: this.authorId
+
+  };
+
+
+  this.salesService.createSale(newSale).subscribe({
+    next: (response) => {
+      console.log('Popust uspešno kreiran:', response);
+      alert('Sale successfully created!');
+      
+      this.discount = 0;
+      this.startDate = null;
+      this.endDate = null;
+      this.tourIds = []; 
+      this.showSaleCheckboxes = false;
+    },
+    error: (error) => {
+      console.error('Greška prilikom kreiranja popusta:', error);
+      alert('Error creating sale. Please try again.');
+    }
+  });
 }
-
-
-
-
-  
 }

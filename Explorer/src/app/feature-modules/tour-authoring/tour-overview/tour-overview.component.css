@@ -444,3 +444,13 @@ button[mat-icon-button] mat-icon {
      height: 150% !important;
     }*/ 
 
+    .old-price {
+        text-decoration: line-through;
+        color: red; /* Optional: change color to red for crossed-out prices */
+    }
+    
+    .new-price {
+        font-weight: bold;
+        color: green; /* Optional: change color to highlight the discount */
+    }
+    

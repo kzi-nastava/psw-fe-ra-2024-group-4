@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart-overview.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderItem } from '../model/order-item.model';
 import { Subscription } from 'rxjs';
 import { PersonInfoService } from '../../person.info/person.info.service';
@@ -46,7 +46,8 @@ export class CartOverviewComponent implements OnInit {
      private route: ActivatedRoute,
      private personInfoService: PersonInfoService,
      private authService: AuthService,
-     private purchaseService: PurchaseService) {} 
+     private purchaseService: PurchaseService,
+     private router: Router,) {} 
 
   ngOnInit(): void {
    
@@ -202,6 +203,7 @@ export class CartOverviewComponent implements OnInit {
              this.cartService.createNotification('tourist', this.purchaseNotification).subscribe({
               next: (result: Notification) =>
               {
+                this.router.navigate(['/purchased-tours']);
 
               },
               error:(err: any) =>

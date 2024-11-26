@@ -79,6 +79,10 @@
                                 </mat-card-subtitle>
                             </div>
                             <div class="card-footer-description">{{t.tourDescription}}</div>
+                            <div class="price">
+                                <span *ngIf="t.originalPrice" class="old-price">{{ t.originalPrice | currency }}</span>
+                                <span class="new-price">{{ t.price | currency }} AAAAAAAAAAAAAAAAAAAAAAAA</span>
+                              </div>
                         </div>
 
                     </div>
