@@ -143,7 +143,7 @@ export class CartOverviewComponent implements OnInit {
 
                 this.cartService.createToken(this.purchaseToken).subscribe({
                   next: (result: TourPurchaseToken) => {
-                    alert("Created token!");
+                  //  alert("Created token!");
                   },
                   error: (err: any) => {
                     alert("Error creating token");
