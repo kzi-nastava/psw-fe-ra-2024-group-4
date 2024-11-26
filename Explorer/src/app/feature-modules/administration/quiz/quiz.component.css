@@ -459,8 +459,8 @@
   }
   
 .background-wrapper {
-  width: 800px; 
-  height: 450px;
+  width: 70%; 
+  height: 65%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -470,24 +470,31 @@
   align-items: center;
   justify-content: center; 
   position: relative;
-  padding: 20px;
-  margin-left: 210px;
+  padding: 1%; 
+  margin-left: 14%; 
+  margin-top: 2%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.background-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px; 
 }
 
 .image-description {
   position: absolute;
-  top: 20px; 
+  top: 5%; 
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.6);
   color: #34495e;
-  padding: 10px 15px;
+  padding: 1% 2%;
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  max-width: 90%;
+  max-width: 80%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -520,16 +527,15 @@
 }
 
 .arrow:hover {
-  color: #9E9E9E; /* Svetlija siva boja na hover */
+  color: #9E9E9E; 
   transform: scale(1.1); 
 }
 
 .select-button {
   position: absolute; 
-  bottom: 20px; 
-  left: 45%; 
-  /* transform: translateX(-50%); */
-  padding: 12px 40px;
+  bottom: 5%; 
+  left: 45%;  
+  padding: 1% 2%;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
@@ -553,7 +559,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 150px;
+  margin-top: 10%;  
 }
 
 .image-container img {
@@ -563,32 +569,100 @@
   border-radius: 10px;
 }
 
-/* .select-button {
+
+.scaled-image img {
+  width: 205%; 
+  height: 95%;
+}
+.scaled-image5 img {
+  width: 155%; 
+  height: 95%;
+}
+/* Animacija za volan-potencijalno */
+@keyframes rotateWheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.steering-wheel {
   position: absolute; 
-  bottom: 20px; 
-  left: 48%; 
-  padding: 12px 40px;
-  font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  top: 0.4%; 
+  left: 90%;
+  cursor: pointer;
+  width: 9%;  
+  height: auto;
+  transition: transform 0.5s ease;  
+  z-index: 20;  
+}
+
+.steering-wheel.clicked {
+  animation: rotateWheel 0.5s forwards;  /* Rotacija volana */
+}
+
+.steering-wheel img {
+  width: 130%; /* Slika zauzima celu širinu volana */
+  height: 20%; /* Podesite visinu automatski */
+  transition: transform 0.5s ease;  /* Efekat rotacije slike */
+}
+
+.arrow-cont {
+  position: absolute;
+  top: 10%; 
+  left: 78%; 
+  transform: translateX(-50%); 
+  z-index: 10;
+}
+
+.arrow-str {
+  font-size: 5%;  
+  color: #f39c12; 
   font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
+  transition: color 0.3s ease, transform 0.3s ease;  
+  transform: rotate(45deg); 
+}
+
+.arrow-str:hover {
+  color: #e67e22;  /* Promena boje na hover */
+  transform: scale(1.1) rotate(45deg);  
+}
+
+.arrow-str img {
+  width: 40%; 
+  height: 40%;  
+  transition: transform 0.3s ease; 
+}
+
+.arrow-cont img {
+  width: 50%; 
+  height: auto;  
   cursor: pointer;
 }
 
 
-.select-button:hover {
-  background-color: #0056b3;
-} */
-.scaled-image img {
-  width: 300px; 
-  height: 130px;
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0); 
+    opacity: 1;
+  }
+  to {
+    transform: translateX(170%); 
+    opacity: 0;
+  }
 }
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease-out forwards;
+}
+
+
 @keyframes slideInLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateX(-140%);
     opacity: 0;
   }
   to {
@@ -731,11 +805,6 @@
   margin-right: 1%;
 }
 
-
-.carousel-item:hover ~ .carousel-item {
-  /* -webkit-transform: translate3d(10%, 0, 0);
-  transform: translate3d(25%, 0, 0); */
-}
 
 .carousel__container:hover .carousel-item1 {
   opacity: 0.3;

@@ -23,6 +23,8 @@ export class QuizComponent implements AfterViewInit {
   selectedPicture = '';
   els = document.getElementsByClassName('step') as HTMLCollectionOf<HTMLElement>;
   steps: HTMLElement[] = [];
+  isSelectOptionCalled: boolean = false;
+  isNextSlideCalled: boolean = false;
 
   selectedTags: string[] = [];
   showDescription: boolean = true;
@@ -33,6 +35,12 @@ export class QuizComponent implements AfterViewInit {
     "Explore alone, finding your path and creating unique memories.",
     "Join a guided tour and discover hidden gems with a group."
   ];
+  images1 = ['solo_car.png', 'family_car1.png']; 
+  descriptions1 = [
+    "Explore on your own, embracing the freedom of solo travel.",
+    "Travel with friends or family, sharing unforgettable moments together."
+  ];
+  
   isSmallerImage(): boolean {
     return this.currentImageIndex === 1; 
   }
@@ -43,6 +51,12 @@ export class QuizComponent implements AfterViewInit {
   }
   get currentImage(): string {
     return this.images[this.currentImageIndex];
+  }
+  get currentDescription5(): string {
+    return this.descriptions1[this.currentImageIndex];
+  }
+  get currentImage5(): string {
+    return this.images1[this.currentImageIndex];
   }
   
   animationClass: string = ''; 
@@ -73,6 +87,33 @@ export class QuizComponent implements AfterViewInit {
       this.currentImageIndex = 0; 
     }
   }
+  nextButtonWheel(direction: string): void {
+    const wheel = document.querySelector('.steering-wheel') as HTMLElement;
+  
+    if (wheel) {
+      wheel.classList.remove('clicked'); 
+      void wheel.offsetWidth;  // Forcing reflow
+      wheel.classList.add('clicked'); 
+    }
+  
+    // Prvo primeni animaciju izlaska na trenutnu sliku
+    this.animationClass = 'slide-out-left';  
+  
+    // Nakon što je animacija izlaska završena, promeni sliku i dodaj animaciju za ulazak nove slike
+    setTimeout(() => {
+      // Menjamo sliku
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.images1.length;  // Na sledeću sliku
+  
+      // Primeni animaciju za ulazak nove slike
+      this.animationClass = 'slide-in-left'; 
+    }, 500);  // Početak animacije ulaska nakon 500ms, koliko traje izlazna animacija
+  
+    // Osveži opis
+    this.setDescriptionAnimation();
+  
+    console.log('Current Image:', this.currentImage5);
+  }
+  
   
   setAnimationClass(direction: string): void {
     if (direction === 'left') {
@@ -90,16 +131,30 @@ export class QuizComponent implements AfterViewInit {
     const selectedImage = this.images[this.currentImageIndex];
   
     if (selectedImage === 'self_guide1.png') {
-      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 13); 
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 13 && tag!=3); 
       this.selectedTagList.push(14); 
     } else if (selectedImage === 'guide_tour.png') {
-      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14); 
+      this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14 && tag!=3); 
       this.selectedTagList.push(13); 
     }
   
     console.log(`Selected tags: ${this.selectedTagList}`);
     
     this.nextSlide();
+  }
+  selectOptionSlide5(): void {
+    const selectedImage = this.images1[this.currentImageIndex];
+  
+    if (selectedImage === 'solo_car.png') {
+      console.log("no tags");
+    } else if (selectedImage === 'family_car1.png') {
+      // this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14 && tag!=3); 
+      this.selectedTagList.push(3); 
+    }
+  
+    console.log(`Selected tags: ${this.selectedTagList}`);
+    
+    // this.nextSlide();
   }
   
   
@@ -108,7 +163,7 @@ export class QuizComponent implements AfterViewInit {
 
   constructor(private tourPreferenceService: TourPreferenceService) { }
   ngOnInit(): void {
-    
+    this.currentImageIndex = 0;
     const savedImageName = localStorage.getItem('picture');
     console.log(`Učitana slika iz localStorage: ${savedImageName}`);
     if (savedImageName) {
@@ -222,7 +277,6 @@ export class QuizComponent implements AfterViewInit {
       selectedWrapper.classList.add('clicked');
     }
   }
-  
   nextSlide(): void {
     if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentSlideIndex++;
@@ -246,7 +300,7 @@ export class QuizComponent implements AfterViewInit {
     else{
       //this.currentSlideIndex=0;
       console.log('cuvaj');
-
+      this.selectOptionSlide5();
       const preference: TourPreference = {
        
         weightPreference: 1,
