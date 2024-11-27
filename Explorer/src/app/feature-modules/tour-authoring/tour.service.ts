@@ -54,7 +54,9 @@ import { environment } from "src/env/environment";
       return this.http.put('https://localhost:44333/api/author/tour/reactivate/' + tour.id, tour.userId);
     }
 
-    
+    getAuthorIdByTourId(tourId: number): Observable<number> {
+      return this.http.get<number>(`${environment.apiHost}person/tourist/getAuthor/${tourId}`);
+    }
   
   
 

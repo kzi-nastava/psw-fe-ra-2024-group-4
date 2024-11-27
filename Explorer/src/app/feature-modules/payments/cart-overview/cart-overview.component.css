@@ -1,25 +1,257 @@
-.cart-overview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
+
+/* Kontejner */
+.shopping-cart-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Cela visina prozora */
+  overflow: hidden; /* Sprečava skrolovanje celog kontejnera */
+  align-items: center; /* Centriranje celog sadržaja */
   
-  mat-card {
-    width: 300px;
-    margin: 10px;
-    text-align: left;
-  }
-  
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .total {
-    margin-top: 20px;
-  }
-  
+}
+
+/* Lista tura */
+.cart-items-scroll {
+  flex: 1;
+  overflow-y: auto; /* Omogućava skrolovanje samo tura */
+  padding: 0%;
+  margin-bottom: 60px; /* Prostor da ne "pređe" preko footera */
+  width: 100%; /* Širina se širi */
+  display: flex;
+  justify-content: center; /* Centriranje kartica */
+  gap: 20px; /* Razmak između kartica */
+
+}
+
+/* Stilizacija kartica */
+.cart-item-card {
+  width: 280px; /* Manja širina kartica */
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-bottom: 20px;
+  justify-content: flex-start; /* Razmak između elemenata unutar kartice */
+  position: relative; /* Obezbeđuje da se pozicionirani elementi mogu smestiti unutar kartice */
+  padding: 0;
+  box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3);
+}
+
+.cart-item{
+  border-radius: 40px;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px; /* Definišite visinu slike */
+  object-fit: cover; /* Slika pokriva prostor kartice */
+  border-radius: calc(40*1px) ;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Kontener za informacije o turi */
+.tour-details {
+  display: flex;
+  flex-direction: column; /* Stavi elemente vertikalno */
+  justify-content: flex-start;
+  padding: 10px;
+  background-color: white;
+  position: relative;
+  margin-top: 230px; /* Razmak između slike i informacija */
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Informacije o turi sa leve strane */
+.tour-info-left {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Dugme za uklanjanje */
+.action-button {
+  position: absolute;
+  top: 10px; /* Razmak od vrha */
+  right: 10px; /* Razmak od desne ivice */
+  background-color: white; /* Dodajte pozadinu ako je potrebno za kontrast */
+  border: none;
+  border-radius: 50%; /* Zaobljeni izgled */
+  padding: 8px;
+  z-index: 2; /* Osigurava da je dugme iznad slike */
+  cursor: pointer;
+  transition: transform 0.2s ease; /* Animacija za hover efekat */
+} 
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap; /* Omogućava tagovima da se prelomljuju na sledeći red kada je potrebno */
+    
+  color: #333;                /* Tekst u tamnijoj boji */
+  font-size: 16px;            /* Manji font */
+  padding: 4px 8px;           /* Razmak oko broja */
+  border-radius: 12px;        /* Zaokruženi ivice kao kod tagova */
+  margin-left: 10px;
+  gap: 8px;                   /* Razmak između tagova */
+}
+
+.tag {
+  background-color: #e0e0e0;  /* Pozadina za svaki tag */
+  padding: 4px 12px;           /* Unutrašnji razmak u tagu */
+  border-radius: 12px;         /* Zaokruženi ivice tagova */
+}
+
+
+/* Footer */
+.cart-footer {
+  position: fixed; /* Fiksira footer na dnu */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Preko cele širine */
+  background-color: #f9f9f9;
+  padding: 15px 20px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10; /* Osigurava da je footer iznad ostalog sadržaja */
+}
+
+/* Stilizacija teksta i dugmeta u footeru */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 900px;
+}
+
+.checkout {
+  font-size: 18px;
+  margin-right: 150px;
+}
+
+button {
+  margin-left: auto; /* Dugme na desnoj strani */
+  margin-right: 20px;
+  max-width: 150px;
+  height: 50px;
+}
+.cart-title{
+  margin-top: 30px;
+}
+.items-count {
+  background-color: #f1f1f1;  /* Pozadina slična tagovima */
+  color: #333;                /* Tekst u tamnijoj boji */
+  font-size: 16px;            /* Manji font */
+  padding: 4px 8px;           /* Razmak oko broja */
+  border-radius: 12px;        /* Zaokruženi ivice kao kod tagova */
+  margin-left: 10px;          /* Razmak od naslova */
+}
+
+.divider {
+  height: 24px; /* Visina linije */
+  width: 1px; /* Debljina linije */
+  background-color: #ccc; /* Boja linije */
+  margin: 0 10px; /* Razmak između total price i dugmeta */
+}
+
+/* Naslov */
+h3 {
+  font-size: 20px;               /* Veća veličina fonta za isticanje */
+  font-weight: 600;              /* Podebljan font */
+  color: #666;                   /* Tamna boja teksta */
+  margin-bottom: 12px;           /* Razmak ispod naslova */
+  text-transform: uppercase;     /* Sve velike slova za naslov */
+  letter-spacing: 1px;           /* Prostor između slova */
+}
+
+/* Opis i druge informacije */
+p {
+  font-size: 16px;               /* Manji font za opis */
+  color: #666;                   /* Svedena, svetlija boja teksta */
+  margin-bottom: 8px;            /* Razmak između paragrafa */
+  line-height: 1.6;              /* Povećanje visine linije za lakše čitanje */
+}
+
+/* Dodajte pozadinu i zaobljene ivice za ceo deo sa informacijama */
+div.tour-info {
+  padding: 15px;                 /* Unutrašnji razmak oko teksta */
+  background-color: #f9f9f9;     /* Svetlo siva pozadina */
+  border-radius: 8px;            /* Zaobljeni uglovi */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Blaga senka */
+}
+
+/* Cena */
+.price-container {
+  margin-top: auto; /* Gura cenu na dno kartice */
+  text-align: right; /* Poravnava cenu desno */
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  color: #333;
+}
+
+
+.fixed-circle {
+  position: fixed;
+  bottom: 7vh;
+  right: 8vh;
+  width: 10vh;
+  height: 10vh;
+  background-color: rgb(192, 153, 218);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 9999; 
+  color: white; 
+  font-size: 5vh; 
+  font-weight: bold;
+}
+
+.fixed-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
+.chat-box {
+  position: fixed;
+  bottom: 21vh; 
+  right: 7vh;
+  width: 200px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  border-width: #4b464a;
+  border-width: 5px;
+  border: 1px solid #ef7ad9;
+  z-index: 9999;
+}
+
+.chat-box::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 4vh;
+  width: 4vh;
+  height: 4vh;
+  background-color: #fff;
+  border-left: 1px solid #ef7ad9;
+  border-bottom: 1px solid #ef7ad9;
+  transform: rotate(-45deg);
+}
+
+
+
+
