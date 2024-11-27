@@ -254,7 +254,7 @@ completeChallenge(keyPoint: KeyPoint): void {
 
 completeChallengeNoKeypoint(encounter: Encounter): void {
   if (encounter.id !== undefined) {
-    console.log("usao u completion encounter proces");
+    console.log("Starting encounter completion process");
     this.encounterService.completeEncounter(encounter.id).subscribe({
       next: (updatedEncounter) => {
         console.log(`Challenge completed for encounter: ${encounter.title}`);
@@ -263,6 +263,12 @@ completeChallengeNoKeypoint(encounter: Encounter): void {
           text: `You have completed the challenge: ${encounter.title}`,
           icon: 'success',
           confirmButtonText: 'OK'
+        }).then(() => {
+          const dialogRef = this.dialog.open(EncounterComponent, {
+            width: '400px',
+            data: encounter
+          });
+          dialogRef.close(true); 
         });
       },
       error: (err) => {
@@ -273,6 +279,7 @@ completeChallengeNoKeypoint(encounter: Encounter): void {
     console.error('Encounter ID is undefined, cannot complete challenge.');
   }
 }
+
 
 
 
