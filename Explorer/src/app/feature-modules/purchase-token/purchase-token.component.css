@@ -6,12 +6,11 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Cela visina prozora */
-  overflow: hidden;
+  
 }
 
 .tour-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  
   align-items: center;
 }
 
@@ -236,3 +235,18 @@ mat-icon {
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
 }
+
+.swal2-confirm-button {
+  background-color: #6a51fe;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.swal2-cancel-button {
+  background-color: #f1f1f1;
+  color: #333;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+

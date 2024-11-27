@@ -149,6 +149,9 @@ export class ToursForAuthorComponent implements OnInit {
 
   }
     
+  goToTourEquipment(id: number){
+    this.router.navigate([`/tour/${id}/equipment`])
+  }
 
   viewTourDetails(tour: Tour){
    
@@ -318,4 +321,5 @@ closeCouponView(): void {
   this.shouldRenderCouponView = false;
   this.getAllCoupons(this.user?.id);
 }
+
 }
