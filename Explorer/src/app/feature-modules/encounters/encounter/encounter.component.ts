@@ -48,7 +48,7 @@ export class EncounterComponent {
     }
 
     this.service.activateEncounter(
-      this.encounter.id,
+      this.encounter.id ? this.encounter.id : 0,
       this.keyPoint.latitude,
       this.keyPoint.longitude
     ).subscribe({
