@@ -258,6 +258,10 @@ export class AdministrationService {
     return this.http.put<KeyPoint>(environment.apiHost + 'administration/publicRequest/updateKeyPoint', keyPoint);
   }
 
+  createAdminNotification(notification:Notification):Observable<Notification>{
+    return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
+  }
+
   
 }
 

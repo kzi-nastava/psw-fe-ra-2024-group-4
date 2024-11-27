@@ -95,6 +95,7 @@ export class AccountComponent implements OnInit {
       next: (user) => {
         user.wallet += currentAmount; 
         this.updateWallet(user); 
+        this.CreateNotification(user.id, currentAmount);
       },
       error: (err) => {
         console.error('Error fetching user info:', err);
@@ -114,6 +115,29 @@ export class AccountComponent implements OnInit {
         Swal.fire('Error!', 'Failed to update wallet. Please try again.', 'error');
       },
     });
+  }
+
+  CreateNotification(userId: number, amount: number): void {
+    const notification = {
+      id: 0,
+      description: `You have been credited with $${amount} to your wallet`,
+      creationTime: new Date(),
+      isRead: false,
+      notificationsType: 2,
+      resourceId: this.user?.id || 0,
+      userId: userId // privremeno dok ne dobijemo tačan `userId`
+  };
+
+  this.service.createAdminNotification(notification).subscribe({
+    next: (createdNotification) => {
+        console.log("Notification created", createdNotification);
+        
+    },
+    error: (error) => {
+        console.error("Error creating notification for user:", error);
+    }
+});
+
   }
   
 
