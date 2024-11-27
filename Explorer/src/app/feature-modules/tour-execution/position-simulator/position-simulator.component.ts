@@ -17,6 +17,7 @@ import { CartService } from '../../payments/cart-overview.service';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { EncounterServiceService } from '../../encounters/encounter.service.service';
 import { Encounter } from '../../encounters/model/encounter.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -46,7 +47,8 @@ export class PositionSimulatorComponent implements OnInit {
   constructor(private service: TourExecutionService, private authService: AuthService,
     private authorService: TourAuthoringService, private purchaseService: PurchaseService, 
     private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService,
-    private dialog: MatDialog){}
+    private dialog: MatDialog,
+    private router: Router){}
 
 
   ngOnInit(): void {
@@ -272,6 +274,10 @@ updateLastActivity(executionId: number): void {
 
 
 showEncounterDialog(keyPoint: KeyPoint): void {
+  if (this.router.url !== '/position-simulator') {
+    console.log('Not on Position Simulator page. Skipping modal.');
+    return; 
+}
   const dialogRef = this.dialog.open(EncounterComponent, {
     width: '400px',
     data: keyPoint, 
@@ -282,12 +288,17 @@ showEncounterDialog(keyPoint: KeyPoint): void {
       console.warn(`Encounter for keyPoint "${keyPoint.name}" does not exist.`);
     } else {
       console.log(`Encounter for keyPoint "${keyPoint.name}" exists.`);
+      this.completeChallenge(keyPoint);
     }
   });
 }
 
 
 showEncounterDialogNoKeypoint(encounter: Encounter): void {
+  if (this.router.url !== '/position-simulator') {
+    console.log('Not on Position Simulator page. Skipping modal.');
+    return; 
+}
   const dialogRef = this.dialog.open(EncounterComponent, {
     width: '400px',
     data: encounter 
@@ -344,6 +355,10 @@ completeKeyPoint(executionId: number, keyPointId: number, keyPoint: KeyPoint): v
 }
 
 showKeypointSecret(keyPoint: KeyPoint): void {
+  if (this.router.url !== '/position-simulator') {
+    console.log('Not on Position Simulator page. Skipping modal.');
+    return; 
+}
   Swal.fire({
     title: `Keypoint "${keyPoint.name}" has been reached!`,
     html: `<p>Read the description about this keypoint:</p><p>${keyPoint.description}</p>`,

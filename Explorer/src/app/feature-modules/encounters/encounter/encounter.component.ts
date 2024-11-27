@@ -56,6 +56,7 @@ export class EncounterComponent {
         console.log("Encounter successfully activated:", updatedEncounter);
         this.activationSuccess = true; 
         this.encounter = updatedEncounter; 
+        this.dialogRef.close(true);
       },
       error: (err) => {
         console.error("Error activating encounter:", err);
