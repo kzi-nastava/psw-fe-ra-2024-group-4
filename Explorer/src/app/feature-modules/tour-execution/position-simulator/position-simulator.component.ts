@@ -192,7 +192,13 @@ checkProximityToChallenges(): void {
   
         const encounterLatLng = L.latLng(encounter.latitude, encounter.longitude);
         const distance = currentLatLng.distanceTo(encounterLatLng);
-  
+
+        for (const keyPoint of this.selectedTourPoints) {
+          if (keyPoint.longitude === encounter.longitude && keyPoint.latitude === encounter.latitude) {
+            return; 
+          }
+        }
+          
         if (distance < 50 && encounter.id !== undefined) {
           console.log(`User is close to encounter: ${encounter.title}`);
           this.showEncounterDialogNoKeypoint(encounter);

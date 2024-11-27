@@ -12,26 +12,6 @@ import { environment } from 'src/env/environment';
 })
 export class EncounterComponent {
 
-  /*
-  encounter: Encounter =  {
-    id: 1,
-    title: "kako ste",
-    description: "Ovo je opis encoutnera",
-    latitude: 45,       
-    longitude: 45,     
-    xp: 100,        
-    status: EncounterStatus.Archived,    
-    type: EncounterType.HiddenLocation,  
-    data: null,                  
-    socialData: null , 
-    hiddenLocationData:  {
-      imageUrl: "images/keypoints/2974ca10-051c-4898-bd43-89b2680f4bb6.png",
-      activationRadius: 15
-    }, 
-    miscData:  null,
-
-  }
-  */
   encounter: Encounter | null = null;
   activationSuccess = false;
 
