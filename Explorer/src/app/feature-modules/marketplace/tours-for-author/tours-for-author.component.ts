@@ -264,5 +264,8 @@ toggleChat(isChat: boolean): void {
   this.isChatOpen = isChat;
 }
 
+
+
+
   
 }
