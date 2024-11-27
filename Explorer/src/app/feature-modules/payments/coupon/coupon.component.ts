@@ -99,6 +99,7 @@ validation():boolean{
         tourId: this.isForAllTours ? undefined: this.tour?.id,
         authorId: this.user?.id || 0,
       }
+      console.log(coupon);
       this.service.addCoupon(coupon).subscribe({
         next:
         ()=>{this.couponCreated.emit(); 

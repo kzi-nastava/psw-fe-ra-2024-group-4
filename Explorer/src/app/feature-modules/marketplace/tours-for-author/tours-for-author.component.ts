@@ -268,7 +268,7 @@ toggleChat(isChat: boolean): void {
 }
 //kuponi
 viewAllCoupons(): void{
-  this.shouldRenderCouponForm = false; // Osiguravamo da se forma za pojedinačni kupon zatvori
+  this.shouldRenderCouponForm = false; 
   this.shouldRenderCouponView = true;
 }
 getAllCoupons(authorId: number | undefined): void {
@@ -297,7 +297,6 @@ openCouponForm(tour: Tour): void {
 viewCouponDetails(tour: Tour): void {
   console.log(tour);
   if (!tour || !tour.id) {
-    console.error('Tour or Tour ID is missing.');
     return;
   }
 
