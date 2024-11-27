@@ -43,12 +43,12 @@
         <h1>Tours</h1>
     </div>
     <div class="content-container">
-        <div class="left-side-container">
-          <xp-tour-search (tourSearchResults)="updateTours($event)"></xp-tour-search>
+        <div class="left-side-container" >
+          <xp-tour-search *ngIf="selectedTabIndex === 0" (tourSearchResults)="updateTours($event)"></xp-tour-search>
         
         </div>
         <div class="center-container">
-            <mat-tab-group>
+            <mat-tab-group [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="Tours"> 
                     <div class="cards">
                         <div class="card" *ngFor="let t of tours">

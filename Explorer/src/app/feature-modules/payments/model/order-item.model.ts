@@ -7,4 +7,5 @@ export interface OrderItem{
     tourId: number;
     cartId: number;
     tourDetails?: Tour;
+    isBundle: boolean;
 }

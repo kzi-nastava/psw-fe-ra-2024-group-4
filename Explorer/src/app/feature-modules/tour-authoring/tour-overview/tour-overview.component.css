@@ -445,7 +445,7 @@ button[mat-icon-button] mat-icon {
     max-width: 60vw;
     margin: 0 auto;
     border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.3);
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.2);
     padding: 2rem;
     background-color: #fff;
 }
@@ -457,12 +457,12 @@ button[mat-icon-button] mat-icon {
 
 .bundle-title {
     font-size: 1.5rem;
-    color: #a36484;
+    color: #6A515E;
     margin: 0.5rem 0;
 }
 
 .bundle-price {
-    font-size: 1.2rem; color: #a36484; margin-bottom: 1.5rem; 
+    font-size: 1.2rem; color: #6A515E; margin-bottom: 1.5rem; 
 }
 
 .bundle-buy-btn { 
@@ -477,9 +477,7 @@ button[mat-icon-button] mat-icon {
     transition: background-color 0.3s ease; 
 }
 
-.bundle-buy-btn:hover { 
-    background-color: #540040; 
-}
+
 
 /* Kontejner za kartice tura */
 .tours-grid {
@@ -507,7 +505,7 @@ button[mat-icon-button] mat-icon {
 
 .tour-card-container:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 25px rgba(162, 0, 255, 0.3);
+    box-shadow: 0 15px 25px rgba(162, 0, 255, 0.2);
 }
 
 .tour-card-image {
@@ -534,13 +532,10 @@ button[mat-icon-button] mat-icon {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: #a36484;
+    color: #6A515E;
 }
 
-.tour-card-status {
-    font-size: 1rem;
-    color: #a36484;
-}
+
 
 .tour-card-footer {
     font-size: 1rem;
@@ -562,7 +557,8 @@ button[mat-icon-button] mat-icon {
 
 .tour-card-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    margin-left: 5px;
     margin-top: 1rem;
 }
 
@@ -578,10 +574,7 @@ button[mat-icon-button] mat-icon {
     transition: background-color 0.3s ease;
 }
 
-.tour-card-btn-reviews:hover,
-.tour-card-btn-map:hover {
-    background-color: #540040;
-}
+
 
 
   /*
