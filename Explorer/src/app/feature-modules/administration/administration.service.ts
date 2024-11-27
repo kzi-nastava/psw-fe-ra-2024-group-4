@@ -14,6 +14,7 @@ import { KeyPoint } from '../tour-authoring/model/keypoint.model';
 import { TourObject } from '../tour-authoring/model/object.model';
 import { Notification } from './model/notifications.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { PersonInfo } from '../person.info/model/info.model';
 
 
 @Injectable({
@@ -214,6 +215,14 @@ export class AdministrationService {
 
   getAccount(): Observable<PagedResults<Account>> {
     return this.http.get<PagedResults<Account>>(environment.apiHost + 'administration/account')
+  }
+
+  getTouristInfo(personId: number): Observable<PersonInfo> {
+    return this.http.get<PersonInfo>(`${environment.apiHost}administration/account/wallet/${personId}`);
+  }
+
+  updatePersonWallet(info: PersonInfo): Observable<PersonInfo> {
+    return this.http.put<PersonInfo>(`${environment.apiHost}administration/account/wallet/${info.id}`, info);
   }
 
   blockAccount(account: Account): Observable<Account> {

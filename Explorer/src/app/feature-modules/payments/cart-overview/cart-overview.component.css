@@ -126,6 +126,11 @@
   margin-left: 900px;
 }
 
+.wallet-price {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .checkout {
   font-size: 18px;
   margin-right: 150px;
