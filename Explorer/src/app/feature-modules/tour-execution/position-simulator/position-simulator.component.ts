@@ -171,8 +171,24 @@ checkProximityToChallenges(): void {
   }
 
   const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
-  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
-    next: (data) => {
+
+  this.selectedTourPoints.forEach(keyPoint => {
+      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
+          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
+          const distance = currentLatLng.distanceTo(keyPointLatLng);
+
+          if (distance < 50 && keyPoint.id !== undefined) {
+              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              this.completeChallenge(keyPoint);
+          }
+      } else {
+          console.error('Invalid key point data:', keyPoint);
+      }
+  });
+
+  
+  this.encounterService.getInRadius(0.015, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: ((data) => {
       this.encounters = data.results;
   
       this.encounters.forEach(encounter => {
@@ -206,13 +222,12 @@ checkProximityToChallenges(): void {
           this.showEncounterDialogNoKeypoint(encounter);
           this.completeChallengeNoKeypoint(encounter);
         }
-      });
-    },
+      }
+  )}),
     error: (err) => {
       console.error("Error loading encounters:", err);
     }
   });
-  
 }
 
 completeChallenge(keyPoint: KeyPoint): void {
@@ -382,7 +397,7 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       next: (result: PositionSimulator) => 
       {
        
-        alert("Position updated");
+        // alert("Position updated");
         if (this.tourExecution?.id) {
           this.updateLastActivity(this.tourExecution.id); 
         }

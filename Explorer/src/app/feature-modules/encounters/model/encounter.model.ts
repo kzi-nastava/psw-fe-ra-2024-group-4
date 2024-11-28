@@ -26,7 +26,7 @@ export enum EncounterStatus {
   }
   
   export interface Encounter {
-    id: number;      
+    id?: number;      
     title: string;            
     description: string;
     latitude: number;          
@@ -38,6 +38,7 @@ export enum EncounterStatus {
     hiddenLocationData: HiddenLocationDataDto | null; 
     miscData: MiscDataDto | null;     
     instances?: EncounterInstance[] | null; 
+    data? : string
   }
   
   export interface EncounterInstance {
