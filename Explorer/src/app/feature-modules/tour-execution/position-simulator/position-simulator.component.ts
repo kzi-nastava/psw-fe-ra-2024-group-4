@@ -154,7 +154,7 @@ export class PositionSimulatorComponent implements OnInit {
                     const updatedDistance = this.calculateDistance(lat1, lon1, updatedLat2, updatedLon2);
                     if (updatedDistance <= 30) {
                       // Complete the encounter if still within 30 meters
-                      alert("Tura zavrsena!");
+                      alert("Izazov " + encounter.title +" zavrsena!");
                       this.encounterService.completeEncounter(encounter.id!);
                       console.log(`Encounter "${encounter.title}" completed.`);
                     } else {
