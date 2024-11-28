@@ -38,7 +38,7 @@ export class EncounterComponent {
   }
 
   closeDialog(): void {
-    this.dialogRef.close(!!this.encounter);
+    this.dialogRef.close(!this.encounter);
   }
   
   activateEncounter(): void {

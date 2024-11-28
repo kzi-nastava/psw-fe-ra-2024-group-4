@@ -170,25 +170,8 @@ checkProximityToChallenges(): void {
       return;
   }
 
-  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
-
-  this.selectedTourPoints.forEach(keyPoint => {
-      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
-          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
-          const distance = currentLatLng.distanceTo(keyPointLatLng);
-
-          if (distance < 50 && keyPoint.id !== undefined) {
-              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
-              this.completeChallenge(keyPoint);
-          }
-      } else {
-          console.error('Invalid key point data:', keyPoint);
-      }
-  });
-
-  
-  this.encounterService.getInRadius(0.015, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
-    next: ((data) => {
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: (data) => {
       this.encounters = data.results;
   
       this.encounters.forEach(encounter => {
@@ -208,24 +191,41 @@ checkProximityToChallenges(): void {
           return; 
         }
   
-        const encounterLatLng = L.latLng(encounter.latitude, encounter.longitude);
-        const distance = currentLatLng.distanceTo(encounterLatLng);
-
         for (const keyPoint of this.selectedTourPoints) {
           if (keyPoint.longitude === encounter.longitude && keyPoint.latitude === encounter.latitude) {
             return; 
           }
         }
           
-        if (distance < 50 && encounter.id !== undefined) {
+        if (encounter.id !== undefined && !this.processedEncounters.has(encounter.id)) {
           console.log(`User is close to encounter: ${encounter.title}`);
           this.showEncounterDialogNoKeypoint(encounter);
           this.completeChallengeNoKeypoint(encounter);
         }
-      }
-  )}),
+      });
+      this.removeFarEncounters(); 
+    },
     error: (err) => {
       console.error("Error loading encounters:", err);
+    }
+  });
+  
+}
+
+private removeFarEncounters(): void {
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: (data) => {
+      const encountersInRadius = data.results.map(encounter => encounter.id); 
+
+      this.processedEncounters.forEach(encounterId => {
+        if (!encountersInRadius.includes(encounterId)) {
+          this.processedEncounters.delete(encounterId);
+          console.log(`Encounter with ID ${encounterId} removed from processed list as it is out of radius.`);
+        }
+      });
+    },
+    error: (err) => {
+      console.error("Error fetching encounters for radius check:", err);
     }
   });
 }
@@ -315,22 +315,33 @@ showEncounterDialog(keyPoint: KeyPoint): void {
   });
 }
 
+private processedEncounters: Set<number> = new Set(); 
 
 showEncounterDialogNoKeypoint(encounter: Encounter): void {
   if (this.router.url !== '/position-simulator') {
     console.log('Not on Position Simulator page. Skipping modal.');
     return; 
 }
+
+  if (this.processedEncounters.has(encounter.id!)) {
+    console.log(`Encounter "${encounter.title}" has already been processed. Skipping.`);
+    return;
+  }
+
+  this.processedEncounters.add(encounter.id!);
+  console.log('Dodati encounter: ' + encounter.id);
+
   const dialogRef = this.dialog.open(EncounterComponent, {
     width: '400px',
     data: encounter 
   });
 
   dialogRef.afterClosed().subscribe((encounterActivated: boolean) => {
-    this.completeChallengeNoKeypoint(encounter);
+    
     if (!encounterActivated) {
       console.warn(`Encounter "${encounter.title}" was not activated.`);
     } else {
+      this.completeChallengeNoKeypoint(encounter);
       console.log(`Encounter "${encounter.title}" was successfully activated.`);
     }
   });
@@ -397,7 +408,7 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       next: (result: PositionSimulator) => 
       {
        
-        // alert("Position updated");
+        alert("Position updated");
         if (this.tourExecution?.id) {
           this.updateLastActivity(this.tourExecution.id); 
         }
