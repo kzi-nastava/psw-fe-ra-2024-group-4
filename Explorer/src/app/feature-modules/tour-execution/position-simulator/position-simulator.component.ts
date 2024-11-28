@@ -179,6 +179,10 @@ checkProximityToChallenges(): void {
 
           if (distance < 50 && keyPoint.id !== undefined) {
               console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              const enc = this.findEncounterForKeyPoint(keyPoint);
+              if(enc?.miscData){ // testirati!
+                this.handleMiscEncounter(keyPoint);
+              }
               this.completeChallenge(keyPoint);
           }
       } else {
@@ -234,10 +238,28 @@ checkProximityToChallenges(): void {
   });
 }
 
-handleMiscEncounter(encounter: Encounter): void {
-  const actionDescription = encounter.miscData?.actionDescription ?? "Unknown action";
-  const xp = encounter.xp ?? 0;
+handleMiscEncounter(challenge: Encounter | KeyPoint): void {
+  let actionDescription: string;
+  let xp: number;
 
+  // Check if the input is a KeyPoint or an Encounter
+  if (this.isEncounter(challenge)) {
+    actionDescription = challenge.miscData?.actionDescription ?? "Unknown action";
+    xp = challenge.xp ?? 0;
+  } else {
+    // Try to find the corresponding Encounter for the KeyPoint
+    const encounter = this.findEncounterForKeyPoint(challenge);
+    if (encounter) {
+      actionDescription = encounter.miscData?.actionDescription ?? "Unknown action";
+      xp = encounter.xp ?? 0;
+    } else {
+      // Fallback for KeyPoints without an associated Encounter
+      actionDescription = "Explore this keypoint!";
+      xp = 0;
+    }
+  }
+
+  // Display the challenge dialog
   Swal.fire({
     title: 'Special Challenge!',
     text: `Hey! If you do this challenge: "${actionDescription}", you will get ${xp} XP!`,
@@ -247,21 +269,32 @@ handleMiscEncounter(encounter: Encounter): void {
     cancelButtonText: 'Reject Challenge'
   }).then(result => {
     if (result.isConfirmed) {
-      // Determine if the encounter is part of a keypoint
-      const keyPoint = this.selectedTourPoints.find(
-        kp => kp.latitude === encounter.latitude && kp.longitude === encounter.longitude
-      );
-
-      if (keyPoint) {
-        this.completeChallenge(keyPoint); // Call the keypoint-specific method
+      // Call the appropriate method to complete the challenge
+      if (this.isEncounter(challenge)) {
+        this.completeChallengeNoKeypoint(challenge);
       } else {
-        this.completeChallengeNoKeypoint(encounter); // Fallback for non-keypoint challenges
+        this.completeChallenge(challenge);
       }
     } else {
       console.log('Challenge rejected.');
     }
   });
 }
+
+// Helper function to find the corresponding Encounter for a KeyPoint
+private findEncounterForKeyPoint(keyPoint: KeyPoint): Encounter | undefined {
+  return this.encounters.find(
+    encounter =>
+      encounter.latitude === keyPoint.latitude &&
+      encounter.longitude === keyPoint.longitude
+  );
+}
+
+// Type guard to check if the object is an Encounter
+private isEncounter(challenge: Encounter | KeyPoint): challenge is Encounter {
+  return (challenge as Encounter).miscData !== undefined;
+}
+
 
 
 
