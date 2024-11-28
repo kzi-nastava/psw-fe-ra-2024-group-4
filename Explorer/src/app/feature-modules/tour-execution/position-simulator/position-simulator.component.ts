@@ -216,12 +216,16 @@ checkProximityToChallenges(): void {
             return; 
           }
         }
-          
+
         if (distance < 50 && encounter.id !== undefined) {
-          console.log(`User is close to encounter: ${encounter.title}`);
-          this.showEncounterDialogNoKeypoint(encounter);
-          this.completeChallengeNoKeypoint(encounter);
-        }
+          {
+            console.log(`User is close to encounter: ${encounter.title}`);
+            this.showEncounterDialogNoKeypoint(encounter);
+            if (!encounter.miscData) {
+              this.completeChallengeNoKeypoint(encounter);
+            }            
+          }
+        }        
       }
   )}),
     error: (err) => {
@@ -229,6 +233,37 @@ checkProximityToChallenges(): void {
     }
   });
 }
+
+handleMiscEncounter(encounter: Encounter): void {
+  const actionDescription = encounter.miscData?.actionDescription ?? "Unknown action";
+  const xp = encounter.xp ?? 0;
+
+  Swal.fire({
+    title: 'Special Challenge!',
+    text: `Hey! If you do this challenge: "${actionDescription}", you will get ${xp} XP!`,
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'Complete Challenge',
+    cancelButtonText: 'Reject Challenge'
+  }).then(result => {
+    if (result.isConfirmed) {
+      // Determine if the encounter is part of a keypoint
+      const keyPoint = this.selectedTourPoints.find(
+        kp => kp.latitude === encounter.latitude && kp.longitude === encounter.longitude
+      );
+
+      if (keyPoint) {
+        this.completeChallenge(keyPoint); // Call the keypoint-specific method
+      } else {
+        this.completeChallengeNoKeypoint(encounter); // Fallback for non-keypoint challenges
+      }
+    } else {
+      console.log('Challenge rejected.');
+    }
+  });
+}
+
+
 
 completeChallenge(keyPoint: KeyPoint): void {
   if (keyPoint.id !== undefined) {
@@ -320,14 +355,20 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
   if (this.router.url !== '/position-simulator') {
     console.log('Not on Position Simulator page. Skipping modal.');
     return; 
-}
-  const dialogRef = this.dialog.open(EncounterComponent, {
+  } 
+  
+  const dialogRef = this.dialog.open(EncounterComponent, { // aktivira challenge
     width: '400px',
     data: encounter 
   });
 
   dialogRef.afterClosed().subscribe((encounterActivated: boolean) => {
-    this.completeChallengeNoKeypoint(encounter);
+    if(!encounter.miscData){
+      this.completeChallengeNoKeypoint(encounter);
+    }
+    else{
+      this.handleMiscEncounter(encounter);
+    }
     if (!encounterActivated) {
       console.warn(`Encounter "${encounter.title}" was not activated.`);
     } else {
