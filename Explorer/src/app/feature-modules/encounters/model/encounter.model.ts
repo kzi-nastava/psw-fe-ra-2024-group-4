@@ -1,13 +1,13 @@
 export enum EncounterStatus {
-    Active = "Active",
-    Draft = "Draft",
-    Archived = "Archived",
+    Active =0,
+    Draft =1,
+    Archived =2,
   }
   
   export enum EncounterType {
-    Social = "Social",
-    HiddenLocation = "HiddenLocation",
-    Misc = "Misc",
+    Social = 0,
+    HiddenLocation = 1,
+    Misc = 2,
   }
   
   export interface SocialDataDto {
@@ -16,7 +16,8 @@ export enum EncounterStatus {
   }
   
   export interface HiddenLocationDataDto {
-    imageUrl: string;   
+    imageUrl: string;
+    imageBase64: string;
     activationRadius: number;   
   }
   
@@ -32,12 +33,11 @@ export enum EncounterStatus {
     longitude: number;      
     xp: number;               
     status: EncounterStatus;    
-    type: EncounterType;  
-    data?: any;                  
+    type: EncounterType;        
     socialData: SocialDataDto | null;  
     hiddenLocationData: HiddenLocationDataDto | null; 
     miscData: MiscDataDto | null;     
-    instances?: EncounterInstance[]; 
+    instances?: EncounterInstance[] | null; 
   }
   
   export interface EncounterInstance {

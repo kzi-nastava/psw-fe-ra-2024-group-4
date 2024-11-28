@@ -10,17 +10,17 @@
     <mat-label>Status: {{ encounter.status }}</mat-label>
     <mat-label>Type: {{ encounter.type }}</mat-label>
   
-    <div *ngIf="encounter.type === 'Social'">
+    <div *ngIf="encounter.type === 0">
       <mat-label>Required Participants: {{ encounter.socialData?.requiredParticipants }}</mat-label><br>
       <mat-label>Radius: {{ encounter.socialData?.radius }}</mat-label>
     </div>
   
-    <div *ngIf="encounter.type === 'HiddenLocation'">
+    <div *ngIf="encounter.type === 1">
       <mat-label>Activation Radius: {{ encounter.hiddenLocationData?.activationRadius }}</mat-label><br>
       <img [src]="getImage(encounter.hiddenLocationData?.imageUrl)" alt="Item Image" height="100">
     </div>
   
-    <div *ngIf="encounter.type === 'Misc'">
+    <div *ngIf="encounter.type === 2">
       <mat-label>Action Description: {{ encounter.miscData?.actionDescription }}</mat-label>
     </div>
   </ng-container>

@@ -1,0 +1,76 @@
+<div class="encounter-container">
+    <h2>Create Encounter</h2>
+    <div class="encounter-form">
+      <form (ngSubmit)="createEncounter()">
+      
+        <!-- Title Field -->
+        <mat-form-field  class="full-width">
+          <mat-label>Title</mat-label>
+          <input matInput type="text" [(ngModel)]="encounter.title" name="title" />
+        </mat-form-field>
+        
+        <!-- Description Field -->
+        <mat-form-field  class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="encounter.description" name="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field  class="full-width">
+            <mat-label>XP</mat-label>
+            <input matInput type="number" [(ngModel)]="encounter.xp" name="xp"/>
+          </mat-form-field>
+        
+        <!-- Encounter Type Dropdown -->
+        <mat-form-field  class="full-width">
+          <mat-label>Encounter Type</mat-label>
+          <mat-select [(ngModel)]="selectedEncounterType" name="encounterType" (selectionChange)="onEncounterTypeChange()">
+            <mat-option *ngFor="let type of encounterTypes" [value]="type">{{ type }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- Social Encounter Type -->
+        <div *ngIf="selectedEncounterType === 'Social'" class="conditional-section">
+          <mat-form-field  class="full-width">
+            <mat-label>Required Participants</mat-label>
+            <input matInput type="number" [(ngModel)]="social.requiredParticipants" name="requiredParticipants" />
+          </mat-form-field>
+          <mat-form-field  class="full-width">
+            <mat-label>Radius (km)</mat-label>
+            <input matInput type="number" [(ngModel)]="social.radius" name="radius" />
+          </mat-form-field>
+        </div>
+        
+        <!-- HiddenLocation Encounter Type -->
+        <div *ngIf="selectedEncounterType === 'HiddenLocation'" class="conditional-section">
+          <div class="full-width">
+            <input  type="file" (change)="onFileSelected($event)" /> 
+            <mat-label>Upload Image</mat-label>
+          </div>
+            
+          
+          <mat-form-field  class="full-width">
+            <mat-label>Activation Radius</mat-label>
+            <input matInput type="number" [(ngModel)]="hiddenLocation.activationRadius" name="activationRadius" />
+          </mat-form-field>
+        </div>
+        
+        <!-- Misc Encounter Type -->
+        <div *ngIf="selectedEncounterType === 'Misc'" class="conditional-section">
+          <mat-form-field  class="full-width">
+            <mat-label>Action Description</mat-label>
+            <input matInput type="text" [(ngModel)]="misc.actionDescription" name="actionDescription" />
+          </mat-form-field>
+        </div>
+        
+        <div class="buttons">
+          <button mat-raised-button color="primary" type="submit"
+            [disabled]="!encounter.longitude || !encounter.latitude || !encounter.title || !encounter.description">
+            Submit
+          </button>
+          <button mat-raised-button color="warn" (click)="closeDialog()">Close</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  
