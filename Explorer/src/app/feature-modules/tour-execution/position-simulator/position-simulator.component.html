@@ -32,7 +32,8 @@ style="margin-bottom: 10px;">Abandon tour</button>
           <label>{{ e.title }}</label>
           <!-- Hover bubble (simple empty bubble) -->
           <div class="hover-bubble">
-            <label>{{ e.description }}</label>
+            <label>{{ e.description }}</label><br/>
+            <label>{{ e.type }}</label>
             <br/>
             <ng-container *ngIf="e.type === 1; else notHidden">
               <img src="src\assets\images\logo.png">

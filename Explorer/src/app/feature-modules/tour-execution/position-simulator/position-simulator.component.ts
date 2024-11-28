@@ -124,7 +124,52 @@ export class PositionSimulatorComponent implements OnInit {
         this.currentPosition = position;
         console.log('Current Position:', this.currentPosition);
         this.checkProximityToKeyPoints(); 
-        this.checkProximityToChallenges(); 
+        this.checkProximityToChallenges();
+        if (this.activeEncounters.length > 0) {
+          let activeUncompleted = this.activeEncounters
+            .filter(encounter => encounter.instances?.some(instance => 
+              instance.status === 0 && instance.userId === this.user.id));
+  
+          for (let encounter of activeUncompleted) {
+            const lat1 = encounter.latitude; // Encounter's latitude
+            const lon1 = encounter.longitude; // Encounter's longitude
+            const lat2 = this.currentPosition.latitude; // Current position latitude
+            const lon2 = this.currentPosition.longitude; // Current position longitude
+  
+            // Check if within 30 meters initially
+            const distance = this.calculateDistance(lat1, lon1, lat2, lon2);
+            if (distance <= 30) { // 30 meters
+              alert("Nasli ste skrivenu lokaciju od izazova " + encounter.title);
+              console.log(`Encounter "${encounter.title}" is within 30 meters, starting timer.`);
+  
+              // Start a timer to check if the user is still within 30 meters after 30 seconds
+              setTimeout(() => {
+                // Re-check current position after 30 seconds
+                this.service.getPositionByTourist(this.user.id).subscribe(updatedPosition => {
+                  if (updatedPosition && updatedPosition.latitude !== undefined && updatedPosition.longitude !== undefined) {
+                    const updatedLat2 = updatedPosition.latitude;
+                    const updatedLon2 = updatedPosition.longitude;
+  
+                    // Recalculate the distance after 30 seconds
+                    const updatedDistance = this.calculateDistance(lat1, lon1, updatedLat2, updatedLon2);
+                    if (updatedDistance <= 30) {
+                      // Complete the encounter if still within 30 meters
+                      alert("Tura zavrsena!");
+                      this.encounterService.completeEncounter(encounter.id!);
+                      console.log(`Encounter "${encounter.title}" completed.`);
+                    } else {
+                      console.log(`User moved out of the 30-meter range after 30 seconds.`);
+                    }
+                  } else {
+                    console.error('Error fetching updated position after 30 seconds.');
+                  }
+                }, error => {
+                  console.error('Error fetching updated position:', error);
+                });
+              }, 30000); // 30 seconds in milliseconds
+            }
+          }
+        }
       } else {
         this.currentPosition = { latitude: 0, longitude: 0, touristId: this.user.id }; 
         console.error('Current position is undefined. Setting to default values.');
@@ -135,6 +180,24 @@ export class PositionSimulatorComponent implements OnInit {
     });
   }
   
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    // Convert degrees to radians
+    const R = 6371e3; // Earth radius in meters
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    // Haversine formula
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // in meters
+    return distance;
+}
 
   checkProximityToKeyPoints(): void {
     if (!this.currentPosition) {

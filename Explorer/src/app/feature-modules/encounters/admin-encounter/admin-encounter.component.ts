@@ -83,6 +83,7 @@ export class AdminEncounterComponent implements OnInit {
     switch (this.selectedEncounterType) {
       case "Social":
         // Ensure socialData is always initialized
+        this.encounter.type = 0;
         this.encounter.socialData = this.social;
         this.encounter.hiddenLocationData = null;
         this.encounter.miscData = null;
@@ -90,6 +91,7 @@ export class AdminEncounterComponent implements OnInit {
         break;
       case "HiddenLocation":
         // Ensure hiddenLocationData is always initialized
+        this.encounter.type = 1;
         this.encounter.hiddenLocationData = this.hiddenLocation;
         this.encounter.socialData = null;
         this.encounter.miscData = null;
@@ -97,6 +99,7 @@ export class AdminEncounterComponent implements OnInit {
         break;
       case "Misc":
         // Ensure miscData is always initialized
+        this.encounter.type = 2;
         this.encounter.miscData = this.misc;
         this.encounter.socialData = null;
         this.encounter.hiddenLocationData = null;
