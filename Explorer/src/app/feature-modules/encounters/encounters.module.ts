@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AuthorEncounterComponent } from './author-encounter/author-encounter.component';
 
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     AdminEncounterComponent,
@@ -23,7 +24,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatInputModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule
 ]
 })
 export class EncounterModule { }

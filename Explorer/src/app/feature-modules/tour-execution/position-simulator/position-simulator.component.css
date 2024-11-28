@@ -98,3 +98,39 @@ button {
     border-bottom: 1px solid #ef7ad9;
     transform: rotate(-45deg);
   }
+
+
+  /* encounter hover bubble */
+
+  .encounter-list {
+    position: relative;  /* Ensure positioning of hover bubble */
+  }
+  
+  .encounter-item {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    margin-right: 20px; /* Space between items */
+  }
+  
+  .hover-bubble {
+    position: absolute;
+    top: 0;
+    left: 100%;   /* Position the bubble on the right side of the title */
+    margin-left: 10px;
+    padding: 10px;  /* Space around the content inside the bubble */
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;  /* Text color */
+    border-radius: 12px;  /* Rounded corners */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    visibility: hidden;
+    width: 150px; /* Optional: Set max width if you want to limit bubble size */
+    word-wrap: break-word; /* Ensure long text wraps inside the bubble */
+  }
+  
+  .encounter-item:hover .hover-bubble {
+    opacity: 1;
+    visibility: visible;
+  }
+  

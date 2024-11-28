@@ -18,9 +18,34 @@
     <p  *ngIf="tourExecution.status === 2"><strong>Status:</strong> Abandoned</p>
     
 </div>  
-<button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" >Abandon tour</button>  
+<button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" 
+style="margin-bottom: 10px;">Abandon tour</button>  
 
+    <label><b>Activated encounters: </b></label>
+    <br/>
+    <ng-container *ngIf="activeEncounters.length === 0; else encounterList">
+      <label>No active encounters!</label>
+    </ng-container>
+    <ng-template #encounterList>
+      <div class="encounter-list" *ngFor="let e of activeEncounters">
+        <div class="encounter-item">
+          <label>{{ e.title }}</label>
+          <!-- Hover bubble (simple empty bubble) -->
+          <div class="hover-bubble">
+            <label>{{ e.description }}</label>
+            <br/>
+            <ng-container *ngIf="e.type === 1; else notHidden">
+              <img src="src\assets\images\logo.png">
+            </ng-container>
+            <ng-template #notHidden>
+              <label>Not hidden</label>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
+
 <div class="position-simulator-container">
     <xp-map  
         [selectedTourPoints]="selectedTourPoints" 

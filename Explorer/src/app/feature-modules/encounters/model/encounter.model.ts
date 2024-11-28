@@ -18,7 +18,9 @@ export enum EncounterStatus {
   export interface HiddenLocationDataDto {
     imageUrl: string;
     imageBase64: string;
-    activationRadius: number;   
+    activationRadius: number;
+    latitude: number;
+    longitude: number;
   }
   
   export interface MiscDataDto {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto} from '../model/encounter.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { concat, interval } from 'rxjs';
@@ -12,11 +12,13 @@ export class AdminEncounterComponent implements OnInit {
 
   constructor(private encounterService: EncounterServiceService) {}
 
+  isChosingSecretLocation = false;
+
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]  // Dynamically fetch the encounter types
   selectedEncounterType: string = "Social";  // Default type
 
   social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
-  hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: ''} = { imageUrl: '', activationRadius: 0, imageBase64: ''}; // Default values
+  hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: '', latitude: number, longitude: number} = { imageUrl: '', activationRadius: 0, imageBase64: '', latitude: 0, longitude: 0}; // Default values
   misc: { actionDescription: '' } = { actionDescription: '' };  // Default values  
 
   encounter: Encounter = {
@@ -36,12 +38,20 @@ export class AdminEncounterComponent implements OnInit {
 
   // Event handler for latitude change
   onLatitudeChanged(lat: number): void {
+    if(this.isChosingSecretLocation) {
+      this.hiddenLocation.latitude = lat;
+      return;
+    } 
     this.encounter.latitude = lat;
     console.log('Latitude changed:', this.encounter.latitude);
   }
 
   // Event handler for longitude change
   onLongitudeChanged(lng: number): void {
+    if(this.isChosingSecretLocation) {
+      this.hiddenLocation.longitude = lng;
+      return;
+    } 
     this.encounter.longitude = lng;
     console.log('Longitude changed:', this.encounter.longitude);
   }
@@ -76,18 +86,21 @@ export class AdminEncounterComponent implements OnInit {
         this.encounter.socialData = this.social;
         this.encounter.hiddenLocationData = null;
         this.encounter.miscData = null;
+        this.isChosingSecretLocation = false;
         break;
       case "HiddenLocation":
         // Ensure hiddenLocationData is always initialized
         this.encounter.hiddenLocationData = this.hiddenLocation;
         this.encounter.socialData = null;
         this.encounter.miscData = null;
+        this.isChosingSecretLocation = false;
         break;
       case "Misc":
         // Ensure miscData is always initialized
         this.encounter.miscData = this.misc;
         this.encounter.socialData = null;
         this.encounter.hiddenLocationData = null;
+        this.isChosingSecretLocation = false;
         break;
     }
   }
@@ -102,18 +115,21 @@ export class AdminEncounterComponent implements OnInit {
         this.encounter.socialData = this.social;
         this.encounter.hiddenLocationData = null;
         this.encounter.miscData = null;
+        this.isChosingSecretLocation = false;
         break;
       case 1: 
         this.encounter.type = 1;
         this.encounter.socialData = null;
         this.encounter.hiddenLocationData = this.hiddenLocation;
         this.encounter.miscData = null;
+        this.isChosingSecretLocation = false;
         break;
       case 2: 
         this.encounter.type = 2;
         this.encounter.socialData = null;
         this.encounter.hiddenLocationData = null;
         this.encounter.miscData = this.misc;
+        this.isChosingSecretLocation = false;
         break;
     }
 
@@ -142,7 +158,7 @@ export class AdminEncounterComponent implements OnInit {
       status: EncounterStatus.Draft,
       type: EncounterType.Social,
       socialData: { requiredParticipants: 0, radius: 0 },
-      hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: ''},
+      hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: '', latitude: 0, longitude: 0},
       miscData: { actionDescription: '' }
     };
 
@@ -163,6 +179,11 @@ export class AdminEncounterComponent implements OnInit {
 
   onMapClick(event: any) {
     // Update the form with the clicked map coordinates
+    if (this.isChosingSecretLocation) {
+      this.hiddenLocation.longitude = event.longitude;
+      this.hiddenLocation.latitude = event.latitude;
+      return;
+    }
     this.encounter.longitude = event.longitude;
     this.encounter.latitude = event.latitude;
   }

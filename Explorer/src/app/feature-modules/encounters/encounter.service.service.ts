@@ -73,4 +73,7 @@ export class EncounterServiceService {
     );
   }
 
+  getAllActiveForUser(touristId: number): Observable<PagedResults<Encounter>> {
+    return this.http.get<PagedResults<Encounter>>(`${environment.apiHost}encounters/getAllActive/${touristId}`);
+  }
 }

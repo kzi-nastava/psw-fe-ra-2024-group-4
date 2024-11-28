@@ -30,6 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { EncounterModule } from './feature-modules/encounters/encounters.module'
     MatMenuModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    EncounterModule
+    EncounterModule,
+    MatSlideToggleModule
   ],
   providers: [
     {

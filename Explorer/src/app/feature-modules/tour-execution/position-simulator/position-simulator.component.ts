@@ -41,6 +41,8 @@ export class PositionSimulatorComponent implements OnInit {
   chatMessage: string = 'You can put your location on the map to get started.';
 
   encounters: Encounter[] = [];
+  activeEncounters: Encounter[] = [];
+  hoveredEncounter: any = null;
  
   
 
@@ -57,15 +59,28 @@ export class PositionSimulatorComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
-      this.loadActiveTour();  
+
+      this.loadActiveTour(); 
     });
    
     this.getCurrentPosition();
+    this.loadActiveEncounters();
 
     this.positionUpdateInterval = setInterval(() => {
       this.getCurrentPosition();
     }, 10000); // 10000 ms = 10 sekundi
     
+  }
+
+  loadActiveEncounters(): void {
+    this.encounterService.getAllActiveForUser(this.user.id).subscribe({
+      next: ((data) => {
+        this.activeEncounters = data.results;
+      }),
+      error: ((error) => {
+        console.log(error);
+      })
+    });
   }
 
   loadActiveTour(): void {
@@ -187,7 +202,7 @@ checkProximityToChallenges(): void {
   });
 
   
-  this.encounterService.getInRadius(0.015, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: ((data) => {
       this.encounters = data.results;
   
@@ -332,6 +347,7 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
       console.warn(`Encounter "${encounter.title}" was not activated.`);
     } else {
       console.log(`Encounter "${encounter.title}" was successfully activated.`);
+      this.loadActiveEncounters();
     }
   });
 }
@@ -491,8 +507,11 @@ showKeypointSecret(keyPoint: KeyPoint): void {
     this.isChatOpen = isChat;
   }
   
-  
-  
-  
+  onHover(encounter: any) {
+    this.hoveredEncounter = encounter;
+  }
 
+  onLeave() {
+    this.hoveredEncounter = null;
+  }
 }
