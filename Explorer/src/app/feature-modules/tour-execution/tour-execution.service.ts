@@ -69,6 +69,9 @@ export class TourExecutionService {
   getActiveTour(touristId: number): Observable<TourExecution> {
     return this.http.get<TourExecution>(`${environment.apiHost}tourist/execution/active/${touristId}`);
   }
+  getPersonInfo(userID: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiHost}author/person/${userID}`);
+  }
 
 }
 

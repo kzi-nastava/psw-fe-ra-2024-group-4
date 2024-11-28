@@ -98,3 +98,17 @@ button {
     border-bottom: 1px solid #ef7ad9;
     transform: rotate(-45deg);
   }
+
+
+
+  /*-----------Sweet ALert for completition of encounter*/
+  #xp-bar {
+    height: 100%;
+    background-color: #4caf50; /* Green for XP bar */
+    transition: width 1s ease-in-out; /* Smooth width transition */
+  }
+  
+  .swal2-popup .swal2-html-container {
+    margin-top: 10px;
+  }
+  

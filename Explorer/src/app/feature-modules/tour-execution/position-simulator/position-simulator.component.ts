@@ -251,34 +251,76 @@ completeChallenge(keyPoint: KeyPoint): void {
   }
 }
 
-
 completeChallengeNoKeypoint(encounter: Encounter): void {
-  if (encounter.id !== undefined) {
-    console.log("Starting encounter completion process");
-    this.encounterService.completeEncounter(encounter.id).subscribe({
-      next: (updatedEncounter) => {
-        console.log(`Challenge completed for encounter: ${encounter.title}`);
-        Swal.fire({
-          title: 'Challenge Completed!',
-          text: `You have completed the challenge: ${encounter.title}`,
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          const dialogRef = this.dialog.open(EncounterComponent, {
-            width: '400px',
-            data: encounter
-          });
-          dialogRef.close(true); 
-        });
-      },
-      error: (err) => {
-        console.error('Error completing challenge:', err);
-      }
-    });
-  } else {
+  if (encounter.id === undefined) {
     console.error('Encounter ID is undefined, cannot complete challenge.');
+    return;
   }
+
+  // Fetch person information before proceeding
+  this.service.getPersonInfo(this.user.id).subscribe({
+    next: (person) => {
+      // Extract XP and Level from the fetched person object
+      const currentXP = person.xp || 0; // Default to 0 if XP is undefined
+      const currentLevel = person.level || 1; // Default to 1 if level is undefined
+
+      console.log(`Fetched Person Data: XP=${currentXP}, Level=${currentLevel}`);
+
+      // Calculate the new XP and Level after adding encounter XP
+      const encounterXP = encounter.xp || 0; // XP for this encounter
+      const newXP = currentXP + encounterXP;
+      const xpPerLevel = 100; // Example: 100 XP per level
+      const level = Math.floor(newXP / xpPerLevel) + 1;
+      const nextLevelXP = (level * xpPerLevel) - newXP;
+
+      // Call the backend to complete the encounter
+      this.encounterService.completeEncounter(encounter.id!).subscribe({
+        next: () => {
+          console.log(`Challenge completed for encounter: ${encounter.title}`);
+          
+          // SweetAlert with XP and Level details
+          Swal.fire({
+            title: 'Challenge Completed!',
+            html: `
+              <p>You have completed the challenge: <strong>${encounter.title}</strong></p>
+              <p>You gained <strong>${encounterXP} XP</strong>!</p>
+              <p>Your total XP is now: <strong>${newXP}</strong></p>
+              <p>Your current level: <strong>Level ${level}</strong></p>
+              <p>XP needed for next level: <strong>${nextLevelXP} XP</strong></p>
+            `,
+            icon: 'success',
+            confirmButtonText: 'OK',
+            customClass: {
+              popup: 'swal2-popup-with-xp'
+            },
+            didOpen: () => {
+              const popup = Swal.getPopup();
+              if (popup) {
+                // Add visual effect for XP gain
+                popup.classList.add('xp-gain-animation');
+              }
+            }
+          }).then(() => {
+            // Open the encounter dialog
+            const dialogRef = this.dialog.open(EncounterComponent, {
+              width: '400px',
+              data: encounter
+            });
+            dialogRef.close(true);
+          });
+        },
+        error: (err) => {
+          console.error('Error completing challenge:', err);
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Error fetching person information:', err);
+    }
+  });
 }
+
+
 
 
 
