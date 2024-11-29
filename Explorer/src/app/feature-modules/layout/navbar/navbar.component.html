@@ -79,6 +79,7 @@
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Record the equipment</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-overview">Browse tours</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="purchased-tours">My tours</a></li>
+                <li *ngIf="user && canCreateEncounter()"><a href="admin-encounters">Create encounter</a></li>
             </ul>
 
         </div>

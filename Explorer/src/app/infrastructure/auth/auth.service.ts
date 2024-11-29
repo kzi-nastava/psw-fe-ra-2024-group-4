@@ -83,5 +83,8 @@ export class AuthService {
   public getUser(): BehaviorSubject<User>{
     return this.user$;
   }
+  getPersonInfo(userID: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiHost}author/person/${userID}`);
+  }
 
 }
