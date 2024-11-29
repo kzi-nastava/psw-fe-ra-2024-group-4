@@ -170,7 +170,6 @@ checkProximityToChallenges(): void {
       return;
   }
 
-  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
   this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: (data) => {
       this.encounters = data.results;
@@ -192,27 +191,43 @@ checkProximityToChallenges(): void {
           return; 
         }
   
-        const encounterLatLng = L.latLng(encounter.latitude, encounter.longitude);
-        const distance = currentLatLng.distanceTo(encounterLatLng);
-
         for (const keyPoint of this.selectedTourPoints) {
           if (keyPoint.longitude === encounter.longitude && keyPoint.latitude === encounter.latitude) {
             return; 
           }
         }
           
-        if (distance < 50 && encounter.id !== undefined) {
+        if (encounter.id !== undefined && !this.processedEncounters.has(encounter.id)) {
           console.log(`User is close to encounter: ${encounter.title}`);
           this.showEncounterDialogNoKeypoint(encounter);
           this.completeChallengeNoKeypoint(encounter);
         }
       });
+      this.removeFarEncounters(); 
     },
     error: (err) => {
       console.error("Error loading encounters:", err);
     }
   });
   
+}
+
+private removeFarEncounters(): void {
+  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+    next: (data) => {
+      const encountersInRadius = data.results.map(encounter => encounter.id); 
+
+      this.processedEncounters.forEach(encounterId => {
+        if (!encountersInRadius.includes(encounterId)) {
+          this.processedEncounters.delete(encounterId);
+          console.log(`Encounter with ID ${encounterId} removed from processed list as it is out of radius.`);
+        }
+      });
+    },
+    error: (err) => {
+      console.error("Error fetching encounters for radius check:", err);
+    }
+  });
 }
 
 completeChallenge(keyPoint: KeyPoint): void {
@@ -239,7 +254,7 @@ completeChallenge(keyPoint: KeyPoint): void {
 
 completeChallengeNoKeypoint(encounter: Encounter): void {
   if (encounter.id !== undefined) {
-    console.log("usao u completion encounter proces");
+    console.log("Starting encounter completion process");
     this.encounterService.completeEncounter(encounter.id).subscribe({
       next: (updatedEncounter) => {
         console.log(`Challenge completed for encounter: ${encounter.title}`);
@@ -248,6 +263,12 @@ completeChallengeNoKeypoint(encounter: Encounter): void {
           text: `You have completed the challenge: ${encounter.title}`,
           icon: 'success',
           confirmButtonText: 'OK'
+        }).then(() => {
+          const dialogRef = this.dialog.open(EncounterComponent, {
+            width: '400px',
+            data: encounter
+          });
+          dialogRef.close(true); 
         });
       },
       error: (err) => {
@@ -258,6 +279,7 @@ completeChallengeNoKeypoint(encounter: Encounter): void {
     console.error('Encounter ID is undefined, cannot complete challenge.');
   }
 }
+
 
 
 
@@ -293,12 +315,22 @@ showEncounterDialog(keyPoint: KeyPoint): void {
   });
 }
 
+private processedEncounters: Set<number> = new Set(); 
 
 showEncounterDialogNoKeypoint(encounter: Encounter): void {
   if (this.router.url !== '/position-simulator') {
     console.log('Not on Position Simulator page. Skipping modal.');
     return; 
 }
+
+  if (this.processedEncounters.has(encounter.id)) {
+    console.log(`Encounter "${encounter.title}" has already been processed. Skipping.`);
+    return;
+  }
+
+  this.processedEncounters.add(encounter.id);
+  console.log('Dodati encounter: ' + encounter.id);
+
   const dialogRef = this.dialog.open(EncounterComponent, {
     width: '400px',
     data: encounter 
