@@ -8,6 +8,7 @@ export interface Bundle {
     authorId: number;
     tourIds: number[];
     tours: TourOverview[];
+    canBePublished?: boolean;
 }
 
 export enum Status {

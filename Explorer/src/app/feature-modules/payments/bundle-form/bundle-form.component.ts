@@ -7,6 +7,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Bundle, Status } from '../../tour-authoring/model/budle.model';
 import { PaymentsService } from '../payments.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'xp-bundle-form',
@@ -19,7 +20,8 @@ export class BundleFormComponent implements OnInit{
   totalPrice: number = 0; 
   nextId: number=0;
 
-  constructor(private tourService: TourService, private authService: AuthService, private service: PaymentsService){}
+  constructor(private tourService: TourService, private authService: AuthService, 
+    private service: PaymentsService,private dialogRef: MatDialogRef<BundleFormComponent>){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -59,26 +61,21 @@ getTours(id: number): void {
 
   onTourChange(event: MatCheckboxChange, tour: Tour): void {
     const tourIdsControl = this.bundleForm.get('tourIds')!;
-    const selectedTourIds = tourIdsControl.value || []; // Trenutni niz ID-ova
+    const selectedTourIds = tourIdsControl.value || []; 
   
     if (event.checked) {
-      // Dodaj ID ture u niz ako nije već prisutan
       if (!selectedTourIds.includes(tour.id!)) {
         selectedTourIds.push(tour.id!);
       }
     } else {
-      // Ukloni ID ture iz niza
       const index = selectedTourIds.indexOf(tour.id!);
       if (index >= 0) {
         selectedTourIds.splice(index, 1);
       }
     }
-  
-    // Ažuriraj vrednost kontrola forme i "selected" status ture
     tourIdsControl.setValue(selectedTourIds);
     tour.selected = event.checked;
   
-    // Opcionalno ažurirajte ukupan iznos
     this.updateTotalPrice();
   }
   
@@ -86,7 +83,6 @@ getTours(id: number): void {
 
   updateTotalPrice(): void {
     this.totalPrice = this.tours.filter(tour => tour.selected).reduce((sum, tour) => sum + tour.price, 0);
-    console.log(this.totalPrice);
   }
 
   addBundle(): void{
@@ -107,6 +103,7 @@ getTours(id: number): void {
       this.service.addBundle(bundle).subscribe({
          next: (result: Bundle) => {
           console.log(bundle.name);
+          this.dialogRef.close();
          }
       });
     

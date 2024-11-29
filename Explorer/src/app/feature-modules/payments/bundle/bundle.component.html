@@ -2,3 +2,19 @@
 <div class="addButton">
     <button  (click)="onAddClick()" color="primary" mat-raised-button>Add bundle</button>
 </div>
+
+<div *ngIf="bundles && bundles.length > 0">
+    <h3>Lista Bundle-ova:</h3>
+    <ul>
+      <li *ngFor="let bundle of bundles">
+        <strong>Ime:</strong> {{ bundle.name }} <br>
+        <strong>Cena:</strong> {{ bundle.price }} <br>
+        <strong>Status:</strong> {{ bundle.status }} <br>
+        <button *ngIf="bundle.canBePublished==true && bundle.status!=1" (click)="onPublish(bundle)">publish</button>
+        <button *ngIf="bundle.status==1" (click)="onArchive(bundle)">archive</button>
+        <button *ngIf="bundle.status==0" (click)="onDelete(bundle)">delete</button>
+        <hr />
+      </li>
+    </ul>
+  </div>
+  

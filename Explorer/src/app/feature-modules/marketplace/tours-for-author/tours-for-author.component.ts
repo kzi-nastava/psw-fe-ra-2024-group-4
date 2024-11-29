@@ -261,5 +261,8 @@ toggleChat(isChat: boolean): void {
   this.isChatOpen = isChat;
 }
 
+bundle(){
+  this.router.navigate(['/bundle']);
+}
   
 }

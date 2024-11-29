@@ -17,6 +17,18 @@ export class PaymentsService {
     return this.http.post<Bundle>(environment.apiHost + 'author/bundles', bundle);
   }
 
+  getBundlesByAuthorId(authorId: number): Observable<PagedResults<Bundle>> {
+    return this.http.get<PagedResults<Bundle>>(`${environment.apiHost}author/bundles/byauthor/${authorId}`);
+  }
+
+  putBundle(bundleId: number, bundle: Bundle): Observable<Bundle> {
+    return this.http.put<Bundle>(`${environment.apiHost}author/bundles/${bundleId}`, bundle);
+  }  
+
+  deleteBundle(bundleId: number){
+    return this.http.delete<void>(`${environment.apiHost}author/bundles/${bundleId}`);
+  }
+  
   getAllWithoutTours(): Observable<PagedResults<Bundle>> {
     return this.http.get<PagedResults<Bundle>>(environment.apiHost + 'tourist/bundles');
   }
