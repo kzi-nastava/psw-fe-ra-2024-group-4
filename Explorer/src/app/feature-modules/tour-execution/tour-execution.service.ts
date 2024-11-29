@@ -5,6 +5,8 @@ import { PositionSimulator } from '../tour-authoring/model/position-simulator.mo
 import { environment } from 'src/env/environment';
 import { TourExecution } from '../tour-authoring/model/tour-execution.model';
 import { KeyPoint } from '../tour-authoring/model/keypoint.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Encounter } from '../encounters/model/encounter.model';
 
 
 @Injectable({
@@ -46,7 +48,7 @@ export class TourExecutionService {
 
   updateLastActivity(executionId: number): Observable<any> {
     return this.http.put<any>(`${environment.apiHost}tourist/execution/updateLastActivity/${executionId}`, {});
-}
+  }
 
 
   completeKeyPoint(executionId: number, keyPointId: number): Observable<TourExecution> {

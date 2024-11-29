@@ -41,6 +41,8 @@ export class PositionSimulatorComponent implements OnInit {
   chatMessage: string = 'You can put your location on the map to get started.';
 
   encounters: Encounter[] = [];
+  activeEncounters: Encounter[] = [];
+  hoveredEncounter: any = null;
  
   
 
@@ -57,15 +59,28 @@ export class PositionSimulatorComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log(user);
-      this.loadActiveTour();  
+
+      this.loadActiveTour(); 
     });
    
     this.getCurrentPosition();
+    this.loadActiveEncounters();
 
     this.positionUpdateInterval = setInterval(() => {
       this.getCurrentPosition();
     }, 10000); // 10000 ms = 10 sekundi
     
+  }
+
+  loadActiveEncounters(): void {
+    this.encounterService.getAllActiveForUser(this.user.id).subscribe({
+      next: ((data) => {
+        this.activeEncounters = data.results;
+      }),
+      error: ((error) => {
+        console.log(error);
+      })
+    });
   }
 
   loadActiveTour(): void {
@@ -109,7 +124,52 @@ export class PositionSimulatorComponent implements OnInit {
         this.currentPosition = position;
         console.log('Current Position:', this.currentPosition);
         this.checkProximityToKeyPoints(); 
-        this.checkProximityToChallenges(); 
+        this.checkProximityToChallenges();
+        if (this.activeEncounters.length > 0) {
+          let activeUncompleted = this.activeEncounters
+            .filter(encounter => encounter.instances?.some(instance => 
+              instance.status === 0 && instance.userId === this.user.id));
+  
+          for (let encounter of activeUncompleted) {
+            const lat1 = encounter.latitude; // Encounter's latitude
+            const lon1 = encounter.longitude; // Encounter's longitude
+            const lat2 = this.currentPosition.latitude; // Current position latitude
+            const lon2 = this.currentPosition.longitude; // Current position longitude
+  
+            // Check if within 30 meters initially
+            const distance = this.calculateDistance(lat1, lon1, lat2, lon2);
+            if (distance <= 30) { // 30 meters
+              alert("Nasli ste skrivenu lokaciju od izazova " + encounter.title);
+              console.log(`Encounter "${encounter.title}" is within 30 meters, starting timer.`);
+  
+              // Start a timer to check if the user is still within 30 meters after 30 seconds
+              setTimeout(() => {
+                // Re-check current position after 30 seconds
+                this.service.getPositionByTourist(this.user.id).subscribe(updatedPosition => {
+                  if (updatedPosition && updatedPosition.latitude !== undefined && updatedPosition.longitude !== undefined) {
+                    const updatedLat2 = updatedPosition.latitude;
+                    const updatedLon2 = updatedPosition.longitude;
+  
+                    // Recalculate the distance after 30 seconds
+                    const updatedDistance = this.calculateDistance(lat1, lon1, updatedLat2, updatedLon2);
+                    if (updatedDistance <= 30) {
+                      // Complete the encounter if still within 30 meters
+                      alert("Izazov " + encounter.title +" zavrsena!");
+                      this.encounterService.completeEncounter(encounter.id!);
+                      console.log(`Encounter "${encounter.title}" completed.`);
+                    } else {
+                      console.log(`User moved out of the 30-meter range after 30 seconds.`);
+                    }
+                  } else {
+                    console.error('Error fetching updated position after 30 seconds.');
+                  }
+                }, error => {
+                  console.error('Error fetching updated position:', error);
+                });
+              }, 30000); // 30 seconds in milliseconds
+            }
+          }
+        }
       } else {
         this.currentPosition = { latitude: 0, longitude: 0, touristId: this.user.id }; 
         console.error('Current position is undefined. Setting to default values.');
@@ -120,6 +180,24 @@ export class PositionSimulatorComponent implements OnInit {
     });
   }
   
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    // Convert degrees to radians
+    const R = 6371e3; // Earth radius in meters
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    // Haversine formula
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // in meters
+    return distance;
+}
 
   checkProximityToKeyPoints(): void {
     if (!this.currentPosition) {
@@ -170,8 +248,25 @@ checkProximityToChallenges(): void {
       return;
   }
 
+  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
+
+  this.selectedTourPoints.forEach(keyPoint => {
+      if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
+          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
+          const distance = currentLatLng.distanceTo(keyPointLatLng);
+
+          if (distance < 50 && keyPoint.id !== undefined) {
+              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              this.completeChallenge(keyPoint);
+          }
+      } else {
+          console.error('Invalid key point data:', keyPoint);
+      }
+  });
+
+  
   this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
-    next: (data) => {
+    next: ((data) => {
       this.encounters = data.results;
   
       this.encounters.forEach(encounter => {
@@ -204,10 +299,10 @@ checkProximityToChallenges(): void {
         }
       });
       this.removeFarEncounters(); 
-    },
-    error: (err) => {
+    }),
+    error: ((err) => {
       console.error("Error loading encounters:", err);
-    }
+    })
   });
   
 }
@@ -363,7 +458,7 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
   if (this.router.url !== '/position-simulator') {
     console.log('Not on Position Simulator page. Skipping modal.');
     return; 
-}
+  }
 
   if (this.processedEncounters.has(encounter.id!)) {
     console.log(`Encounter "${encounter.title}" has already been processed. Skipping.`);
@@ -385,6 +480,7 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
     } else {
       this.completeChallengeNoKeypoint(encounter);
       console.log(`Encounter "${encounter.title}" was successfully activated.`);
+      this.loadActiveEncounters();
     }
   });
 }
@@ -544,8 +640,11 @@ showKeypointSecret(keyPoint: KeyPoint): void {
     this.isChatOpen = isChat;
   }
   
-  
-  
-  
+  onHover(encounter: any) {
+    this.hoveredEncounter = encounter;
+  }
 
+  onLeave() {
+    this.hoveredEncounter = null;
+  }
 }

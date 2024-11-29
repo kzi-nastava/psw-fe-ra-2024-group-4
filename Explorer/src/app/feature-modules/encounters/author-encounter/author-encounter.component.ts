@@ -40,6 +40,8 @@ export class AuthorEncounterComponent {
     activationRadius: 0,
     imageUrl: '',
     imageBase64: '',
+    latitude: 0,
+    longitude: 0
   }
   misc: MiscDataDto = {
     actionDescription: ''

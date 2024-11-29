@@ -634,12 +634,4 @@ private async showEncounterOnMap(): Promise<void> {
       return 'Error fetching address';
     }
   }
-  
-  
-
-  
-
- 
-
-
 }
