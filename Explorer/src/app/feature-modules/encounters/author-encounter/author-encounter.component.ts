@@ -2,8 +2,10 @@ import { Component, Inject, Input } from '@angular/core';
 import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Encounter, EncounterStatus, EncounterType, HiddenLocationDataDto, MiscDataDto, SocialDataDto } from '../model/encounter.model';
+import { Encounter, EncounterStatus, EncounterType, HiddenLocationDataDto, MiscDataDto, RequestStatus, SocialDataDto } from '../model/encounter.model';
 import { environment } from 'src/env/environment';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-author-encounter',
@@ -23,6 +25,7 @@ export class AuthorEncounterComponent {
     xp: 0,
     status: EncounterStatus.Archived,
     type: EncounterType.Social,
+    requestStatus: RequestStatus.Public,
     socialData: null,  
     hiddenLocationData: null, 
     miscData: null,
@@ -42,7 +45,7 @@ export class AuthorEncounterComponent {
     actionDescription: ''
   }
 
-  
+  user: User;
   selectedEncounterType: string = "Social"
 
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]
@@ -51,6 +54,7 @@ export class AuthorEncounterComponent {
     this.encounter.latitude = this.keyPoint.latitude
     this.encounter.longitude = this.keyPoint.longitude
   }
+  
 
   createEncounter(): void {
     if(this.encounter.type == EncounterType.Social){

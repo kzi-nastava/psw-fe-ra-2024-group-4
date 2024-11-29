@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto} from '../model/encounter.model';
+import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto, RequestStatus} from '../model/encounter.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { concat, interval } from 'rxjs';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-admin-encounter',
@@ -10,8 +12,9 @@ import { concat, interval } from 'rxjs';
 })
 export class AdminEncounterComponent implements OnInit {
 
-  constructor(private encounterService: EncounterServiceService) {}
+  constructor(private encounterService: EncounterServiceService, private authService: AuthService) {}
 
+  user: User;
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]  // Dynamically fetch the encounter types
   selectedEncounterType: string = "Social";  // Default type
 
@@ -27,12 +30,14 @@ export class AdminEncounterComponent implements OnInit {
     xp: 0,
     status: EncounterStatus.Draft,
     type: EncounterType.Social,
+    requestStatus: RequestStatus.Public,
     socialData: null,  // Default values
     hiddenLocationData: null, // Default values
     miscData: null,  // Default values
     instances: [],
     data: ""
   };
+  
 
   // Event handler for latitude change
   onLatitudeChanged(lat: number): void {
@@ -55,6 +60,9 @@ export class AdminEncounterComponent implements OnInit {
     //i ovo ispod je malo bzv, mislim da bi trebalo da imamo na backu dobavljanje svih encountera bez radijusa i lat i long
     //ali nije moj posao pa nisam ispravljala
       const globalRadius = 20000; // 20.000 km pokriva celu planetu
+      this.authService.user$.subscribe((user: User) => {
+        this.user = user;
+      })
       this.encounterService.getInRadius(globalRadius, 0, 0).subscribe({
       next: ((data) => {
         console.log("Odgovor sa servera:", data);
@@ -120,6 +128,12 @@ export class AdminEncounterComponent implements OnInit {
     this.encounter.status = 0;
     console.log("NNNNNNNNNNNNNN");
     console.log(this.encounter);
+    if(this.user.role === 'tourist'){
+      this.encounter.requestStatus = RequestStatus.Pending;
+    }
+    else{
+      this.encounter.requestStatus = RequestStatus.Public;
+    }
     // After submitting, reset the form
     this.encounterService.createEncounter(this.encounter).subscribe({
       next: ((data) => {
@@ -141,6 +155,7 @@ export class AdminEncounterComponent implements OnInit {
       xp: 0,
       status: EncounterStatus.Draft,
       type: EncounterType.Social,
+      requestStatus: RequestStatus.Public,
       socialData: { requiredParticipants: 0, radius: 0 },
       hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: ''},
       miscData: { actionDescription: '' }

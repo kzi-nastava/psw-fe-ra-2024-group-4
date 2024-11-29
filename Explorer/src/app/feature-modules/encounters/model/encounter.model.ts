@@ -9,6 +9,11 @@ export enum EncounterStatus {
     HiddenLocation = 1,
     Misc = 2,
   }
+  export enum RequestStatus {
+    Pending = 0,
+    Rejected = 1,
+    Public = 2,
+  }
   
   export interface SocialDataDto {
     requiredParticipants: number ;
@@ -33,7 +38,8 @@ export enum EncounterStatus {
     longitude: number;      
     xp: number;               
     status: EncounterStatus;    
-    type: EncounterType;        
+    type: EncounterType;     
+    requestStatus: RequestStatus;   
     socialData: SocialDataDto | null;  
     hiddenLocationData: HiddenLocationDataDto | null; 
     miscData: MiscDataDto | null;     
