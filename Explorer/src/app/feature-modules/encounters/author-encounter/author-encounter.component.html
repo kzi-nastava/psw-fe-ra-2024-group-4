@@ -16,9 +16,16 @@
         </mat-form-field>
 
         <mat-form-field  class="full-width">
-            <mat-label>XP</mat-label>
-            <input matInput type="number" [(ngModel)]="encounter.xp" name="xp"/>
-          </mat-form-field>
+          <mat-label>XP</mat-label>
+          <input matInput type="number" [(ngModel)]="encounter.xp" min="0" name="xp"/>
+        </mat-form-field>
+
+        <!-- Check box area-->
+        <div class="checkbox-area">
+          <mat-label>Is Required:</mat-label>
+          <input type="checkbox" [(ngModel)]="encounter.isRequired" name="isRequired"/>
+        </div>
+        
         
         <!-- Encounter Type Dropdown -->
         <mat-form-field  class="full-width">
@@ -32,11 +39,11 @@
         <div *ngIf="selectedEncounterType === 'Social'" class="conditional-section">
           <mat-form-field  class="full-width">
             <mat-label>Required Participants</mat-label>
-            <input matInput type="number" [(ngModel)]="social.requiredParticipants" name="requiredParticipants" />
+            <input matInput type="number"  [(ngModel)]="social.requiredParticipants" min="1" name="requiredParticipants" />
           </mat-form-field>
           <mat-form-field  class="full-width">
             <mat-label>Radius (km)</mat-label>
-            <input matInput type="number" [(ngModel)]="social.radius" name="radius" />
+            <input matInput type="number" [(ngModel)]="social.radius" min="0" name="radius" />
           </mat-form-field>
         </div>
         
@@ -50,7 +57,7 @@
           
           <mat-form-field  class="full-width">
             <mat-label>Activation Radius</mat-label>
-            <input matInput type="number" [(ngModel)]="hiddenLocation.activationRadius" name="activationRadius" />
+            <input matInput type="number" [(ngModel)]="hiddenLocation.activationRadius" min="0" name="activationRadius" />
           </mat-form-field>
         </div>
         
@@ -67,7 +74,7 @@
             [disabled]="!encounter.longitude || !encounter.latitude || !encounter.title || !encounter.description">
             Submit
           </button>
-          <button mat-raised-button color="warn" (click)="closeDialog()">Close</button>
+          <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Close</button>
         </div>
         
       </form>

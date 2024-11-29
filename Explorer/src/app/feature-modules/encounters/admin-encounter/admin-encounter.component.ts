@@ -30,7 +30,8 @@ export class AdminEncounterComponent implements OnInit {
     type: EncounterType.Social,
     socialData: null,  // Default values
     hiddenLocationData: null, // Default values
-    miscData: null  // Default values
+    miscData: null,  // Default values
+    isRequired: false
   };
 
   // Event handler for latitude change
@@ -107,7 +108,8 @@ export class AdminEncounterComponent implements OnInit {
       type: EncounterType.Social,
       socialData: { requiredParticipants: 0, radius: 0 },
       hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: ''},
-      miscData: { actionDescription: '' }
+      miscData: { actionDescription: '' },
+      isRequired: false
     };
   }
 

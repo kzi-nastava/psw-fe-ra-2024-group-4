@@ -38,6 +38,7 @@ export enum EncounterStatus {
     hiddenLocationData: HiddenLocationDataDto | null; 
     miscData: MiscDataDto | null;     
     instances?: EncounterInstance[] | null; 
+    isRequired: boolean;
   }
   
   export interface EncounterInstance {
