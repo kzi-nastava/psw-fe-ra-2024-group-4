@@ -248,5 +248,15 @@ export class AdministrationService {
   updateKeyPoint(keyPoint: KeyPoint): Observable<KeyPoint>{
     return this.http.put<KeyPoint>(environment.apiHost + 'administration/publicRequest/updateKeyPoint', keyPoint);
   }
+  approveEncounter(id: number): Observable<{ Message: string }> {
+    const url = `${environment.apiHost}encounters/${id}/approve`;
+    return this.http.put<{ Message: string }>(url, {});
+  }
+  
+  rejectEncounter(id: number): Observable<{ Message: string }> {
+    const url = `${environment.apiHost}encounters/${id}/reject`;
+    return this.http.put<{ Message: string }>(url, {});
+  }
+  
 }
 
