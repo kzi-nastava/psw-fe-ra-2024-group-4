@@ -36,6 +36,7 @@ import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-executi
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
 import { AdminEncounterComponent } from 'src/app/feature-modules/encounters/admin-encounter/admin-encounter.component';
+import { EncounterPublicStatusRequestComponent } from 'src/app/feature-modules/administration/encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 
 
 
@@ -74,7 +75,8 @@ const routes: Routes = [
   {path: 'cart/:cartId', component: CartOverviewComponent},
   {path: 'purchased-tours', component: PurchaseTokenComponent },
   {path: 'tour-review/:tourId', component: TourReviewFormComponent},
-  {path: 'admin-encounters', component: AdminEncounterComponent}
+  {path: 'admin-encounters', component: AdminEncounterComponent},
+  {path: 'request-encounters',component: EncounterPublicStatusRequestComponent}
 ];
 
 @NgModule({

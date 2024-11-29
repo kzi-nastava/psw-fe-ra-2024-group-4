@@ -1,0 +1,39 @@
+<div>
+    <div class="table-container">
+        <h1>Request for publishing encounters that tourist made</h1>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of encounters">
+                <td>{{item.id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.type}}</td>
+                <td><a href="https://www.google.com/maps?q={{item.latitude}},{{item.longitude}}"
+                       target="_blank"
+                       rel="noopener noreferrer">See location on map</a></td>
+                <td>
+                    <button color="primary" (click)="acceptEncounter(item.id!)" mat-icon-button>
+                        <mat-icon>done</mat-icon>
+                    </button>
+                </td>
+                <td>
+                    <button color="secondary" (click)="rejectEncounter(item.id!)" mat-icon-button>
+                        <mat-icon>remove-circle</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

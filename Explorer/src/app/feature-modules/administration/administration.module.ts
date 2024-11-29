@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { ClubMembersComponent } from './club-members/club-members.component';
+import { EncounterPublicStatusRequestComponent } from './encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     PublicStatusRequestComponent,
     NotificationsComponent,
     ClubMembersComponent,
+    EncounterPublicStatusRequestComponent,
   ],
   imports: [
     CommonModule,

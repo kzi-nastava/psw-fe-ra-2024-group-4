@@ -14,6 +14,7 @@ import { KeyPoint } from '../tour-authoring/model/keypoint.model';
 import { TourObject } from '../tour-authoring/model/object.model';
 import { Notification } from './model/notifications.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Encounter } from '../encounters/model/encounter.model';
 
 
 @Injectable({
@@ -256,6 +257,11 @@ export class AdministrationService {
   rejectEncounter(id: number): Observable<{ Message: string }> {
     const url = `${environment.apiHost}encounters/${id}/reject`;
     return this.http.put<{ Message: string }>(url, {});
+  }
+  getRequestedEncounters(): Observable<Encounter[]>{
+    return this.http.get<{results: Encounter[]}>(`${environment.apiHost}encounters/pending`).pipe(
+      map(response => response.results)
+    );
   }
   
 }
