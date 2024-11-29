@@ -1,8 +1,12 @@
 <div>
     <div class="table-container">
-        <h1>Request for publishing encounters that tourist made</h1>
+        <h1>Requests for publishing encounters that tourist made</h1>
     </div>
-    <table>
+    <hr>
+    <div *ngIf="encounters.length === 0" class="no-requests">
+        <p>There are no pending requests.</p>
+    </div>
+    <table *ngIf="encounters.length > 0">
         <thead>
             <tr>
                 <th>#</th>
@@ -19,7 +23,7 @@
                 <td>{{item.id}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.description}}</td>
-                <td>{{item.type}}</td>
+                <td>{{getEncounterType(item.type)}}</td>
                 <td><a href="https://www.google.com/maps?q={{item.latitude}},{{item.longitude}}"
                        target="_blank"
                        rel="noopener noreferrer">See location on map</a></td>

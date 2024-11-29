@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
+import { Encounter, EncounterType } from 'src/app/feature-modules/encounters/model/encounter.model';
 import { AdministrationService } from '../../administration.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-encounter-public-status-request',
@@ -10,7 +11,7 @@ import { AdministrationService } from '../../administration.service';
 export class EncounterPublicStatusRequestComponent {
   encounters: Encounter[] = [];
 
-  constructor(private service: AdministrationService){}
+  constructor(private service: AdministrationService,private snackBar: MatSnackBar){}
 
   ngOnInit(): void{
     this.getPendingEncounters();
@@ -26,26 +27,42 @@ export class EncounterPublicStatusRequestComponent {
       }
     })
   }
-  acceptEncounter(id: number){
+  getEncounterType(type: number): string {
+    return EncounterType[type];
+  }
+  acceptEncounter(id: number) {
     this.service.approveEncounter(id).subscribe({
       next: (response) => {
         console.log(response.Message);
         this.encounters = this.encounters.filter(encounter => encounter.id !== id);
+        this.showSnackbar('Encounter successfully approved!', 'Close'); // Show snackbar
       },
       error: (err) => {
         console.error('Error approving encounter:', err);
+        this.showSnackbar('Error approving encounter', 'Close'); // Show snackbar for error
       }
-    })
+    });
   }
-  rejectEncounter(id: number){
+
+  rejectEncounter(id: number) {
     this.service.rejectEncounter(id).subscribe({
       next: (response) => {
         console.log(response.Message);
         this.encounters = this.encounters.filter(encounter => encounter.id !== id);
+        this.showSnackbar('Encounter successfully rejected!', 'Close'); // Show snackbar
       },
       error: (err) => {
         console.error('Error rejecting encounter', err);
+        this.showSnackbar('Error rejecting encounter', 'Close'); // Show snackbar for error
       }
-    })
+    });
+  }
+
+  private showSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Snackbar duration in milliseconds
+      verticalPosition: 'bottom', // Position at the bottom
+      horizontalPosition: 'center' // Center align horizontally
+    });
   }
 }
