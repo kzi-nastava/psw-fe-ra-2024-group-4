@@ -5,6 +5,10 @@
     justify-items: center;
     width: fill;
     margin: 20px;
+    max-height: 90vh; /* Limit height to 90% of the viewport */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    padding: 10px; /* Add padding for better aesthetics */
+    box-sizing: border-box; /* Ensure padding doesn't add to width/height */
   }
   
   .encounter-form {
