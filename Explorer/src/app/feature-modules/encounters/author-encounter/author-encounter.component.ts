@@ -3,7 +3,7 @@ import { KeyPoint } from '../../tour-authoring/model/keypoint.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Encounter, EncounterStatus, EncounterType, HiddenLocationDataDto, MiscDataDto, RequestStatus, SocialDataDto } from '../model/encounter.model';
-import { environment } from 'src/env/environment';
+import Swal from 'sweetalert2';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
@@ -23,13 +23,14 @@ export class AuthorEncounterComponent {
     latitude: 0,
     longitude: 0,
     xp: 0,
-    status: EncounterStatus.Archived,
+    status: EncounterStatus.Active,
     type: EncounterType.Social,
     requestStatus: RequestStatus.Public,
     socialData: null,  
     hiddenLocationData: null, 
     miscData: null,
-    instances: null
+    instances: null,
+    isRequired: false,
   };
 
   social: SocialDataDto = {
@@ -71,14 +72,22 @@ export class AuthorEncounterComponent {
       this.encounter.hiddenLocationData = this.hiddenLocation
     }
     
-    
-    
     this.service.createEncounter(this.encounter).subscribe({
       next: () => {
           console.log("Encounter created: ", this.encounter)
+          Swal.fire({
+            title: 'Encounter Created!',
+            text: `You have created the encounter: ${this.encounter.title}`,
+            icon: 'success',
+            confirmButtonText: 'OK'});
+
       }, error: (err) =>{
         console.log(err)
         console.log("Encounter NOT created: ", this.encounter)
+        Swal.fire({
+          title: 'Unsuccessful!',
+          text: `You have failed to create an Encounter`,
+          confirmButtonText: 'OK'});
       }
     })
     this.closeDialog();

@@ -23,19 +23,34 @@ export class EncounterComponent {
   }
 
   ngOnInit(): void {
-    
     console.log("KeyPoint data provided to dialog:", this.keyPoint);
-    this.service.GetByLatLong(this.keyPoint.latitude, this.keyPoint.longitude).subscribe({
-      next: (encounter) => {
-        console.log("Received Encounter from backend:", encounter);
-        this.encounter = encounter; 
+  
+    const radius = 0.1; 
+  
+    this.service.getInRadius(radius, this.keyPoint.latitude, this.keyPoint.longitude).subscribe({
+      next: (response) => {
+        console.log("Response from server (getInRadius):", response);
+  
+        const matchingEncounter = response.results.find((encounter: Encounter) =>
+          encounter.latitude === this.keyPoint.latitude &&
+          encounter.longitude === this.keyPoint.longitude
+        );
+  
+        if (matchingEncounter) {
+          console.log("Matching encounter found:", matchingEncounter);
+          this.encounter = matchingEncounter;
+        } else {
+          console.warn("No matching encounter found in radius.");
+          this.encounter = null;
+        }
       },
       error: (err) => {
-        console.error("Error fetching encounter from backend:", err);
-        this.encounter = null; 
+        console.error("Error fetching encounters from backend:", err);
+        this.encounter = null;
       }
     });
   }
+  
 
   closeDialog(): void {
     this.dialogRef.close(!this.encounter);

@@ -37,7 +37,7 @@ export class AdminEncounterComponent implements OnInit {
     hiddenLocationData: null, // Default values
     miscData: null,  // Default values
     instances: [],
-    data: ""
+    isRequired: false
   };
   
 
@@ -177,7 +177,8 @@ export class AdminEncounterComponent implements OnInit {
       requestStatus: RequestStatus.Public,
       socialData: { requiredParticipants: 0, radius: 0 },
       hiddenLocationData: { imageUrl: '', activationRadius: 0 , imageBase64: '', latitude: 0, longitude: 0},
-      miscData: { actionDescription: '' }
+      miscData: { actionDescription: '' },
+      isRequired: false
     };
 
 

@@ -9,7 +9,7 @@
     <mat-label>XP: {{ encounter.xp }}</mat-label>
     <mat-label>Status: {{ encounter.status }}</mat-label>
     <mat-label>Type: {{ encounter.type }}</mat-label>
-  
+    <mat-label>Required for Secret: {{ encounter.isRequired}}</mat-label>
     <div *ngIf="encounter.type === 0">
       <mat-label>Required Participants: {{ encounter.socialData?.requiredParticipants }}</mat-label><br>
       <mat-label>Radius: {{ encounter.socialData?.radius }}</mat-label>
