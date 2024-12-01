@@ -44,7 +44,8 @@ import { CouponViewComponent } from './coupon-view/coupon-view.component';
     MatCheckboxModule,
     MatCardModule,
     MatButtonModule,
-    MatDatepickerModule 
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   exports: [
     BundleComponent,
