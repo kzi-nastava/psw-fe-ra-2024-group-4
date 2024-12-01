@@ -1,12 +1,17 @@
 .map-frame {
     border: 0.3vh solid rgb(233, 200, 255);
-   
   }
   
   #map {
    height: 50vh;
  
   }
+
+  .map-frame.position-simulator #map {
+    height: 88vh; /* Height for position simulator */
+  }
+
+  
 
   
   

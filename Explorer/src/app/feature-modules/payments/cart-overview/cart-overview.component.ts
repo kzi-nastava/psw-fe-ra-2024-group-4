@@ -9,12 +9,13 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { environment } from 'src/env/environment';
+import { TourService } from '../../tour-authoring/tour.service';
+import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { Notification } from '../../administration/model/notifications.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { TourTags } from '../../tour-authoring/model/tour.tags.model';
 import Swal from 'sweetalert2';
-import { TourPurchaseToken } from '../model/tour-purchase-token.model';
-import { Notification } from '../../administration/model/notifications.model';
 import { PaymentsService } from '../payments.service';
 import { Bundle } from '../../tour-authoring/model/budle.model';
 import { PaymentRecord } from '../model/payment-record.model';
@@ -39,6 +40,7 @@ export class CartOverviewComponent implements OnInit {
   toursByOrderItem: { [key: number]: TourOverview[] } = {};
 
 
+  promoCode: string = '';
   purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
@@ -119,7 +121,10 @@ export class CartOverviewComponent implements OnInit {
   loadCartItems(): void {
     this.cartService.getCartItems(this.cartId || -1).subscribe({
       next: (result: OrderItem[]) => {
-        this.cartItems = result;
+        this.cartItems = result.map(item => ({
+          ...item,
+          tourDetails: item.tourDetails || {}, // Osigurajte da postoji tourDetails
+        }));
         this.currentCart.items = result;
 
         this.cartItems.forEach(order => {
@@ -128,35 +133,36 @@ export class CartOverviewComponent implements OnInit {
             this.loadToursForBundle(order);
           }
         });
+        this.fetchAuthorIds();
   
-        // Kreiraj niz Promisa za dohvat tura
-        
-        const tourRequests = this.cartItems.map((item) =>
+        const tourRequests = this.cartItems.map(item =>
           this.purchaseService.getTour(item.tourId).toPromise().then(
             (tour: Tour | undefined) => {
               if(tour) {
                 item.tourDetails = tour;
               } else {
                 console.warn(`Tura sa ID ${item.tourId} nije pronađena.`);
+                item.tourDetails = { tags: [] }; // Osigurajte prazne tagove ako tour nije pronađen
               }
             },
             (err) => {
               console.error(`Greška pri dohvaćanju ture za stavku sa ID ${item.tourId}:`, err);
+              item.tourDetails = { tags: [] }; // Prazna vrednost ako dođe do greške
             }
           )
         );
   
-        // Sačekaj sve Promise-e pre nego što preračunaš ukupnu cenu
         Promise.all(tourRequests).then(() => {
           this.calculateTotalPrice();
         });
       },
       error: (err) => {
         Swal.fire('Error', 'Error loading cart items.', 'error');
-
       },
     });
   }
+  
+  
   
 
   calculateTotalPrice(): void {
@@ -166,17 +172,106 @@ export class CartOverviewComponent implements OnInit {
     })
   }
   
+  applyCoupon(): void {
+    if (!this.promoCode.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Coupon',
+        text: 'Please enter a valid coupon code.',
+    });
+        return;
+    }
 
+    
+    const missingAuthorIds = this.cartItems.some(item => !item.authorId);
+    if (missingAuthorIds) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Missing Information',
+        text: 'Author information is missing for some items. Please try again later.',
+    });
+        return;
+    }
+
+    this.cartService.applyCoupon(this.cartId!, this.promoCode).subscribe({
+      next: (updatedCart) => {
+          let couponAppliedToAny = false;
+
+          updatedCart.items.forEach((item: any) => {
+              const originalItem = this.cartItems.find(cartItem => cartItem.tourId === item.tourId);
+
+           
+              if (originalItem && item.price < originalItem.price) {
+                  couponAppliedToAny = true;
+              }
+          });
+
+          if (couponAppliedToAny) {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Coupon Applied',
+                  text: 'The coupon was successfully applied!',
+              });
+          } else {
+              Swal.fire({
+                  icon: 'info',
+                  title: 'Coupon Not Applied',
+                  text: 'The coupon is not valid for any tours in your cart.',
+              });
+          }
+
+          // Ažurirajte stavke u korpi
+          this.cartItems = updatedCart.items;
+      
+          this.refreshTourDetails();
+
+          this.calculateTotalPrice();
+        },
+      error: (err) => {
+          Swal.fire({
+              icon: 'error',
+              title: 'Coupon Error',
+              text: 'Failed to apply coupon: ' + err.message,
+          });
+      },
+  });
+}
+refreshTourDetails(): void {
+  const tourRequests = this.cartItems.map((item) =>
+    this.purchaseService.getTour(item.tourId).toPromise().then(
+      (tour: Tour | undefined) => {
+        if (tour) {
+          item.tourDetails = tour;
+        } else {
+          console.warn(`Tour with ID ${item.tourId} not found.`);
+          item.tourDetails = { tags: [], description: 'No description', difficulty: 'N/A' }; // Default values
+        }
+      },
+      (err) => {
+        console.error(`Error fetching tour details for ID ${item.tourId}:`, err);
+        item.tourDetails = { tags: [], description: 'Error fetching data', difficulty: 'N/A' };
+      }
+    )
+  );
+
+  Promise.all(tourRequests).then(() => {
+    console.log('Tour details refreshed successfully.');
+  });
+}
   checkout(): void {
     if (this.totalPrice > this.wallet) {
-      console.error("Nedovoljno sredstava u wallet-u.");
-      return;
+      Swal.fire({
+        icon: 'error',
+        title: 'Nedovoljno sredstava',
+        text: 'Check your wallet.',
+    });
+    return;
+     
     }
 
     if(this.cartItems.length == 0)
     {
       Swal.fire('Warning', 'The cart is empty.', 'warning');
-
       return;
     }
 
@@ -254,11 +349,18 @@ export class CartOverviewComponent implements OnInit {
 
                 //ako je stavka tura
                 } else {
+
+                  // Koristi postojeću logiku za primenu kupona
+                  let discountedPrice = item.price; // Podrazumevana cena
+
+                  if (item.discountPercentage) { 
+                      discountedPrice = item.price - (item.price * item.discountPercentage / 100);
+                  }
                   this.purchaseToken = {
                     userId: this.user.id,
                     cartId: this.currentCart.id,
                     tourId: item.tourId,
-                    price: item.price,
+                    price: discountedPrice;
                     purchaseDate: new Date()    
                   }
                   this.cartService.createToken(this.purchaseToken).subscribe({
@@ -284,10 +386,9 @@ export class CartOverviewComponent implements OnInit {
                   }
                 });
               });
-              this.totalPrice = 0; // Resetujte ukupnu cenu
-              
-              
-            //  alert("Korpa uspešno očišćena.");
+              this.cartItems = [];
+              this.totalPrice = 0;
+              this.promoCode = '';
 
              this.purchaseNotification = {
               description: "You successfully purchased tour/tours.",
@@ -307,12 +408,8 @@ export class CartOverviewComponent implements OnInit {
               {
                 console.log("Error creating notification");
               }
-
              })
-           
-
-           
-             
+        
                
               },
               error: (err: any) =>
@@ -364,9 +461,26 @@ export class CartOverviewComponent implements OnInit {
       reader.readAsDataURL(blob);
     });
   }
+
+
+  fetchAuthorIds(): void {
+    this.cartItems.forEach((item) => {
+      this.tourService.getAuthorIdByTourId(item.tourId).subscribe({
+        next: (authorId) => {
+          item.authorId = authorId; 
+        },
+        error: (err) => {
+          console.error(`Error fetching authorId for tourId ${item.tourId}:`, err);
+          alert("Author information is missing for some items. Please try again later.");
+        },
+      });
+    });
+  }
+
   getTagName(tagId: number): string {
     return TourTags[tagId];
   }
+
 
   
 }

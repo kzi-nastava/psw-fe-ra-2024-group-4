@@ -6,6 +6,7 @@ export interface OrderItem{
     price: number;
     tourId: number;
     cartId: number;
+    authorId?: number;
     tourDetails?: Tour;
     isBundle: boolean;
 }

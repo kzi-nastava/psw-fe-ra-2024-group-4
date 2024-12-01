@@ -11,9 +11,8 @@
 
 /* Lista tura */
 .cart-items-scroll {
-  flex: 1;
+  
   overflow-y: auto; /* Omogućava skrolovanje samo tura */
-  padding: 0%;
   margin-bottom: 60px; /* Prostor da ne "pređe" preko footera */
   width: 100%; /* Širina se širi */
   display: flex;
@@ -42,7 +41,7 @@
 
 .card-image {
   width: 100%;
-  height: 250px; /* Definišite visinu slike */
+  height: 200px; /* Definišite visinu slike */
   object-fit: cover; /* Slika pokriva prostor kartice */
   border-radius: calc(40*1px) ;
   position: absolute;
@@ -58,8 +57,9 @@
   padding: 10px;
   background-color: white;
   position: relative;
-  margin-top: 235px; /* Razmak između slike i informacija */
+  margin-top: 230px; /* Razmak između slike i informacija */
   z-index: 1;
+  overflow: hidden;
 }
 
 /* Informacije o turi sa leve strane */
@@ -71,12 +71,16 @@
 /* Dugme za uklanjanje */
 .action-button {
   position: absolute;
-  top: 5px;
-  left: 210px;
-  background-color: transparent;
+  top: 10px; /* Razmak od vrha */
+  right: 10px; /* Razmak od desne ivice */
+  background-color: white; /* Dodajte pozadinu ako je potrebno za kontrast */
   border: none;
-  padding: 5px;
-}
+  border-radius: 50%; /* Zaobljeni izgled */
+  padding: 8px;
+  z-index: 2; /* Osigurava da je dugme iznad slike */
+  cursor: pointer;
+  transition: transform 0.2s ease; /* Animacija za hover efekat */
+} 
 
 .tags-container {
   display: flex;
@@ -246,4 +250,7 @@ div.tour-info {
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
 }
+
+
+
 

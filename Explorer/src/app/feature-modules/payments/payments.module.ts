@@ -13,12 +13,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 
 
+import { CouponComponent } from './coupon/coupon.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HttpClientModule } from '@angular/common/http';
+import { CouponViewComponent } from './coupon-view/coupon-view.component';
 
 
 @NgModule({
   declarations: [
     BundleComponent,
-    BundleFormComponent
+    BundleFormComponent,
+    CouponComponent,
+    CouponViewComponent
+
   ],
   imports: [
     CommonModule,
@@ -38,7 +47,9 @@ import { MatCardModule } from '@angular/material/card';
   ],
   exports: [
     BundleComponent,
-    BundleFormComponent
+    BundleFormComponent,
+    CouponComponent,
+    CouponViewComponent
   ]
 })
 export class PaymentsModule { }

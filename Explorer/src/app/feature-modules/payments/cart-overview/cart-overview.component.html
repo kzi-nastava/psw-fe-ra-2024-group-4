@@ -30,8 +30,7 @@
               <div *ngIf="!item.isBundle && item.tourDetails?.tags?.length; else noTags">
                
                 <div class="tags-container">
-                  <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{getTagName(tag)}} </span>
-                 
+                  <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{ getTagName(tag) }}</span>
                 </div>
               </div>
               <ng-template #noTags>
@@ -46,18 +45,18 @@
                 
               </div>              
             </div>
-
             <button mat-icon-button class="action-button" (click)="removeCartItem(item)">
               <mat-icon>delete</mat-icon>
             </button>
+          </mat-card-content>
+        </mat-card>
+        <div class="price-container">
+          <p><strong>{{ item.price }} $</strong></p>
+        </div>
           </div>
 
-          <div class="price-container">
-            <p><strong>{{ item.price }} $</strong></p>
-          </div>
          
-        </mat-card-content>
-      </mat-card>
+      
     </div>
   </div>
 
@@ -80,4 +79,15 @@
   <div *ngIf="isChatOpen" class="chat-box">
     <p>{{chatMessage}}</p>
   </div>
+
+  <div class="coupon-input">
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Coupon Code</mat-label>
+      <input matInput [(ngModel)]="promoCode" placeholder="Coupon Code">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="applyCoupon()">Apply Coupon</button>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+
 </div>
