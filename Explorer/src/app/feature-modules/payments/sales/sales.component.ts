@@ -45,6 +45,7 @@ export class SalesComponent {
               this.sales.forEach(sale => {
                 if (sale.tourIds) {
                   sale.tourDetails = tours.filter(tour => sale.tourIds!.includes(tour.id!));
+                  
                 } else {
                   sale.tourDetails = [];
                 }

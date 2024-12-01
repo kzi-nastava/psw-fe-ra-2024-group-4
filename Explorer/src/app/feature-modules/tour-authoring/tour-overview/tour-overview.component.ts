@@ -181,7 +181,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
-        this.applyDiscounts();
+        //this.applyDiscounts();
         this.loadTourExecutions();
         
       },
@@ -194,8 +194,8 @@ export class TourOverviewComponent implements OnInit {
   applyDiscounts(): void {
     this.tours.forEach((tour) => {
       if (tour.discountedPrice !== undefined) {
-        tour.originalPrice = tour.price; // Spremamo originalnu cenu
-        tour.price = tour.discountedPrice; // Postavljamo novu cenu sa popustom
+        tour.originalPrice = tour.price; 
+        tour.price = tour.discountedPrice; 
       }
     });
   }
@@ -258,7 +258,7 @@ export class TourOverviewComponent implements OnInit {
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
-    this.orderItem.price = tour.price || 0.0;
+    this.orderItem.price = tour.discountedPrice !== undefined ? tour.discountedPrice : tour.price || 0; //tour.price || 0.0;
     this.orderItem.tourId = tour.tourId;
 
 

@@ -78,15 +78,16 @@
                                     </span>
                                 </mat-card-subtitle>
                             </div>
-                            <div class="card-footer-description">{{t.tourDescription}}</div>
                             <div class="price">
                                 <span *ngIf="t.originalPrice" class="old-price">{{ t.originalPrice | currency }}</span>
-                                <span class="new-price">{{ t.price | currency }} AAAAAAAAAAAAAAAAAAAAAAAA</span>
+                                <span class="new-price">{{ t.price | currency }} </span>
                               </div>
+                            <div class="card-footer-description">{{t.tourDescription}}</div>
+
                         </div>
 
                     </div>
-                    
+
                     <div class="card-button-container">
                     <button class="card-bottom-button2" (click)="openReviews(t.tourId)">See reviews</button>
                     <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
