@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 export class FirstPageComponent {
   @Output() scrollToTarget = new EventEmitter<void>();
   
-  uttr: SpeechSynthesisUtterance;
+ /* uttr: SpeechSynthesisUtterance;
 
   constructor(){
     this.uttr = new SpeechSynthesisUtterance();
@@ -22,6 +22,6 @@ export class FirstPageComponent {
     this.uttr.text = "Travel tales";
     window.speechSynthesis.speak(this.uttr);
     
-  }
+  }*/
   
  }

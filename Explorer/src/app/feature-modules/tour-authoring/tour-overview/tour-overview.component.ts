@@ -49,7 +49,8 @@ export class TourOverviewComponent implements OnInit {
   shoppingCart: ShoppingCart;
   user: User;
   userPurchases: ShoppingCart[];
-
+  
+  speaker: SpeechSynthesisUtterance;
 
   constructor(private tourOverviewService: TourOverviewService, 
     private mapService: MapService, 
@@ -57,7 +58,10 @@ export class TourOverviewComponent implements OnInit {
     private cartService: CartService,
     private tourExecutionService: TourExecutionService,
     private purchaseService: PurchaseService,
-  private authService: AuthService) {}
+  private authService: AuthService) {
+    this.speaker = new SpeechSynthesisUtterance();
+    this.speaker.lang = 'en-US';
+  }
 
 
   tourTagMap: { [key: number]: string } = {
@@ -130,6 +134,11 @@ export class TourOverviewComponent implements OnInit {
     
   }
   
+  playTourAudio(text: string): void
+  {
+    this.speaker.text = text;
+    window.speechSynthesis.speak(this.speaker);
+  }
   calculateTotalPrice(): void {
     this.totalPrice = 0;
     if (this.shoppingCart && this.shoppingCart.items) {
