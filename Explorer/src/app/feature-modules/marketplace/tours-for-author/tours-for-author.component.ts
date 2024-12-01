@@ -15,6 +15,7 @@ import { MapService } from 'src/app/shared/map/map.service';
 import Swal from 'sweetalert2';
 import { SalesService } from '../../payments/sales.service';
 import { Sale } from '../../payments/model/sales.model';
+import { CouponService } from '../../payments/coupon.service';
 @Component({
   selector: 'xp-tours-for-author',
   templateUrl: './tours-for-author.component.html',
@@ -25,6 +26,7 @@ export class ToursForAuthorComponent implements OnInit {
   tours: Tour[] = [];
   user: User | null = null;
   selectedTour: Tour;
+  selectedCouponTour: Tour| undefined;
   shouldViewTour: boolean = false;
   selectedKeypoints: KeyPoint[] = [];
   private lengthUpdatedSubscription!: Subscription;
@@ -56,6 +58,10 @@ export class ToursForAuthorComponent implements OnInit {
     }
   }
 
+  shouldRenderCouponForm: boolean=false;
+  shouldRenderCouponView: boolean=false;
+  couponMap: Map<number, boolean> = new Map();
+  viewMode: boolean=false;
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -75,7 +81,7 @@ export class ToursForAuthorComponent implements OnInit {
     14: 'SelfGuided'
   };
   
-  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog, private salesService: SalesService) { }
+  constructor(private mapService: MapService, private authorService: TourAuthoringService, private service: TourService, private authService: AuthService, private router: Router, public dialog: MatDialog, private salesService: SalesService, private couponService: CouponService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -87,6 +93,7 @@ export class ToursForAuthorComponent implements OnInit {
         this.getTours(user.id);
         this.authorId=user.id;
 
+        this.getAllCoupons(user.id);
         
       }
       
@@ -110,6 +117,7 @@ export class ToursForAuthorComponent implements OnInit {
     this.service.getToursForAuthor(id).subscribe({
       next: (result: Tour[]) => { 
         this.tours = result; 
+        this.getAllCoupons(this.user?.id || 0);
         console.log(this.tours)
         console.log(this.tours);
         console.log(this.tours[0].keyPoints[0].tourId);
@@ -171,6 +179,9 @@ export class ToursForAuthorComponent implements OnInit {
 
   }
     
+  goToTourEquipment(id: number){
+    this.router.navigate([`/tour/${id}/equipment`])
+  }
 
   viewTourDetails(tour: Tour){
    
@@ -332,4 +343,57 @@ createDiscount() {
     }
   });
 }
+//kuponi
+viewAllCoupons(): void{
+  this.shouldRenderCouponForm = false; 
+  this.shouldRenderCouponView = true;
+}
+getAllCoupons(authorId: number | undefined): void {
+  if(authorId){
+  this.couponService.getAll(authorId).subscribe({
+    next: (coupons) => {
+      this.couponMap.clear();
+      coupons.results.forEach((coupon) => {
+        if(coupon.tourId){
+        this.couponMap.set(coupon.tourId, true);
+        }
+      });
+      console.log(this.couponMap); 
+    },
+    error: (error) => {
+      console.error('Error fetching coupons:', error);
+    },
+  });
+}
+}
+
+openCouponForm(tour: Tour): void {
+  this.selectedCouponTour = tour;
+  this.shouldRenderCouponForm = true;
+}
+viewCouponDetails(tour: Tour): void {
+  console.log(tour);
+  if (!tour || !tour.id) {
+    return;
+  }
+
+  this.selectedCouponTour = tour; 
+  this.viewMode = true; 
+  this.shouldRenderCouponForm = true; 
+}
+
+closeCouponForm(): void {
+  this.viewMode=false;
+  this.shouldRenderCouponForm = false;
+  this.getAllCoupons(this.user?.id);
+}
+addCouponForAll(): void {
+  this.selectedCouponTour = undefined;
+  this.shouldRenderCouponForm = true;
+}
+closeCouponView(): void {
+  this.shouldRenderCouponView = false;
+  this.getAllCoupons(this.user?.id);
+}
+
 }

@@ -1,4 +1,3 @@
-
 <div class="main-container">
 <div class="top-container">
     <header><h1>Tours</h1></header>
@@ -74,6 +73,7 @@
                                     </button>
                                 </ng-template>
 
+                            <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
                             <button mat-raised-button class="card-bottom-button" (click)="viewTourDetails(t)">View</button>
                             
                            
@@ -94,13 +94,55 @@
                         </div>
                         <div class="card-footer-description">Price: ${{t.price}}</div>
                         <div class="card-footer-description">{{t.description}}</div>
+                        
+                        <div class="card-button-container">
+                            <ng-container *ngIf="t?.id !== undefined && !couponMap.get(t.id!); else viewCouponButton">
+                              <button mat-raised-button class="card-bottom-button" (click)="openCouponForm(t)">
+                                Add Coupon
+                              </button>
+                            </ng-container>
+                            <ng-template #viewCouponButton>
+                              <button mat-raised-button class="card-bottom-button" (click)="viewCouponDetails(t)">
+                                View Coupon
+                              </button>
+                            </ng-template>
+                          </div>
+                          
                     </div>
 
                 </div>
-                
-                
         </div>
+        <div class="add-coupon-all-container">
+            <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
+              Add Coupon for All Tours
+            </button>
+          </div>
+          <div class="view-all-container">
+            <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
+              View all my coupons
+            </button>
+          </div>
+        <div class="overlay" *ngIf="shouldRenderCouponForm"
+        (click)="closeCouponForm()">
+            <xp-coupon
+            [viewMode]="viewMode"
+            [tour]="selectedCouponTour"
+            (click)="$event.stopPropagation()"
+                [isForAllTours]="!selectedCouponTour"
+                (close)="closeCouponForm()"
+                (couponCreated)="getTours(user?.id || 0)"
+            ></xp-coupon>
+        </div>
+        <div class="overlay" *ngIf="shouldRenderCouponView" (click)="closeCouponView()">
+            <xp-coupon-view
+              [authorId]="user?.id" 
+              [tours]="tours" 
+              (click)="$event.stopPropagation()"
+              (close)="closeCouponView()"
+            ></xp-coupon-view>
+          </div>
     </div>
+    
     
         <div class="chat-container">
             <a (mouseenter)="toggleChat(true)" 

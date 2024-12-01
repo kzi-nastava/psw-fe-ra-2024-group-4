@@ -68,8 +68,18 @@ export class PurchaseTokenComponent implements OnInit{
         const tourRequests = tokens.map(token => this.purchaseService.getTour(token.tourId));
         
         forkJoin(tourRequests).subscribe(tourDetails => {
+
+          this.tours = tourDetails.map((tour, index) => {
+            const token = tokens[index];
+            return {
+              ...tour,
+              price: token.price
+            };
+          });
+
           this.tours = tourDetails;
           this.loadTourExecutions();
+
         });
       });
     });

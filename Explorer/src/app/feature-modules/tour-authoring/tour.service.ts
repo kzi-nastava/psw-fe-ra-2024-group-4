@@ -38,8 +38,8 @@ import { environment } from "src/env/environment";
 
     }
 
-    addTourEquipment(equipmentId: number, tour: Tour): Observable<Tour> { 
-      return this.http.post<Tour>('https://localhost:44333/api/author/tour/' + tour.id + '/equipment/' + equipmentId, tour);
+    addTourEquipment(tourId: number, equipmentIds: number[]): Observable<any> { 
+      return this.http.post<Tour>('https://localhost:44333/api/author/tour/' + tourId + '/equipment', equipmentIds);
     }
 
     removeEquipmentFromTour(equipmentId: number, tourId: number): Observable<Tour> {
@@ -54,7 +54,9 @@ import { environment } from "src/env/environment";
       return this.http.put('https://localhost:44333/api/author/tour/reactivate/' + tour.id, tour.userId);
     }
 
-    
+    getAuthorIdByTourId(tourId: number): Observable<number> {
+      return this.http.get<number>(`${environment.apiHost}person/tourist/getAuthor/${tourId}`);
+    }
   
   
 

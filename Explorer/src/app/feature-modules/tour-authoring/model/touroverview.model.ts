@@ -5,7 +5,7 @@ export interface TourOverview {
     tourId: number;
     tourName: string;
     tourDescription: string;
-    tourDifficulty: number;
+    tourDifficulty: string;
     tags: string[];
     firstKeyPoint: KeyPoint;
     reviews?: TourReview[];

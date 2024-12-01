@@ -1,0 +1,122 @@
+.coupon-view-container {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    max-width: 1000px; /* Povećana širina */
+    margin: 20px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .coupon-view-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #a36484;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .coupon-view-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #777;
+    margin-bottom: 30px;
+  }
+  
+  .coupon-list {
+    max-height: 450px; /* Maksimalna visina liste */
+    overflow-y: auto; /* Omogućava skrol */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 10px; /* Dodajemo padding za bolji izgled */
+  }
+  
+  .coupon-item {
+    display: flex;
+    justify-content: center; /* Centralizuje pojedinačne kupone */
+  }
+  
+  .coupon-form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f7d1d1, #fbecec); /* Gradient kao u pojedinačnom kuponu */
+    padding: 20px;
+    width: 95%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Senka */
+  }
+  
+  .coupon-left-section {
+    flex: 1;
+    text-align: left;
+    color: #333;
+  }
+  
+  .coupon-left-section h2 {
+    font-size: 1.5rem;
+    color: #a36484;
+    margin-bottom: 10px;
+  }
+  
+  .coupon-left-section .promo-code {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #ffffff; /* Neutralna pozadina */
+    color: #555; /* Neutralna boja teksta */
+    padding: 5px 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .coupon-right-section {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .coupon-right-section .discount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333; /* Neutralna boja teksta */
+    background: #f0f0f0; /* Svetlo siva pozadina */
+    padding: 5px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  .coupon-right-section .expiration-date {
+    font-size: 1.0rem;
+    font-weight: 500;
+    color: #555; /* Neutralna boja */
+    padding: 10px;
+  }
+  
+  .coupon-right-section .expiration-date span {
+    font-weight: bold;
+    color: #333; /* Tamnija siva */
+  }
+  .edit-btn,
+  .delete-btn {
+    background: #a36484; /* Dugmad boja */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-btn:hover {
+    background: #845072;
+  }
+  
+  .delete-btn:hover {
+    background: #b54848;
+  } 

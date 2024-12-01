@@ -69,7 +69,15 @@ export class CartService {
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
   }
 
-  
+
+  applyCoupon(cartId: number, promoCode: string): Observable<ShoppingCart> {
+    // Koristimo HttpParams za dodavanje query parametara
+    const url = `${environment.apiHost}shopping/applyCoupon/${cartId}`;
+    return this.http.put<ShoppingCart>(url, null, {
+      params: { promoCode }, // Query param
+    });
+
+  }
 
   getAllNotifications(userId: number, role: 'tourist' | 'author' | 'administrator'): Observable<PagedResults<Notification>> {
     const url = `${environment.apiHost}${role}/notification/getall/${userId}`;
@@ -85,5 +93,6 @@ export class CartService {
   {
     const url = `${environment.apiHost}${role}/notification/`;
     return this.http.post<Notification>(url, notification);
+
   }
 }
