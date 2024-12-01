@@ -35,10 +35,13 @@ export class PositionSimulatorComponent implements OnInit {
   isChatOpen: boolean = false; 
   chatMessage: string = 'You can put your location on the map to get started.';
 
-  
+  uttr: SpeechSynthesisUtterance;
 
   constructor(private service: TourExecutionService, private authService: AuthService, 
-    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService){}
+    private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService){
+      this.uttr = new SpeechSynthesisUtterance();
+      this.uttr.lang = 'en-US';
+    }
 
   ngOnInit(): void {
     this.positionSimulatorActivated = true;
@@ -55,6 +58,21 @@ export class PositionSimulatorComponent implements OnInit {
       this.getCurrentPosition();
     }, 10000); // 10000 ms = 10 sekundi
     
+  }
+
+  playKeypointAudio(text: string): void
+  {
+    
+    this.uttr.text = text;
+    window.speechSynthesis.speak(this.uttr);
+  }
+
+
+
+  stopKeypointAudio(): void
+  {
+    
+    window.speechSynthesis.cancel();
   }
 
   loadActiveTour(): void {

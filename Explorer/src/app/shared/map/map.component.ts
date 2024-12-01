@@ -56,7 +56,7 @@ export class MapComponent {
   
    user: User;
    
-  
+   uttr: SpeechSynthesisUtterance;
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -87,7 +87,11 @@ export class MapComponent {
 
 
    constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
-     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
+
+      this.uttr = new SpeechSynthesisUtterance();
+      this.uttr.lang = 'en-US';
+     }
 
 
    
@@ -523,9 +527,15 @@ export class MapComponent {
           <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
         </div>
       </div>
-    </div>
-  </div>`;
 
+        <div class = "card-btn" style="display: flex; justify-content: center;">
+     
+      </div>
+
+    </div>
+  </div>
+      `;
+  
 
 
     
@@ -538,6 +548,38 @@ export class MapComponent {
             marker.closePopup();
           });
         this.selectedTourPointsMarkers.push(marker);
+
+   
+        marker.on('popupopen', () => {
+          const popup = marker.getPopup();
+          
+          // Bind mouseover/mouseout events directly on the popup
+          if (popup) {
+            const popupElement = popup.getElement();
+            
+            if(popupElement)
+            {
+         
+              popupElement.addEventListener('mouseover', () => {
+                // Optionally, you can keep the popup open here or trigger other actions
+                marker.openPopup();
+
+                const button = popupElement.querySelector(".audio-btn");
+               
+
+                 
+              });
+          
+              popupElement.addEventListener('mouseout', () => {
+                marker.closePopup();
+              });
+            }
+            
+          }
+        });
+
+
+      this.selectedTourPointsMarkers.push(marker);
         
 
         
@@ -550,7 +592,18 @@ export class MapComponent {
     }
 }
 
-  
+  playKeypointAudio(text: string): void
+  {
+    
+    this.uttr.text = text;
+    window.speechSynthesis.speak(this.uttr);
+  }
+
+  stopKeypointAudio(): void
+  {
+    
+    window.speechSynthesis.cancel();
+  }
   
   refreshPage():void{
     window.location.reload();
