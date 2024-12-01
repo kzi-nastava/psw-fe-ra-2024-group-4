@@ -56,7 +56,8 @@ export class CartOverviewComponent implements OnInit {
      private authService: AuthService,
      private purchaseService: PurchaseService,
      private paymentService: PaymentsService,
-     private tourService: TourOverviewService,
+     private tourService: TourService,
+     private tourOverviewService: TourOverviewService,
     ) {} 
 
   ngOnInit(): void {
@@ -78,7 +79,7 @@ export class CartOverviewComponent implements OnInit {
     this.paymentService.getById(order.tourId).subscribe({
       next: (bundle: Bundle) => {
         const tourRequests = bundle.tourIds.map(tourId =>
-          this.tourService.getById(tourId).toPromise()
+          this.tourOverviewService.getById(tourId).toPromise()
         );
 
         // Kad se svi zahtevi za ture završe, čuvaj rezultat u kešu
@@ -126,6 +127,8 @@ export class CartOverviewComponent implements OnInit {
           tourDetails: item.tourDetails || {}, // Osigurajte da postoji tourDetails
         }));
         this.currentCart.items = result;
+        
+        this.fetchAuthorIds();
 
         this.cartItems.forEach(order => {
           if (order.isBundle) {
@@ -133,7 +136,6 @@ export class CartOverviewComponent implements OnInit {
             this.loadToursForBundle(order);
           }
         });
-        this.fetchAuthorIds();
   
         const tourRequests = this.cartItems.map(item =>
           this.purchaseService.getTour(item.tourId).toPromise().then(
@@ -289,12 +291,8 @@ refreshTourDetails(): void {
            
              
              this.personInfoService.updateTouristInfo(this.user).subscribe({
-              next: (result: PersonInfo) => {
-
-                
-               
-              this.cartItems = []; 
-              this.currentCart.items.forEach(item => {
+              next: () => {
+              this.cartItems.forEach(item => {
 
                 //Ako je stavka bundle
                 if(item.isBundle === true){
@@ -360,9 +358,10 @@ refreshTourDetails(): void {
                     userId: this.user.id,
                     cartId: this.currentCart.id,
                     tourId: item.tourId,
-                    price: discountedPrice;
+                    price: discountedPrice, // Cena sa popustom
                     purchaseDate: new Date()    
-                  }
+                  };
+                  
                   this.cartService.createToken(this.purchaseToken).subscribe({
                     next: (result: TourPurchaseToken) => {
                       Swal.fire('Success', 'Created token!', 'success');
