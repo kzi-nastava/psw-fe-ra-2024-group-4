@@ -1,35 +1,36 @@
 <div class="main-container">
-<div class="top-container">
+  <div class="top-container">
     <header><h1>Tours</h1></header>
 
     <button mat-raised-button class="card-bottom-button" (click)="toggleSale()">Create Sale</button>
     <div *ngIf="showSaleCheckboxes" class="sale-form-container">
-        <form (ngSubmit)="createDiscount()">
-            <label class="discount" for="discount">Discount (%):</label>
-            <input class="discount" type="number" id="discount" [(ngModel)]="discount" name="discount" required min="1" max="100">
-    
-            <mat-form-field>
-                <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate" name="startDate" required>
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-    
-            <mat-form-field>
-                <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate" name="endDate" required>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-    
-            <div *ngIf="dateError" class="error">
-                The sale duration cannot exceed 14 days!
-            </div>
-    
-            <button type="submit" mat-raised-button [disabled]="!discount || dateError" color="accent">Create</button>
-        </form>
+      <form (ngSubmit)="createDiscount()" class="sale-form">
+        <label class="discount" for="discount">Discount (%):</label>
+        <input class="discount" type="number" id="discount" [(ngModel)]="discount" name="discount" required min="1" max="100">
+
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate" name="startDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate" name="endDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <div *ngIf="dateError" class="error">
+          The sale duration cannot exceed 14 days!
+        </div>
+
+        <button type="submit" mat-raised-button [disabled]="!discount || dateError" color="accent">Create</button>
+      </form>
     </div>
-    
+  </div>
+</div>
 
 
     <div class="content-container">  
