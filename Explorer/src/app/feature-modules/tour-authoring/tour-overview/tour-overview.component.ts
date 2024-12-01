@@ -322,8 +322,7 @@ export class TourOverviewComponent implements OnInit {
   loadBundles(): void{
     this.paymentService.getAllWithoutTours().subscribe({
       next: (data: PagedResults<Bundle>) => {
-        console.log('Tours loaded:', data);
-        this.bundles = data.results;
+        this.bundles = data.results.filter(bundle => bundle.status === 1);
         this.loadToursForBundle();
         
       },

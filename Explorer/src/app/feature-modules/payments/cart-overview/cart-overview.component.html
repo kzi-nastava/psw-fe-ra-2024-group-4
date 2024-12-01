@@ -10,10 +10,9 @@
     <div *ngFor="let item of cartItems" class="cart-item-card">
       <mat-card class="cart-item">
         <mat-card-content class="cart-item-content">
-       
-            <!-- Slika koja pokriva celu karticu -->
-            <img *ngIf="!item.isBundle" [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
-            <img *ngIf="item.isBundle" [src]="'https://assets.superhivemarket.com/store/product/175755/image/2f23003e903c0bb30d86da42dbfd0074.jpg'" class="card-image">
+          <!-- Slika koja pokriva celu karticu -->
+          <img *ngIf="!item.isBundle" [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
+          <img *ngIf="item.isBundle" [src]="'https://assets.superhivemarket.com/store/product/175755/image/2f23003e903c0bb30d86da42dbfd0074.jpg'" class="card-image">
           
           <!-- Informacije o turi -->
           <div class="tour-details">
@@ -26,9 +25,7 @@
               <br *ngIf="item.isBundle">
               <p *ngIf="item.isBundle">Tours in bundle:</p>
 
-
               <div *ngIf="!item.isBundle && item.tourDetails?.tags?.length; else noTags">
-               
                 <div class="tags-container">
                   <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{ getTagName(tag) }}</span>
                 </div>
@@ -37,26 +34,20 @@
                 <p *ngIf="!item.isBundle">Tags: N/A</p>
               </ng-template>
               <div *ngIf="item.isBundle">
-               
                 <div class="tags-container">
                   <span *ngFor="let tour of getCachedTours(item.tourId)" class="tag">{{tour.tourName}} </span>
-                 
                 </div>
-                
               </div>              
             </div>
             <button mat-icon-button class="action-button" (click)="removeCartItem(item)">
               <mat-icon>delete</mat-icon>
             </button>
-          </mat-card-content>
-        </mat-card>
-        <div class="price-container">
-          <p><strong>{{ item.price }} $</strong></p>
-        </div>
           </div>
-
-         
-      
+        </mat-card-content>
+      </mat-card>
+      <div class="price-container">
+        <p><strong>{{ item.price }} $</strong></p>
+      </div>
     </div>
   </div>
 
@@ -69,10 +60,9 @@
   </div>
 </div>
 
-
 <div class="chat-container">
   <a (mouseenter)="toggleChat(true)" 
-  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
     ? 
   </a>
 
@@ -89,5 +79,4 @@
   </div>
 
   <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
-
 </div>
