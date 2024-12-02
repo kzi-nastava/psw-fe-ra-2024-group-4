@@ -257,6 +257,10 @@ checkProximityToChallenges(): void {
 
           if (distance < 50 && keyPoint.id !== undefined) {
               console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+              const enc = this.findEncounterForKeyPoint(keyPoint);
+              if(enc?.miscData){ // testirati!
+                this.handleMiscEncounter(keyPoint);
+              }
               this.completeChallenge(keyPoint);
           }
       } else {
@@ -295,7 +299,9 @@ checkProximityToChallenges(): void {
         if (encounter.id !== undefined && !this.processedEncounters.has(encounter.id)) {
           console.log(`User is close to encounter: ${encounter.title}`);
           this.showEncounterDialogNoKeypoint(encounter);
-          this.completeChallengeNoKeypoint(encounter);
+          if (!encounter.miscData) {
+            this.completeChallengeNoKeypoint(encounter);
+          } 
         }
       });
       this.removeFarEncounters(); 
@@ -324,6 +330,66 @@ private removeFarEncounters(): void {
     }
   });
 }
+
+handleMiscEncounter(challenge: Encounter | KeyPoint): void {
+  let actionDescription: string;
+  let xp: number;
+
+  // Check if the input is a KeyPoint or an Encounter
+  if (this.isEncounter(challenge)) {
+    actionDescription = challenge.miscData?.actionDescription ?? "Unknown action";
+    xp = challenge.xp ?? 0;
+  } else {
+    // Try to find the corresponding Encounter for the KeyPoint
+    const encounter = this.findEncounterForKeyPoint(challenge);
+    if (encounter) {
+      actionDescription = encounter.miscData?.actionDescription ?? "Unknown action";
+      xp = encounter.xp ?? 0;
+    } else {
+      // Fallback for KeyPoints without an associated Encounter
+      actionDescription = "Explore this keypoint!";
+      xp = 0;
+    }
+  }
+
+  // Display the challenge dialog
+  Swal.fire({
+    title: 'Special Challenge!',
+    text: `Hey! If you do this challenge: "${actionDescription}", you will get ${xp} XP!`,
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'Complete Challenge',
+    cancelButtonText: 'Reject Challenge'
+  }).then(result => {
+    if (result.isConfirmed) {
+      // Call the appropriate method to complete the challenge
+      if (this.isEncounter(challenge)) {
+        this.completeChallengeNoKeypoint(challenge);
+      } else {
+        this.completeChallenge(challenge);
+      }
+    } else {
+      console.log('Challenge rejected.');
+    }
+  });
+}
+
+// Helper function to find the corresponding Encounter for a KeyPoint
+private findEncounterForKeyPoint(keyPoint: KeyPoint): Encounter | undefined {
+  return this.encounters.find(
+    encounter =>
+      encounter.latitude === keyPoint.latitude &&
+      encounter.longitude === keyPoint.longitude
+  );
+}
+
+// Type guard to check if the object is an Encounter
+private isEncounter(challenge: Encounter | KeyPoint): challenge is Encounter {
+  return (challenge as Encounter).miscData !== undefined;
+}
+
+
+
 
 completeChallenge(keyPoint: KeyPoint): void {
   if (keyPoint.id !== undefined) {
@@ -478,7 +544,12 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
     if (!encounterActivated) {
       console.warn(`Encounter "${encounter.title}" was not activated.`);
     } else {
-      this.completeChallengeNoKeypoint(encounter);
+      if(!encounter.miscData){
+        this.completeChallengeNoKeypoint(encounter);
+      }
+      else{
+        this.handleMiscEncounter(encounter);
+      }
       console.log(`Encounter "${encounter.title}" was successfully activated.`);
       this.loadActiveEncounters();
     }
