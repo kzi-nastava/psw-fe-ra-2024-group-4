@@ -31,6 +31,14 @@ button[mat-icon-button] {
   z-index: 1000;
 }
 
+.discount{
+  font-size: 16px;
+}
+.sale-form-container{
+  margin-left: 5px;
+
+}
+
 .coupon-button {
   margin-top: 10px;
   font-size: 12px;
@@ -176,11 +184,13 @@ mat-card-subtitle {
 
 .card-button-container {
   display: flex;
-  justify-content: space-between;
-  gap: 2vh;
-  flex-wrap: wrap; /* Allow buttons to wrap if necessary */
+  justify-content: space-around;
+  gap: 5px;
+  flex-wrap: nowrap; /* Allow buttons to wrap if necessary */
   width: 100%; /* Ensure the container spans the full width of the parent */
   margin-top: 2vh;
+  align-items: center;
+  margin-bottom: 2vh;
 }
 
 .card-bottom-button {
@@ -199,7 +209,7 @@ mat-card-subtitle {
   padding: 6px 13px;
   background-color: #a36484;
   color: white;
-  margin-bottom: 1.5vh;
+ /* margin-bottom: 1.5vh;*/
   border-radius: 5px;
   
 }
@@ -303,3 +313,4 @@ mat-card-subtitle {
 .add-coupon-all-button:hover {
   background-color: #3f51b5;
 }
+

@@ -8,7 +8,6 @@ import { MapService } from 'src/app/shared/map/map.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../../payments/cart-overview.service';
-import { OrderItem } from '../../payments/model/order-item.model';
 import { ShoppingCart } from '../../payments/model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -20,6 +19,7 @@ import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
 import { Bundle } from '../model/budle.model';
 import { PaymentsService } from '../../payments/payments.service';
+import { OrderItem } from '../../payments/model/order-item.model';
 
 
 
@@ -190,11 +190,21 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
+        //this.applyDiscounts();
         this.loadTourExecutions();
         
       },
       error: (err) => {
         console.error('Error loading tours:', err);
+      }
+    });
+  }
+
+  applyDiscounts(): void {
+    this.tours.forEach((tour) => {
+      if (tour.discountedPrice !== undefined) {
+        tour.originalPrice = tour.price; 
+        tour.price = tour.discountedPrice; 
       }
     });
   }
@@ -257,7 +267,7 @@ export class TourOverviewComponent implements OnInit {
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
-    this.orderItem.price = tour.price || 0.0;
+    this.orderItem.price = tour.discountedPrice !== undefined ? tour.discountedPrice : tour.price || 0; //tour.price || 0.0;
     this.orderItem.tourId = tour.tourId;
 
 

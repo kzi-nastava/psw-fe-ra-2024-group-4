@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { OrderItem } from './model/order-item.model';
+
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from './model/tour-purchase-token.model';
 import { ShoppingCart } from './model/shopping-cart.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Notification } from '../administration/model/notifications.model';
+import { OrderItem } from './model/order-item.model';
 
 @Injectable({
   providedIn: 'root' 
