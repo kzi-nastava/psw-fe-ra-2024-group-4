@@ -32,16 +32,25 @@
   </div>
 </div>
 
+<div class="tour-list-container" *ngIf="showSaleCheckboxes">
+  <h2>Select Tours</h2>
+  <div *ngFor="let t of tours" class="tour-list-item">
+    <mat-checkbox (change)="toggleTourSelection(t.id!, $event.checked)">
+      {{ t.name }}
+    </mat-checkbox>
+  </div>
+</div>
+
 
     <div class="content-container">  
     <div class="center-container">
         <div class="cards">
             <div class="card" *ngFor="let t of tours">
-                <div *ngIf="showSaleCheckboxes" class="checkbox-container">
+                <!-- <div *ngIf="showSaleCheckboxes" class="checkbox-container">
                     <mat-checkbox (change)="toggleTourSelection(t.id!, $event.checked)">
 
                     </mat-checkbox>
-                </div>
+                </div> -->
                 <img [src]="'assets/images/tag' + (t.tags[0] + 1) + '.jpg'" class="card-image">
                 
                 

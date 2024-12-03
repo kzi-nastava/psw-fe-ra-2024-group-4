@@ -17,9 +17,10 @@ import { PositionSimulator } from '../model/position-simulator.model';
 import { Tour } from '../model/tour.model';
 import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
-import { Bundle } from '../model/budle.model';
+
 import { PaymentsService } from '../../payments/payments.service';
 import { OrderItem } from '../../payments/model/order-item.model';
+import { Bundle } from '../model/budle.model';
 
 
 
