@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatTabsModule} from '@angular/material/tabs'; 
 
 
 // Import Custom Components
@@ -91,6 +92,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatChipsModule,
     MatBadgeModule,
+    MatTabsModule,
     MatSnackBarModule,
     MatExpansionModule
   ],

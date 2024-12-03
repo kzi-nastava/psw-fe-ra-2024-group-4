@@ -8,7 +8,6 @@ import { MapService } from 'src/app/shared/map/map.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../../payments/cart-overview.service';
-import { OrderItem } from '../../payments/model/order-item.model';
 import { ShoppingCart } from '../../payments/model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -19,6 +18,10 @@ import { Tour } from '../model/tour.model';
 import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
 
+import { PaymentsService } from '../../payments/payments.service';
+import { OrderItem } from '../../payments/model/order-item.model';
+import { Bundle } from '../model/budle.model';
+
 
 
 @Component({
@@ -28,6 +31,7 @@ import { ProblemComponent } from '../../marketplace/problem/problem.component';
 })
 export class TourOverviewComponent implements OnInit {
   tours: TourOverview[] = [];
+  bundles:Bundle[] = [];
   tourExecution: TourExecution = {} as TourExecution;
   currentPage: 0;
   tourExecutions: Map<number, TourExecution> = new Map();
@@ -49,6 +53,7 @@ export class TourOverviewComponent implements OnInit {
   shoppingCart: ShoppingCart;
   user: User;
   userPurchases: ShoppingCart[];
+  selectedTabIndex: number = 0;
 
 
   constructor(private tourOverviewService: TourOverviewService, 
@@ -57,6 +62,8 @@ export class TourOverviewComponent implements OnInit {
     private cartService: CartService,
     private tourExecutionService: TourExecutionService,
     private purchaseService: PurchaseService,
+    private paymentService: PaymentsService,
+    private overviewService: TourOverviewService,
   private authService: AuthService) {}
 
 
@@ -85,7 +92,8 @@ export class TourOverviewComponent implements OnInit {
       tourName: '', // provide a default string or an actual value
       price: 0,
       tourId: 0,
-      cartId: 0
+      cartId: 0,
+      isBundle: false
     };
   
    /* if(this.tourExecutions.get(3)?.status === null &&!this.isActive)
@@ -127,8 +135,10 @@ export class TourOverviewComponent implements OnInit {
 
     
     this.loadTours();
+    this.loadBundles();
     
   }
+
   
   calculateTotalPrice(): void {
     this.totalPrice = 0;
@@ -181,11 +191,21 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
+        //this.applyDiscounts();
         this.loadTourExecutions();
         
       },
       error: (err) => {
         console.error('Error loading tours:', err);
+      }
+    });
+  }
+
+  applyDiscounts(): void {
+    this.tours.forEach((tour) => {
+      if (tour.discountedPrice !== undefined) {
+        tour.originalPrice = tour.price; 
+        tour.price = tour.discountedPrice; 
       }
     });
   }
@@ -248,7 +268,7 @@ export class TourOverviewComponent implements OnInit {
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
-    this.orderItem.price = tour.price || 0.0;
+    this.orderItem.price = tour.discountedPrice !== undefined ? tour.discountedPrice : tour.price || 0; //tour.price || 0.0;
     this.orderItem.tourId = tour.tourId;
 
 
@@ -269,6 +289,8 @@ export class TourOverviewComponent implements OnInit {
    
    
   }
+
+  
 
   openCart(cartId: number): void {
     this.router.navigate([`/cart/${cartId}`]);
@@ -304,5 +326,74 @@ export class TourOverviewComponent implements OnInit {
       });
     }
   }
+
+
+  //BUNDLES
+  
+  loadBundles(): void{
+    this.paymentService.getAllWithoutTours().subscribe({
+      next: (data: PagedResults<Bundle>) => {
+        this.bundles = data.results.filter(bundle => bundle.status === 1);
+        this.loadToursForBundle();
+        
+      },
+      error: (err) => {
+        console.error('Error loading bundles:', err);
+      }
+    });
+  }
+
+  loadToursForBundle(): void {
+    for (const bundle of this.bundles) {
+      bundle.tours = [];
+
+      for (const tourId of bundle.tourIds) {
+        try {
+          this.overviewService.getById(tourId).subscribe({
+            next: (data: TourOverview) => {
+              console.log(data);
+              bundle.tours.push(data);
+              
+            },
+            error: (err) => {
+              console.error('Error tour:', err);
+            }
+          });
+        } catch (error) {
+          console.error(`Failed to load tour with ID ${tourId}`, error);
+        }
+      }
+    }
+  }
+
+  addBundleToCart(bundle: Bundle) {
+    if(bundle.id === undefined){
+      return;
+    }
+    this.orderItem.cartId = this.shoppingCart.id || -1;
+    this.orderItem.tourName = bundle.name;
+    this.orderItem.price = bundle.price || 0.0;
+    this.orderItem.tourId = bundle.id;
+    this.orderItem.isBundle = true;
+
+    console.log(this.orderItem);
+
+
+   
+          this.cartService.addToCart(this.orderItem).subscribe({
+            next: (result: OrderItem) => {
+              alert("Item successfully added.");
+              this.calculateTotalPrice();
+            },
+            error: (err:any) => alert("Error adding item.")
+          });
+        
+        
+      
+
+    const currentCount = this.cartItemCount.value;
+    this.cartItemCount.next(currentCount + 1);
+  }
+
   
 }

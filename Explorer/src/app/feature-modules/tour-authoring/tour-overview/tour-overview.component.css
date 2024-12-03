@@ -429,9 +429,167 @@ button[mat-icon-button] mat-icon {
 }
 
 
+/*STILOVI ZA BUNDLE*/
+/* Kontejner za sve bundle kartice */
+.bundles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Pojedinačna kartica za bundle */
+.bundle-card-container {
+    position: relative;
+    display: block;
+    width: 40vw;
+    max-width: 60vw;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.2);
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.bundle-card-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.bundle-title {
+    font-size: 1.5rem;
+    color: #6A515E;
+    margin: 0.5rem 0;
+}
+
+.bundle-price {
+    font-size: 1.2rem; color: #6A515E; margin-bottom: 1.5rem; 
+}
+
+.bundle-buy-btn { 
+    padding: 0.5rem 1.2rem; 
+    font-size: 15px !important;
+    border: none; 
+    background-color: #a36484; 
+    color: white; 
+    border-radius: 7px; 
+    cursor: pointer; 
+    font-size: 1.2rem; 
+    transition: background-color 0.3s ease; 
+}
+
+
+
+/* Kontejner za kartice tura */
+.tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Pojedinačna kartica za turu */
+.tour-card-container {
+    position: relative;
+    display: block;
+    width: 16vw;
+    height: 20vw;
+    min-width: 200px;
+    max-width: 250px;
+    min-height: 250px;
+    max-height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.2);
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(162, 0, 255, 0.2);
+}
+
+.tour-card-image {
+    width: 100%;
+    height: 40%;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.tour-card-overlay {
+    position: absolute;
+    top: 60%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 0 0 15px 15px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tour-card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #6A515E;
+}
+
+
+
+.tour-card-footer {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: #6A515E;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tour-card-description {
+    font-size: 0.9rem;
+    color: #6A515E;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 1rem;
+}
+
+.tour-card-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 5px;
+    margin-top: 1rem;
+}
+
+.tour-card-btn-reviews,
+.tour-card-btn-map {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #a36484;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: background-color 0.3s ease;
+}
+
+
+
 
   /*
 :host ::ng-deep .leaflet-container {
      height: 150% !important;
     }*/ 
 
+    .old-price {
+        text-decoration: line-through;
+        color: red; /* Optional: change color to red for crossed-out prices */
+    }
+    
+    .new-price {
+        font-weight: bold;
+        color: green; /* Optional: change color to highlight the discount */
+    }
+    

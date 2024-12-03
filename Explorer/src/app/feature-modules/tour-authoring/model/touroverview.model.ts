@@ -11,4 +11,6 @@ export interface TourOverview {
     reviews?: TourReview[];
     rating?: number;
     price?: number;
+    discountedPrice?: number;
+    originalPrice?: number; 
 }
