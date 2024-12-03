@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart-overview.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderItem } from '../model/order-item.model';
 import { Subscription } from 'rxjs';
 import { PersonInfoService } from '../../person.info/person.info.service';
@@ -8,11 +8,6 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
-import { environment } from 'src/env/environment';
-import { TourService } from '../../tour-authoring/tour.service';
-import { TourPurchaseToken } from '../model/tour-purchase-token.model';
-import { Notification } from '../../administration/model/notifications.model';
-import { Tour } from '../../tour-authoring/model/tour.model';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { TourTags } from '../../tour-authoring/model/tour.tags.model';
 import Swal from 'sweetalert2';
@@ -21,6 +16,12 @@ import { Bundle } from '../../tour-authoring/model/budle.model';
 import { PaymentRecord } from '../model/payment-record.model';
 import { TourOverviewService } from '../../tour-authoring/tour-overview.service';
 import { TourOverview } from '../../tour-authoring/model/touroverview.model';
+import { Notification } from '../../administration/model/notifications.model';
+import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { TourService } from '../../tour-authoring/tour.service';
+import { environment } from 'src/env/environment';
+
 
 @Component({
   selector: 'app-cart-overview',
@@ -56,9 +57,12 @@ export class CartOverviewComponent implements OnInit {
      private authService: AuthService,
      private purchaseService: PurchaseService,
      private paymentService: PaymentsService,
-     private tourService: TourService,
      private tourOverviewService: TourOverviewService,
-    ) {} 
+     private tourService: TourService,
+     private router: Router ){}
+    
+
+
 
   ngOnInit(): void {
    
@@ -385,6 +389,9 @@ refreshTourDetails(): void {
                   }
                 });
               });
+              
+              
+            //  alert("Korpa uspešno očišćena.");
               this.cartItems = [];
               this.totalPrice = 0;
               this.promoCode = '';
@@ -401,6 +408,7 @@ refreshTourDetails(): void {
              this.cartService.createNotification('tourist', this.purchaseNotification).subscribe({
               next: (result: Notification) =>
               {
+                this.router.navigate(['/purchased-tours']);
 
               },
               error:(err: any) =>
@@ -408,8 +416,9 @@ refreshTourDetails(): void {
                 console.log("Error creating notification");
               }
              })
-        
-               
+           
+
+           
               },
               error: (err: any) =>
                  Swal.fire('Error', 'Error updating wallet', 'error')
