@@ -59,6 +59,13 @@
   object-fit: cover;
   object-position: bottom;
 }
+.title {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  display: inline; 
+}
+
+
 ::ng-deep .custom-tour-image {
   object-fit: contain !important;
   object-fit: cover !important;
@@ -456,7 +463,23 @@ body {
     background: #C2C599; 
     border: 2px solid rgb(194, 197, 153); 
 }
+#s1:checked ~ .title{
+  color: #BFA8D7; 
+}
 
+#s2:checked ~ .title{
+  color: #A3BEDC; 
+}
+
+#s3:checked ~ .title{
+  color: #E7C89E; 
+}
+#s4:checked ~ .title{
+  color: #D8A7B8; 
+}
+#s5:checked ~ .title{
+  color: #C2C599; 
+}
 
 #s1:checked ~ #slide1 {
     box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
@@ -571,12 +594,155 @@ body {
     bottom: 5%;
     right: 5%;
   }
+  .next-button1{
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .next-button1:hover{
+    background-color: #b390d8;
+  }
+  .next-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .next-button2:hover {
+    background-color: #739bcf; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .next-button3:hover {
+    background-color: #d6a35b; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .next-button4:hover {
+    background-color: #cc718c; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .next-button5:hover {
+    background-color: #a7b150; /* Blago modifikovana osnovna boja */
+  }
+
+
   
   .back-button{
     position: absolute;
     bottom: 5%;
     left: 5%;
   }
+
+  .back-button1 {
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .back-button1:hover {
+    background-color: #b390d8;
+  }
+  
+  .back-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .back-button2:hover {
+    background-color: #739bcf;
+  }
+  
+  .back-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .back-button3:hover {
+    background-color: #d6a35b;
+  }
+  
+  .back-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .back-button4:hover {
+    background-color: #cc718c;
+  }
+  
+  .back-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .back-button5:hover {
+    background-color: #a7b150;
+  }
+  
+
+
 
   .progress-bar-container{
     display: flex;
@@ -799,7 +965,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   color: white;
-  background-color: rgb(192, 153, 218);
+  background-color: #e4ae63;
   border: none;
   border-radius: 4px; /* Minimalno zaobljeni uglovi */
   cursor: pointer;
@@ -807,7 +973,7 @@ body {
 }
 
 .select-button:hover {
-  background-color: rgb(192, 153, 218);
+  background-color: #d6a35b;
   /* transform: scale(1.05);  */
 }
 
