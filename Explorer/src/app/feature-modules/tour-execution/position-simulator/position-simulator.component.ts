@@ -37,6 +37,7 @@ export class PositionSimulatorComponent implements OnInit {
 
   uttr: SpeechSynthesisUtterance;
 
+
   constructor(private service: TourExecutionService, private authService: AuthService, 
     private authorService: TourAuthoringService, private purchaseService: PurchaseService, private tourExecutionService: TourExecutionService){
       this.uttr = new SpeechSynthesisUtterance();
@@ -62,12 +63,14 @@ export class PositionSimulatorComponent implements OnInit {
 
   playKeypointAudio(text: string): void
   {
-    
+  
     this.uttr.text = text;
     window.speechSynthesis.speak(this.uttr);
   }
 
 
+
+  
 
   stopKeypointAudio(): void
   {
