@@ -7,7 +7,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Bundle, Status } from '../../tour-authoring/model/budle.model';
 import { PaymentsService } from '../payments.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TourSelectionDialogComponent } from '../tour-selection-dialog/tour-selection-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-bundle-form',
@@ -19,9 +21,10 @@ export class BundleFormComponent implements OnInit{
   user: User|null=null;
   totalPrice: number = 0; 
   nextId: number=0;
+  selectedTours: Tour[]=[]
 
   constructor(private tourService: TourService, private authService: AuthService, 
-    private service: PaymentsService,private dialogRef: MatDialogRef<BundleFormComponent>){}
+    private service: PaymentsService, private dialog: MatDialog, private router: Router){}
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -36,76 +39,84 @@ export class BundleFormComponent implements OnInit{
     tourIds: new FormControl<number[]>([], [Validators.required])
   })
 
-getTours(id: number): void {
-  this.tourService.getToursForAuthor(id).subscribe({
-    next: (result: Tour[]) => {
-      this.tours = result.map(tour => ({
-        ...tour,
-        selected: false 
-      }));
-      console.log(this.tours); 
-    },
-    error: (error) => {
-      console.error('Error fetching tours:', error);
-    }
-  });
-}
 
-  loadTours(): void {
+  openTourDialog(): void {
     if (this.user && this.user.role === 'author') {
-      this.getTours(this.user.id);
+      this.tourService.getToursForAuthor(this.user.id).subscribe({
+        next: (result: Tour[]) => {
+          // Povezivanje dostupnih tura
+          this.tours = result;
+          console.log('Tours loaded:', this.tours);
+  
+          // Otvaranje dijaloga
+          const dialogRef = this.dialog.open(TourSelectionDialogComponent, {
+            width: '400px',
+            data: { 
+              tours: this.tours,
+              selectedTours: [] // Prosleđivanje prazne selekcije
+            }
+          });
+  
+          // Nakon zatvaranja dijaloga ažuriraj selektovane ture
+          dialogRef.afterClosed().subscribe((selectedTours: Tour[]) => {
+            if (selectedTours) {
+              this.selectedTours = selectedTours;
+              this.calculateTotalPrice();
+              console.log("Selected tours after dialog closed:", this.selectedTours);
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching tours:', error);
+        }
+      });
     } else {
       console.warn('User is not authorized or not logged in.');
     }
   }
-
-  onTourChange(event: MatCheckboxChange, tour: Tour): void {
-    const tourIdsControl = this.bundleForm.get('tourIds')!;
-    const selectedTourIds = tourIdsControl.value || []; 
   
-    if (event.checked) {
-      if (!selectedTourIds.includes(tour.id!)) {
-        selectedTourIds.push(tour.id!);
-      }
-    } else {
-      const index = selectedTourIds.indexOf(tour.id!);
-      if (index >= 0) {
-        selectedTourIds.splice(index, 1);
-      }
-    }
-    tourIdsControl.setValue(selectedTourIds);
-    tour.selected = event.checked;
-  
-    this.updateTotalPrice();
-  }
   
   
 
-  updateTotalPrice(): void {
-    this.totalPrice = this.tours.filter(tour => tour.selected).reduce((sum, tour) => sum + tour.price, 0);
+  removeTour(tour: Tour): void {
+    this.selectedTours = this.selectedTours.filter(t => t !== tour);
+    this.calculateTotalPrice();
   }
 
-  addBundle(): void{
+  calculateTotalPrice(): void {
+    this.totalPrice = this.selectedTours.reduce((total, tour) => total + tour.price, 0);
+  }
+  
+
+  addBundle(): void {
     console.log(this.tours);
     const selectedTourIds: number[] = this.tours
-    .filter((tour) => tour.selected && tour.id !== undefined) 
-    .map((tour) => tour.id!);
+      .filter((tour) => tour.selected && tour.id !== undefined)
+      .map((tour) => tour.id!);
   
     const bundle: Bundle = {
-      name: this.bundleForm.value.name || '',                
-      price: this.bundleForm.value.price || 0,           
+      name: this.bundleForm.value.name || '',
+      price: this.bundleForm.value.price || 0,
       authorId: this.user?.id ?? -1,
       status: Status.DRAFT,
       tourIds: selectedTourIds,
       tours: []
     };
-    console.log(bundle)
+  
+    console.log(bundle);
+  
+    if (this.totalPrice !== 0) {
       this.service.addBundle(bundle).subscribe({
-         next: (result: Bundle) => {
+        next: (result: Bundle) => {
           console.log(bundle.name);
-          this.dialogRef.close();
-         }
+          // Navigacija na drugu stranicu, npr. "/bundles"
+          this.router.navigate(['/author-tours']);
+        },
+        error: (error) => {
+          console.error('Error adding bundle:', error);
+        }
       });
-    
+    }
   }
+  
 }

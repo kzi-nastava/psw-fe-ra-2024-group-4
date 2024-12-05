@@ -17,6 +17,19 @@ form {
   margin-left: 45vh;
 }
 
+.mat-tab-group {
+  width: 100%;                /* Širina za celokupnu širinu ekrana */
+  margin: 0;                  /* Uklanjanje margine */
+  padding: 0;                 /* Uklanjanje paddinga */
+}
+
+
+.mat-tab-body {
+  margin: 0;                  /* Uklanjanje margine unutar tab tela */
+  padding: 0;                 /* Uklanjanje paddinga unutar tab tela */
+}
+
+
 mat-form-field {
   width: 100%; 
   margin-bottom: 10px; 
@@ -99,4 +112,12 @@ mat-selection-list {
 }
 
 
+
+.center-container {
+  display: flex;              /* Aktivira fleksibilno poravnavanje */
+  justify-content: center;    /* Centriranje horizontalno */
+  margin: 0 auto;             /* Automatsko centriranje širine */
+  width: 70%;                /* Visina da se centriranje odnosi na ceo ekran */
+  box-sizing: border-box;     /* Uključuje padding i border u širinu */
+}
 

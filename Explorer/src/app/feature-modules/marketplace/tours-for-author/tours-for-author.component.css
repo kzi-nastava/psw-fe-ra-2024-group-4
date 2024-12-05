@@ -9,6 +9,14 @@
   align-items: center;
   gap: 20px;
 }
+.center-container {
+  display: flex;              /* Aktivira fleksibilno poravnavanje */
+  justify-content: center;    /* Centriranje horizontalno */
+  margin: 0 auto;             /* Automatsko centriranje širine */
+  width: 70%;                /* Visina da se centriranje odnosi na ceo ekran */
+  box-sizing: border-box;     /* Uključuje padding i border u širinu */
+}
+
 
 h1 {
   text-align: center; 

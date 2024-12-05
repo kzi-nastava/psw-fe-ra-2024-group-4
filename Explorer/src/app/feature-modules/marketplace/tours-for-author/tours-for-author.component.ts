@@ -28,6 +28,7 @@ export class ToursForAuthorComponent implements OnInit {
   private lengthUpdatedSubscription!: Subscription;
   isChatOpen: boolean = false; 
   chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
+  selectedTabIndex: number = 0;
   
 
   tourTagMap: { [key: number]: string } = {
@@ -264,5 +265,9 @@ toggleChat(isChat: boolean): void {
 bundle(){
   this.router.navigate(['/bundle']);
 }
+navigateToBundles(): void {
+  this.selectedTabIndex = 1; 
+}
+
   
 }

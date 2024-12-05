@@ -40,6 +40,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverviewComponent } from '../payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
 import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
+import { PaymentsModule } from '../payments/payments.module';
 
 
 
@@ -79,6 +80,7 @@ import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.com
     AdministrationModule,
     SharedModule,
     RouterModule,
+    PaymentsModule,
 
     // Material-specific modules
     MatFormFieldModule,

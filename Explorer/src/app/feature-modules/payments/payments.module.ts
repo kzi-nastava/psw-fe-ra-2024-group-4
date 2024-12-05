@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { TourSelectionDialogComponent } from './tour-selection-dialog/tour-selection-dialog.component';
 
 
 
@@ -18,7 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [
     BundleComponent,
-    BundleFormComponent
+    BundleFormComponent,
+    TourSelectionDialogComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import { MatCardModule } from '@angular/material/card';
     MatListModule, 
     MatCheckboxModule,
     MatCardModule,
-    MatButtonModule 
+    MatButtonModule, 
+    MatIconModule
   ],
   exports: [
     BundleComponent,
