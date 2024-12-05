@@ -51,6 +51,7 @@
             <mat-tab-group [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="Tours"> 
                     <div class="cards">
+                        
                         <div class="card" *ngFor="let t of tours">
                             <img 
                             [src]="'assets/images/tag' + (getTagNumber(t.tags[0]) + 1) + '.jpg'" 
@@ -81,6 +82,10 @@
                                             </span>
                                         </mat-card-subtitle>
                                     </div>
+                                    <div class="price">
+                                        <span *ngIf="t.originalPrice" class="old-price">{{ t.originalPrice | currency }}</span>
+                                        <span class="new-price">{{ t.price | currency }} </span>
+                                      </div>
                                     <div class="card-footer-description">{{t.tourDescription}}</div>
                                 </div>
         

@@ -62,9 +62,11 @@ button[mat-icon-button] mat-icon {
 }
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ /*   grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));*/
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     padding: 1rem;
+    
 }
 
 .card {
@@ -483,7 +485,8 @@ button[mat-icon-button] mat-icon {
 /* Kontejner za kartice tura */
 .tours-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /*  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+  grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     padding: 1rem;
 }
