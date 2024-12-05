@@ -42,8 +42,11 @@
     <div class="top-container">
         <header><h1>Tours</h1></header>
     </div>
+    
     <div class="content-container">
+        
         <div class="left-side-container" >
+            <xp-addvertisement></xp-addvertisement>
           <xp-tour-search *ngIf="selectedTabIndex === 0" (tourSearchResults)="updateTours($event)"></xp-tour-search>
         
         </div>

@@ -42,6 +42,7 @@ import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/p
 import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PaymentsModule } from '../payments/payments.module';
+import { AddvertisementComponent } from './addvertisement/addvertisement.component';
 
 
 
@@ -66,7 +67,8 @@ import { PaymentsModule } from '../payments/payments.module';
     TourSearchComponent,
     CartOverviewComponent,
     PurchaseTokenComponent,
-    TourDetailsNewComponent
+    TourDetailsNewComponent,
+    AddvertisementComponent
   ],
   imports: [
     // Import necessary modules
