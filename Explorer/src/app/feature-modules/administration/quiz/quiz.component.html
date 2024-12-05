@@ -1,0 +1,326 @@
+<div class="main-container">
+  <div class="top-container">
+        
+        
+    <h2 class="title" id="title">Tourist Personality Quiz</h2>
+  </div>
+
+    <div class="content-container">
+        <div class="progress-bar-container">  
+            <div class="progress">
+                <div class="percent"></div>
+            </div>
+            <div class="steps" #stepsContainer>
+                <div class="step" id="0"></div>
+                <div class="step" id="1"></div>
+                <div class="step" id="2"></div>
+                <div class="step" id="3"></div>
+                <div class="step" id="4"></div>
+            </div>
+        </div>
+        <section id="slider">
+            <input type="radio" name="slider" id="s1" [checked]="currentSlideIndex === 0">
+            <input type="radio" name="slider" id="s2" [checked]="currentSlideIndex === 1">
+            <input type="radio" name="slider" id="s3" [checked]="currentSlideIndex === 2">
+            <input type="radio" name="slider" id="s4" [checked]="currentSlideIndex === 3">
+            <input type="radio" name="slider" id="s5" [checked]="currentSlideIndex === 4">
+            <!--1-->
+            <div class="quiz-card" for="s1" id="slide1">
+                <h2 class="quiz-title">Escape to Your Dreamscape: Choose Your Perfect View!</h2>
+                <p class="quiz-description">
+                    Choose one picture that truly reflects your spirit:
+                  </p>
+                <div class="image-container1">
+                  <section class="carousel">
+                    <div class="carousel__container" id="carousel-container" #carouselContainer>
+                      <div class="carousel-item1" data-image-name="beach.jpg" (click)="selectPicture('beach.jpg')"
+                      [class.dimmed]="selectedPicture ==='forest1.jpg' || selectedPicture ==='city.png' || selectedPicture ==='museum-background.jpg'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('beach.jpg')" alt="Slika 1"
+                        >
+                      </div>
+                      <div class="carousel-item2" data-image-name="forest1.jpg" (click)="selectPicture('forest1.jpg')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='city.png' || selectedPicture ==='museum-background.jpg'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('forest1.jpg')" alt="Slika 2"
+                        >
+                      </div>
+                      <div class="carousel-item3" data-image-name="city.png" (click)="selectPicture('city.png')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='forest1.jpg' || selectedPicture ==='museum-background.jpg'"
+                      >
+                        <img class="carousel-item__img"
+                        [src]="getImage('city.png')" alt="Slika 3"
+                        >
+                      </div>
+                      <div class="carousel-item4" id="carousel-item-last" data-image-name="museum-background.jpg" (click)="selectPicture('museum-background.jpg')"
+                      [class.dimmed]="selectedPicture ==='beach.jpg' || selectedPicture ==='forest1.jpg' || selectedPicture ==='city.png'">
+                        <img class="carousel-item__img"
+                        [src]="getImage('museum-background.jpg')" alt="Slika 4"
+                        >
+                      </div>
+                    
+                    </div>
+                  </section>
+                    <!-- <div
+                      class="image-wrapper" data-image-name="beach.jpg"
+                      (click)="selectPicture('beach.jpg')"
+                    >
+                      <img [src]="getImage('beach.jpg')" alt="Slika 1"  />
+                    </div>
+                    <div
+                      class="image-wrapper"  data-image-name="forest1.jpg"
+                      (click)="selectPicture('forest1.jpg')"
+                    >
+                      <img [src]="getImage('forest1.jpg')" alt="Slika 2" />
+                    </div>
+                    <div
+                      class="image-wrapper"  data-image-name="download.png"
+                      (click)="selectPicture('download.png')"
+                    >
+                      <img [src]="getImage('download.png')" alt="Slika 3" />
+                    </div>
+                    <div
+                      class="image-wrapper"  data-image-name="museum-background.jpg"
+                      (click)="selectPicture('museum-background.jpg')"
+                    >
+                      <img [src]="getImage('museum-background.jpg')" alt="Slika 4" />
+                    </div> -->
+                </div>
+
+                  
+                <button *ngIf="currentSlideIndex === 0" id="next" class="next-button1" (click)="nextSlide()">Next</button>
+            </div>
+            <!--2-->
+            <div class="quiz-card" for="s2" id="slide2">
+              <p>Customize your perfect tour!</p>
+                <!-- <p>{{ this.selectedPicture || 'No picture selected' }}</p> -->
+                <!-- <div class="choice-container" > -->
+                    <div class="choice" id="cycling" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['cycling']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture !== 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('cycling.png')">
+                    </div>
+                    <div class="choice" id="hiking" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['hiking']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'forest1.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('hiking.png')">
+                    </div>
+
+                    <div class="choice" id="wildlife1" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['wildlife1']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'forest1.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('wildlife5.png')">
+                    </div>
+
+                    <div class="choice" id="wildlife2" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['wildlife2']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'forest1.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('wildlife2.png')">
+                    </div>
+
+                    <div class="choice" id="wildlife3" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['wildlife3']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'forest1.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('wildlife3.png')">
+                    </div>
+                    <div class="choice" id="wildlife4" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['wildlife4']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('wildlife4.png')">
+                    </div>
+
+                    <div class="choice" id="shopping" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['shopping']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'city.png'"
+                    >
+                        <img class="stikertest" [src]="getImage('shopping.png')">
+                    </div>
+                    <div class="choice" id="bench" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['bench']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'city.png'"
+                    >
+                        <img class="stikertest" [src]="getImage('bench.png')">
+                    </div>
+                    <div class="choice" id="coffee" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['coffee']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'city.png'"
+                    >
+                        <img class="stikertest" [src]="getImage('coffee.png')">
+                    </div>
+                    <div class="choice" id="painting2" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['painting2']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'city.png'"
+                    >
+                        <img class="stikertest" [src]="getImage('painting2.png')">
+                    </div>
+                    
+                    <div class="choice" id="historical1" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['historical1']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('historical1.png')">
+                    </div>
+                    <div class="choice" id="historical2" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['historical2']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('historical2.png')">
+                    </div>
+                    <div class="choice" id="historical3" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['historical3']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('historical3.png')">
+                    </div>
+                    <div class="choice" id="historical4" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['historical4']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('historical4.png')">
+                    </div>
+
+                    <div class="choice" id="painting" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['painting']"
+                    [class.inside]="isStickerInside['painting']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                      <img class="stikertest" [src]="getImage('painting.png')">
+                    </div>
+
+                    <div class="choice" id="photography1" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['photography1']"
+                    [class.inside]="isStickerInside['photography1']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('photography1.png')">
+                    </div>
+                    <div class="choice" id="photography2" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['photography2']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture !== 'museum-background.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('photography2.png')">
+                    </div>
+
+                    <div class="choice" id="ball" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['ball']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('ball.png')">
+                    </div>
+                    <div class="choice" id="bucket" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['bucket']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('bucket.png')">
+                    </div>
+                    <div class="choice" id="vibe" cdkDrag (cdkDragMoved)="onDragMove($event)"
+                    [class.inside]="isStickerInside['vibe']"
+                    *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
+                    >
+                        <img class="stikertest" [src]="getImage('vibe.png')">
+                    </div>
+
+
+                <div class="custom-tour" cdkDropList #customTourList="cdkDropList" >
+                  <img [src]="getImage(selectedPicture)" class="custom-tour-image">
+                   <!--[src]=getImage(sleectedImage)-->
+                </div>
+                <!-- <button *ngIf="currentSlideIndex === 1" (click)="submitPreferences()">Submit</button> -->
+                <button *ngIf="currentSlideIndex === 1" id="back" class="back-button2" (click)="previousSlide()" >Back</button>
+                <button *ngIf="currentSlideIndex === 1" id="next" class="next-button2" (click)="nextSlide()">Next</button>
+            </div>
+            <div class="quiz-card" for="s3" id="slide3">
+                <h2 class="quiz-title">
+                    Are you an independent explorer or do you love uncovering hidden gems with a guide?
+                </h2>
+
+
+                <p class="quiz-description">
+                  Choose one option that truly reflects your spirit:
+                </p>
+                <!-- [style.background-image]="'url(' + getImage('slide3_background2.png') + ')'" -->
+                <div class="background-wrapper" >
+                    <img class="background-image" [src]="getImage('slide3_background2.png')">
+
+                    <p class="image-description" [ngClass]="descriptionAnimationClass">{{ currentDescription }}</p> 
+                    <div class="image-navigation">
+                      <div class="arrow arrow-left" (click)="previousButton('left')">&#8249;</div>
+                      <div class="image-container" [ngClass]="[animationClass, isSmallerImage() ? 'scaled-image' : '']">
+                        <img [src]="getImage(currentImage)" alt="Current Option Image" />
+                      </div>
+                      <div class="arrow arrow-right" (click)="nextButton('right')">&#8250;</div>
+                    </div>
+                  </div>
+
+                <button class="select-button" (click)="selectOption()">Select</button>
+                <button *ngIf="currentSlideIndex === 2" id="back" class="back-button3" (click)="previousSlide()" >Back</button>
+                <button *ngIf="currentSlideIndex === 2" id="next" class="next-button3" (click)="nextSlide()">Next</button>
+            </div>
+              
+            <!-- 4-porodicno ili ???? -->
+            <div class="quiz-card" for="s4" id="slide4">
+                <h2 class="quiz-title">
+                    Tap the lightbulb to switch it <span class="on">ON</span> or <span class="off">OFF</span>  and choose the vibe that suits you best!
+                </h2>
+                <button (click)="toggleImage()" class="lightbulb-image">
+                    <img [src]="getImage(currentLightbulbImage)" alt="Sijalica"  />
+               </button>
+                <div class="image-toggle-container">
+                    <!-- <button (click)="toggleImage()">
+                         <img [src]="getImage(currentLightbulbImage)" alt="Sijalica" class="lightbulb-image" />
+                    </button> -->
+                    <img [src]="getImage(currentPoolImage)" alt="Prikazana slika" class="toggle-image" />
+                  </div>
+
+                <button *ngIf="currentSlideIndex === 3" id="back" class="back-button4" (click)="previousSlide()" >Back</button>
+                <button  *ngIf="currentSlideIndex === 3" id="next" class="next-button4" (click)="nextSlide()">Next</button>
+            </div>
+            <!-- <div class="quiz-card" for="s5" id="slide5">
+                <button *ngIf="currentSlideIndex === 4" id="back" class="back-button" (click)="previousSlide()">Back</button>
+                <button *ngIf="currentSlideIndex === 4" id="next" class="next-button" (click)="nextSlide()">Finish</button>
+            </div> -->
+            <div class="quiz-card" for="s5" id="slide5">
+                <h2 class="quiz-title">
+                    Ready to take control of your adventure? Turn the wheel to decide – will you explore the world solo, or with the company of your loved ones?
+                </h2>
+                <!-- <p class="quiz-description">
+                    Choose one option that truly reflects your spirit:
+                </p> -->
+                 <div class="arrow-cont">
+                    <div class="arrow-str">
+                        <img [src]="getImage('arrow_s5.png')" alt="Steering wheel" />
+                    </div>
+                </div>
+              
+                <div class="background-wrapper">
+                    <img class="background-image" [src]="getImage('slide5_background.png')">
+                    <div class="steering-wheel" (click)="nextButtonWheel('right')">
+                        <img [src]="getImage('steering_wheel.png')" alt="Steering wheel" />
+                    </div>
+                    <p class="image-description" [ngClass]="descriptionAnimationClass">{{ currentDescription5 }}</p>
+            
+                    <div class="image-navigation">
+                        <!-- <div class="arrow arrow-left" (click)="previousButton('left')">&#8249;</div> -->
+                        <div class="image-container" [ngClass]="[animationClass, currentImageIndex === 1 ? 'scaled-image5' : 'scaled-image']">
+                            <img [src]="getImage(currentImage5)" alt="Current Option Image" />
+                          </div>
+                          
+                        <!-- <div class="arrow arrow-right" (click)="nextButtonWheel('right')">&#8250;</div> -->
+                    </div>
+                </div>
+            
+                <!-- <button class="select-button" (click)="selectOptionSlide5()">Select</button> -->
+                <button *ngIf="currentSlideIndex === 4" id="back" class="back-button5" (click)="previousSlide()">Back</button>
+                <button *ngIf="currentSlideIndex === 4" id="next" class="next-button5" (click)="nextSlide()">Finish</button>
+            </div>
+            
+          </section>
+    </div>
+
+</div>

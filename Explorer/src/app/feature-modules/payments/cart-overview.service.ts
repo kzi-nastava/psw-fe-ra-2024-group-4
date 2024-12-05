@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { OrderItem } from './model/order-item.model';
+
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from './model/tour-purchase-token.model';
 import { ShoppingCart } from './model/shopping-cart.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Notification } from '../administration/model/notifications.model';
+import { OrderItem } from './model/order-item.model';
 
 @Injectable({
   providedIn: 'root' 
@@ -68,7 +69,15 @@ export class CartService {
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
   }
 
-  
+
+  applyCoupon(cartId: number, promoCode: string): Observable<ShoppingCart> {
+    // Koristimo HttpParams za dodavanje query parametara
+    const url = `${environment.apiHost}shopping/applyCoupon/${cartId}`;
+    return this.http.put<ShoppingCart>(url, null, {
+      params: { promoCode }, // Query param
+    });
+
+  }
 
   getAllNotifications(userId: number, role: 'tourist' | 'author' | 'administrator'): Observable<PagedResults<Notification>> {
     const url = `${environment.apiHost}${role}/notification/getall/${userId}`;
@@ -84,5 +93,6 @@ export class CartService {
   {
     const url = `${environment.apiHost}${role}/notification/`;
     return this.http.post<Notification>(url, notification);
+
   }
 }

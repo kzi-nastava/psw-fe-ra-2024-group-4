@@ -8,7 +8,6 @@ import { MapService } from 'src/app/shared/map/map.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from '../../payments/cart-overview.service';
-import { OrderItem } from '../../payments/model/order-item.model';
 import { ShoppingCart } from '../../payments/model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -18,8 +17,10 @@ import { PositionSimulator } from '../model/position-simulator.model';
 import { Tour } from '../model/tour.model';
 import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
-import { Bundle } from '../model/budle.model';
+
 import { PaymentsService } from '../../payments/payments.service';
+import { OrderItem } from '../../payments/model/order-item.model';
+import { Bundle } from '../model/budle.model';
 
 
 
@@ -52,7 +53,12 @@ export class TourOverviewComponent implements OnInit {
   shoppingCart: ShoppingCart;
   user: User;
   userPurchases: ShoppingCart[];
+
+  
+  speaker: SpeechSynthesisUtterance;
+
   selectedTabIndex: number = 0;
+
 
 
   constructor(private tourOverviewService: TourOverviewService, 
@@ -62,8 +68,33 @@ export class TourOverviewComponent implements OnInit {
     private tourExecutionService: TourExecutionService,
     private purchaseService: PurchaseService,
     private paymentService: PaymentsService,
-    private overviewService: TourOverviewService,
-  private authService: AuthService) {}
+     private overviewService: TourOverviewService,
+  private authService: AuthService) {
+    this.speaker = new SpeechSynthesisUtterance();
+    this.speaker.lang = 'en-US';
+  }
+
+   
+   
+
+
+  tourTagMap: { [key: number]: string } = {
+    0: 'Cycling',
+    1: 'Culture',
+    2: 'Adventure',
+    3: 'FamilyFriendly',
+    4: 'Nature',
+    5: 'CityTour',
+    6: 'Historical',
+    7: 'Relaxation',
+    8: 'Wildlife',
+    9: 'NightTour',
+    10: 'Beach',
+    11: 'Mountains',
+    12: 'Photography',
+    13: 'Guided',
+    14: 'SelfGuided'
+  };
 
   ngOnInit(): void {
 
@@ -111,22 +142,7 @@ export class TourOverviewComponent implements OnInit {
       
      
     });
-    this.authService.user$.subscribe((user) => {
-      this.user = user; 
-      console.log(user);
-      if (user) {
-        this.tourExecutionService.getPositionByTourist(user.id).subscribe({
-            next: (position: PositionSimulator) => {
-                console.log('Position retrieved:', position);
-                this.position = position;
-                this.loadTours();
-            },
-            error: (err) => {
-                console.error('Error retrieving position:', err);
-            }
-        });
-    }
-    });
+    
 
     
     this.loadTours();
@@ -135,6 +151,11 @@ export class TourOverviewComponent implements OnInit {
   }
 
   
+  playTourAudio(text: string): void
+  {
+    this.speaker.text = text;
+    window.speechSynthesis.speak(this.speaker);
+  }
   calculateTotalPrice(): void {
     this.totalPrice = 0;
     if (this.shoppingCart && this.shoppingCart.items) {
@@ -186,11 +207,21 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
+        //this.applyDiscounts();
         this.loadTourExecutions();
         
       },
       error: (err) => {
         console.error('Error loading tours:', err);
+      }
+    });
+  }
+
+  applyDiscounts(): void {
+    this.tours.forEach((tour) => {
+      if (tour.discountedPrice !== undefined) {
+        tour.originalPrice = tour.price; 
+        tour.price = tour.discountedPrice; 
       }
     });
   }
@@ -206,70 +237,6 @@ export class TourOverviewComponent implements OnInit {
       this.currentPage--;
       this.loadTours(); // Reload tours for the new page
     }
-  }
-
-  startTour(tourId: number): void {
-    if (!this.position) {
-        console.error('Position is null. Cannot start tour without a position.');
-        return;
-    }
-
-    // Ensure tourExecution is initialized with all required properties
-    this.tourExecution = {
-        locationId: this.position.id,
-        tourId: tourId,
-        status: 0,
-        lastActivity: new Date(),
-        touristId: this.user?.id || 0, // Default to 0 if user ID is null
-        completedKeys: [] // Ensure this is sent as an empty array
-    };
-
-    this.tourExecutionService.startTourExecution(this.tourExecution).subscribe({
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = true;
-            this.loadTourExecutions();
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-}
-
-  completeTourExecution(tourExecutionId?: number)
-  {
-    
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-    {
-      this.tourExecutionService.completeTourExecution(tourExecutionId).subscribe({ 
-        next: (data: TourExecution) => {
-            console.log('Tour execution started:', data);
-            this.isActive = false;
-            this.loadTourExecutions()
-        },
-        error: (err) => {
-            console.error('Error creating execution:', err);
-        }
-    });
-    }
-    
-  }
-
-  abandonTourExecution(tourExecutionId?: number)
-  {
-    if(tourExecutionId !== null && tourExecutionId !== undefined)
-      {
-    this.tourExecutionService.abandonTourExecution(tourExecutionId).subscribe({  
-      next: (data: TourExecution) => {
-          console.log('Tour execution started:', data);
-          this.isActive = false;
-          this.loadTourExecutions();
-      },
-      error: (err) => {
-          console.error('Error creating execution:', err);
-      }
-  });
-}
   }
 
   openReviews(tourId: number): void {
@@ -317,7 +284,7 @@ export class TourOverviewComponent implements OnInit {
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
-    this.orderItem.price = tour.price || 0.0;
+    this.orderItem.price = tour.discountedPrice !== undefined ? tour.discountedPrice : tour.price || 0; //tour.price || 0.0;
     this.orderItem.tourId = tour.tourId;
 
 
@@ -345,6 +312,14 @@ export class TourOverviewComponent implements OnInit {
     this.router.navigate([`/cart/${cartId}`]);
   }
 
+  getTagNumber(word: string): number { //daj broj od tada
+    for (const [key, value] of Object.entries(this.tourTagMap)) {
+      if (value === word) {
+        return +key; // Convert the key back to a number
+      }
+    }
+    return -1; // Return -1 or any default value if the word is not found
+  }
   showCartPreview(): void {
     this.isCartPreviewVisible = true;
   }
@@ -374,8 +349,7 @@ export class TourOverviewComponent implements OnInit {
   loadBundles(): void{
     this.paymentService.getAllWithoutTours().subscribe({
       next: (data: PagedResults<Bundle>) => {
-        console.log('Tours loaded:', data);
-        this.bundles = data.results;
+        this.bundles = data.results.filter(bundle => bundle.status === 1);
         this.loadToursForBundle();
         
       },

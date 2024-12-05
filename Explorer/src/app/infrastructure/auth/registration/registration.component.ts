@@ -32,7 +32,7 @@ export class RegistrationComponent {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     profilePicture: new FormControl(''), // Ovo je za URL slike
-    imageBase64: new FormControl('') // Novo polje za enkodovanu sliku
+    imageBase64: new FormControl(''), // Novo polje za enkodovanu sliku
     
   });
   
@@ -60,8 +60,7 @@ export class RegistrationComponent {
       username: this.registrationForm.value.username || "",
       password: this.registrationForm.value.password || "",
       profilePicture: this.registrationForm.value.profilePicture || "", // URL slike, nakon što se obradi na backendu
-      imageBase64: this.registrationForm.value.imageBase64 || "" // Base64 string za inicijalno slanje
-  
+      imageBase64: this.registrationForm.value.imageBase64 || "", // Base64 string za inicijalno slanje
     };
   
     if (this.registrationForm.valid) {

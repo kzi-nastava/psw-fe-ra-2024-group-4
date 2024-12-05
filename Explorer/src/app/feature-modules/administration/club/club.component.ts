@@ -10,6 +10,8 @@ import { environment } from 'src/env/environment';
 import Swal from 'sweetalert2';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { PersonInfo } from '../../person.info/model/info.model';
+import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-club',
@@ -39,7 +41,7 @@ export class ClubComponent implements OnInit {
 
   //tmp za preference sort
   //postavi tags koje hoces da budu, kad napravimo kviz i kada se budu cuvale userPreferences onda lako mozemo samo ucitati, do tad hardcoded
-  userTags = [2, 3, 4]
+  userTags:number[] = [];
   clubIsRecommended: {[key: number]: boolean} = {}; //kad se apply neki drugi sort kriterijum, ovo postaviti na prazno
   ownerNames: { [key: number]: string } = {}; 
   //userTags: number[] = [];
@@ -79,7 +81,9 @@ export class ClubComponent implements OnInit {
 
 
 
-  constructor(private service: AdministrationService, private authService: AuthService, private personInfoService: PersonInfoService) {}
+  constructor(private service: AdministrationService, private authService: AuthService, private personInfoService: PersonInfoService, private tourPreferenceService: TourPreferenceService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getAllClubs();
@@ -91,6 +95,12 @@ export class ClubComponent implements OnInit {
      // console.log('sort klubova:');
 
     });
+    this.tourPreferenceService.getTourPreference().subscribe((response: any) => {
+      this.userTags = response.tags;
+    }, (error) => {
+      console.error("Greška prilikom preuzimanja podataka o korisničkim preferencijama:", error);
+    });
+    
   }
 
   sortByPreference(): void{
@@ -105,8 +115,9 @@ export class ClubComponent implements OnInit {
         allowOutsideClick: false ,
       }).then((result) => {
         if (result.isConfirmed) {
+          this.router.navigate(['/quiz']); 
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          // Ako je korisnik kliknuo na "Remove tour"
+          
         }
       });
     }

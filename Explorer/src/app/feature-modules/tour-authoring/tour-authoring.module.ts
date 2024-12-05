@@ -40,6 +40,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CartOverviewComponent } from '../payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
 import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PaymentsModule } from '../payments/payments.module';
 
 
@@ -93,8 +94,9 @@ import { PaymentsModule } from '../payments/payments.module';
     MatCardModule,
     MatChipsModule,
     MatBadgeModule,
-    MatExpansionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSnackBarModule,
+    MatExpansionModule
   ],
   exports: [
     // Export components to be used in other modules

@@ -26,12 +26,16 @@
             <p><strong>Role:</strong> {{ ac.role }}</p>
             <p><strong>Email:</strong> {{ ac.email }}</p>
             <p><strong>Is Active:</strong> {{ ac.isActive ? 'Yes' : 'No' }}</p>
+            <p *ngIf="ac.role === 'Tourist'" ><strong>Wallet:</strong> {{ ac.wallet }}</p>
+            <div>
+            <button color="accent" *ngIf="ac.role === 'Tourist'" (click)="openDepositModal(ac.wallet || 0, ac.id)">Deposit money</button>
             <button 
-                color="primary" 
+                color="accent" 
                 (click)="onBlockClicked(ac)" 
                 [disabled]="!ac.isActive">
                 Deactivate
             </button>
+        </div>
         </div>
     </div>
 </div>

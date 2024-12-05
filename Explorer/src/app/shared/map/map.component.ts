@@ -16,6 +16,7 @@ import { TourOverview } from 'src/app/feature-modules/tour-authoring/model/touro
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 
@@ -51,9 +52,11 @@ export class MapComponent {
 
   @Input() shouldEditKp: boolean = false;
    @Input() selectedKeypoint: KeyPoint;
+   
   
    user: User;
-  
+   
+
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -83,7 +86,11 @@ export class MapComponent {
   });
 
 
-   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService, private authService: AuthService, private touAuthService: TourAuthoringService) {}
+   constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
+
+    
+     }
 
 
    
@@ -145,6 +152,7 @@ export class MapComponent {
 
 
   ngAfterViewInit(): void {
+
     
     
    /* let DefaultIcon = L.icon({
@@ -158,6 +166,7 @@ export class MapComponent {
 
     L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
+
 
     
 
@@ -517,9 +526,15 @@ export class MapComponent {
           <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
         </div>
       </div>
-    </div>
-  </div>`;
 
+        <div class = "card-btn" style="display: flex; justify-content: center;">
+     
+      </div>
+
+    </div>
+  </div>
+      `;
+  
 
 
     
@@ -531,7 +546,7 @@ export class MapComponent {
           marker.on('mouseout', () => {
             marker.closePopup();
           });
-        this.selectedTourPointsMarkers.push(marker);
+        this.selectedTourPointsMarkers.push(marker)
         
 
         
@@ -544,7 +559,7 @@ export class MapComponent {
     }
 }
 
-  
+
   
   refreshPage():void{
     window.location.reload();
