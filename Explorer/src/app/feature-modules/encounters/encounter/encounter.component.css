@@ -1,0 +1,14 @@
+.encounterContent {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    height: 100%; /* Fill available height */
+    text-align: center; /* Center text alignment */
+  }
+  
+  .encounterButtons {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 1rem; /* Add spacing between buttons */
+  }
