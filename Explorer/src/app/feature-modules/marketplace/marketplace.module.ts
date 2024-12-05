@@ -18,8 +18,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { CouponComponent } from '../payments/coupon/coupon.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { PaymentsModule } from '../payments/payments.module';
+import { CouponComponent } from '../payments/coupon/coupon.component'
 
 @NgModule({
   declarations: [ToursForAuthorComponent, KeypointDialogComponent, ProblemComponent,ProblemFormComponent, TourReviewsComponent, TourReviewFormComponent, ProblemTicketComponent], 
@@ -37,6 +40,9 @@ import { PaymentsModule } from '../payments/payments.module';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule, 
+    MatNativeDateModule,
     PaymentsModule
   ],
   exports: [

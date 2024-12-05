@@ -4,6 +4,7 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .filters-container {
@@ -74,12 +75,11 @@
 
 .card p {
     margin: 0;
-    font-size: 0.9em;
+    font-size: 0.98em;
     color: #555;
 }
 
 .card button {
-    background-color: #3f51b5;
     color: white;
     border: none;
     padding: 10px 15px;

@@ -132,6 +132,10 @@ export class TourReviewFormComponent implements OnInit {
               this.showAlertAndRedirect()
             }
             
+           },
+           error: (err) => {
+             console.error('Error loading tours:', err);
+             this.showAlertAndRedirect()
            }
         });
        }

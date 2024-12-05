@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart-overview.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderItem } from '../model/order-item.model';
 import { Subscription } from 'rxjs';
 import { PersonInfoService } from '../../person.info/person.info.service';
@@ -9,13 +9,20 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { environment } from 'src/env/environment';
-import { TourService } from '../../tour-authoring/tour.service';
-import { TourPurchaseToken } from '../model/tour-purchase-token.model';
-import { Notification } from '../../administration/model/notifications.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
-import { TourTags } from '../../tour-authoring/model/tour.tags.model';
 import Swal from 'sweetalert2';
+import { TourPurchaseToken } from '../model/tour-purchase-token.model';
+import { Notification } from '../../administration/model/notifications.model';
+import { TourTags } from '../../tour-authoring/model/tour.tags.model';
+import { PaymentsService } from '../payments.service';
+import { Bundle } from '../../tour-authoring/model/budle.model';
+import { PaymentRecord } from '../model/payment-record.model';
+import { TourOverviewService } from '../../tour-authoring/tour-overview.service';
+import { TourOverview } from '../../tour-authoring/model/touroverview.model';
+import { TourService } from '../../tour-authoring/tour.service';
+
+
 
 @Component({
   selector: 'app-cart-overview',
@@ -31,6 +38,10 @@ export class CartOverviewComponent implements OnInit {
   user: PersonInfo;
   currentCart: ShoppingCart;
   purchaseToken: TourPurchaseToken;
+  paymentRecord: PaymentRecord = {} as PaymentRecord;
+  toursByOrderItem: { [key: number]: TourOverview[] } = {};
+
+
   promoCode: string = '';
   purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
@@ -44,7 +55,14 @@ export class CartOverviewComponent implements OnInit {
   constructor(private cartService: CartService,
      private route: ActivatedRoute,
      private personInfoService: PersonInfoService,
-     private authService: AuthService,private tourService: TourService,  private purchaseService: PurchaseService ) {} 
+     private authService: AuthService,
+     private purchaseService: PurchaseService,
+     private paymentService: PaymentsService,
+     private tourOverviewService: TourOverviewService,
+     private tourService: TourService,
+     private router: Router ){}
+    
+
 
 
   ngOnInit(): void {
@@ -55,11 +73,39 @@ export class CartOverviewComponent implements OnInit {
       this.userId = user.id; 
       this.loadUserWallet(this.userId);
       this.loadCurrentCart(this.userId);
+      
      
     });
     
     
   }
+
+  private loadToursForBundle(order: OrderItem): void {
+    this.paymentService.getById(order.tourId).subscribe({
+      next: (bundle: Bundle) => {
+        const tourRequests = bundle.tourIds.map(tourId =>
+          this.tourOverviewService.getById(tourId).toPromise()
+        );
+
+        // Kad se svi zahtevi za ture završe, čuvaj rezultat u kešu
+        Promise.all(tourRequests).then(tours => {
+          // Filtriraj undefined vrednosti
+          this.toursByOrderItem[order.tourId!] = tours.filter(
+            (tour): tour is TourOverview => tour !== undefined
+          );
+        });
+        console.log(this.toursByOrderItem);
+      },
+      error: err => {
+        console.error('Error loading bundle:', err);
+      }
+    });
+  }
+
+  getCachedTours(orderId: number): TourOverview[] {
+    return this.toursByOrderItem[orderId] || [];
+  }
+
 
   loadCurrentCart(userId: number)
   {
@@ -86,12 +132,20 @@ export class CartOverviewComponent implements OnInit {
           tourDetails: item.tourDetails || {}, // Osigurajte da postoji tourDetails
         }));
         this.currentCart.items = result;
+        
         this.fetchAuthorIds();
+
+        this.cartItems.forEach(order => {
+          if (order.isBundle) {
+            console.log('poziva se')
+            this.loadToursForBundle(order);
+          }
+        });
   
         const tourRequests = this.cartItems.map(item =>
           this.purchaseService.getTour(item.tourId).toPromise().then(
             (tour: Tour | undefined) => {
-              if (tour) {
+              if(tour) {
                 item.tourDetails = tour;
               } else {
                 console.warn(`Tura sa ID ${item.tourId} nije pronađena.`);
@@ -241,34 +295,92 @@ refreshTourDetails(): void {
               this.user.imageBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgEBAXE8s9QAAAAASUVORK5CYII=";
            
              
-           this.personInfoService.updateTouristInfo(this.user).subscribe({
-            next: () => {
-                this.cartItems.forEach(item => {
-                    // Koristi postojeću logiku za primenu kupona
-                    let discountedPrice = item.price; // Podrazumevana cena
+             this.personInfoService.updateTouristInfo(this.user).subscribe({
+              next: () => {
+              this.cartItems.forEach(item => {
 
-                    if (item.discountPercentage) { 
-                        discountedPrice = item.price - (item.price * item.discountPercentage / 100);
+
+                //Ako je stavka bundle
+                if(item.isBundle === true){
+
+                  this.paymentService.getById(item.tourId).subscribe({
+                    next: (bundle: Bundle) => {
+                      console.log(bundle);
+                      //kreiraj payment record
+                      this.paymentRecord.bundleId = bundle.id;
+                      this.paymentRecord.touristId = this.user.id;
+                      this.paymentRecord.price = bundle.price;
+                      this.paymentRecord.date = new Date();
+                      console.log(this.paymentRecord)
+                      this.paymentService.addPaymentRecord(this.paymentRecord).subscribe({
+                        next: (result: PaymentRecord) => {
+                         console.log("Payment record succesuly created.", result)      
+                        },
+                        error: (err: any) => {
+                          console.log("Error creating payment token.", err)      
+                        }
+                      });
+
+
+                      //za svaki tour id u bundlu
+                      bundle.tourIds.forEach(tourId => {
+                        this.purchaseToken = {
+                          userId: this.user.id,
+                          cartId: this.currentCart.id,
+                          tourId: tourId,
+                          price: 0,
+                          purchaseDate: new Date()    
+                        }
+                      //kreiraj token
+                        this.cartService.createToken(this.purchaseToken).subscribe({
+                          next: (result: TourPurchaseToken) => {
+                            this.loadUserWallet(this.userId || -1);
+                            Swal.fire('Success', 'Created token!', 'success');
+        
+                          },
+                          error: (err: any) => {
+                            Swal.fire('Error', 'Error creating token', 'error');
+        
+                          }
+                        });
+                      }
+                      );
+                    },
+                    error: (err: any) => {
+                      console.log('Error loading bundle');  
                     }
+                  });
+                  
 
-                    this.purchaseToken = {
-                        userId: this.user.id,
-                        cartId: this.currentCart.id,
-                        tourId: item.tourId,
-                        price: discountedPrice, // Cena sa popustom
-                        purchaseDate: new Date(),
-                    };
+                //ako je stavka tura
+                } else {
 
-                this.cartService.createToken(this.purchaseToken).subscribe({
-                  next: (result: TourPurchaseToken) => {
-                    Swal.fire('Success', 'Created token!', 'success');
+                  // Koristi postojeću logiku za primenu kupona
+                  let discountedPrice = item.price; // Podrazumevana cena
 
-                  },
-                  error: (err: any) => {
-                    Swal.fire('Error', 'Error creating token', 'error');
-
+                  if (item.discountPercentage) { 
+                      discountedPrice = item.price - (item.price * item.discountPercentage / 100);
                   }
-                });
+                  this.purchaseToken = {
+                    userId: this.user.id,
+                    cartId: this.currentCart.id,
+                    tourId: item.tourId,
+                    price: discountedPrice, // Cena sa popustom
+                    purchaseDate: new Date()    
+                  };
+                  
+                  this.cartService.createToken(this.purchaseToken).subscribe({
+                    next: (result: TourPurchaseToken) => {
+                      Swal.fire('Success', 'Created token!', 'success');
+  
+                    },
+                    error: (err: any) => {
+                      Swal.fire('Error', 'Error creating token', 'error');
+  
+                    }
+                  });                
+
+                }
                 this.cartService.removeFromCart(item.id || -1).subscribe({
                   next: () => {
                   
@@ -280,6 +392,9 @@ refreshTourDetails(): void {
                   }
                 });
               });
+              
+              
+            //  alert("Korpa uspešno očišćena.");
               this.cartItems = [];
               this.totalPrice = 0;
               this.promoCode = '';
@@ -296,6 +411,7 @@ refreshTourDetails(): void {
              this.cartService.createNotification('tourist', this.purchaseNotification).subscribe({
               next: (result: Notification) =>
               {
+                this.router.navigate(['/purchased-tours']);
 
               },
               error:(err: any) =>
@@ -303,8 +419,9 @@ refreshTourDetails(): void {
                 console.log("Error creating notification");
               }
              })
-        
-               
+           
+
+           
               },
               error: (err: any) =>
                  Swal.fire('Error', 'Error updating wallet', 'error')

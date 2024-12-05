@@ -35,6 +35,9 @@ import { QuizComponent } from 'src/app/feature-modules/administration/quiz/quiz.
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
+import { BundleComponent } from 'src/app/feature-modules/payments/bundle/bundle.component';
+import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
+
 
 
 
@@ -73,6 +76,8 @@ const routes: Routes = [
   {path: 'cart/:cartId', component: CartOverviewComponent},
   {path: 'purchased-tours', component: PurchaseTokenComponent },
   {path: 'tour-review/:tourId', component: TourReviewFormComponent},
+  {path: 'bundle', component: BundleComponent},
+  {path: 'sales', component: SalesComponent},
   {path: 'equipment', component: EquipmentComponent},
   {path: 'quiz', component: QuizComponent}
 ];

@@ -8,10 +8,13 @@ export interface Tour {
     tags: number[]; 
     status: number; 
     price: number;
+    discountedPrice?: number;
+    originalPrice?: number; 
     userId: number;
     lengthInKm: number;
     publishedTime?: Date;
     archiveTime?: Date;
     equipmentIds: number[] | null; 
     keyPoints: KeyPoint[];
+    selected?: boolean;
   }

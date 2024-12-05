@@ -6,6 +6,7 @@ import { environment } from 'src/env/environment';
 import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -18,6 +19,7 @@ export class QuizComponent implements AfterViewInit {
   @ViewChild('customTourList', { static: false }) customTourList!: CdkDropList;
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
   @ViewChild('carouselContainer', { static: false }) container!: ElementRef;
+  @ViewChild('title', {static: false}) title!: ElementRef; 
 
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
@@ -178,7 +180,7 @@ export class QuizComponent implements AfterViewInit {
     this.currentPoolIndex = (this.currentPoolIndex + 1) % this.imagesPool.length; // Prebacivanje između slika
   }
 
-  constructor(private tourPreferenceService: TourPreferenceService) { }
+  constructor(private tourPreferenceService: TourPreferenceService, private router: Router) { }
   ngOnInit(): void {
     localStorage.removeItem('picture');
 this.currentImageIndex = 0;
@@ -308,6 +310,7 @@ this.currentImageIndex = 0;
       this.progress(this.currentSlideIndex);
 
       if(this.currentSlideIndex==1){
+        //this.title.nativeElement.style.color = '#BFA8D7'; 
         const image = localStorage.getItem('picture');
         if(!image ){
           Swal.fire({
@@ -376,6 +379,24 @@ this.currentImageIndex = 0;
       this.tourPreferenceService.savePreference(preference).subscribe(
         (response) => {
           console.log('Preference saved successfully', response);
+          Swal.fire({
+            title: 'Thank you for taking the time to complete the quiz!',
+            text: 'We\'ve learned more about you! Now we can enhance your experience here',
+            icon: 'success',
+            showCancelButton: true,
+            showCloseButton: true,
+            confirmButtonText: 'Back to clubs',
+            cancelButtonText: 'Back to home',
+            allowOutsideClick: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Ovde možeš da rutiraš na "Back to clubs"
+              this.router.navigate(['/club']);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              // Ovde možeš da rutiraš na "Back to home"
+              this.router.navigate(['/']);
+            }
+          });
         },
         (error) => {
           console.error('Error saving preference', error);

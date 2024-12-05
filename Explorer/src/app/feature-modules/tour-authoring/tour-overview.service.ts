@@ -28,4 +28,9 @@ export class TourOverviewService {
     return this.http.get<PagedResults<TourOverview>>(url);
   }
 
+  getById(id: number): Observable<TourOverview>
+  {
+    return this.http.get<TourOverview>(this.apiUrl+'/byId/'+id);
+  }
+
 }

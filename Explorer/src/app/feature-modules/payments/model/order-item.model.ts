@@ -8,4 +8,5 @@ export interface OrderItem{
     cartId: number;
     authorId?: number;
     tourDetails?: Tour;
+    isBundle: boolean;
 }
