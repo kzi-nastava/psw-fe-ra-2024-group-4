@@ -15,10 +15,13 @@
                 <img [src]="'assets/images/tag' + ((item.tourDetails?.tags?.[0] ?? 0) + 1) + '.jpg'" class="card-image-preview">
                 <div class="tour-info">
                     <div class="tour-name">{{ item.tourName }}</div>
-                    <div class="tour-price">Price: {{ item.price | currency }}</div>
-                    <div class="tags-container">
+                    <div class="price">
+                       
+                        <span class="new-price">{{ item.price | currency }} </span>
+                      </div>
+                  <!--  <div class="tags-container">
                         <span *ngFor="let tag of item.tourDetails?.tags" class="tag">{{tag}} </span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             
