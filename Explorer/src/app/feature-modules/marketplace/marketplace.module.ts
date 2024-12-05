@@ -23,6 +23,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PaymentsModule } from '../payments/payments.module';
 import { CouponComponent } from '../payments/coupon/coupon.component'
+import { MatTabsModule } from '@angular/material/tabs';
+import { BundleComponent } from '../payments/bundle/bundle.component';
 
 @NgModule({
   declarations: [ToursForAuthorComponent, KeypointDialogComponent, ProblemComponent,ProblemFormComponent, TourReviewsComponent, TourReviewFormComponent, ProblemTicketComponent], 
@@ -43,7 +45,8 @@ import { CouponComponent } from '../payments/coupon/coupon.component'
     MatCheckboxModule,
     MatDatepickerModule, 
     MatNativeDateModule,
-    PaymentsModule
+    PaymentsModule,
+    MatTabsModule
   ],
   exports: [
     ToursForAuthorComponent,

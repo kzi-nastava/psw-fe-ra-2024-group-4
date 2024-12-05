@@ -16,6 +16,7 @@ import { TourOverview } from 'src/app/feature-modules/tour-authoring/model/touro
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
 import { Router } from '@angular/router';
 
 
@@ -39,6 +40,8 @@ export class MapComponent {
   @Input() tourSearchActivated: boolean = false;
   @Input() showingFirstKp: boolean = false;
   @Input() tourOverview: TourOverview;
+  @Input() showEncounters: boolean = false;
+  @Input() selectedEncounterPoints: Encounter[];
   currentPosition: PositionSimulator;
 
   @Output() latitudeChanged = new EventEmitter<number>();
@@ -61,6 +64,7 @@ export class MapComponent {
    private map: any;
    private currentMarker: L.Marker | null = null; 
    private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
+   private selectedEncounterMarkers: L.Marker[] = [];
    
 
 
@@ -167,8 +171,9 @@ export class MapComponent {
     L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
 
-
-    
+    if (this.showEncounters) {
+      this.showEncounterOnMap();
+    }
 
     if(this.registeringObject && !this.shouldEditKp)
       { 
@@ -235,6 +240,10 @@ export class MapComponent {
         }
         if (changes['objects']) {
             this.plotExistingObjects(); 
+        }
+        if (changes['selectedEncounterPoints']) {
+          console.log("Novi encounter-i za prikaz na mapi:", this.selectedEncounterPoints);
+          this.showEncounterOnMap();
         }
     }
 }
@@ -490,6 +499,55 @@ export class MapComponent {
     return environment.webroot + image;
   }
 
+private async showEncounterOnMap(): Promise<void> {
+  console.log("Showing encunters in radius");
+  console.log("Selected Encounter Points:", this.selectedEncounterPoints); 
+  this.selectedEncounterMarkers.forEach(marker => this.map.removeLayer(marker));
+  this.selectedEncounterMarkers = [];
+
+  if (this.selectedEncounterPoints && this.selectedEncounterPoints.length > 0) {
+    this.selectedEncounterPoints.forEach(async point => {
+      const marker = L.marker([point.latitude, point.longitude], {icon: this.keypointIcon})
+      .addTo(this.map);
+
+      const address = await this.getAddress(point.latitude, point.longitude);
+
+      const popupContent = `
+        <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
+          <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; padding: 10px;">
+            <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
+              <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+                ${point.title}
+              </div>
+              <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777; text-align: center; overflow: hidden;">
+                ${point.description}
+              </div>
+            </div>
+
+            <div class="card-footer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 10px;">
+              <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
+                <p><strong>Type:</strong> ${point.type}</p>
+              </div>
+              <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
+                <p><strong>Status:</strong> ${point.status}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      marker.on('mouseover', () => {
+        marker.bindPopup(popupContent).openPopup();
+      });
+
+      marker.on('mouseout', () => {
+        marker.closePopup();
+      });
+      this.selectedEncounterMarkers.push(marker);
+    })
+  }
+}
+
   private async plotKeyPoints(): Promise<void> {
     console.log('Selected Tour Points:', this.selectedTourPoints);
     // Clear existing markers if re-plotting is needed
@@ -588,12 +646,4 @@ export class MapComponent {
       return 'Error fetching address';
     }
   }
-  
-  
-
-  
-
- 
-
-
 }

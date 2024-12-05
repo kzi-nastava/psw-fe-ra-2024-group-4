@@ -12,6 +12,8 @@ export class NavbarComponent implements OnInit {
 
   user: User | undefined;
   showNotifications = false; 
+  userLevel: number = 1;
+  isUserLevelLoaded: boolean = false;
 
 
   constructor(
@@ -23,6 +25,7 @@ export class NavbarComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+    this.getUserLevel();
   }
 
   onLogout(): void {
@@ -59,6 +62,21 @@ export class NavbarComponent implements OnInit {
       this.isToursMenuOpen = false;
       this.isBlogsMenuOpen = false;
       this.isClubsMenuOpen = false;
+  }
+  getUserLevel(): void{
+    if(!this.user) return;
+    this.authService.getPersonInfo(this.user.id).subscribe({
+      next: (person) => {
+        this.isUserLevelLoaded = true;
+        this.userLevel = person.level || 1;
+      },
+      error: (err) => {
+        console.error('Error fetchin user level!');
+      }
+    })
+  }
+  canCreateEncounter(): boolean {
+    return this.user?.role === 'tourist' && this.userLevel > 9;
   }
 
   scrollDown(event: Event) {

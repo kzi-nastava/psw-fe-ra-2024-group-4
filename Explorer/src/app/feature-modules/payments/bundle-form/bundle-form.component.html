@@ -5,30 +5,33 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Price</mat-label>
+        <mat-label>Price in $</mat-label>
         <input matInput formControlName="price" type="number" />
       </mat-form-field>
 
       <div class="button-container">
-        <button mat-raised-button type="submit" color="primary" (click)="loadTours()">Add tour</button>
+        <button mat-raised-button type="submit" color="primary" (click)="openTourDialog()">Add tour</button>
     </div>
 
-    <div *ngIf="tours && tours.length > 0" class="tours-list">
-        <mat-list>
-          <mat-list-item *ngFor="let tour of tours">
-            <mat-checkbox 
-                    (change)="onTourChange($event, tour)"
-                    [checked]="tour.id ? bundleForm.get('tourIds')?.value?.includes(tour.id) : false">
-                    <span>{{ tour.name }}</span>
-                    <span class="price">{{ tour.price | currency }}</span>
-                </mat-checkbox>
-          </mat-list-item>
-        </mat-list>
+     <div *ngIf="selectedTours.length > 0" class="selected-tours">
+      <div *ngFor="let tour of selectedTours" class="selected-tour-card">
+        <img [src]="'assets/images/tag' + 3 + '.jpg'" alt="{{ tour.name }}" class="tour-image" />
+        <div class="tour-details">
+          <h4>{{ tour.name }}</h4>
+          <p>Price: ${{ tour.price }}</p>
+          <button mat-icon-button (click)="removeTour(tour)" class="remove-button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
       </div>
+    </div>
+
+
+      <p>Total price: {{totalPrice}}</p>
     
   
     <div class="button-container">
-        <button mat-raised-button type="submit" color="primary" (click)="addBundle()" >Add</button>
+        <button mat-raised-button type="submit" color="accent" (click)="addBundle()" >submit</button>
     </div>
   </form>
   

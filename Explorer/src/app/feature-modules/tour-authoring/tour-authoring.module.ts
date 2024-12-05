@@ -41,6 +41,8 @@ import { CartOverviewComponent } from '../payments/cart-overview/cart-overview.c
 import { PurchaseTokenComponent } from 'src/app/feature-modules/purchase-token/purchase-token.component';
 import { TourDetailsNewComponent } from './tour-details-new/tour-details-new.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PaymentsModule } from '../payments/payments.module';
+import { AddvertisementComponent } from './addvertisement/addvertisement.component';
 
 
 
@@ -65,7 +67,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     TourSearchComponent,
     CartOverviewComponent,
     PurchaseTokenComponent,
-    TourDetailsNewComponent
+    TourDetailsNewComponent,
+    AddvertisementComponent
   ],
   imports: [
     // Import necessary modules
@@ -80,6 +83,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     AdministrationModule,
     SharedModule,
     RouterModule,
+    PaymentsModule,
 
     // Material-specific modules
     MatFormFieldModule,

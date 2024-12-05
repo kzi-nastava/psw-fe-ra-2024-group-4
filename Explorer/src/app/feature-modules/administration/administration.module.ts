@@ -23,6 +23,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClubMembersComponent } from './club-members/club-members.component';
+import { EncounterPublicStatusRequestComponent } from './encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -42,7 +43,7 @@ import { MatOptionModule } from '@angular/material/core';
     NotificationsComponent,
     QuizComponent,
     ClubMembersComponent,
-
+    EncounterPublicStatusRequestComponent,
   ],
   imports: [
     CommonModule,

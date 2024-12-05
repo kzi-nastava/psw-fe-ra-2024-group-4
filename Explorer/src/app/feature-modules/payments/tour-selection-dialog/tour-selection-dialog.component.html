@@ -1,0 +1,17 @@
+<div class="tour-container">
+    <div *ngFor="let tour of tours" class="tour-card"
+         [class.selected]="tour.selected"
+         (click)="selectTour(tour)">
+      <img [src]="'assets/images/tag' + 3 + '.jpg'" alt="{{ tour.name }}" class="tour-image">
+      <div *ngIf="tour.selected" class="selected-indicator">✓</div>
+      <div class="tour-details">
+        <h3>{{ tour.name }}</h3>
+        <p>Price: ${{ tour.price }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="button-container">
+    <button mat-raised-button color="accent" (click)="addTours()">Add Tours</button>
+  </div>
+  

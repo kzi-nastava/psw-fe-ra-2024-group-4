@@ -1,0 +1,36 @@
+.encounter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width: fill;
+    margin: 20px;
+  }
+  
+  .encounter-form {
+    width: 100%;
+  }
+  
+  mat-form-field {
+    margin-bottom: 13px; 
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .conditional-section {
+    margin-top: 13px;
+  }
+  
+  .buttons {
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+    gap: 30px
+  }
+  .checkbox-area {
+    margin: 20px 0;
+  }
+  

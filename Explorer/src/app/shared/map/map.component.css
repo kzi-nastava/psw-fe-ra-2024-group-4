@@ -1,4 +1,6 @@
 .map-frame {
+  height: 100%; /* Full height of the parent container */
+  width: 100%;
     border: 0.3vh solid rgb(233, 200, 255);
   }
   

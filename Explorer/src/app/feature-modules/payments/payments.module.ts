@@ -20,16 +20,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HttpClientModule } from '@angular/common/http';
 import { CouponViewComponent } from './coupon-view/coupon-view.component';
-
+import { TourSelectionDialogComponent } from './tour-selection-dialog/tour-selection-dialog.component';
 
 @NgModule({
   declarations: [
     BundleComponent,
-    BundleFormComponent,
     SalesComponent,    
     CouponComponent,
-    CouponViewComponent
-
+    CouponViewComponent,
+    TourSelectionDialogComponent,
+    BundleFormComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +58,8 @@ import { CouponViewComponent } from './coupon-view/coupon-view.component';
     MatCardModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule, 
+    MatIconModule
   ],
   exports: [
     BundleComponent,

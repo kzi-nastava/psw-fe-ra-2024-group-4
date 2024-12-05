@@ -229,6 +229,7 @@ button[mat-icon-button] mat-icon {
     flex: 0 0 20%;
     /*background-color: #d1e7dd;*/
     margin-right: 1%;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: baseline;
