@@ -21,7 +21,7 @@
 <button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" 
 style="margin-bottom: 10px;">Abandon tour</button>  
 
-    <label><b>Activated encounters: </b></label>
+    <!-- <label><b>Activated encounters: </b></label>
     <br/>
     <ng-container *ngIf="activeEncounters.length === 0; else encounterList">
       <label>No active encounters!</label>
@@ -29,9 +29,9 @@ style="margin-bottom: 10px;">Abandon tour</button>
     <ng-template #encounterList>
       <div class="encounter-list" *ngFor="let e of activeEncounters">
         <div class="encounter-item">
-          <label>{{ e.title }}</label>
+          <label>{{ e.title }}</label> -->
           <!-- Hover bubble (simple empty bubble) -->
-          <div class="hover-bubble">
+          <!-- <div class="hover-bubble">
             <label>{{ e.description }}</label><br/>
             <label>{{ e.type }}</label>
             <br/>
@@ -44,8 +44,8 @@ style="margin-bottom: 10px;">Abandon tour</button>
           </div>
         </div>
       </div>
-    </ng-template>
-<button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" >Abandon tour</button>  
+    </ng-template>  -->
+<!-- <button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" >Abandon tour</button>   -->
     <div class="points-audio-list">
       <h2 style="font-family: 'Poppins', sans-serif;">Keypoints:</h2>
       <table class="audio-table">
