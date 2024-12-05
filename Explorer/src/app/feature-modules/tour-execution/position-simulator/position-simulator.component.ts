@@ -131,13 +131,17 @@ export class PositionSimulatorComponent implements OnInit {
               instance.status === 0 && instance.userId === this.user.id));
   
           for (let encounter of activeUncompleted) {
-            const lat1 = encounter.latitude; // Encounter's latitude
-            const lon1 = encounter.longitude; // Encounter's longitude
+            if (encounter.type != 1) {
+              continue;
+            }
+            const lat1 = encounter.hiddenLocationData?.latitude!; // Encounter's latitude
+            const lon1 = encounter.hiddenLocationData?.longitude!; // Encounter's longitude
             const lat2 = this.currentPosition.latitude; // Current position latitude
             const lon2 = this.currentPosition.longitude; // Current position longitude
   
             // Check if within 30 meters initially
             const distance = this.calculateDistance(lat1, lon1, lat2, lon2);
+            // TODO proveriti da li je zavrsen - ako jeste ne zovi
             if (distance <= 30) { // 30 meters
               alert("Nasli ste skrivenu lokaciju od izazova " + encounter.title);
               console.log(`Encounter "${encounter.title}" is within 30 meters, starting timer.`);
@@ -166,7 +170,7 @@ export class PositionSimulatorComponent implements OnInit {
                 }, error => {
                   console.error('Error fetching updated position:', error);
                 });
-              }, 30000); // 30 seconds in milliseconds
+              }, 20000); // 30 seconds in milliseconds
             }
           }
         }
