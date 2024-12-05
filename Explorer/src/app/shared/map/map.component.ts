@@ -56,7 +56,7 @@ export class MapComponent {
   
    user: User;
    
-  
+
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -87,7 +87,10 @@ export class MapComponent {
 
 
    constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
-     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
+
+    
+     }
 
 
    
@@ -523,9 +526,15 @@ export class MapComponent {
           <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
         </div>
       </div>
-    </div>
-  </div>`;
 
+        <div class = "card-btn" style="display: flex; justify-content: center;">
+     
+      </div>
+
+    </div>
+  </div>
+      `;
+  
 
 
     
@@ -537,7 +546,7 @@ export class MapComponent {
           marker.on('mouseout', () => {
             marker.closePopup();
           });
-        this.selectedTourPointsMarkers.push(marker);
+        this.selectedTourPointsMarkers.push(marker)č
         
 
         
@@ -550,7 +559,7 @@ export class MapComponent {
     }
 }
 
-  
+
   
   refreshPage():void{
     window.location.reload();

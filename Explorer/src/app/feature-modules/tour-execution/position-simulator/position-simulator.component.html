@@ -19,7 +19,33 @@
     
 </div>  
 <button mat-raised-button color="accent" *ngIf=" tourExecution && tourExecution.status === 0" (click)="abandonTourExecution(tourExecution.id)" >Abandon tour</button>  
+    <div class="points-audio-list">
+      <h2 style="font-family: 'Poppins', sans-serif;">Keypoints:</h2>
+      <table class="audio-table">
+    
+        <tbody>
+            <tr *ngFor="let item of selectedTourPoints">
+              
+                <td class="name-td">{{ item.name }}</td>
+             
+                <td class="button-td">
+                  <div class="btn-container">
+                    <button color="primary" (click)="playKeypointAudio(item.description)"  mat-icon-button>
+                       <mat-icon>play_arrow</mat-icon>
+                    </button>
 
+                  
+                
+                    <button color="primary" (click)="stopKeypointAudio()"  mat-icon-button>
+                     <mat-icon>stop</mat-icon>
+                  </button>
+                </div>
+                </td>
+            </tr>
+           
+        </tbody>
+    </table>
+    </div>
   </div>
 <div class="position-simulator-container">
     <xp-map  

@@ -86,12 +86,13 @@
         
                             </div>
                             
-                            <div class="card-button-container">
-                                <button class="card-bottom-button2" (click)="openReviews(t.tourId)">See reviews</button>
-                                <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
-                                <button class="card-bottom-button4" (click)="reportProblem(t.tourId)">Report Problem</button>
-                                <button class="card-bottom-button5" (click)="showKeypoint(t)">VIEW<br/>MAP</button>
-                            </div>
+                             <div class="card-button-container">
+                    <button class="card-bottom-button1" (click)="playTourAudio(t.tourDescription)">Play audio</button>
+                    <button class="card-bottom-button2" (click)="openReviews(t.tourId)">See reviews</button>
+                    <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
+                    <button class="card-bottom-button4" (click)="reportProblem(t.tourId)">Report Problem</button>
+                    <button class="card-bottom-button5" (click)="showKeypoint(t)">VIEW<br/>MAP</button>
+                </div>
                         </div>
                     </div>
                 </mat-tab>
@@ -140,6 +141,11 @@
                     </div>
 
                     
+
+                   
+                </div>
+            </div>
+
                     
                 </mat-tab>
                 
@@ -147,6 +153,7 @@
               
               
             
+
 
         </div>
         <div class="right-side-container">

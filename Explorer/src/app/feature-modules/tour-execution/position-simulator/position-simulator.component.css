@@ -98,3 +98,41 @@ button {
     border-bottom: 1px solid #ef7ad9;
     transform: rotate(-45deg);
   }
+
+  table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 300px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 50%;
+}
+
+
+.name-td{
+  text-align: center;
+  
+}
+.button-td {
+ 
+   padding-right: 1vh;
+   padding-top: 1vh;
+   padding-bottom: 1vh;
+   
+}
+
+.btn-container{
+  display: flex;
+  justify-content: right;
+  gap: 1vh;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+
