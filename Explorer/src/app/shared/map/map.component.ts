@@ -546,7 +546,7 @@ export class MapComponent {
           marker.on('mouseout', () => {
             marker.closePopup();
           });
-        this.selectedTourPointsMarkers.push(marker)č
+        this.selectedTourPointsMarkers.push(marker)
         
 
         
