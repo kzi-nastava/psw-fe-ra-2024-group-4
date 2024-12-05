@@ -10,47 +10,50 @@
     <div *ngFor="let item of cartItems" class="cart-item-card">
       <mat-card class="cart-item">
         <mat-card-content class="cart-item-content">
-       
-            <!-- Slika koja pokriva celu karticu -->
-            <img [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
-          
+          <!-- Slika koja pokriva celu karticu -->
+          <img *ngIf="!item.isBundle" [src]="'assets/images/tag' + (item.tourDetails.tags[0] + 1) + '.jpg'" class="card-image">
+          <img *ngIf="item.isBundle" [src]="'https://assets.superhivemarket.com/store/product/175755/image/2f23003e903c0bb30d86da42dbfd0074.jpg'" class="card-image">
           
           <!-- Informacije o turi -->
           <div class="tour-details">
             <div class="tour-info-left">
               <h3 mat-typography>{{ item.tourName }}</h3>
-              <p>{{ item.tourDetails?.description }}</p>
-              <p>Difficulty: {{ item.tourDetails?.difficulty }}</p>
+              <p *ngIf="!item.isBundle">{{ item.tourDetails?.description }}</p>
+              <p *ngIf="!item.isBundle">Difficulty: {{ item.tourDetails?.difficulty }}</p>
 
+              <br *ngIf="item.isBundle">
+              <br *ngIf="item.isBundle">
+              <p *ngIf="item.isBundle">Tours in bundle:</p>
 
-              <div *ngIf="item.tourDetails?.tags?.length; else noTags">
-               
+              <div *ngIf="!item.isBundle && item.tourDetails?.tags?.length; else noTags">
                 <div class="tags-container">
-                  <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{getTagName(tag)}} </span>
-                 
+                  <span *ngFor="let tag of item.tourDetails.tags" class="tag">{{ getTagName(tag) }}</span>
                 </div>
               </div>
               <ng-template #noTags>
-                <p>Tags: N/A</p>
+                <p *ngIf="!item.isBundle">Tags: N/A</p>
               </ng-template>
+              <div *ngIf="item.isBundle">
+                <div class="tags-container">
+                  <span *ngFor="let tour of getCachedTours(item.tourId)" class="tag">{{tour.tourName}} </span>
+                </div>
+              </div>              
             </div>
-
             <button mat-icon-button class="action-button" (click)="removeCartItem(item)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-
-          <div class="price-container">
-            <p><strong>{{ item.price }} $</strong></p>
-          </div>
-         
         </mat-card-content>
       </mat-card>
+      <div class="price-container">
+        <p><strong>{{ item.price }} $</strong></p>
+      </div>
     </div>
   </div>
 
   <div class="cart-footer">
     <div class="footer-content">
+      <span class="wallet-price">Your wallet: {{ wallet }} $</span>
       <span class="total-price">Total: {{ totalPrice }} $</span>
       <div class="divider"></div> 
       <button mat-raised-button class="checkout" color="accent" (click)="checkout()">Checkout</button>
@@ -58,14 +61,23 @@
   </div>
 </div>
 
-
 <div class="chat-container">
   <a (mouseenter)="toggleChat(true)" 
-  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
     ? 
   </a>
 
   <div *ngIf="isChatOpen" class="chat-box">
     <p>{{chatMessage}}</p>
   </div>
+
+  <div class="coupon-input">
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Coupon Code</mat-label>
+      <input matInput [(ngModel)]="promoCode" placeholder="Coupon Code">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="applyCoupon()">Apply Coupon</button>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
 </div>

@@ -43,63 +43,121 @@
         <header><h1>Tours</h1></header>
     </div>
     <div class="content-container">
-        <div class="left-side-container">
-          <xp-tour-search (tourSearchResults)="updateTours($event)"></xp-tour-search>
+        <div class="left-side-container" >
+          <xp-tour-search *ngIf="selectedTabIndex === 0" (tourSearchResults)="updateTours($event)"></xp-tour-search>
         
         </div>
         <div class="center-container">
-            <div class="cards">
-                <div class="card" *ngFor="let t of tours">
-                    <img 
-  [src]="'assets/images/tag' + (getTagNumber(t.tags[0]) + 1) + '.jpg'" 
-  class="card-image"
->                    
-                    <div class="card-overlay">
-                        <div class="card-header">
-    
-                            <div class="card-header-text">
-                                <div class="card-title">{{ t.tourName }}</div>
-
-                                <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 0">Status: Active</span>
-                                <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 1">Status: Completed</span>
-                                <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 2">Status: Abandoned</span>
-                                <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === null">Status: Not Started</span>
+            <mat-tab-group [(selectedIndex)]="selectedTabIndex">
+                <mat-tab label="Tours"> 
+                    <div class="cards">
+                        <div class="card" *ngFor="let t of tours">
+                            <img 
+                            [src]="'assets/images/tag' + (getTagNumber(t.tags[0]) + 1) + '.jpg'" 
+                            class="card-image"
+                            >    
+                            
+                            <div class="card-overlay">
+                                <div class="card-header">
+            
+                                    <div class="card-header-text">
+                                        <div class="card-title">{{ t.tourName }}</div>
+        
+                                        <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 0">Status: Active</span>
+                                        <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 1">Status: Completed</span>
+                                        <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 2">Status: Abandoned</span>
+                                        <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === null">Status: Not Started</span>
+                                    </div>
+            
+        
+                                </div>
+                                <div class="card-footer">
+                                    <!--<div class="card-footer-description">{{t.tourDescription}}</div>
+                                -->
+                                    <div>
+                                        <mat-card-subtitle>
+                                            <span *ngFor="let tag of t.tags; let isFirst = first">
+                                                <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
+                                            </span>
+                                        </mat-card-subtitle>
+                                    </div>
+                                    <div class="card-footer-description">{{t.tourDescription}}</div>
+                                </div>
+        
                             </div>
-    
-
-                        </div>
-                        <div class="card-footer">
-                            <!--<div class="card-footer-description">{{t.tourDescription}}</div>
-                        -->
-                            <div>
-                                <mat-card-subtitle>
-                                    <span *ngFor="let tag of t.tags; let isFirst = first">
-                                        <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
-                                    </span>
-                                </mat-card-subtitle>
-                            </div>
-                            <div class="card-footer-description">{{t.tourDescription}}</div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="card-button-container">
+                            
+                             <div class="card-button-container">
+                    <button class="card-bottom-button1" (click)="playTourAudio(t.tourDescription)">Play audio</button>
                     <button class="card-bottom-button2" (click)="openReviews(t.tourId)">See reviews</button>
                     <button class="card-bottom-button3"  (click)="addToCart(t)">BUY</button>
                     <button class="card-bottom-button4" (click)="reportProblem(t.tourId)">Report Problem</button>
                     <button class="card-bottom-button5" (click)="showKeypoint(t)">VIEW<br/>MAP</button>
                 </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Bundles">
+                    <div class="bundles-container">
+                        <div class="bundle-card-container" *ngFor="let bundle of bundles">
+                            <!-- Kartica za bundle -->
+                            <div class="bundle-card-header">
+                                <h2 class="bundle-title">{{ bundle.name }}</h2>
+                                <p class="bundle-price">Price: {{ bundle.price }} AC</p>
+                                <button class="bundle-buy-btn" (click)="addBundleToCart(bundle)">BUY BUNDLE</button>
+                            </div>
+                    
+                            <!-- Kartice za ture unutar bundla -->
+                            <div class="tours-grid">
+                                <div class="tour-card-container" *ngFor="let t of bundle.tours">
+                                    <img src="https://live.staticflickr.com/4028/4657831272_425d20fea7_b.jpg" class="tour-card-image">
+                                    
+                                    <div class="tour-card-overlay">
+                                        <div class="tour-card-header">
+                                            <div class="tour-card-header-text">
+                                                <div class="tour-card-title">{{ t.tourName }}</div>                                               
+                                            </div>
+                                        </div>
+                                        <div class="tour-card-footer">
+                                            <div>
+                                                <mat-card-subtitle>
+                                                    <span *ngFor="let tag of t.tags; let isFirst = first">
+                                                        <mat-chip style="font-size: 10px">{{ tag }}</mat-chip>
+                                                    </span>
+                                                </mat-card-subtitle>
+                                            </div>
+                                            <div class="tour-card-description">{{ t.tourDescription }}</div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="tour-card-buttons">
+                                        <button class="tour-card-btn-reviews" (click)="openReviews(t.tourId)">VIEW REVIEWS</button>
+                                        <button class="tour-card-btn-map" (click)="showKeypoint(t)">VIEW MAP</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+            <div class="right-side-container">
+              
+            </div>
                 </div>
             </div>
-        </div>
-        <div class="right-side-container">
+
+                    
+                
+                
+            
               
-        </div>
-    </div>
-</div>
-  
+              
+            
 
 
+      
 <!-- stari layout + clean kartica
   <div class="container">
     <div *ngFor="let t of tours">

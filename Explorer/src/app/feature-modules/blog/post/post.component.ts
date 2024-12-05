@@ -103,15 +103,32 @@ export class PostComponent implements OnInit{
   getImage(imageUrl: string | undefined): string {
     return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png'; // Provide a fallback image or empty string
   }
-  onPublishClicked(postId: number,event: MouseEvent){
-    event.preventDefault(); 
-    event.stopPropagation(); 
+  onPublishClicked(postId: number, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  
     this.service.publishPost(postId).subscribe({
-      next:()=>{
-        this.getPosts();
+      next: () => {
+        Swal.fire({
+          title: 'Success!',
+          text: 'You have successfully published your blog.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.getPosts(); // Osvži listu postova
+      },
+      error: (err: any) => {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Something went wrong while publishing the blog.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        console.error(err);
       }
-    })
+    });
   }
+  
   //filtriranje blogova
 /*
   getFilteredBlogs() {

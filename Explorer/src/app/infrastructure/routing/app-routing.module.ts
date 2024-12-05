@@ -30,13 +30,16 @@ import { NotificationsComponent } from 'src/app/feature-modules/administration/n
 import { CartOverviewComponent } from 'src/app/feature-modules/payments/cart-overview/cart-overview.component';
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/marketplace/tour-review-form/tour-review-form.component';
-
+import { QuizComponent } from 'src/app/feature-modules/administration/quiz/quiz.component';
 
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
 import { AdminEncounterComponent } from 'src/app/feature-modules/encounters/admin-encounter/admin-encounter.component';
 import { EncounterPublicStatusRequestComponent } from 'src/app/feature-modules/administration/encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
+import { BundleComponent } from 'src/app/feature-modules/payments/bundle/bundle.component';
+import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
+
 
 
 
@@ -76,7 +79,11 @@ const routes: Routes = [
   {path: 'purchased-tours', component: PurchaseTokenComponent },
   {path: 'tour-review/:tourId', component: TourReviewFormComponent},
   {path: 'admin-encounters', component: AdminEncounterComponent},
-  {path: 'request-encounters',component: EncounterPublicStatusRequestComponent}
+  {path: 'request-encounters',component: EncounterPublicStatusRequestComponent},
+  {path: 'bundle', component: BundleComponent},
+  {path: 'sales', component: SalesComponent},
+  {path: 'equipment', component: EquipmentComponent},
+  {path: 'quiz', component: QuizComponent}
 ];
 
 @NgModule({

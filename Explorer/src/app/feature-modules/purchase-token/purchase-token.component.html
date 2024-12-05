@@ -3,12 +3,12 @@
 </div>
 
 <div class="tour-container">
-  <h1 mat-typography class="tour-title">
+  <header><h1 mat-typography class="tour-title">
     Available Tours
-  </h1>
+  </h1></header>
 
   <div class="tours-scroll">
-    <div *ngFor="let tour of tours" class="tour-card">
+    <div *ngFor="let tour of tours; let i = index" class="tour-card">
       <mat-card class="tour-item">
         <mat-card-content class="tour-item-content">
         
@@ -21,10 +21,14 @@
               <h3 mat-typography>{{ tour.name }}</h3>
               <p>{{ tour.description }}</p>
               <p>Difficulty: {{ tour.difficulty }}</p>
+
+              <p class="price">Price: ${{ purchasedTokens[i].price || tour.price }}</p>
+
               <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 0">Status: Active</p>
               <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 1">Status: Completed</p>
               <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === 2">Status: Abandoned</p>
               <p class="card-status" *ngIf="tourExecutions.get(tour.id || -1)?.status === null">Status: Not Started</p>
+
               <div *ngIf="tour.tags?.length; else noTags">
                 <div class="tags-container">
                   <span *ngFor="let tag of tour.tags" class="tour-tag">{{ getTagName(tag) }}</span>
@@ -87,5 +91,6 @@
 
   <div *ngIf="isChatOpen" class="chat-box">
     <p>{{chatMessage}}</p>
+
   </div>
 </div>

@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PaymentsModule } from './feature-modules/payments/payments.module';
 
 
 @NgModule({
@@ -50,8 +51,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TourAuthoringModule,
     TourExecutionModule,
     AuthModule,
-    HttpClientModule,
-    TourAuthoringModule,    
+    HttpClientModule,  
     PersonInfoModule,
     FormsModule,
     MatDialogModule,
@@ -66,7 +66,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ReactiveFormsModule,
     MatSnackBarModule,
     EncounterModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    PaymentsModule
   ],
   providers: [
     {

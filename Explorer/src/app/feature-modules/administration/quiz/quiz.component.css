@@ -1,0 +1,1439 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; 
+    background-color: #fff;
+    overflow: hidden;
+}
+.top-container {
+    flex: 0 0 10%; /* 10% visine stranice */
+    /*background-color: #e0e0e0;*/
+    display: flex;
+    padding-top: 1%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.content-container {
+    flex: 1; /* Preostali prostor posle 10% zauzima content-container */
+}
+
+/* Left side container */
+.left-side-container {
+    flex: 0 0 25%;
+    /*background-color: #d1e7dd;*/
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    text-align: center;
+}
+
+/* Center container */
+.center-container {
+    width: 100%;
+    flex: 0 0 50%;
+    /* background-color: #f8d7da;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Right side container */
+.right-side-container {
+    flex: 0 0 25%;
+    /*background-color: #d1e7dd;*/
+    display: flex;
+}
+.custom-tour{
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  background-color: antiquewhite;
+  top: 15%;
+  left: 15%;
+}
+.custom-tour-image img{
+  height: 100%;  
+  width: 100%;     
+  object-fit: cover;
+  object-position: bottom;
+}
+.title {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  display: inline; 
+}
+
+
+::ng-deep .custom-tour-image {
+  object-fit: contain !important;
+  object-fit: cover !important;
+  object-position: bottom !important;
+  height: 100%;  
+  width: 100%;  
+}
+
+
+
+:host .custom-tour-image img{
+  height: 100%;  
+  width: 100%;     
+  object-fit: cover;
+  object-position: bottom;
+}
+
+.choice-container{
+    width: 15vw;
+    height: 15vw;
+    background-color: aquamarine;
+}
+/*.choice{
+    width: 5vw;
+    height: 5vw;
+    background-color: blueviolet;
+}*/
+.choice {
+    width: 10%;
+    height: calc(width(10%));
+    border: solid 0px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: transparent;
+    cursor: move;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /*background: #fff;*/
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+/* .choice.inside {
+  transform: scale(1.5);
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  width: 15%;
+  height: calc(width(15%));
+} */
+/*custom size stikera*/
+#cycling{
+  top:15%;
+  left: 2%;
+}
+#cycling.inside{
+  transform: scale(1.5);
+  transition: width 0.5s ease, height 0.5s ease;
+  /* box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12); */
+  box-shadow: none; 
+  width: 15%;
+  height: calc(width(15%));
+}
+#hiking{
+  top:65%;
+  left: 2%;
+}
+#hiking.inside{
+  width: 14%;
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+}
+
+#painting{
+  top:35%;
+  left: 2%;
+}
+#painting.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none;
+}
+
+#wildlife1{
+  top:62%;
+  right:2%;
+}
+#wildlife1.inside{
+  transform: scale(1.5);
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 8%;
+  height: calc(width(11%));
+}
+#wildlife2{
+  top:32%;
+  right: 2%;
+}
+#wildlife2.inside{
+  transform: scale(1.4);
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 13%;
+  height: calc(width(13%));
+}
+#wildlife3{
+  top:36%;
+  left:2%;
+}
+#wildlife3.inside{
+  transform: scale(1.45);
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 14%;
+  height: calc(width(14%));
+}
+#wildlife4{
+  top:36%;
+  left:2%;
+}
+#wildlife4.inside{
+              box-shadow: none; 
+}
+
+#shopping{
+  top:33%;
+  right: 2%;
+}
+#shopping.inside{
+  width: 8%;
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+}
+#bench{
+  top:36%;
+  left:2%;
+}
+#bench.inside{
+
+  width: 8%;
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+}
+#coffee{
+  top:63%;
+  right:2%;
+}
+#coffee.inside{
+  width: 8%;
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+}
+#painting2{
+  top:63%;
+  left:2%;
+}
+#painting2.inside{
+  width: 12%;
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+}
+
+#historical1{
+  top:72%;
+  right:2%;
+}
+#historical1.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 26%;
+  height: calc(width(26%));
+}
+#historical2{
+  top:15%;
+  right:2%;
+}
+#historical2.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 12%;
+  height: calc(width(12%));
+}
+#historical3{
+  top:43%;
+  right: 2%;
+}
+#historical3.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 15%;
+  height: calc(width(15%));
+}
+#historical4{
+  top:60%;
+  left: 2%;
+}
+#historical4.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 12%;
+  height: calc(width(15%));
+}
+#photography1{
+  top:15%;
+  left: 2%;
+}
+
+#photography1.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+}
+#photography2{
+  top: 15%;
+  right: 2%;
+}
+#photography2.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 5%;
+  z-index: 100;
+}
+#ball{
+  top:65%;
+  left:2%;
+}
+#ball.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+              box-shadow: none; 
+  width: 5%;
+}
+#bucket{
+  width: 10%;
+  top:31%;
+  right: 2%;
+}
+#bucket.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+  width: 4%;
+}
+#vibe{
+  top:63%;
+  right: 2%;
+}
+#vibe.inside{
+  transition: width 0.5s ease, height 0.5s ease;
+  box-shadow: none; 
+  width: 21%;
+}
+
+.sticker{
+  object-fit: cover;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+.stikertest{
+  background-color: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+  background: #eee;
+  user-select: none;
+}
+
+[type=radio] {
+  display: none;
+}
+
+#slider {
+  height: 35vw;
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.quiz-card{
+  margin: auto;
+  width: 65%;
+  height: 100%;
+  border-radius: 4px;
+  position: absolute;
+  left: 0; right: 0;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+#slider label {
+  margin: auto;
+  width: 60%;
+  height: 100%;
+  border-radius: 4px;
+  position: absolute;
+  left: 0; right: 0;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+/* #s1:checked ~ #slide4, #s2:checked ~ #slide5,
+#s3:checked ~ #slide1, #s4:checked ~ #slide2,
+#s5:checked ~ #slide3 {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.37);
+  transform: translate3d(-30%,0,-200px);
+}
+
+#s1:checked ~ #slide5, #s2:checked ~ #slide1,
+#s3:checked ~ #slide2, #s4:checked ~ #slide3,
+#s5:checked ~ #slide4 {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,.3), 0 2px 2px 0 rgba(0,0,0,.2);
+  transform: translate3d(-15%,0,-100px);
+}
+
+#s1:checked ~ #slide1, #s2:checked ~ #slide2,
+#s3:checked ~ #slide3, #s4:checked ~ #slide4,
+#s5:checked ~ #slide5 {
+  box-shadow: 0 13px 25px 0 rgba(0,0,0,.3), 0 11px 7px 0 rgba(0,0,0,.19);
+  transform: translate3d(0,0,0);
+}
+
+#s1:checked ~ #slide2, #s2:checked ~ #slide3,
+#s3:checked ~ #slide4, #s4:checked ~ #slide5,
+#s5:checked ~ #slide1 {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,.3), 0 2px 2px 0 rgba(0,0,0,.2);
+  transform: translate3d(15%,0,-100px);
+}
+
+#s1:checked ~ #slide3, #s2:checked ~ #slide4,
+#s3:checked ~ #slide5, #s4:checked ~ #slide1,
+#s5:checked ~ #slide2 {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.37);
+  transform: translate3d(30%,0,-200px);
+}*/
+
+  ::ng-deep .fixed-circle {
+    opacity: 0;
+    transform: translateY(1500px);
+  }
+  
+  #slide1 { 
+    background: #BFA8D7; 
+    border: 2px solid rgb(188, 162, 216); 
+}
+#slide2 { 
+    background: #A3BEDC; 
+    border: 2px solid rgb(163, 190, 220); 
+}
+#slide3 { 
+    background: #E7C89E; 
+    border: 2px solid rgb(231, 200, 158); 
+}
+#slide4 { 
+    background: #D8A7B8; 
+    border: 2px solid rgb(216, 167, 184); 
+}
+#slide5 { 
+    background: #C2C599; 
+    border: 2px solid rgb(194, 197, 153); 
+}
+#s1:checked ~ .title{
+  color: #BFA8D7; 
+}
+
+#s2:checked ~ .title{
+  color: #A3BEDC; 
+}
+
+#s3:checked ~ .title{
+  color: #E7C89E; 
+}
+#s4:checked ~ .title{
+  color: #D8A7B8; 
+}
+#s5:checked ~ .title{
+  color: #C2C599; 
+}
+
+#s1:checked ~ #slide1 {
+    box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
+    transform: translate3d(0, 0, 0); /* Središnja kartica */
+  }
+  
+  #s1:checked ~ #slide2 {
+    transform: translate3d(15%, 0, -100px); /* Desno */
+  }
+  
+  #s1:checked ~ #slide3 {
+    transform: translate3d(30%, 0, -200px); /* Dalje desno */
+  }
+  
+  #s1:checked ~ #slide4 {
+    transform: translate3d(45%, 0, -300px); /* Još dalje desno */
+  }
+  
+  #s1:checked ~ #slide5 {
+    transform: translate3d(60%, 0, -400px); /* Najdalje desno */
+  }
+  
+  /* S2 aktivan */
+  #s2:checked ~ #slide1 {
+    transform: translate3d(-15%, 0, -100px); /* Levo */
+  }
+  
+  #s2:checked ~ #slide2 {
+    transform: translate3d(0, 0, 0); /* Središnja kartica */
+  }
+  
+  #s2:checked ~ #slide3 {
+    transform: translate3d(15%, 0, -100px); /* Desno */
+  }
+  
+  #s2:checked ~ #slide4 {
+    transform: translate3d(30%, 0, -200px); /* Dalje desno */
+  }
+  
+  #s2:checked ~ #slide5 {
+    transform: translate3d(45%, 0, -300px); /* Još dalje desno */
+  }
+  
+  /* S3 aktivan */
+  #s3:checked ~ #slide1 {
+    transform: translate3d(-30%, 0, -200px); /* Dalje levo */
+  }
+  
+  #s3:checked ~ #slide2 {
+    transform: translate3d(-15%, 0, -100px); /* Levo */
+  }
+  
+  #s3:checked ~ #slide3 {
+    transform: translate3d(0, 0, 0); /* Središnja kartica */
+  }
+  
+  #s3:checked ~ #slide4 {
+    transform: translate3d(15%, 0, -100px); /* Desno */
+  }
+  
+  #s3:checked ~ #slide5 {
+    transform: translate3d(30%, 0, -200px); /* Dalje desno */
+  }
+  
+  /* S4 aktivan */
+  #s4:checked ~ #slide1 {
+    transform: translate3d(-45%, 0, -300px); /* Još dalje levo */
+  }
+  
+  #s4:checked ~ #slide2 {
+    transform: translate3d(-30%, 0, -200px); /* Dalje levo */
+  }
+  
+  #s4:checked ~ #slide3 {
+    transform: translate3d(-15%, 0, -100px); /* Levo */
+  }
+  
+  #s4:checked ~ #slide4 {
+    transform: translate3d(0, 0, 0); /* Središnja kartica */
+  }
+  
+  #s4:checked ~ #slide5 {
+    transform: translate3d(15%, 0, -100px); /* Desno */
+  }
+  
+  /* S5 aktivan */
+  #s5:checked ~ #slide1 {
+    transform: translate3d(-60%, 0, -400px); /* Najdalje levo */
+  }
+  
+  #s5:checked ~ #slide2 {
+    transform: translate3d(-45%, 0, -300px); /* Još dalje levo */
+  }
+  
+  #s5:checked ~ #slide3 {
+    transform: translate3d(-30%, 0, -200px); /* Dalje levo */
+  }
+  
+  #s5:checked ~ #slide4 {
+    transform: translate3d(-15%, 0, -100px); /* Levo */
+  }
+  
+  #s5:checked ~ #slide5 {
+    transform: translate3d(0, 0, 0); /* Središnja kartica */
+  }
+  
+  input[type="radio"]:checked + .quiz-card {
+    display: flex;
+  }
+  .next-button{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+  }
+  .next-button1{
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .next-button1:hover{
+    background-color: #b390d8;
+  }
+  .next-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .next-button2:hover {
+    background-color: #739bcf; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .next-button3:hover {
+    background-color: #d6a35b; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .next-button4:hover {
+    background-color: #cc718c; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .next-button5:hover {
+    background-color: #a7b150; /* Blago modifikovana osnovna boja */
+  }
+
+
+  
+  .back-button{
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+  }
+
+  .back-button1 {
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .back-button1:hover {
+    background-color: #b390d8;
+  }
+  
+  .back-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .back-button2:hover {
+    background-color: #739bcf;
+  }
+  
+  .back-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .back-button3:hover {
+    background-color: #d6a35b;
+  }
+  
+  .back-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .back-button4:hover {
+    background-color: #cc718c;
+  }
+  
+  .back-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .back-button5:hover {
+    background-color: #a7b150;
+  }
+  
+
+
+
+  .progress-bar-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: -2%;
+    left:30%;
+    width: 40%;
+    height: 5%;
+    background-color: #ffffff;
+  }
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .steps {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .step {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 2px solid #ACACA6;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 1s;
+  }
+  .step.selected {
+    border: 2px solid #4B81BD;   
+  }
+  .step.completed {
+    border: 2px solid #4B81BD;
+    background: #4B81BD; 
+  }
+  .progress {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 47%;
+    border-bottom: 2px solid #ACACA6;
+    z-index: 0;
+  }
+  .percent {
+    position: absolute;
+    width: 0;
+    height: 100%;
+    border-bottom: 2px solid #4B81BD;
+    z-index: 1;
+    transition: width 1s;
+  }
+
+  .image-container1 {
+    display: flex;
+    justify-content: space-around;
+    gap: 2px;
+    width: 100%;
+    height: 70%;
+  }
+  
+  .image-wrapper {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-wrapper img {
+    width: 300px; /* Povećana širina */
+    height: 300px; /* Fiksirana visina */
+    object-fit: cover; /* Održava proporcije sadržaja unutar okvira */
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  
+  
+  .image-wrapper:hover img {
+    transform: scale(1.1);
+    border: 3px solid transparent;
+  border-image: linear-gradient(90deg, #ff79ff, #aa00ff, #ff79ff);
+  border-image-slice: 1;
+
+  /* Dodaj senku */
+  box-shadow: 0 0 10px 5px rgba(170, 0, 255, 0.5);
+  /*animation: swing 1.5s ease infinite;*/
+  }
+  @keyframes swing {
+    0% { transform: rotate(0deg) translateX(0) scale(1.1); }
+    25% { transform: rotate(-5deg) translateX(-10px) scale(1.1); }
+    50% { transform: rotate(5deg) translateX(10px) scale(1.1); }
+    75% { transform: rotate(-5deg) translateX(-10px) scale(1.1); }
+    100% { transform: rotate(0deg) translateX(0) scale(1.1); }
+  }
+  
+  .image-wrapper p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  p {
+    font-family: 'Playfair Display', serif; /* Elegantna serif font porodica */
+    font-size: 20px; /* Prilagodite veličinu fonta */
+    color: #333; /* Tamno siva za sofisticirani izgled */
+    text-align: center; /* Centriranje teksta */
+    margin-top: 10px; /* Razmak iznad */
+    margin-bottom: 20px; /* Razmak ispod */
+    letter-spacing: 1px; /* Blago razmaknuta slova za eleganciju */
+    line-height: 1.5; /* Poboljšana čitljivost */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Suptilna senka za dubinu */
+    
+  }
+  
+.image-wrapper.clicked img {
+  transform: scale(1.1);
+  border-color: #db2cd2;
+}
+  /*irina*/
+  .quiz-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .quiz-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #7f8c8d;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+.background-wrapper {
+  width: 70%; 
+  height: 65%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  position: relative;
+  padding: 1%; 
+  margin-left: 14%; 
+  margin-top: 2%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.background-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px; 
+}
+
+.image-description {
+  position: absolute;
+  top: 5%; 
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  color: #34495e;
+  padding: 1% 2%;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-size: 14px;
+  text-align: center;
+  max-width: 80%;
+  max-width: 80%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-navigation {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2%;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%; 
+  transform: translateY(-50%); 
+  font-size: 70px;
+  font-weight: bolder;
+  color: #616161;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.arrow-left {
+  left: -50px;
+}
+
+.arrow-right {
+  right: -50px;
+}
+
+.arrow:hover {
+  color: #9E9E9E; 
+  transform: scale(1.1); 
+}
+
+.select-button {
+  position: absolute; 
+  bottom: 5%; 
+  left: 45%;  
+  padding: 1% 2%;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: #e4ae63;
+  border: none;
+  border-radius: 4px; /* Minimalno zaobljeni uglovi */
+  cursor: pointer;
+  /* transition: background-color 0.3s ease, transform 0.2s ease; */
+}
+
+.select-button:hover {
+  background-color: #d6a35b;
+  /* transform: scale(1.05);  */
+}
+
+.image-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 10%;  
+  margin-top: 10%;  
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+
+.scaled-image img {
+  width: 205%; 
+  height: 95%;
+}
+.scaled-image5 img {
+  width: 155%; 
+  height: 95%;
+}
+/* Animacija za volan-potencijalno */
+@keyframes rotateWheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.steering-wheel {
+  position: absolute; 
+  top: 0.4%; 
+  left: 90%;
+  cursor: pointer;
+  width: 9%;  
+  height: auto;
+  transition: transform 0.5s ease;  
+  z-index: 20;  
+}
+
+.steering-wheel.clicked {
+  animation: rotateWheel 0.5s forwards;  /* Rotacija volana */
+}
+
+.steering-wheel img {
+  width: 130%; /* Slika zauzima celu širinu volana */
+  height: 20%; /* Podesite visinu automatski */
+  transition: transform 0.5s ease;  /* Efekat rotacije slike */
+}
+
+.arrow-cont {
+  position: absolute;
+  top: 10%; 
+  left: 78%; 
+  transform: translateX(-50%); 
+  z-index: 10;
+}
+
+.arrow-str {
+  font-size: 5%;  
+  color: #f39c12; 
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.3s ease;  
+  transform: rotate(45deg); 
+}
+
+.arrow-str:hover {
+  color: #e67e22;  /* Promena boje na hover */
+  transform: scale(1.1) rotate(45deg);  
+}
+
+.arrow-str img {
+  width: 40%; 
+  height: 40%;  
+  transition: transform 0.3s ease; 
+}
+
+.arrow-cont img {
+  width: 50%; 
+  height: auto;  
+  cursor: pointer;
+}
+
+
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0); 
+    opacity: 1;
+  }
+  to {
+    transform: translateX(170%); 
+    opacity: 0;
+  }
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease-out forwards;
+}
+
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-140%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0; 
+  }
+  to {
+    opacity: 1; 
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.scaled-image img {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+.background-image{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.carousel {
+  width: 100%;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.carousel__container {
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.categories__title {
+ color: rgb(77, 55, 102);
+  font-size: 28px;
+  position: absolute;
+  padding-left: 30px;
+}
+
+.carousel-item1 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item2 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item3 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+.carousel-item4 {
+  margin-top:10%;
+  width: 23.75%;
+  height: 65%;
+  margin-left:1%;
+  border-radius: 20px;
+  background-color: #95bcd6;
+  overflow: hidden;
+  margin-right: 0;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition: 1000ms all;
+  transition: 1000ms all;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+  position: relative;
+}
+#carousel-item-last{
+  margin-right: 1%;
+}
+
+
+.carousel__container:hover .carousel-item1 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item2 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item3 {
+  opacity: 0.3;
+}
+.carousel__container:hover .carousel-item4 {
+  opacity: 0.3;
+}
+
+.carousel__container:hover .carousel-item1:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item2:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item3:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  z-index: 2;
+}
+.carousel__container:hover .carousel-item4:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+  z-index: 2;
+}
+.carousel-item1.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+
+.carousel-item2.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+}
+.carousel-item3.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+}
+.carousel-item4.clicked{
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  opacity: 1;
+  z-index: 2;
+  -webkit-transform-origin: right center;
+  transform-origin: right center;
+}
+
+/* .carousel-item1.clicked ~ .carousel-item2,
+.carousel-item1.clicked ~ .carousel-item3,
+.carousel-item1.clicked ~ .carousel-item4{
+  opacity: 0.3;
+}
+.carousel-item2.clicked ~ .carousel-item1,
+.carousel-item2.clicked ~ .carousel-item3,
+.carousel-item2.clicked ~ .carousel-item4{
+    opacity: 0.3;
+  }
+.carousel-item3.clicked ~ .carousel-item4,
+.carousel-item3.clicked ~ .carousel-item2,
+.carousel-item3.clicked ~ .carousel-item1{
+  opacity: 0.3;
+}
+.carousel-item4.clicked ~ .carousel-item2,
+.carousel-item4.clicked ~ .carousel-item3,
+.carousel-item4.clicked ~ .carousel-item1{
+  opacity: 0.3;
+} */
+ /* Kada je .carousel-item1 kliknut 
+.carousel-item1.clicked ~ .carousel-item2,
+.carousel-item1.clicked ~ .carousel-item3,
+.carousel-item1.clicked ~ .carousel-item4,
+.carousel-item1.clicked + .carousel-item2,
+.carousel-item1.clicked + .carousel-item3,
+.carousel-item1.clicked + .carousel-item4 {
+  opacity: 0.3;
+}
+
+ Kada je .carousel-item2 kliknut 
+.carousel-item2.clicked ~ .carousel-item3,
+.carousel-item2.clicked ~ .carousel-item4,
+.carousel-item2.clicked + .carousel-item1,
+.carousel-item2.clicked + .carousel-item4,
+.carousel-item2.clicked + .carousel-item3 {
+  opacity: 0.3;
+}
+ Kada je .carousel-item3 kliknut 
+.carousel-item3.clicked ~ .carousel-item4,
+.carousel-item3.clicked + .carousel-item1,
+.carousel-item3.clicked + .carousel-item2 {
+  opacity: 0.3;
+}
+
+ Kada je .carousel-item4 kliknut 
+.carousel-item4.clicked ~ .carousel-item1,
+.carousel-item4.clicked + .carousel-item2,
+.carousel-item4.clicked + .carousel-item3 {
+  opacity: 0.3;
+}*/
+.carousel-item3.clicked ~ .carousel__container{
+  opacity: 0.3;
+}
+.carousel-item2.dimmed, .carousel-item1.dimmed, .carousel-item3.dimmed, .carousel-item4.dimmed{
+  opacity: 0.3;
+}
+
+
+
+.carousel-item__img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+
+
+.carousel-item__details .carousel-item__details--title,
+.carousel-item__details--subtitle {
+  color: #fff;
+  margin: 5px 0;
+}
+/* za sijalicu */
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* button img {
+  width: 50px; 
+  height: 80px;
+  display: block;
+} */
+.lightbulb-image {
+  position: absolute; /* Omogućava pozicioniranje u odnosu na roditeljski element */
+  top: 0; /* Postavlja element na vrh ekrana */
+  left: 50%; /* Horizontalno centriranje */
+  transform: translateX(-50%); /* Poravnava element tako da mu je centar na sredini ekrana */
+  /* Održava proporcije slike */
+  width: 30px; /* Prilagodite veličinu prema potrebama */
+  height: 90px;
+  display: block;
+  transform-origin: top center; /* Fiksiramo vrh slike kao tačku rotacije */
+  animation: swing-fast 4s infinite ; /* Animacija traje po 0.5 sekundi */
+  /* Traje 5 sekundi */
+  animation-fill-mode: forwards;
+}
+
+@keyframes swing-fast {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.image-toggle-container {
+  margin-top: 3%; /* Uklanja spoljne razmake */
+  padding: 0; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.toggle-image{
+  width: 80%;
+  height: 70%;
+}
+.on {
+  color: #dada21; /* Svetla žuta boja za ON */
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(226, 245, 103, 0.7), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3); /* Efekat svetlosti */
+}
+
+.off {
+  color: #4d4d4d; /* Tamno siva boja za OFF */
+  font-weight: normal;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3); /* Siva senka za OFF */
+
+}

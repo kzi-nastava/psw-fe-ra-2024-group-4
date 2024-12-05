@@ -4,5 +4,6 @@ export interface Account {
     password: string,
     email: string,
     role: string,
-    isActive: boolean
+    isActive: boolean,
+    wallet?: number
 }

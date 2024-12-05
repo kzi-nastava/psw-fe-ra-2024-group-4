@@ -59,7 +59,7 @@ export class MapComponent {
   
    user: User;
    
-  
+
 
    private map: any;
    private currentMarker: L.Marker | null = null; 
@@ -91,7 +91,10 @@ export class MapComponent {
 
 
    constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
-     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {}
+     private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
+
+    
+     }
 
 
    
@@ -581,9 +584,18 @@ private async showEncounterOnMap(): Promise<void> {
           <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
         </div>
       </div>
-    </div>
-  </div>`;
 
+        <div class = "card-btn" style="display: flex; justify-content: center;">
+     
+      </div>
+
+    </div>
+  </div>
+      `;
+  
+
+
+    
           // Use mouseover and mouseout events to show/hide the popup
           marker.on('mouseover', () => {
             marker.bindPopup(popupContent).openPopup();
@@ -592,7 +604,7 @@ private async showEncounterOnMap(): Promise<void> {
           marker.on('mouseout', () => {
             marker.closePopup();
           });
-        this.selectedTourPointsMarkers.push(marker);
+        this.selectedTourPointsMarkers.push(marker)
         
 
         
@@ -605,7 +617,7 @@ private async showEncounterOnMap(): Promise<void> {
     }
 }
 
-  
+
   
   refreshPage():void{
     window.location.reload();

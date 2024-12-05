@@ -1,4 +1,4 @@
-import { Tour } from "./tour.model";
+import { Tour } from "../../tour-authoring/model/tour.model";
 
 export interface OrderItem{
     id?: number;
@@ -6,5 +6,7 @@ export interface OrderItem{
     price: number;
     tourId: number;
     cartId: number;
+    authorId?: number;
     tourDetails?: Tour;
+    isBundle: boolean;
 }

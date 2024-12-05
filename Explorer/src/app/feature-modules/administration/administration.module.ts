@@ -19,9 +19,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { QuizComponent } from './quiz/quiz.component';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClubMembersComponent } from './club-members/club-members.component';
 import { EncounterPublicStatusRequestComponent } from './encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,7 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
     AppReviewTableComponent,
     PublicStatusRequestComponent,
     NotificationsComponent,
+    QuizComponent,
     ClubMembersComponent,
     EncounterPublicStatusRequestComponent,
   ],
@@ -48,7 +54,11 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
     MatListModule,   
     MatFormFieldModule,      
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatOptionModule,
+    DragDropModule,
+    CdkDrag
   ],
   exports: [
     EquipmentComponent,
@@ -60,7 +70,7 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
     AccountComponent,
     AppReviewTableComponent,
     PublicStatusRequestComponent,
-    NotificationsComponent
+    NotificationsComponent,
   ]
 })
 export class AdministrationModule { }

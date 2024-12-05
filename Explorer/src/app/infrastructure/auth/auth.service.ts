@@ -9,6 +9,7 @@ import { Login } from './model/login.model';
 import { AuthenticationResponse } from './model/authentication-response.model';
 import { User } from './model/user.model';
 import { Registration } from './model/registration.model';
+import { PersonInfo } from 'src/app/feature-modules/person.info/model/info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +75,8 @@ export class AuthService {
     };
     this.user$.next(user);
   }
+
+  
 
   isLoggedIn(): boolean{
     const user = this.user$.value;
