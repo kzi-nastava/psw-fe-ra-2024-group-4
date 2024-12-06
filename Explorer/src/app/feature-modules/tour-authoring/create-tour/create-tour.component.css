@@ -4,19 +4,36 @@ h1 {
 }
 
 .container {
-  display: flex; 
-  justify-content: space-between; 
-  align-items: flex-start; 
+  display: flex;
+  justify-content: space-between; /* Place form and tags side-by-side */
+  align-items: flex-start; /* Align the tops of the items */
+  gap: 20px; /* Optional: Adds spacing between elements */
+  margin-left: 10vh;
+ 
 }
 
 form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 70vh;
-  margin-left: 45vh;
+  width: 50%; /* Ensure the form has a specific width */
+  margin: 0; /* Remove margin offsets */
+  
 }
 
+.tags-container {
+  width: 30%; /* Set a width for the tags container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+
+.tour-form-container {
+  display: flex;
+  justify-content: flex-start;
+}
 .mat-tab-group {
   width: 100%;                /* Širina za celokupnu širinu ekrana */
   margin: 0;                  /* Uklanjanje margine */
@@ -33,15 +50,6 @@ form {
 mat-form-field {
   width: 100%; 
   margin-bottom: 10px; 
-}
-
-.tags-container {
-  flex: 0 0 250px; 
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-  margin-right: 40vh;
 }
 
 mat-selection-list {
