@@ -64,19 +64,23 @@
             </div>
 
             <div class="card-button-container">
+              <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 0" (click)="publishTour(t)">
+                <mat-icon>publish</mat-icon>
+              </button>
               <ng-container *ngIf="t.status === 2; else archiveButton">
                 <button mat-icon-button class="card-bottom-button" (click)="reactivateTour(t)">
                   <mat-icon>replay</mat-icon>
                 </button>
               </ng-container>
+              
               <ng-template #archiveButton>
                 <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 1" (click)="archiveTour(t)">
                   <mat-icon>archive</mat-icon>
                 </button>
               </ng-template>
 
-              <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
-              <button mat-raised-button class="card-bottom-button" (click)="viewTourDetails(t)">View</button>
+              
+              <button mat-raised-button class="card-bottom-button" id="viewButton" (click)="viewTourDetails(t)">View</button>
             </div>
           </div>
 
@@ -101,6 +105,7 @@
                   View Coupon
                 </button>
               </ng-template>
+              <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
             </div>
           </div>
         </div>
