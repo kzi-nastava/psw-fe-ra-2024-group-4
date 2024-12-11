@@ -1,0 +1,139 @@
+.main{
+    background-color: #ffffff;
+    width: 90%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.organize-tour-div{
+  height: 25%;
+  background-color: aqua;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f8fc;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+  }
+  .cards{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 kartice u redu */
+    gap: 20px; /* Razmak između kartica */
+    width: 100%;
+    background-color: white;
+  }
+  .tour-card {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 600px;
+    font-size: 14px;
+    overflow: hidden;
+  }
+  
+  .tour-image {
+    width: 200px;
+    object-fit: cover;
+  }
+  
+  .tour-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+  
+  .tour-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .tour-description {
+    color: #6c757d;
+    margin: 10px 0;
+  }
+  
+  .tour-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+  }
+  
+  .tour-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+  }
+  
+  .tour-reviews {
+    margin-top: 5px;
+    color: #6c757d;
+    font-size: 12px;
+  }
+  
+  .stars {
+    color: #ffc107;
+    font-size: 12px;
+    margin-right: 5px;
+  }
+  
+  .review-count {
+    font-size: 12px;
+  }
+  
+  .tour-button {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tour-button:hover {
+    background-color: #5a34a1;
+  }
+  
+  .tour-disclaimer {
+    color: #6c757d;
+    font-size: 12px;
+    margin: 0;
+  }
+  
+
+  /**/
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .new-tour-button {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .new-tour-button:hover {
+    background-color: #7b1fa2;
+  }
+  

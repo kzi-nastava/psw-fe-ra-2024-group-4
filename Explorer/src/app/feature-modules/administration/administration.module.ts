@@ -27,6 +27,7 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { ClubTourComponent } from './club-tour/club-tour.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MatOptionModule } from '@angular/material/core';
     QuizComponent,
     ClubMembersComponent,
     EncounterPublicStatusRequestComponent,
+    ClubTourComponent,
   ],
   imports: [
     CommonModule,

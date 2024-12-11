@@ -16,6 +16,7 @@ import { Notification } from './model/notifications.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Encounter } from '../encounters/model/encounter.model';
 import { PersonInfo } from '../person.info/model/info.model';
+import { ClubTour } from './model/club-tour.model';
 
 
 @Injectable({
@@ -275,6 +276,13 @@ export class AdministrationService {
 
   createAdminNotification(notification:Notification):Observable<Notification>{
     return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
+  }
+
+  //organized tours
+  //    return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'administration/equipment')
+
+  getAllClubTours():Observable<PagedResults<ClubTour>>{
+    return this.http.get<PagedResults<ClubTour>>(environment.apiHost + 'clubTour');
   }
 
   

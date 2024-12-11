@@ -19,7 +19,8 @@
           </div>
 
           <button 
-          class="custom-btn" >
+          class="custom-btn" 
+          (click)="selectComponent('xp-club-tour')">
           <i class="fas fa-map-marked-alt"></i> Tours
         </button>
       <button 
@@ -47,12 +48,18 @@
     
       <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"  [ownerId]="club?.userId ?? 0"></xp-club-members>
        <xp-club-invitation 
-       *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId">
+       *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId" >
       </xp-club-invitation>
     <!--  <app-component3 
         *ngIf="selectedComponent === 'comp3'" 
         [clubId]="clubId">
       </app-component3> -->
+      <xp-club-tour *ngIf="clubId !== null && selectedComponent === 'xp-club-tour'" [ownerId]="club?.userId ?? 0" [clubId]="clubId">
+
+      </xp-club-tour>
+
+
+
     </div>
   
   

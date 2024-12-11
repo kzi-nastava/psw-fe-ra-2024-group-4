@@ -1,0 +1,37 @@
+<div class="main">
+    <div class="organize-tour-div" *ngIf="isOwner">
+
+    </div>
+
+    <div>
+        <div class="header">
+            <h2>Organized Tours</h2>
+            <button class="new-tour-button">+ Organize New Tour</button>
+          </div>
+        <div class ="cards" >
+            <div class="tour-card" *ngFor="let ct of clubTours">
+                <img [src]="'assets/images/tag' + (getTagNumber(ct.tags?.[0] || '') + 1)  + '.jpg'" 
+                  class="tour-image"
+                />
+                <div class="tour-content">
+                  <h3 class="tour-title">{{ct.title}}</h3>
+                  <p class="tour-description">
+                    {{ct.description}}
+                  </p>
+                  <div class="tour-info">
+                    <div>
+                      <span class="tour-price">17</span> per person*
+                      <div class="tour-reviews">
+                        <span class="stars">★★★★★</span>
+                        <span class="review-count">28 reviews</span>
+                      </div>
+                    </div>
+                    <button class="tour-button">Book now</button>
+                  </div>
+                  <p class="tour-disclaimer"></p>
+                </div>
+              </div> 
+        </div>
+         
+    </div>
+</div>
