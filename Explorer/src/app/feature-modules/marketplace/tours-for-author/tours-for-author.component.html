@@ -1,9 +1,14 @@
+<header>
+  <h1>Tours</h1>
+</header>
 <div class="main-container">
+  
   <div class="top-container">
-    <header>
-      <h1>Tours</h1>
-    </header>
+    
 
+    <div class="all">
+    <div class="prvi">
+    <div class="saleClass">
     <button mat-raised-button class="card-bottom-button" (click)="toggleSale()">Create Sale</button>
 
     <div *ngIf="showSaleCheckboxes" class="sale-form-container">
@@ -29,11 +34,10 @@
           The sale duration cannot exceed 14 days!
         </div>
 
-        <button type="submit" mat-raised-button [disabled]="!discount || dateError" color="accent">Create</button>
+        <button type="submit" class="submit1" mat-raised-button [disabled]="!discount || dateError" color="accent">Submit</button>
       </form>
     </div>
-  </div>
-</div>
+  
 
 <div class="tour-list-container" *ngIf="showSaleCheckboxes">
   <h2>Select Tours</h2>
@@ -42,6 +46,22 @@
       {{ t.name }}
     </mat-checkbox>
   </div>
+</div>
+</div>
+</div>
+</div>
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
+    Add Coupon for All Tours
+  </button>
+</div>
+
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
+    View all my coupons
+  </button>
+</div>
+
 </div>
 
 <div class="content-container">
@@ -112,17 +132,7 @@
       </div>
     </div>
 
-    <div class="add-coupon-all-container">
-      <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
-        Add Coupon for All Tours
-      </button>
-    </div>
-
-    <div class="view-all-container">
-      <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
-        View all my coupons
-      </button>
-    </div>
+    
 
     <!-- Overlay for coupon form -->
     <div class="overlay" *ngIf="shouldRenderCouponForm" (click)="closeCouponForm()">
@@ -146,4 +156,5 @@
       ></xp-coupon-view>
     </div>
   </div>
+</div>
 </div>

@@ -35,7 +35,7 @@ export class ToursForAuthorComponent implements OnInit {
   
   selectedToursForDiscount: Set<number> = new Set(); 
   discount = 1;
-  showSaleCheckboxes = false;
+  showSaleCheckboxes = true;
   startDate: Date | null = null;
   endDate: Date | null = null;
   dateError = false;
