@@ -9,6 +9,9 @@ import { PostService } from '../post.service';
 import { Post } from '../model/post.model'
 import { environment } from 'src/env/environment';
 import { Rating } from '../model/rating.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PersonInfoService } from '../../person.info/person.info.service';
+import { PersonInfo } from '../../person.info/model/info.model';
 
 @Component({
   selector: 'xp-comment',
@@ -28,8 +31,11 @@ export class CommentComponent implements OnInit {
   userHasDownvoted= false;
   ratings: Rating[];
   existingRating : Rating | null;
+  editingStates: Map<number, boolean> = new Map();
+  commentForm: FormGroup;
+  infoPerson: PersonInfo;  
   
-  constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService ){}
+  constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService,private profService: PersonInfoService ){}
 
   ngOnInit(): void {
       
@@ -38,10 +44,21 @@ export class CommentComponent implements OnInit {
       this.authService.user$.subscribe(user => {
         this.currentUser = user;
       });
+      this.profService.getTouristInfo(this.currentUser.id).subscribe({
+        next:(result:PersonInfo)=>{
+          this.infoPerson=result;
+        }
+      })
       this.getPostDetails(this.postId);
     });
+
+    this.commentForm = new FormGroup({
+      text: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    });
+    
     }
 
+    
     getPostDetails(postId: number): void {
       const serviceToUse = this.currentUser?.role === 'author' ? this.postService : this.service;
       serviceToUse.getPostById(postId).subscribe({
@@ -65,20 +82,55 @@ export class CommentComponent implements OnInit {
       this.userHasDownvoted = false;
     }
   }
-
-  onEditClicked(comment: Comment): void{
-    this.shouldEdit = true;
-    this.selectedComment=comment;
-
-    
-    console.log(this.selectedComment);
+  onEditClicked(comment: Comment): void {
+    if (comment.id !== undefined) {
+      this.startEditing(comment.id);
+      this.selectedComment = comment;
+  
+      this.commentForm.setValue({
+        text: comment.text || '',
+      });
+    } else {
+      console.error('Comment ID is undefined.');
+    }
   }
+  
 
  onAddClicked(): void{
   this.shouldRenderCommentForm=true;
   this.shouldEdit=false;
+  this.commentForm.reset();
 
  }
+ cancelAdd(): void {
+  this.shouldRenderCommentForm = false;
+}
+
+addComment(): void {
+  if (this.commentForm.invalid) return;
+
+  const newComment: Comment = {
+    text: this.commentForm.value.text,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    userId: this.currentUser.id,
+    postId: this.postId,
+    username: this.currentUser.username,
+  };
+
+  this.service.addCommentToPost(this.postId, newComment).subscribe({
+    next: () => {
+      console.log(newComment.createdAt);
+      console.log(newComment.updatedAt);
+      this.getPostDetails(this.postId);
+      this.shouldRenderCommentForm = false;
+    },
+    error: () => {
+      console.error('Failed to add comment');
+    },
+  });
+}
+
 
   deleteComment(comment: Comment): void{
 
@@ -154,7 +206,37 @@ addNewRating(value: number){
     }
   })
 }
+startEditing(commentId: number): void {
+  this.editingStates.set(commentId, true);
+}
+stopEditing(commentId: number | undefined): void {
+  if (commentId === undefined) {
+    console.warn('Comment ID is undefined.');
+    return;
+  }
+  this.editingStates.delete(commentId);
+}
 
+saveComment(comment: Comment): void {
+  const updatedComment = {
+    ...comment,
+    text: this.commentForm.value.text || comment.text,
+    updatedAt: new Date().toISOString(),
+  };
 
+  this.service.updateCommentInPost(comment.postId, updatedComment).subscribe({
+    next: () => {
+      this.getPostDetails(this.postId);
+      this.stopEditing(comment.id!);
+    },
+    error: () => {
+      console.error('Failed to save comment');
+    },
+  });
+}
+
+getImageProfile(profilePicture: string): string {
+  return environment.webroot + profilePicture; 
+}
 
 }
