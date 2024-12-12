@@ -21,6 +21,7 @@ import { ProblemComponent } from '../../marketplace/problem/problem.component';
 import { PaymentsService } from '../../payments/payments.service';
 import { OrderItem } from '../../payments/model/order-item.model';
 import { Bundle } from '../model/budle.model';
+import { SalesService } from '../../payments/sales.service';
 
 
 
@@ -68,8 +69,9 @@ export class TourOverviewComponent implements OnInit {
     private tourExecutionService: TourExecutionService,
     private purchaseService: PurchaseService,
     private paymentService: PaymentsService,
-     private overviewService: TourOverviewService,
-  private authService: AuthService) {
+    private overviewService: TourOverviewService,
+    private salesService: SalesService,
+    private authService: AuthService) {
     this.speaker = new SpeechSynthesisUtterance();
     this.speaker.lang = 'en-US';
   }
@@ -207,7 +209,7 @@ export class TourOverviewComponent implements OnInit {
       next: (data: PagedResults<TourOverview>) => {
         console.log('Tours loaded:', data);
         this.tours = data.results;
-        //this.applyDiscounts();
+        this.applyDiscounts();
         this.loadTourExecutions();
         
       },
@@ -217,14 +219,41 @@ export class TourOverviewComponent implements OnInit {
     });
   }
 
-  applyDiscounts(): void {
-    this.tours.forEach((tour) => {
-      if (tour.discountedPrice !== undefined) {
-        tour.originalPrice = tour.price; 
-        tour.price = tour.discountedPrice; 
-      }
+  // applyDiscounts(): void {
+  //   this.tours.forEach((tour) => {
+  //     if (tour.discountedPrice !== undefined) {
+  //       tour.originalPrice = tour.price; 
+  //       tour.price = tour.discountedPrice; 
+  //     }
+  //   });
+  // }
+  applyDiscounts(): void { 
+    const currentDate = new Date();
+
+    this.salesService.getSalesForTourist().subscribe((sales) => {
+        this.tours.forEach((tour) => {
+            const applicableSale = sales.find((sale) =>
+                sale.tourIds.includes(tour.tourId) &&
+                new Date(sale.startDate) <= currentDate &&
+                new Date(sale.endDate) >= currentDate
+            );
+
+            if (applicableSale) {
+                // Primeni popust
+                tour.originalPrice = tour.price ?? 0;
+                tour.price = this.calculateDiscountedPrice(
+                    tour.price ?? 0,
+                    applicableSale.discountPercentage
+                );
+            }
+        });
     });
-  }
+}
+
+calculateDiscountedPrice(price: number, discountPercentage: number): number {
+    return price - (price * discountPercentage) / 100;
+}
+
 
   // Optional: Add methods to handle pagination (e.g., next page, previous page)
   nextPage(): void {
