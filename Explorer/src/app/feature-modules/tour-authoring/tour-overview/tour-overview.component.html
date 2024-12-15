@@ -2,7 +2,7 @@
 <div class="cart-container">
     <button mat-icon-button color="primary" 
             (click)="openCart(shoppingCart.id || -1)" 
-            [matBadge]="cartItemCount$ | async" 
+            [matBadge]="cartItemCount" 
             matBadgeColor="warn"
             (mouseenter)="showCartPreview()" 
             (mouseleave)="hideCartPreview()">
@@ -19,9 +19,6 @@
                        
                         <span class="new-price">{{ item.price | currency }} </span>
                       </div>
-                  <!--  <div class="tags-container">
-                        <span *ngFor="let tag of item.tourDetails?.tags" class="tag">{{tag}} </span>
-                    </div>-->
                 </div>
             </div>
             

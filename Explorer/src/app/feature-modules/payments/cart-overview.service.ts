@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { environment } from 'src/env/environment';
 import { TourPurchaseToken } from './model/tour-purchase-token.model';
@@ -17,6 +17,12 @@ export class CartService {
   private cartItems: any[] = []; 
   private tours: Tour[] = [];
 
+  //pracenje broja artikala i preview 
+  private cartItemCount = new BehaviorSubject<number>(0); 
+  cartItemCount$ = this.cartItemCount.asObservable(); 
+  private cartItemsSubject = new BehaviorSubject<OrderItem[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
+
   constructor(private http: HttpClient) {}
   
   setTours(tours: Tour[]): void {
@@ -25,7 +31,13 @@ export class CartService {
 
   addToCart(item: OrderItem): Observable<OrderItem> {
     //this.cartItems.push(item);
-    return this.http.post<OrderItem>(environment.apiHost + 'shopping/item', item);
+    return this.http.post<OrderItem>(environment.apiHost + 'shopping/item', item)
+    .pipe(
+      tap(() => {
+        this.updateCartItemCount(1); // Povećavamo broj artikala
+        this.getCartItems(item.cartId).subscribe(); // Automatski osveži korpu
+      })
+    );
 
 
   }
@@ -36,12 +48,32 @@ export class CartService {
 
 
   removeFromCart(itemId: number): Observable<void> {
-    return this.http.delete<void>(environment.apiHost + 'shopping/item/' + itemId);
+    return this.http.delete<void>(environment.apiHost + 'shopping/item/' + itemId)
+    .pipe(
+      tap(() => {
+        this.updateCartItemCount(-1); // Smanjujemo broj artikala
+      })
+    );
   }
 
   getCartItems(cartId: number): Observable<OrderItem[]> {
     //return this.cartItems;
-    return this.http.get<OrderItem[]>(environment.apiHost + 'shopping/item/getAllFromCart/' + cartId);
+    return this.http.get<OrderItem[]>(environment.apiHost + 'shopping/item/getAllFromCart/' + cartId)
+    .pipe(
+      tap((items) => {
+        this.cartItemCount.next(items.length); // Postavljamo inicijalni broj artikala
+        this.updateCartItems(items);
+      })
+    );
+  }
+
+  private updateCartItemCount(change: number): void {
+    const currentCount = this.cartItemCount.value;
+    this.cartItemCount.next(currentCount + change);
+  }
+
+  private updateCartItems(items: OrderItem[]): void {
+    this.cartItemsSubject.next(items);
   }
 
   createShoppingCart(cart: ShoppingCart): Observable<ShoppingCart>{
