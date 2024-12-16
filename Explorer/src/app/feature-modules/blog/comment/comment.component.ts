@@ -1,7 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Comment } from '../model/comment.model';
 import { CommentService } from '../comment.service';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -10,8 +9,7 @@ import { Post } from '../model/post.model'
 import { environment } from 'src/env/environment';
 import { Rating } from '../model/rating.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PersonInfoService } from '../../person.info/person.info.service';
-import { PersonInfo } from '../../person.info/model/info.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-comment',
@@ -33,9 +31,8 @@ export class CommentComponent implements OnInit {
   existingRating : Rating | null;
   editingStates: Map<number, boolean> = new Map();
   commentForm: FormGroup;
-  infoPerson: PersonInfo;  
   
-  constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService,private profService: PersonInfoService ){}
+  constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService){}
 
   ngOnInit(): void {
       
@@ -44,11 +41,6 @@ export class CommentComponent implements OnInit {
       this.authService.user$.subscribe(user => {
         this.currentUser = user;
       });
-      this.profService.getTouristInfo(this.currentUser.id).subscribe({
-        next:(result:PersonInfo)=>{
-          this.infoPerson=result;
-        }
-      })
       this.getPostDetails(this.postId);
     });
 
@@ -133,14 +125,33 @@ addComment(): void {
 
 
   deleteComment(comment: Comment): void{
+    Swal.fire({
+          title: 'Are you sure?',
+          text: "Do you really want to delete this comment? This action cannot be undone.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.service.deleteCommentFromPost(comment.postId,comment.id!).subscribe({
+            next: (_) =>{
+               Swal.fire(
+                            'Deleted!',
+                            'Your comment has been deleted.',
+                            'success'
+                          );
+               this.getPostDetails(this.postId);
+          },
+          error: (err: any) => {
+            console.error(err);
+          }
+        });
+      }
+    });
+    }
 
-   this.service.deleteCommentFromPost(comment.postId,comment.id!).subscribe({
-
-   next: (_) =>{
-    this.getPostDetails(this.postId);
-  }
- })
-  }
 
   getImage(imageUrl: string | undefined): string {
   return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png';

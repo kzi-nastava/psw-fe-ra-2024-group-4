@@ -3,7 +3,7 @@
   <div class="content-container">
   <div class="blog-details">
     <!-- Blog Details Section -->
-    <div id="post" class="card post-card">
+    <div *ngIf="postDetails" id="post" class="card post-card">
       <h2 class="post-title">{{ postDetails.title }}</h2>
       <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
       <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
@@ -12,11 +12,19 @@
         <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
       </div>          
       <div class="vote-section">
-        <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+        <button 
+        [disabled]="!currentUser || currentUser.role !== 'tourist' || postDetails.status === 2" 
+        class="upvote-btn" 
+        [ngClass]="{'active-vote': userHasUpvoted}" 
+        (click)="upvotePost()">
           <mat-icon>arrow_upward</mat-icon>
         </button>
         <p class="vote-count">{{ postDetails.ratingSum }}</p>
-        <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+        <button 
+        [disabled]="!currentUser || currentUser.role !== 'tourist' || postDetails.status === 2"
+        class="downvote-btn" 
+        [ngClass]="{'active-vote': userHasDownvoted}" 
+        (click)="downvotePost()">
           <mat-icon>arrow_downward</mat-icon>
         </button>
         <div class="comment-info">
@@ -31,10 +39,12 @@
 
   <!-- Comment section -->
   <div class="comments-section">
+
     <p class="comments-title">Recent Comments</p>
-    
+    <div *ngIf="comment.length===0" class="no-results">
+      <p>No comments available!</p>
+    </div>
     <div *ngFor="let c of comment" class="card comment-card">
-      <!-- Edit Mode -->
       <div *ngIf="c.id !== undefined && editingStates.has(c.id)">
         <form [formGroup]="commentForm" (ngSubmit)="saveComment(c)">
           <textarea
@@ -59,10 +69,7 @@
       <div *ngIf="c.id !== undefined && !editingStates.has(c.id)">
         <p class="comment-text">{{ c.text }}</p>
         <div class="comment-author-info">
-          <img class="comment-author-image"
-          *ngIf="postDetails.imageUrl" [src]="getImage(infoPerson.imageUrl)" alt="authors image"
-          />
-          <p class="comment-author">{{ c.username }}</p>
+          <p class="comment-author">Left by <span class="username-highlight">{{ c.username }}</span></p>
         </div>
         <div class="comment-actions">
           <button
@@ -94,25 +101,25 @@
         </p>
       </div>
     </div>    
-    <form *ngIf="shouldRenderCommentForm" [formGroup]="commentForm" (ngSubmit)="addComment()">
-      <mat-form-field>
+    <form *ngIf="shouldRenderCommentForm" [formGroup]="commentForm" (ngSubmit)="addComment()" class="comment-form">
+      <mat-form-field class="comment-textarea">
         <mat-label>Text</mat-label>
         <textarea matInput formControlName="text" placeholder="Add a comment"></textarea>
         <mat-error *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
           Comment cannot be empty.
         </mat-error>
       </mat-form-field>
-      <div class="comment-actions">
+      <div class="comment-actions-inline">
         <button class="edit-btn" [disabled]="commentForm.invalid">Add</button>
         <button class="delete-btn" (click)="cancelAdd()">Cancel</button>
       </div>
-    </form>
-    <button *ngIf="!shouldRenderCommentForm" class="add-comment-btn" (click)="onAddClicked()">Add Comment</button>
+    </form>    
+    <button *ngIf="!shouldRenderCommentForm && currentUser.role==='tourist'" class="add-comment-btn" (click)="onAddClicked()">Add Comment</button>
   </div>
 </div>
 </div>
-  <div class="back-button-container">
-  <button mat-button color="primary" [routerLink]="['/blogPost']">
+<div class="back-button-container">
+  <button mat-button class="back-btn" [routerLink]="['/blogPost']">
     <mat-icon>arrow_back</mat-icon> Back to see all posts
   </button>
 </div>

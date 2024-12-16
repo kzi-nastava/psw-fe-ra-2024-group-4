@@ -315,8 +315,21 @@ box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 10%;
+    display: block;
+    position: relative;
+    white-space: normal;
 }
-
+.card-footer-description::after {
+  content: '...'; /* Dodaje tri tačke */
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #555;
+  background: white; /* Opcionalno, da sakrije deo teksta */
+  padding: 0 10px;
+}
 .card-placeholder {
     position: absolute; /* Omogućava precizno postavljanje unutar kartice */
     bottom: 5%; /* Udaljenost od dna kartice */
