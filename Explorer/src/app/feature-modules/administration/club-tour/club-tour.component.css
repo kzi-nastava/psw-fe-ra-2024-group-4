@@ -91,6 +91,9 @@
   background-color: #f9f9f9;
   border-radius: 15px;
 }
+.organize-tour-div{
+  height: 2%;
+}
 .organize-tour-selected-tour-info{
   background-color: #ffffff;
   position: absolute;
@@ -114,6 +117,32 @@ body {
     overflow: hidden;
 
   }
+
+  .club-tours-title {
+    font-family: 'Arial', sans-serif; /* Elegantan sans-serif font */
+    font-size: 2rem; /* Veći i istaknutiji naslov */
+    font-weight: bold; /* Podebljan tekst */
+    color: #2c3e50; /* Tamnoplava boja za ozbiljan ton */
+    text-align: center; /* Naslov centriran na sredini */
+    margin-top: 20px; /* Razmak iznad naslova */
+    margin-bottom: 10px; /* Razmak ispod naslova */
+    text-transform: uppercase; /* Sva slova velikim slovima */
+    letter-spacing: 1.5px; /* Proširenje slova za bolji efekat */
+}
+
+.club-tours-description {
+    font-family: 'Georgia', serif; /* Klasičan serif font za opis */
+    font-size: 1rem; /* Nešto manja veličina teksta od naslova */
+    font-style: italic; /* Italik za sofisticiran izgled */
+    color: #34495e; /* Tamno siva boja za dobar kontrast */
+    text-align: center; /* Celo poravnanje centrirano */
+    line-height: 1.6; /* Veći razmak između redova za lakše čitanje */
+    margin-top: 0; /* Uklanjanje nepotrebnog razmaka iznad */
+    margin-bottom: 20px; /* Razmak ispod za bolju separaciju od ostatka stranice */
+}
+
+
+
   .cards{
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2 kartice u redu */
@@ -154,6 +183,7 @@ body {
   .tour-description {
     color: #6c757d;
     margin: 10px 0;
+    font-style:unset;
   }
   
   .tour-info {
@@ -175,9 +205,9 @@ body {
     font-size: 12px;
   }
   
-  .stars {
-    color: #ffc107;
-    font-size: 12px;
+  .difficulty {
+    color: #090701;
+    font-size: 14px;
     margin-right: 5px;
   }
   
@@ -186,18 +216,23 @@ body {
   }
   
   .tour-button {
-    background-color: #6f42c1;
+    display: flex;
+    background-color: #a36484;;
     color: white;
     border: none;
+    margin-top: 20%;
     border-radius: 5px;
-    padding: 10px 15px;
     font-size: 14px;
+    justify-content: center; /* Centriranje teksta horizontalno */
+    align-items: center;
     cursor: pointer;
+    height: 30px;
+    width: 100px;
     transition: background-color 0.3s ease;
   }
   
   .tour-button:hover {
-    background-color: #5a34a1;
+    background-color: #b24179;;
   }
   
   .tour-disclaimer {
@@ -214,15 +249,30 @@ body {
     align-items: center;
     margin-bottom: 20px;
   }
-  
+
   .new-tour-button {
-    background-color: #6a1b9a;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
+    /* Pozadinska slika */
+    background-size: cover; /* Pokriva celo dugme */
+    background-repeat: no-repeat; /* Sprečava ponavljanje slike */
+    background-position: center -20px;/* Centrira sliku u okviru dugmeta */
+    
+    /* Dimenzije dugmeta */
+    height: 60px; /* Visina dugmeta */
+    width: 220px; /* Širina dugmeta */
+
+    /* Tekst */
+    color: white; /* Boja teksta */
+    font-size: 25; /* Veličina fonta */
+    font-weight: bold; /* Podebljan tekst */
+    text-align: left; /* Centriranje teksta */
+    line-height: 70px; /* Poravnava tekst po vertikali */
+
+    /* Stil dugmeta */
+    border: none; /* Bez ivica */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    cursor: pointer; /* Pokazivač kao na dugmetu */
+    overflow: hidden; /* Sprečava sadržaj van granica dugmeta */
+}
   
   .new-tour-button:hover {
     background-color: #7b1fa2;
@@ -508,4 +558,67 @@ mat-form-field.readonly-input input[readonly]:focus {
   background-color: #a36484;
   color: white;
 
+}
+
+  
+  
+
+
+
+
+  .tour-price-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .price-line {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Razmak između originalne cene i popusta */
+  }
+  
+  .original-price {
+    font-size: 14px;
+    text-decoration: line-through; /* Precrtavanje originalne cene */
+    color: #6c757d;
+  }
+  
+  .discount {
+    font-size: 14px;
+    color: red; /* Crveni tekst za popust */
+    font-weight: bold;
+  }
+  
+  .final-price {
+    font-size: 18px; /* Veći font za konačnu cenu */
+    font-weight: bold;
+    color: #28a745; /* Zelena boja za konačnu cenu */
+  }
+  /* SweetAlert popup stil */
+.swal-popup {
+  width: 600px !important;  /* Fiksna širina modala */
+  height: 400px !important; /* Fiksna visina modala */
+  background-color: transparent !important; /* Transparentna pozadina */
+  box-shadow: none; /* Uklanja senku */
+  position: relative; /* Omogućava postavljanje sadržaja preko slike */
+  padding: 0; /* Uklanja padding */
+}
+
+/* Tekst i dugmadi */
+.swal-title {
+  position: relative; /* Pozicionira sadržaj iznad slike */
+  z-index: 1; /* Osigurava da bude iznad slike */
+   /* Bele boje za tekst */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Dodaje senku na tekst */
+  color:#090701 !important;
+}
+::ng-deep .mat-h2{
+color: #090701 !important;
+}
+/* Dodatno podešavanje za dugmadi */
+.swal-actions {
+  display: flex;
+  justify-content: space-between;
 }

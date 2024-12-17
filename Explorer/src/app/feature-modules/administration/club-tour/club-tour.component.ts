@@ -13,17 +13,25 @@ import { MatInputModule } from '@angular/material/input';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDatepickerInput } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInput } from '@angular/material/input';
+import { environment } from 'src/env/environment';
+import { BehaviorSubject } from 'rxjs';
+import { ShoppingCart } from '../../payments/model/shopping-cart.model';
+import { CartService } from '../../payments/cart-overview.service';
+import { OrderItem } from '../../payments/model/order-item.model';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router'; 
+
 @Component({
   selector: 'xp-club-tour',
   templateUrl: './club-tour.component.html',
   styleUrls: ['./club-tour.component.css']
 })
 export class ClubTourComponent implements OnInit{
+  
   @Input() clubId!: number;
   @Input() ownerId!: number;
   @Input() clubTags!: number[] | 0;
@@ -50,6 +58,12 @@ export class ClubTourComponent implements OnInit{
   shouldDisplayFilters: boolean = false;
   selectedTour: any = null;
   shouldDisplaySmartTags = false;
+
+  shoppingCart: ShoppingCart;
+  totalPrice: number = 0;
+  cartItemCount = new BehaviorSubject<number>(0); 
+  cartItemCount$ = this.cartItemCount.asObservable();
+
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -102,15 +116,27 @@ export class ClubTourComponent implements OnInit{
   displayedTours:TourOverview[] = []; //za display nakon search i filtera
 
 
-  constructor(private service: AdministrationService, private authService: AuthService, private tourOverviewService: TourOverviewService, private cdr: ChangeDetectorRef){}
+  constructor(private service: AdministrationService, private authService: AuthService, private tourOverviewService: TourOverviewService, private cdr: ChangeDetectorRef,
+    private cartService: CartService,    private router: Router
+  ){}
 
   ngOnInit(){
     console.log(this.clubId);
     this.getUser();
     this.getClubTours();
     this.getTours();
+
+    this.authService.user$.subscribe((user) => {
+      this.user = user;
+      if (user) {
+        this.getOrCreateCart(user.id);
+      }
+    });
   }
 
+  getImage(image: string): string {
+      return environment.webroot + "images/clubs/" + image;
+    }
 
   
   getUser(): void{
@@ -147,7 +173,8 @@ export class ClubTourComponent implements OnInit{
             clubTour.price = tour.price;
             clubTour.difficulty = tour.tourDifficulty;
             clubTour.tags = tour.tags;
-            //clubTour.lengthInKm 
+            console.log('DIFFFF',clubTour.difficulty);
+           // clubTour.lengthInKm = 
           },
           error: (err) => {
            // console.error(Error fetching tour details for tourId: ${clubTour.tourId}, err);
@@ -426,5 +453,101 @@ export class ClubTourComponent implements OnInit{
     console.log(this.clubTour);
     
   }
+
+
+
+  getOrCreateCart(userId: number): void {
+    this.cartService.getCartsByUser(userId).subscribe({
+      next: (result: ShoppingCart[]) => {
+        if (result[0]) {
+          this.shoppingCart = result[0];
+          this.calculateTotalPrice();
+        } else {
+          this.createNewCart(userId);
+        }
+      }
+    });
+  }
+
+  createNewCart(userId: number): void {
+    this.shoppingCart = {
+      userId: userId,
+      items: [],
+      purchaseTokens: [],
+      totalPrice: 0
+    };
+    this.cartService.createShoppingCart(this.shoppingCart).subscribe({
+      next: (result: ShoppingCart) => {
+        this.shoppingCart = result;
+      },
+      error: () => alert('Error creating cart.')
+    });
+  }
+
+  calculateTotalPrice(): void {
+    this.totalPrice = this.shoppingCart.items.reduce(
+      (acc, item) => acc + (item.price || 0),
+      0
+    );
+  }
+  addToCart(clubTour: ClubTour): void {
+    if (!this.shoppingCart) {
+      // Ako korpa nije inicijalizovana, kreiraj je
+      this.getOrCreateCart(this.user?.id || -1);
+      return; // Sačekaj da se korpa inicijalizuje
+    }
+  
+    const discountedPrice = clubTour.price && clubTour.discount 
+    ? clubTour.price - (clubTour.price * (clubTour.discount / 100))
+    : clubTour.price || 0;
+
+    const orderItem: OrderItem = {
+      cartId: this.shoppingCart.id || -1,
+      tourName: clubTour.title || '',
+      price: discountedPrice,
+      tourId: clubTour.tourId || -1,
+      isBundle: false
+    };
+  
+    this.cartService.addToCart(orderItem).subscribe({
+      next: () => {
+       // alert('Club Tour successfully added to cart.');
+        this.calculateTotalPrice();
+        const currentCount = this.cartItemCount.value;
+        this.cartItemCount.next(currentCount + 1);
+        Swal.fire({
+          title: 'Tour successfully purchased and added to cart!',
+          text: 'What would you like to do next?',
+         
+          showCancelButton: true,
+          confirmButtonText: 'Go to Cart',
+          cancelButtonText: 'Go Back to Club',
+          reverseButtons: true,
+          customClass: {
+            popup: 'swal-popup',
+           
+          },  willOpen: () => {
+            // Dinamički postavljanje slike kao pozadinu pomoću stilova
+            const imageUrl = this.getImage('plane.gif'); // Dinamički uzmi sliku
+            document.querySelector('.swal-popup')!.setAttribute(
+              'style',
+              `background-image: url(${imageUrl}); background-size: cover; background-position: center;`
+            );
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Navigacija do korpe
+            this.router.navigate([`/cart`, this.shoppingCart.id]);
+          } 
+          // Ako je 'Cancel', ne radi ništa, samo zatvori modal
+        });
+
+      },
+      error: () => alert('Error adding Club Tour to cart.')
+    });
+  }
+  
+
+
 }
 
