@@ -414,8 +414,16 @@ private isEncounter(challenge: Encounter | KeyPoint): challenge is Encounter {
 
 
 completeChallenge(keyPoint: KeyPoint): void {
+
+  const encounter = this.findEncounterForKeyPoint(keyPoint);
+
+  if(!encounter || encounter.id === undefined){
+    console.error("No encounter found for the given key point or encounter Id is undefined!");
+    return;
+  }
+
   if (keyPoint.id !== undefined) {
-    this.encounterService.completeEncounter(keyPoint.id).subscribe({
+    this.encounterService.completeEncounter(encounter.id).subscribe({
       next: (updatedEncounter) => {
         console.log(`Challenge completed for key point: ${keyPoint.name}`);
         Swal.fire({
