@@ -32,6 +32,7 @@ export class MapComponent {
   @Input() selectedLatitude: number;
   @Input() selectedLongitude: number;
   @Input() selectedTourPoints: KeyPoint[];
+  @Input() selectedObjectPoints: TourObject[] = [];
   @Input() objects: TourObject[] = [];
   @Input() registerObjectRoute: boolean = false;
   @Input() positionSimulatorActivated: boolean = false;
@@ -54,21 +55,22 @@ export class MapComponent {
   @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
-   @Input() selectedKeypoint: KeyPoint;
+  @Input() selectedKeypoint: KeyPoint;
    
   
-   user: User;
+  user: User;
    
 
 
-   private map: any;
-   private currentMarker: L.Marker | null = null; 
-   private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
-   private selectedEncounterMarkers: L.Marker[] = [];
+  private map: any;
+  private currentMarker: L.Marker | null = null; 
+  private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
+  private selectedEncounterMarkers: L.Marker[] = [];
+  private selectedObjectMarkers: L.Marker[] = [];
    
 
 
-   private redIcon = L.icon({
+  private redIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png', 
     iconSize: [25, 41],
     iconAnchor: [12, 41],
@@ -238,7 +240,7 @@ export class MapComponent {
         if (changes['selectedTourPoints']) {
             this.plotKeyPoints(); 
         }
-        if (changes['objects']) {
+        if (changes['selectedObjectPoints']) {
             this.plotExistingObjects(); 
         }
         if (changes['selectedEncounterPoints']) {
@@ -477,6 +479,7 @@ export class MapComponent {
     
 
   }
+  /*
   private plotExistingObjects(): void {
     this.objects.forEach((obj: TourObject) => {
       L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
@@ -486,7 +489,59 @@ export class MapComponent {
 
     
   }
-  
+    */
+
+  private plotExistingObjects(): void {
+    
+    this.selectedObjectMarkers?.forEach(marker => this.map.removeLayer(marker));
+    this.selectedObjectMarkers = [];
+    
+    if (this.selectedObjectPoints && this.selectedObjectPoints.length > 0) {
+        this.selectedObjectPoints.forEach(async (obj: TourObject) => {
+            const marker = L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
+                .addTo(this.map);
+
+            const address = await this.getAddress(obj.latitude, obj.longitude);
+
+            const popupContent = `
+                <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
+                    <div class="imgContainer" style="width: 100%; height: 130px; overflow: hidden;">
+                        <img src="${this.getImage(obj.image)}" alt="Object Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
+                            <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+                                ${obj.name}
+                            </div>
+                            <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777; text-align: center; overflow: hidden;">
+                                ${obj.description}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-footer-item" style="font-size: 0.8em; color: #6A515E; display: flex; justify-content: center;">
+                                <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add hover interaction for showing and hiding popups
+            marker.on('mouseover', () => {
+                marker.bindPopup(popupContent).openPopup();
+            });
+
+            marker.on('mouseout', () => {
+                marker.closePopup();
+            });
+
+            // Save the marker for future updates or clearances
+            this.selectedObjectMarkers.push(marker);
+        });
+    } else {
+        console.warn('No existing objects to plot.');
+    }
+  }
 
   drawRoute(keyPoints: KeyPoint[]): void{
     keyPoints.forEach(keyPoint =>{
@@ -617,7 +672,7 @@ private async showEncounterOnMap(): Promise<void> {
     }
 }
 
-
+  
   
   refreshPage():void{
     window.location.reload();
