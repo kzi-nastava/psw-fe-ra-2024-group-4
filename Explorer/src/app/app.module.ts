@@ -32,6 +32,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentsModule } from './feature-modules/payments/payments.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { PaymentsModule } from './feature-modules/payments/payments.module';
     MatSnackBarModule,
     EncounterModule,
     MatSlideToggleModule,
-    PaymentsModule
+    PaymentsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {

@@ -6,11 +6,102 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
+    overflow: hidden;
 }
-.organize-tour-div{
-  height: 25%;
-  background-color: aqua;
+
+.organize-tour-filters{
+  position: relative;
+  width: 22%;
+  left:7%;
+  top: 5%;
+  background-color: #ffffff;
+  height: 90%;
+  border-radius: 15px;
+  transition: width 0.3s ease, right 0.3s ease;
 }
+.organize-tour-filters.shrinked{
+  width: 0%;
+  transition: width 0.3s ease, right 0.3s ease;
+}
+
+
+.organize-tour-form{
+  width: 63.25%;
+  height: 90%;
+  position: absolute;
+  display: flex;
+  top: 5%;
+  left:29.75%;
+  background-color: #ffffff;
+  flex-direction: row;
+  border-radius: 15px;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+.organize-tour-form.expanded{
+  position:relative;
+  width: 80%;
+  left: 10%;
+  transition: width 0.3s ease, left 0.0s ease; /* Dodajte transition za glatkiji prelaz */
+}
+.organize-tour-overlay{
+    position: fixed; 
+    display:flex;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75); /* Poluprozirna pozadina */
+    z-index: 1000; 
+}
+
+::ng-deep .fixed-circle{
+  z-index: 500 !important;
+}
+
+.organize-tour-cards{
+  display: grid;
+  grid-template-columns: repeat(1, minmax(300px, 1fr));
+  gap: 20px; /* Razmak između kartica */
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.organize-tour-card{
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-size: 14px;
+}
+.organize-tour-tour-list{
+  position: absolute;
+  top: 7.5%;
+  left:0%;
+  width: 52%;
+  height: 79%;
+  background-color: #ffffff;
+  overflow-y: scroll;
+  padding: 2%;
+  margin-left: 3%;
+  /* border: 1px solid #6c757d; */
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.organize-tour-selected-tour-info{
+  background-color: #ffffff;
+  position: absolute;
+  width: 38%;
+  right: 2%;
+  top: 7.5%;
+  height: 85%;
+  border-radius: 15px;
+}
+
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f8fc;
@@ -136,4 +227,285 @@ body {
   .new-tour-button:hover {
     background-color: #7b1fa2;
   }
+.expand-button{
+  width: 2.5%; /* Postavlja širinu dugmeta */
+  height: 4%;
+  border-radius: 15px !important;
+  border: none !important;
+  display: flex; /* Koristi flexbox za centriranje sadržaja */
+  align-items: center; /* Vertikalno centriranje */
+  justify-content: center;
+  position: absolute;
+  top: 11%;
+  left: 28%;
+}
+mat-icon {
+  font-size: 20px; /* Veličina ikone */
+  color: #333;
+  /* margin-top: 1.5%; */
+  z-index: 100000; 
+  overflow: visible;
+  position: relative;
+  /* top: 10%; */
+}
+.select-tour-p{
+  position: relative;
+  top: 5%;
+  left: 2%;
+  font-size: 16px;
+}
+
+.selected-tour-title{
+  position: relative;
+  width: 90%;
+  left:5%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2%;
+}
+
+.selected-tour-description {
+  position: relative;
+  width: 90%;
+  height: 20%;
+  left:5%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2%;
+}
+.selected-tour-description textarea {
+  resize: none; /* Onemogućava korisniku ručno povećavanje polja */
+}
+.selected-tour-difficulty{
+  position: relative;
+  width: 90%;
+  left:5%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2%;
+}
+
+.organize-tour-card.selected {
+  border: 2px solid #a36484; /* Primer stila za selektovanu turu */
+  background-color: #f7e7fc;
+}
+.organize-tour-card :hover{
+  cursor: pointer;
   
+}
+.mat-mdc-form-field{
+  width: 100%;
+}
+.search-and-filter-container{
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  flex: 0; /* Da zauzme samo prostor koliko mu treba */
+  margin-top: 10%;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  flex: 1; /* Da zauzme preostali prostor */
+  overflow: hidden;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+mat-selection-list {
+  max-height: 22vh; 
+  min-width: 200px;
+  width: 100%;
+  overflow-y: auto; 
+
+}
+mat-form-field {
+  flex: 1; 
+  display: flex; 
+  align-items: stretch; 
+}
+mat-form-field.readonly-input input[readonly] {
+  pointer-events: none; /* Onemogućava interakciju sa inputom */
+  user-select: none;    /* Sprečava selektovanje teksta */
+  background-color: transparent;
+}
+
+mat-form-field.readonly-input input[readonly]:focus {
+  outline: none; /* Uklanja outline kada je input fokusiran */
+} 
+
+.mat-form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+}
+
+
+.tags-container {
+  flex: 250px; 
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  margin-bottom: 10%;
+}
+.tags-container p{
+  font-size: 15px; /* Veličina fonta */
+  color: #333;     /* Boja teksta */
+  font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
+  font-weight: 400; /* Debljina fonta */
+  line-height: 2.5; /* Visina linije, kako bi tekst bio čitljiviji */
+  margin: 10px 0;   /* Gornji i donji razmak */
+  text-align: center; /* Centriranje teksta */
+  background-color: #f4f4f4; /* Pozadinska boja */
+  border-radius: 5px; /* Zaobljeni uglovi */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
+}
+
+.search{
+  margin-top: 5px;
+  width: 100px;
+  background-color: #a36484 !important;
+  color: white; 
+}
+
+.clear{    
+  margin-top: 5px;
+  margin-left: 20px;
+  width: 100px;
+  background-color: #a36484 !important;
+  color: white; 
+}
+.buttons-div{
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+.tag-type-button{
+  background-color: #a36484 !important;
+  width: 50%;
+  color: white; 
+  border:none !important;
+  margin-bottom: -2%;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  box-shadow: none !important;
+  
+}
+
+.tag-type-button:hover{
+  translate: 0 !important;
+}
+
+.tag-type-button.active{
+  background-color: #f9f9f9 !important;
+  border: 1px solid #f4f4f4;
+  color:#333;
+}
+
+.close-filters-button {
+  position: absolute;
+  top: 0%;
+  right: 4%;
+  width: 4%;
+  height: 4%;
+  background-color: white !important;
+  border: none !important;
+  visibility: hidden; /* Dugme je nevidljivo na početku */
+  opacity: 0; /* Dugme je potpuno providno */
+  pointer-events: none; /* Dugme nije interaktibilno */
+  transition: opacity 0.3s ease 0.3s, visibility 0s 0.3s; /* Čeka 0.3s pre nego što postane vidljivo */
+}
+
+.close-filters-button.show {
+  visibility: visible; /* Dugme postaje vidljivo */
+  opacity: 1; /* Dugme postaje potpuno neprovidno */
+  pointer-events: auto; /* Dugme postaje interaktibilno */
+  transition: opacity 0.3s ease, visibility 0s 0.3s; /* Očekuje 0.3s kašnjenje za opacity */
+}
+
+.close-filters-button:hover{
+  translate: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+.select-tour-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  margin: 20px 0 10px 20px; /* Gornji i donji razmak */
+  padding: 0 10px; /* Unutrašnji razmak sa strane */
+}
+
+
+/* xdd */
+.filters-button {
+  display: inline-block;
+  text-align: center;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  width: 100px;
+  background-color: #a36484 !important;
+  color: white; 
+  padding: 10px 20px;
+  font-size: auto;
+  cursor: pointer;
+  width: auto;
+  height: 4.5%;
+  margin: 0 20px 20px; /* Razmak od naslova i kartica */
+  transition: background-color 0.3s ease;
+  position: relative;
+  left: 1.5%;
+  top: 2%;
+
+
+}
+.filter-icon{
+  color: white;
+}
+
+.input-row {
+  display: flex;
+  width: 90%;
+  position:relative;
+  left: 5%;
+  gap: 16px; /* Razmak između polja */
+  margin-bottom: 2%;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.organize-cancel-button-row{
+  height: 10%;
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  width: 90%;
+  left: 5%;
+  background-color: #ffffff;
+  position: relative;
+  margin-bottom: 2%;
+}
+.organize-button{
+  background-color: #a36484;
+  color: white;
+  margin-left: 2%;
+
+}
+.cancel-organize-button{
+  background-color: #a36484;
+  color: white;
+
+}

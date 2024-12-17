@@ -1,12 +1,230 @@
-<div class="main">
-    <div class="organize-tour-div" *ngIf="isOwner">
+<div class="main" >
+    <div class="organize-tour-overlay" (click)="closeForm()" *ngIf="shouldDisplayForm">
+        <div class="organize-tour-filters" [class.shrinked]="!shouldDisplayFilters" (click)="$event.stopPropagation()">
+          <div class="search-and-filter-container" >
 
+            <div class="search-container">
+              <mat-expansion-panel expanded >
+                <mat-expansion-panel-header>
+                    <mat-panel-title> 
+                        <mat-icon>search</mat-icon>
+                        Search
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <form [formGroup]="tourSearchForm">        
+                    <div class="sub-container">
+                        <div class="field-container">
+                            <mat-form-field>
+                                <mat-label>Search tour by name</mat-label>
+                                <input matInput formControlName="name" type="text" />
+                            </mat-form-field>
+                        </div>            
+                    </div>
+                </form>
+                <div class="buttons-div">
+                  <button class="search" mat-raised-button type="submit" color="primary" (click)="search()">Search</button>
+                  <button class="clear" mat-raised-button type="submit" color="primary" (click)="clearSearch()">Clear</button>    
+  
+                </div>
+  
+              </mat-expansion-panel>
+              <button  [class.show]="shouldDisplayFilters" class="close-filters-button" (click)="$event.stopPropagation()" (click)="closeFilters()" ><mat-icon>close</mat-icon></button>
+
+            </div>
+            <!--razmak-->
+            <div class="filter-container">
+              <mat-expansion-panel expanded> 
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>filter_list</mat-icon>
+                        Filter                   
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <form [formGroup]="filterForm">
+                    <div class="choose-tag-type">
+                      <button class="tag-type-button"
+                      [class.active]="!shouldDisplaySmartTags"
+                      (click)="displayAllTags()" mat-raised-button>All tags</button>
+                      <button class="tag-type-button"
+                      [class.active]="shouldDisplaySmartTags"
+                      (click)="displaySmartTags()" mat-raised-button>Smart tags✨</button>
+                      <div class="tags-container" *ngIf="shouldDisplaySmartTags">                                  
+                        <p>Choose tags:</p>
+                        <mat-selection-list>
+                            <div *ngFor="let tag of smartTags" >
+                                <mat-checkbox
+                                  (change)="onTagChange($event, tag)"
+                                  [checked]="filterForm.get('tags')?.value?.includes(tag)">
+                                  {{ tag }}
+                                </mat-checkbox>
+                            </div>
+                        </mat-selection-list>
+                      </div>
+                      <div class="tags-container" *ngIf="!shouldDisplaySmartTags">                                  
+                        <p>Choose tags:</p>
+                        <mat-selection-list>
+                            <div *ngFor="let tag of availableTags" >
+                                <mat-checkbox
+                                  (change)="onTagChange($event, tag)"
+                                  [checked]="filterForm.get('tags')?.value?.includes(tag)">
+                                  {{ tag }}
+                                </mat-checkbox>
+                              </div>
+                        </mat-selection-list>
+                    </div>  
+                    </div>
+
+                    <div class="sub-container">      
+                        <div class="field-container">
+                            <mat-form-field>
+                                <mat-label>Filter by difficulty</mat-label>
+                                <mat-select formControlName="difficulty">
+                                    <mat-option *ngFor="let diff of availableDiff" [value]="diff">{{ diff }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>                        
+                    </div>
+
+                </form> 
+                <div class="buttons-div">
+                  <button class="search" mat-raised-button color="primary" (click)="filter()">Filter</button>             
+                  <button class="clear" mat-raised-button type="submit" color="primary" (click)="clearFilters()">Clear</button> 
+  
+                </div>   
+              </mat-expansion-panel>
+            </div>
+            
+          </div>
+
+          
+        </div>
+        <div class="organize-tour-form"
+        [class.expanded] = "!shouldDisplayFilters" (click)="$event.stopPropagation()">
+            <!-- <div class="select-tour-title">Select a tour:</div> -->
+            <button  mat-raised-button class="filters-button" (click)="openFilters()"><mat-icon class="filter-icon">filter_list</mat-icon>Filters</button>
+            <div class="organize-tour-tour-list">
+                <div class ="organize-tour-cards">
+                    <div class = "organize-tour-card"
+                    [class.selected]="selectedTour === t" 
+                    (click)="selectTour(t)" *ngFor="let t of displayedTours">
+                        <img [src]="'assets/images/tag' + (getTagNumber(t.tags[0] || '') + 1)  + '.jpg'" 
+                  class="tour-image"
+                />
+                <div class="tour-content">
+                  <h3 class="tour-title">{{t.tourName}}</h3>
+                  <p class="tour-description">
+                    {{t.tourDescription}}
+                  </p>
+                  <div class="tour-info">
+                    <div>
+                      <span class="tour-price">17</span> per person*
+                      <div class="tour-reviews">
+                        <span class="stars">★★★★★</span>
+                        <span class="review-count">28 reviews</span>
+                      </div>
+                    </div>
+                    <button class="tour-button">Book now</button>
+                  </div>
+                  <p class="tour-disclaimer"></p>
+                </div>
+                    </div>
+                </div>
+                <!-- <div class ="organize-tour-cards">
+                    <div class = "organize-tour-card" *ngFor="let t of tours">
+                        <img [src]="'assets/images/tag' + (getTagNumber(t.tags[0] || '') + 1)  + '.jpg'" 
+                  class="tour-image"
+                />
+                <div class="tour-content">
+                  <h3 class="tour-title">{{t.tourName}}</h3>
+                  <p class="tour-description">
+                    {{t.tourDescription}}
+                  </p>
+                  <div class="tour-info">
+                    <div>
+                      <span class="tour-price">17</span> per person*
+                      <div class="tour-reviews">
+                        <span class="stars">★★★★★</span>
+                        <span class="review-count">28 reviews</span>
+                      </div>
+                    </div>
+                    <button class="tour-button">Book now</button>
+                  </div>
+                  <p class="tour-disclaimer"></p>
+                </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="organize-tour-selected-tour-info">
+              <!-- <h2>Selected Tour Information</h2> -->
+              <div class="selected-tour-title">
+                <mat-form-field  appearance="outline" class="readonly-input">
+                  <mat-label>Selected Tour Title</mat-label>
+                  <input matInput  [value]="selectedTour?.tourName" readonly focus="false"/>
+                </mat-form-field>
+              </div>
+              <div class="selected-tour-description">
+                <mat-form-field  appearance="outline">
+                  <mat-label>Selected Tour Description</mat-label>
+                    <textarea 
+                    matInput 
+                    [value]="selectedTour?.tourDescription" 
+                    readonly 
+                    rows="4">
+                </textarea>                </mat-form-field>
+              </div>
+              <div class="selected-tour-difficulty">
+                <mat-form-field  appearance="outline">
+                  <mat-label>Selected Tour Difficulty</mat-label>
+                  <input matInput [value]="selectedTour?.tourDifficulty" readonly />
+                </mat-form-field>
+              </div>
+              <div class="selected-tour-difficulty">
+                <mat-form-field  appearance="outline">
+                  <mat-label>Selected Tour Price</mat-label>
+                  <input matInput [value]="selectedTour?.price ? (selectedTour.price + ' AC') : ''" readonly />
+                </mat-form-field>
+              </div>
+              <div class="input-row">
+
+                <mat-form-field appearance="outline" class="half-width">
+                  <mat-label>Discount Percent</mat-label>
+                  <input matInput type="number" step="5" placeholder="Enter discount %" min="5" max="100" [value]="selectedDiscount" [(ngModel)]="selectedDiscount"/>
+                </mat-form-field>
+                <!-- <mat-form-field appearance="outline">
+                  <mat-label>Select a Date</mat-label>
+                  <input matInput [matDatepicker]="picker" placeholder="Select a date"  readonly [min]="minDate" [(ngModel)]="selectedDate" required #datepickerInput/>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="!selectedDate && isSubmitted">Date required</mat-error>
+                </mat-form-field> -->
+                <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+                  <mat-form-field appearance="outline"  [ngClass]="{'mat-form-field-invalid': !selectedDate && form.submitted}" class="half-width">
+                    <mat-label>Select a Date</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Select a date" readonly [min]="minDate" [(ngModel)]="selectedDate" name="selectedDate" required #datepickerInput="ngModel"/>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="!selectedDate && isSubmitted">Date required</mat-error>
+                  </mat-form-field>
+                </form>
+              </div>
+              <div class="organize-cancel-button-row">
+                <button  mat-raised-button class="cancel-organize-button" (click)="closeForm()">Cancel</button>
+                <button  mat-raised-button class="organize-button" (click)="onSubmit(form)">Complete</button>
+
+              </div>
+
+            </div>
+        </div>
+        <button *ngIf="false" (click)="$event.stopPropagation()"  class="expand-button" (click)="toggleFilters()"><mat-icon>chevron_right</mat-icon></button>
+        <button *ngIf="false" (click)="$event.stopPropagation()"  class="expand-button" (click)="toggleFilters()"><mat-icon>chevron_left</mat-icon></button>
     </div>
 
     <div>
         <div class="header">
             <h2>Organized Tours</h2>
-            <button class="new-tour-button">+ Organize New Tour</button>
+            <button class="new-tour-button" (click)="displayForm()">+ Organize New Tour</button>
           </div>
         <div class ="cards" >
             <div class="tour-card" *ngFor="let ct of clubTours">

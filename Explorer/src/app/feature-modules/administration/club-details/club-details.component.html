@@ -54,7 +54,7 @@
         *ngIf="selectedComponent === 'comp3'" 
         [clubId]="clubId">
       </app-component3> -->
-      <xp-club-tour *ngIf="clubId !== null && selectedComponent === 'xp-club-tour'" [ownerId]="club?.userId ?? 0" [clubId]="clubId">
+      <xp-club-tour *ngIf="clubId !== null && selectedComponent === 'xp-club-tour'" [ownerId]="club?.userId ?? 0" [clubId]="clubId" [clubTags]="club?.tags ?? 0">
 
       </xp-club-tour>
 

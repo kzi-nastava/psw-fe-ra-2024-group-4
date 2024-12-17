@@ -284,6 +284,9 @@ export class AdministrationService {
   getAllClubTours():Observable<PagedResults<ClubTour>>{
     return this.http.get<PagedResults<ClubTour>>(environment.apiHost + 'clubTour');
   }
+  addClubTour(clubTour: ClubTour): Observable<ClubTour> {
+    return this.http.post<ClubTour>(environment.apiHost + 'clubTour', clubTour);
+  }
 
   
 }
