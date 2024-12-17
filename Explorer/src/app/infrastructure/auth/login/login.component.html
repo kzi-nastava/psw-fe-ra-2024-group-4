@@ -1,33 +1,39 @@
 <div>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-style">
-        <h2>Login</h2>
-        <div class="one-input">
-            <mat-form-field appearance="fill" floatLabel="auto">
-                <mat-label>Username</mat-label>
-                <input matInput formControlName="username" type="text" placeholder="Username" required/>
-                <mat-error *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.dirty">
-                    This field is required
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password" placeholder="Password"/>
-                <mat-error *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.dirty">
-                    This field is required
-                </mat-error>
-                <mat-error *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.dirty">
-                    Password must be at least 8 characters long
-                </mat-error>
-            </mat-form-field>
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-style">
+    <h2>Login</h2>
+    <div class="one-input">
+      <!-- Username Field -->
+      <mat-form-field appearance="fill" floatLabel="auto">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" type="text" placeholder="Username" required />
+        <mat-error *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.dirty">
+          This field is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('usernameNotFound')">
+          Username does not exist
+        </mat-error>
+      </mat-form-field>
 
-            <button type="submit" mat-raised-button class="submit-button">Login</button>
-            <div class="dont-have-account">
-                <p class="less-visible">Don't have an account yet?</p>
-                <p class="sign-up"><a href="/register">Sign Up</a></p>
-            </div>
-        </div>
-    </form>
+      <!-- Password Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Password" />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.dirty">
+          This field is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.dirty">
+          Password must be at least 8 characters long
+        </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="loginForm.hasError('invalidCredentials')">
+        Invalid password.
+      </mat-error>
+
+      <button type="submit" mat-raised-button class="submit-button">Login</button>
+      <div class="dont-have-account">
+        <p class="less-visible">Don't have an account yet?</p>
+        <p class="sign-up"><a href="/register">Sign Up</a></p>
+      </div>
+    </div>
+  </form>
 </div>
-
-
