@@ -5,8 +5,15 @@
 
     <div>
         <div class="header">
-            <h2>Organized Tours</h2>
-            <button class="new-tour-button">+ Organize New Tour</button>
+          <h2 class="club-tours-title">Exclusive Club Tours at Discounted Prices</h2>
+          <p class="club-tours-description">Explore handpicked destinations with your club members and enjoy exclusive discounts. Adventure awaits!</p>
+          
+          <button 
+          class="new-tour-button" 
+          [style.background-image]="'url(' + getImage('plane.gif') + ')'"
+      >
+          + Organize New Tour
+      </button>
           </div>
         <div class ="cards" >
             <div class="tour-card" *ngFor="let ct of clubTours">
@@ -20,13 +27,34 @@
                   </p>
                   <div class="tour-info">
                     <div>
-                      <span class="tour-price">17</span> per person*
+                      <span class="tour-price">{{ct.touristIds.length}}</span> people are interested
                       <div class="tour-reviews">
-                        <span class="stars">★★★★★</span>
-                        <span class="review-count">28 reviews</span>
+                     
+                          <span class="difficulty">
+                            <span *ngIf="ct.difficulty === 'Moderate'">🌱 Easy</span>
+                            <span *ngIf="ct.difficulty === 'medium'">🌳 Medium</span>
+                            <span *ngIf="ct.difficulty === 'Hard'">🏔️ Hard</span>
+                          </span>
+                         
                       </div>
+                
                     </div>
-                    <button class="tour-button">Book now</button>
+
+                    <div class="tour-price-container">
+                      <div class="price-line">
+                        <span class="original-price">{{ct.price }}$</span> <!-- Precrtana cena -->
+                        <span class="discount">-{{ct.discount}}%</span> <!-- Popust -->
+                      </div>
+                      <span *ngIf="ct.price && ct.discount" class="final-price">
+                        {{
+                          ct.price - (ct.price * (ct.discount / 100))
+                        }}$
+                      </span>
+                      </div>
+                    
+                    
+                       <button class="tour-button"  (click)="addToCart(ct)">Buy now</button>
+                    
                   </div>
                   <p class="tour-disclaimer"></p>
                 </div>
