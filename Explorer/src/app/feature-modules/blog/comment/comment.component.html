@@ -75,6 +75,7 @@
           <button
             class="edit-btn"
             *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status !== 2"
+            [disabled]="shouldRenderCommentForm"
             (click)="onEditClicked(c)"
           >
             Edit
@@ -110,7 +111,9 @@
         </mat-error>
       </mat-form-field>
       <div class="comment-actions-inline">
-        <button class="edit-btn" [disabled]="commentForm.invalid">Add</button>
+        <button 
+        class="edit-btn" 
+        [disabled]="commentForm.invalid && editingStates.size>0">Add</button>
         <button class="delete-btn" (click)="cancelAdd()">Cancel</button>
       </div>
     </form>    

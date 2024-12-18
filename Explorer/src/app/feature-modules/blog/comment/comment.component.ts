@@ -89,6 +89,7 @@ export class CommentComponent implements OnInit {
   
 
  onAddClicked(): void{
+  if(this.editingStates.size>0) return;
   this.shouldRenderCommentForm=true;
   this.shouldEdit=false;
   this.commentForm.reset();
@@ -218,6 +219,7 @@ addNewRating(value: number){
   })
 }
 startEditing(commentId: number): void {
+  if(this.shouldRenderCommentForm) return;
   this.editingStates.set(commentId, true);
 }
 stopEditing(commentId: number | undefined): void {
