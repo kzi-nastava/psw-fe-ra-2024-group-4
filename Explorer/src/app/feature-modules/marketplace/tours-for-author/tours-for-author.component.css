@@ -53,7 +53,7 @@ button[mat-icon-button] {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 60vh;
+  max-width: 40vh;
 }
 
 .discount{
@@ -204,7 +204,7 @@ mat-card-subtitle {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  gap: 2vh;
+  gap: 5vh;
   margin: 0;
   padding: 2vh;
   list-style-type: none;

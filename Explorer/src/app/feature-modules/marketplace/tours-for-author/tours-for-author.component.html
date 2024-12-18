@@ -64,7 +64,7 @@
 
 </div>
 
-<div class="content-container">
+
   <div class="center-container">
     <div class="cards">
       <div class="card" *ngFor="let t of tours">
@@ -111,7 +111,7 @@
                 <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
               </span>
             </mat-card-subtitle>
-            <div class="card-footer-description">Price: ${{ t.price }}</div>
+            <div class="card-footer-description">Price: {{ t.price }} AC</div>
             <div class="card-footer-description">{{ t.description }}</div>
 
             <div class="card-button-container">
@@ -156,5 +156,16 @@
       ></xp-coupon-view>
     </div>
   </div>
+
 </div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
 </div>

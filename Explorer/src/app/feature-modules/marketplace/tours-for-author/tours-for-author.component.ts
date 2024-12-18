@@ -31,7 +31,7 @@ export class ToursForAuthorComponent implements OnInit {
   selectedKeypoints: KeyPoint[] = [];
   private lengthUpdatedSubscription!: Subscription;
   isChatOpen: boolean = false; 
-  chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
+  chatMessage: string = "Manage your tours effortlessly! View all available tours, publish or archive the ones you no longer need, or click View to explore more details and set their destination.";
   
   selectedToursForDiscount: Set<number> = new Set(); 
   discount = 1;
@@ -280,15 +280,37 @@ export class ToursForAuthorComponent implements OnInit {
       console.log("Only draft tours can be archived.");
       return;
     }
+  
+    if (tour.keyPoints.length < 2) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Insufficient KeyPoints',
+        text: 'You must have at least 2 KeyPoints to publish the tour.',
+      });
+      return;
+    }
+  
     tour.status = 1; 
     this.service.publishTour(tour).subscribe({
       next: () => {
-        console.log(`Tour ${tour.name} published successfully.`);
+        Swal.fire({
+          icon: 'success',
+          title: 'Tour Published',
+          text: `Tour ${tour.name} published successfully.`,
+        });
         this.getTours(this.user?.id!); 
       },
-      error: (error) => console.error('Error published tour:', error)
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error publishing tour. Please try again.',
+        });
+        console.error('Error publishing tour:', error);
+      }
     });
   }
+  
 
   reactivateTour(tour: Tour): void {
     if (tour.status !== 2) {
