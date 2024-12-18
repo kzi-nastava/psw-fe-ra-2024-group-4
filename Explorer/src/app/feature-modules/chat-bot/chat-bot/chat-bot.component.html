@@ -1,0 +1,17 @@
+<div class="chatbot-container">
+<div class="chatbot-section">
+    <div class="chatbot-section-content">
+    <div class="chatbot-image-div">
+        <img class="chatbot-image" src="assets/images/chatbot.svg"/>
+    </div>
+
+   <xp-bubble [answer] = "this.answer"></xp-bubble>
+</div>
+</div>
+<div class="questions-section">
+    <div class="questions-section-content">
+        <h1>Questions</h1>
+        <button (click) = "ask(question)" *ngFor="let question of currentLevel">{{ question }}</button>
+    </div>
+</div>
+</div>

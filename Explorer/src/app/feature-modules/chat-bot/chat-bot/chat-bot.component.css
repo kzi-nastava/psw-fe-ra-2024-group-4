@@ -1,0 +1,39 @@
+.chatbot-container{
+    display: flex;
+   
+}
+
+
+.chatbot-section-content{
+    display: flex;
+   
+}
+
+.chatbot-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    width: 50%;
+    height: 89vh;
+   
+}
+
+
+
+.questions-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.questions-section-content{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.chatbot-image-div{
+    height: 40vh;
+}
