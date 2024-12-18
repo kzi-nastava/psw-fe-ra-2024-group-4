@@ -3,7 +3,11 @@
 </div>
 
 <mat-tab-group class="custom-tab-group">
-    <mat-tab label="TOURISTS">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span class="my-custom-class">TOURISTS</span>
+        </ng-template>
+
         <div class="tab-content">
 
             <div class="section-container">
@@ -112,7 +116,11 @@
         </div>
     </mat-tab>
 
-    <mat-tab label="AUTHORS">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span class="my-custom-class">AUTHORS</span>
+        </ng-template>
+
         <div class="tab-content">
 
             <div class="section-container">
