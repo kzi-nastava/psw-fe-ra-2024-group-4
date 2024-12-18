@@ -65,9 +65,9 @@
 }
 
 .section-text p {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #666;
-    line-height: 1.6;
+    line-height: 1.5;
     text-align: justify;
     font-family: 'Poppins', sans-serif;
 }
@@ -86,3 +86,29 @@
     letter-spacing: 1px; 
     vertical-align: middle;
 }
+
+.features-list {
+    margin: 0; 
+    padding: 0; 
+    list-style: none; 
+}
+
+.features-list li {
+    align-items: center;
+    font-size: 0.9rem; 
+    line-height: 1.4; 
+    margin-bottom: 0.3rem; 
+    font-family: 'Poppins', sans-serif;
+    text-align: justify;
+}
+
+.features-list li strong {
+    color: #642984; 
+    margin-right: 0.2rem;
+}
+
+.features-list li::before {
+    display: inline-block;
+    width: 0.5rem;
+}
+
