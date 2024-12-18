@@ -42,6 +42,17 @@
                 0 0 30px rgba(100, 41, 132, 0.3); 
 }
 
+.section-image, .section-content {
+    opacity: 0;
+    transform: translateY(50px); 
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.section-image.animate, .section-content.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .section-text h2 {
     font-size: 2rem;
     color: #642984;
