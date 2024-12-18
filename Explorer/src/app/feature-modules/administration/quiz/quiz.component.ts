@@ -7,6 +7,7 @@ import { TourPreferenceService } from '../../tour-authoring/tour-preference.serv
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -20,6 +21,7 @@ export class QuizComponent implements AfterViewInit {
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
   @ViewChild('carouselContainer', { static: false }) container!: ElementRef;
   @ViewChild('title', {static: false}) title!: ElementRef; 
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
 
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
@@ -35,6 +37,10 @@ export class QuizComponent implements AfterViewInit {
   selectedTags: string[] = [];
   showDescription: boolean = true;
   isStickerInside: {[key: string]: boolean} = {};
+
+  isQuizCompleted: boolean = false; 
+  saveSuccess: boolean = false; 
+  showFailureFeedback: boolean = false; 
 
   currentImageIndex = 0; 
   images = ['self_guide1.png', 'guide_tour.png']; 
@@ -303,108 +309,122 @@ this.currentImageIndex = 0;
       this.selectedTagList.push(tagNumber);
     }
   }
+  closeFailureFeedback(): void {
+    this.showFailureFeedback = false; 
+  }
   
   nextSlide(): void {
     if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentSlideIndex++;
       this.progress(this.currentSlideIndex);
-
-      if(this.currentSlideIndex==1){
-        //this.title.nativeElement.style.color = '#BFA8D7'; 
+  
+      // Logika za Slide 1
+      if (this.currentSlideIndex === 1) {
         const image = localStorage.getItem('picture');
-        if(!image ){
-          Swal.fire({
-            icon: 'warning',
-            title: 'Oops...',
-            text: 'You need to choose one picture before we continue!',
-            confirmButtonText: 'OK'
-          });
+        if (!image) {
+          // Swal.fire({
+          //   icon: 'warning',
+          //   title: 'Oops...',
+          //   text: 'You need to choose one picture before we continue!',
+          //   confirmButtonText: 'OK'
+          // });
+          // this.currentSlideIndex--;
+          this.showFailureFeedback = true; // Dodajemo kontrolni flag za prikaz kartice
           this.currentSlideIndex--;
+          return;
         }
-        if(image== 'beach.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==5 && num!==1);
+        if (image === 'beach.jpg') {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num !== 5 && num !== 1);
           this.selectedTagList.push(10);
-        }else if(image=='city.png'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num!==10 && num!==1);
+        } else if (image === 'city.png') {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 4 && num !== 10 && num !== 1);
           this.selectedTagList.push(5);
-        }else if(image =='forest1.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==1);
+        } else if (image === 'forest1.jpg') {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num !== 5 && num !== 1);
           this.selectedTagList.push(4);
-        }else if(image =='museum-background.jpg'){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num!==5 && num!==4);
+        } else if (image === 'museum-background.jpg') {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 10 && num !== 5 && num !== 4);
           this.selectedTagList.push(1);
         }
-        console.log(this.selectedTagList);
-      }else if(this.currentSlideIndex ==4){
-      
-        if(this.currentPoolIndex=== 0){
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 9 );
-          this.selectedTagList.push(7);
-        }else{
-          this.selectedTagList = this.selectedTagList.filter(num => num !== 7);
-          this.selectedTagList.push(9);
-        }
       }
-      console.log(this.selectedTagList);
-      //stiker tagovi 
-      if(this.currentSlideIndex==2){
-        //cycling
+  
+      // Logika za stikere (Slide 2)
+      if (this.currentSlideIndex === 2) {
         this.addToSelectedTagListForKeyword('cycling', 0);
         this.addToSelectedTagListForKeyword('painting', 1);
         this.addToSelectedTagListForKeyword('historical', 6);
         this.addToSelectedTagListForKeyword('vibe', 7);
         this.addToSelectedTagListForKeyword('wildlife', 8);
         this.addToSelectedTagListForKeyword('photography', 12);
-
-       // alert(this.selectedTagList);
       }
-    }
-    else{
-      //this.currentSlideIndex=0;
-      console.log('cuvaj');
+  
+      // Logika za Slide 3 - preuzima selectOption
+      if (this.currentSlideIndex === 3) {
+        const selectedImage = this.images[this.currentImageIndex];
+        if (selectedImage === 'self_guide1.png') {
+          this.selectedTagList = this.selectedTagList.filter(tag => tag !== 13 && tag !== 3);
+          this.selectedTagList.push(14);
+        } else if (selectedImage === 'guide_tour.png') {
+          this.selectedTagList = this.selectedTagList.filter(tag => tag !== 14 && tag !== 3);
+          this.selectedTagList.push(13);
+        }
+      }
+  
+      // Logika za Slide 4
+      if (this.currentSlideIndex === 4) {
+        if (this.currentPoolIndex === 0) {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 9);
+          this.selectedTagList.push(7);
+        } else {
+          this.selectedTagList = this.selectedTagList.filter(num => num !== 7);
+          this.selectedTagList.push(9);
+        }
+      }
+  
+      console.log(this.selectedTagList);
+    } else {
+      // Poslednji slajd - čuvanje preferenci
+      console.log('Čuvam podatke...');
       this.selectOptionSlide5();
+  
       const preference: TourPreference = {
-       
         weightPreference: 1,
         walkingRating: 1,
         bikeRating: 1,
         carRating: 1,
         boatRating: 1,
-        id:0,
+        id: 0,
         tags: this.selectedTagList,
-        touristId:0
-
+        touristId: 0
       };
-    
+  
       this.tourPreferenceService.savePreference(preference).subscribe(
         (response) => {
           console.log('Preference saved successfully', response);
-          Swal.fire({
-            title: 'Thank you for taking the time to complete the quiz!',
-            text: 'We\'ve learned more about you! Now we can enhance your experience here',
-            icon: 'success',
-            showCancelButton: true,
-            showCloseButton: true,
-            confirmButtonText: 'Back to clubs',
-            cancelButtonText: 'Back to home',
-            allowOutsideClick: false,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Ovde možeš da rutiraš na "Back to clubs"
-              this.router.navigate(['/club']);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              // Ovde možeš da rutiraš na "Back to home"
-              this.router.navigate(['/']);
-            }
-          });
+          this.saveSuccess = true;
+          this.isQuizCompleted = true;
         },
         (error) => {
           console.error('Error saving preference', error);
+          this.saveSuccess = false;
+          this.isQuizCompleted = true;
         }
       );
-
     }
   }
+  navigateToClubs(): void {
+    this.router.navigate(['/club']);
+  }
+  
+  navigateToHome(): void {
+    this.router.navigate(['/']);
+  }
+  retrySave(): void {
+    this.isQuizCompleted = false;
+    this.nextSlide(); 
+  }
+  
+  
   previousSlide(): void {
     if (this.currentSlideIndex > 0) {
       this.currentSlideIndex--;
@@ -418,6 +438,7 @@ this.currentImageIndex = 0;
   getImage(image: string): string {
     return environment.webroot + "images/quiz/" + image;
   }
+
   selectPicture(imageName: string): void {
     //const container = document.getElementById('carousel-container');
     this.selectedPicture = imageName;
@@ -432,7 +453,20 @@ this.currentImageIndex = 0;
     
   }
 
-  
+  private tryPlayVideo(videoElement: HTMLVideoElement): void {
+    videoElement.play().then(() => {
+      console.log('Video started playing successfully.');
+    }).catch((error) => {
+      console.warn('Video autoplay blocked. Retrying...', error);
+
+      // Ponovni pokušaj nakon kašnjenja
+      setTimeout(() => {
+        videoElement.play().catch((retryError) => {
+          console.error('Video still cannot play automatically:', retryError);
+        });
+      }, 1000);
+    });
+  }
 
   ngAfterViewInit() {
     // Ovdje možemo proveriti da li je customTourList dostupan nakon što se komponenta učita
@@ -451,6 +485,21 @@ this.currentImageIndex = 0;
           //this.progress(x.target as HTMLElement);
         });
       });
+    }
+    if (this.backgroundVideo) {
+      const videoElement = this.backgroundVideo.nativeElement;
+
+      // Proveri mute atribut
+      if (!videoElement.muted) {
+        videoElement.muted = true;
+        console.log('Muted attribute added.');
+      }
+
+      // Resetuj video na početak i pokušaj da ga reprodukuješ
+      videoElement.currentTime = 0;
+      this.tryPlayVideo(videoElement);
+    } else {
+      console.error('Video element is not defined!');
     }
   }
   progress(stepElement: number): void {

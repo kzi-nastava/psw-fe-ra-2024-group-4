@@ -1,13 +1,16 @@
 .main-container {
-    display: flex;
+    position: relative; /*dodala za video*/
+    display: flex;  /*dodala za video*/
     flex-direction: column;
     width: 100%;
     height: 100%; 
-    background-color: #fff;
+    /* background-color: #fff; */
     overflow: hidden;
+    z-index: 1; /* Osigurava da glavni sadržaj bude iznad */
+
 }
 .top-container {
-    flex: 0 0 10%; /* 10% visine stranice */
+    flex: 0 0 5%; /* 10% visine stranice */
     /*background-color: #e0e0e0;*/
     display: flex;
     padding-top: 1%;
@@ -384,6 +387,7 @@ body {
 }
 .quiz-card{
   margin: auto;
+  margin-top: -1%;
   width: 65%;
   height: 100%;
   border-radius: 4px;
@@ -481,6 +485,7 @@ body {
   color: #C2C599; 
 }
 
+
 #s1:checked ~ #slide1 {
     box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
     transform: translate3d(0, 0, 0); /* Središnja kartica */
@@ -488,6 +493,7 @@ body {
   
   #s1:checked ~ #slide2 {
     transform: translate3d(15%, 0, -100px); /* Desno */
+
   }
   
   #s1:checked ~ #slide3 {
@@ -534,6 +540,7 @@ body {
   
   #s3:checked ~ #slide3 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
+
   }
   
   #s3:checked ~ #slide4 {
@@ -559,7 +566,8 @@ body {
   
   #s4:checked ~ #slide4 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
-  }
+
+   }
   
   #s4:checked ~ #slide5 {
     transform: translate3d(15%, 0, -100px); /* Desno */
@@ -584,6 +592,7 @@ body {
   
   #s5:checked ~ #slide5 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
+
   }
   
   input[type="radio"]:checked + .quiz-card {
@@ -749,11 +758,11 @@ body {
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: -2%;
+    bottom: 11%;
     left:30%;
     width: 40%;
     height: 5%;
-    background-color: #ffffff;
+    background-color: transparent;
   }
   .container {
     position: absolute;
@@ -770,32 +779,32 @@ body {
   .step {
     width: 20px;
     height: 20px;
-    background: #fff;
-    border: 2px solid #ACACA6;
+    background: #885bb9;
+    border: 2px solid #885bb9;
     border-radius: 50%;
     cursor: pointer;
     transition: background 1s;
   }
   .step.selected {
-    border: 2px solid #4B81BD;   
+    border: 2px solid #e0e0dbee;   
   }
   .step.completed {
-    border: 2px solid #4B81BD;
-    background: #4B81BD; 
+    border: 2px solid #e0e0dbee;
+    background: #e0e0dbee; 
   }
   .progress {
     position: absolute;
     width: 100%;
     height: 50%;
     bottom: 47%;
-    border-bottom: 2px solid #ACACA6;
+    border-bottom: 2px solid #885bb9;
     z-index: 0;
   }
   .percent {
     position: absolute;
     width: 0;
     height: 100%;
-    border-bottom: 2px solid #4B81BD;
+    border-bottom: 2px solid #e0e0dbee;
     z-index: 1;
     transition: width 1s;
   }
@@ -1426,7 +1435,7 @@ button {
   height: 70%;
 }
 .on {
-  color: #dada21; /* Svetla žuta boja za ON */
+  color: #e4e443; /* Svetla žuta boja za ON */
   font-weight: bold;
   text-shadow: 0 0 10px rgba(226, 245, 103, 0.7), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3); /* Efekat svetlosti */
 }
@@ -1436,4 +1445,134 @@ button {
   font-weight: normal;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3); /* Siva senka za OFF */
 
+}
+
+.background-container {
+  position: absolute; /* Stavi ga kao pozadinu */
+  top: 0; /* Počinje od vrha stranice */
+  left: 0;
+  width: 100%;
+  height: 100%; /* Pokriva ceo ekran */
+  z-index: -1; /* Stavlja ga iza sadržaja */
+}
+
+#background-video {
+  width: 100%; /* Pokriva širinu */
+  height: 100%; /* Pokriva visinu */
+  object-fit: cover; /* Zadržava proporcije slike */
+}
+/* Overlay koji pokriva ceo ekran */
+.feedback-overlay {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100vw; /* Širina celog ekrana */
+  height: 100vh; /* Visina celog ekrana */
+  background: rgba(0, 0, 0, 0.5); /* Blur pozadina */
+  backdrop-filter: blur(8px); /* Blur efekat */
+  z-index: 9999; /* Visok z-index da se prikaže iznad */
+  margin: 0; /* Eliminisanje margina */
+  padding: 0; /* Eliminisanje paddinga */
+  box-sizing: border-box; /* Održava width i height preciznim */
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Sprečava skrolovanje */
+}
+
+
+/* Glavni kontejner */
+.feedback-container {
+  position: fixed; /* I ovo osigurava da je kontejner iznad ostalog sadržaja */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* Viši z-index za karticu */
+}
+
+/* Kartica sa pozadinskom slikom */
+.feedback-card {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  max-width: 500px;
+  width: 90%;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  z-index: 10000; /* Da bude iznad overlay-a */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 15px;
+  margin-right:10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+
+
+}
+
+.feedback-message {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.feedback-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.feedback-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  color: white;
+  
+}
+
+.primary-btn {
+  background-color: #c099da;
+}
+
+.primary-btn:hover {
+  background-color: #a278c4;
+}
+
+.secondary-btn {
+  background-color: #6c757d;
+}
+
+.secondary-btn:hover {
+  background-color: #555b60;
+}
+.feedback-background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5; 
+  z-index: -1; 
+  border-radius: 15px; 
+  
+}
+.purple-text{
+  color: #9b7ab6;
 }
