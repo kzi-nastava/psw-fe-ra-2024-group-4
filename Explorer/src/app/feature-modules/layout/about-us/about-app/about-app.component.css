@@ -44,9 +44,10 @@
 
 .section-text h2 {
     font-size: 2rem;
-    color: #333;
+    color: #642984;
     margin-bottom: 1rem;
     font-family: 'Poppins', sans-serif;
+    font-weight: 600;
 }
 
 .section-text p {
@@ -55,21 +56,6 @@
     line-height: 1.5;
     text-align: justify;
     font-family: 'Poppins', sans-serif;
-}
-
-.marker {
-    display: inline-block;
-    margin-right: 0.2rem; 
-    margin-left: 0.2rem;
-    padding: 0.1rem 0.7rem; 
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #fff; 
-    background-color: #642984; 
-    border-radius: 12px; 
-    text-transform: uppercase;
-    letter-spacing: 1px; 
-    vertical-align: middle;
 }
 
 .features-list {
@@ -89,7 +75,6 @@
 
 .features-list li strong {
     color: #642984; 
-    margin-right: 0.5rem;
 }
 
 .features-list li::before {
@@ -99,4 +84,9 @@
 
 .tab-content {
     padding: 2rem;
+}
+
+.custom-tab-group {
+    max-width: 80%; 
+    margin: 0 auto;   
 }
