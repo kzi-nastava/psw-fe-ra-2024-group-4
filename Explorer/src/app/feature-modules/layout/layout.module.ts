@@ -14,6 +14,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 import { AdministrationModule } from '../administration/administration.module';
 import { HeaderComponent } from './header/header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +26,7 @@ import { HeaderComponent } from './header/header.component';
     ObjectViewComponent,
     FirstPageComponent,
     AppReviewComponent,
-    AppReviewComponent,
     LandingBlogComponent,
-    AppReviewComponent,
     HeaderComponent,
     HeaderComponent
 
@@ -37,7 +38,9 @@ import { HeaderComponent } from './header/header.component';
     TourAuthoringModule,
     ReactiveFormsModule,
     MatMenuModule,
-    AdministrationModule 
+    AdministrationModule,
+    MatFormFieldModule,
+    MatInputModule, 
 
 ],
   exports: [
