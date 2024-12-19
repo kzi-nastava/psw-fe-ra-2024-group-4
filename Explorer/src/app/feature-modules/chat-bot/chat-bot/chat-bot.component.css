@@ -1,24 +1,54 @@
+
+.chatbot-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .chatbot-container{
     display: flex;
+   
+    width: 80%;
+    height: 80vh;
+    margin-top: 4vh;
+    border: 0.3vh solid #BFA8D7;
+    border-top-left-radius: 2vh;
+    border-top-right-radius: 2vh;
+    border-bottom-left-radius: 2vh;
+    border-bottom-right-radius: 2vh;
+
    
 }
 
 
 .chatbot-section-content{
     display: flex;
+    margin-left: 20vh;
+    
    
 }
 
 .chatbot-section{
     display: flex;
-    justify-content: center;
+    
     align-items: center;
- 
+    background-color: #ecdaff;
     width: 50%;
-    height: 89vh;
+    border-top-left-radius: 2vh;
+    border-bottom-left-radius: 2vh;
+    
    
 }
 
+.question-answer{
+    display: flex;
+    flex-direction: column;
+    margin-top: -5vh;
+    
+}
+
+.question-answer h1{
+    font-size: large;
+}
 
 
 .questions-section{
@@ -26,14 +56,27 @@
     justify-content: center;
     align-items: center;
     width: 50%;
+    background-color: #bcdbff;
+    border-top-right-radius: 2vh;
+    border-bottom-right-radius: 2vh;
+    
 }
 
 .questions-section-content{
     display: flex;
     flex-direction: column;
     gap: 1vh;
+    align-items: center;
+   
 }
+
+
 
 .chatbot-image-div{
     height: 40vh;
+}
+
+.question-btn{
+    font-size: x-large;
+    width: 100%;
 }

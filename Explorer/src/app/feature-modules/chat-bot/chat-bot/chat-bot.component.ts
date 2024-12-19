@@ -12,16 +12,21 @@ import { Message } from '../model/Message.model';
 export class ChatBotComponent implements OnInit {
 
   firstLevel: string[]
+  toursLevel1: string[]
   currentLevel: string[]
   answer: string;
   user: User;
   message: Message;
+  currentQuestion: string;
+
   constructor(private service: ChatBotService, private authService: AuthService){}
   ngOnInit(): void {
 
     this.firstLevel = ["About the app", "Tours", "Encounters"];
+    this.toursLevel1 = ["How to start a tour?", "Where can I find tours?", "Back"]
     this.currentLevel = this.firstLevel;
     this.answer = "Hi, how can I help you?";
+    this.currentQuestion = "Welcome to the Chatbot"
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       
@@ -39,11 +44,14 @@ export class ChatBotComponent implements OnInit {
     {
      
       this.service.getResponse(question, this.user.id).subscribe({
-        next: (result: string) => {
-          this.answer = result;
+        next: (result) => {
+          this.answer = result.message;
+          this.currentQuestion = question;
+          if(question === "Tours")
+            this.currentLevel = this.toursLevel1;
         },
         error: (err: any) => {
-          alert("Error");
+          console.error(err);
         }
       })
     }
