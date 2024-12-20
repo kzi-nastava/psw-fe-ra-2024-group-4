@@ -85,6 +85,11 @@
                                             </span>
                                         </mat-card-subtitle>
                                     </div>
+
+                                    <div style="margin-bottom: 10px;">
+                                        <span>Difficulty: <b>{{ t.tourDifficulty }}</b></span>
+                                    </div>
+
                                     <div class="price">
                                         <span *ngIf="t.originalPrice" class="old-price">{{ t.originalPrice | currency }}</span>
                                         <span class="new-price">{{ t.price | currency }} </span>
