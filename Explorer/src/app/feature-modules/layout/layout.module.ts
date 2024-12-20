@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppReviewComponent } from './app-review/app-review.component';
@@ -14,6 +15,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 import { AdministrationModule } from '../administration/administration.module';
 import { HeaderComponent } from './header/header.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TeamComponent } from './about-us/team/team.component';
+import { PurposeComponent } from './about-us/purpose/purpose.component';
+import { AboutAppComponent } from './about-us/about-app/about-app.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,11 @@ import { HeaderComponent } from './header/header.component';
     LandingBlogComponent,
     AppReviewComponent,
     HeaderComponent,
-    HeaderComponent
+    HeaderComponent,
+    AboutUsComponent,
+    TeamComponent,
+    PurposeComponent,
+    AboutAppComponent
 
   ],
   imports: [
@@ -37,8 +46,8 @@ import { HeaderComponent } from './header/header.component';
     TourAuthoringModule,
     ReactiveFormsModule,
     MatMenuModule,
-    AdministrationModule 
-
+    AdministrationModule ,
+    MatTabsModule,
 ],
   exports: [
     NavbarComponent,
