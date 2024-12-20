@@ -63,7 +63,7 @@ const routes: Routes = [
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
-  {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
+  {path: 'reviewApp', component: AppReviewComponent},
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
   {path: 'touristEquipment', component: PersonEquipmentComponent},
   {path: 'tourReviews', component: TourReviewsComponent},
