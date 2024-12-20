@@ -52,6 +52,8 @@ export class AppReviewComponent implements OnInit, OnChanges {
       this.service.getTouristReview(this.user.id).subscribe({
         next: (result: AppReview) => {
           if (result) {
+            this.appReview = result;
+            console.log(result);
             this.appReviewForm.patchValue({
               grade: result.grade,
               comment: result.comment || ''
@@ -71,6 +73,7 @@ export class AppReviewComponent implements OnInit, OnChanges {
       this.service.getAuthorReview(this.user.id).subscribe({
         next: (result: AppReview) => {
           if (result) {
+            this.appReview = result;
             this.appReviewForm.patchValue({
               grade: result.grade,
               comment: result.comment || ''
@@ -102,6 +105,12 @@ export class AppReviewComponent implements OnInit, OnChanges {
     const currentGrade = this.appReviewForm.value.grade ?? 0;
     const currentComment = this.appReviewForm.value.comment ?? '';
 
+    if(this.appReview?.id != null){
+      console.log(this.appReview.id)
+      this.editReview();
+      return;
+    }
+
     const appReview: AppReview = {
       id: this.user.id,
       userId: this.user.id,
@@ -125,6 +134,41 @@ export class AppReviewComponent implements OnInit, OnChanges {
         }
       });
     }
+  }
+
+
+  editReview(): void {
+    if (!this.user) {
+      alert('You must be logged in.');
+      return;
+    }
+
+    const currentGrade = this.appReviewForm.value.grade ?? 0;
+    const currentComment = this.appReviewForm.value.comment ?? '';
+
+
+    const appReview: AppReview = {
+      id: this.user.id,
+      userId: this.user.id,
+      creationTime: new Date(),
+      grade: currentGrade,
+      comment: currentComment
+    };
+
+    if (this.user.role === 'tourist') {
+      this.service.updateTouristReview(appReview).subscribe({
+        next: () => {
+          this.loadAppReview();
+        }
+      });
+    } else if (this.user.role === 'author') {
+      this.service.updateAuthorReview(appReview).subscribe({
+        next: () => {
+          this.loadAppReview();
+        }
+      });
+    }
+
   }
 
 }
