@@ -122,7 +122,7 @@ body {
     font-family: 'Arial', sans-serif; /* Elegantan sans-serif font */
     font-size: 2rem; /* Veći i istaknutiji naslov */
     font-weight: bold; /* Podebljan tekst */
-    color: #2c3e50; /* Tamnoplava boja za ozbiljan ton */
+    color: #a36484; /* Tamnoplava boja za ozbiljan ton */
     text-align: center; /* Naslov centriran na sredini */
     margin-top: 20px; /* Razmak iznad naslova */
     margin-bottom: 10px; /* Razmak ispod naslova */
@@ -217,7 +217,7 @@ body {
   
   .tour-button {
     display: flex;
-    background-color: #a36484;;
+    background-color: #a36484;
     color: white;
     border: none;
     margin-top: 20%;
@@ -321,7 +321,7 @@ mat-icon {
   left:5%;
   display: flex;
   justify-content: center;
-  margin-bottom: 2%;
+  margin-bottom: 5%;
 }
 .selected-tour-description textarea {
   resize: none; /* Onemogućava korisniku ručno povećavanje polja */

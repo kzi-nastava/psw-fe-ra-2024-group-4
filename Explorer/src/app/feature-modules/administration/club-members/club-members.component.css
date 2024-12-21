@@ -1,18 +1,52 @@
 
-  h2 {
+.club-members-title {
+  font-family: 'Arial', sans-serif; /* Elegantan sans-serif font */
+  font-size: 2rem; /* Veći i istaknutiji naslov */
+  font-weight: bold; /* Podebljan tekst */
+  color: #a36484; /* Tamnoplava boja za ozbiljan ton */
+  text-align: left; /* Naslov centriran na sredini */
+  margin-top: 20px; /* Razmak iznad naslova */
+  margin-bottom: 10px; /* Razmak ispod naslova */
+  text-transform: uppercase; /* Sva slova velikim slovima */
+  letter-spacing: 1.5px; /* Proširenje slova za bolji efekat */
+  margin-left: 10px;
+}
+.header {
+  display: flex;
+  justify-content:flex-start;
+  align-items: left;
+  margin-bottom: 20px;
+  margin-left: -520px;
+  margin-right: 20px;
+}
+
+.club-members-description {
+  font-family: 'Georgia', serif; /* Klasičan serif font za opis */
+  font-size: 1rem; /* Nešto manja veličina teksta od naslova */
+  font-style: italic; /* Italik za sofisticiran izgled */
+  color: #34495e; /* Tamno siva boja za dobar kontrast */
+  text-align: center; /* Celo poravnanje centrirano */
+  line-height: 1.6; /* Veći razmak između redova za lakše čitanje */
+  margin-top: 25px; /* Uklanjanje nepotrebnog razmaka iznad */
+  margin-bottom: 20px; /* Razmak ispod za bolju separaciju od ostatka stranice */
+  margin-right: 20px;
+  margin-left: 20px;
+}
+ 
+ h2 {
     text-align: center; /* Centriranje teksta */
     font-size:xx-large; /* Veličina fonta */
  /* Podebljan tekst */
     color: rgb(62, 51, 70);
     margin-top: 10px;
   }
-  /* Ovaj div će se koristiti za sve članove, raspoređene u kartice */
+ 
 .member-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  margin-bottom: 5px;
+ /* margin-bottom: 5px;*/
   
 }
 .member-card-owner-card{
@@ -27,22 +61,30 @@
 
 .member-card {
   background-color: #fff;
-  border: 1px solid #ddd;
+ /* border: 1px solid #ddd;*/
   border-radius: 40px;
   width: 300px;
+  height: 400px;
   padding: 20px;
   display: flex;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   margin: 5px;
+  border: 2px solid blue;
 }
-.members-container {
+
+/* .members-container {
   display: flex;
-  flex-wrap: wrap; /* Omogućava prelamanje u novi red */
-  gap: 20px; /* Razmak između kartica */
+  flex-wrap: wrap;
+  gap: 20px; 
   justify-content: center;
-}
+  overflow-y: visible;
+  margin-bottom: 250px;
+} */
+
+
+
 
 
 .member-card:hover {
@@ -176,3 +218,145 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); 
   transform: translateY(-2px); 
 }
+
+
+ .members-container { 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  min-height: 800px; 
+  
+} 
+
+ .card {
+  width: 230px; 
+  height: 320px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; 
+}  
+
+
+
+
+
+/* .members-container { POALWBJDA
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 500px; 
+}
+
+.card {
+  width: calc(25% - 20px); 
+  height: 320px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; 
+} */
+
+
+/* .members-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 500px; 
+}
+
+.card {
+  width: 230px;
+  height: 320px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+} */
+
+
+
+
+/*.card {
+  padding: 20px;
+  width: 230px; 
+  height: 300px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}*/
+
+.cover-photo {
+  background: url(https://i.imgur.com/jxyuizJ.jpeg);
+  background-size: cover;
+  height: 120px;
+  border-radius: 10px 10px 0 0; 
+  position: relative;
+}
+
+.profile {
+  position: absolute;
+  width: 100px;
+  height: 100px; 
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%; 
+  border: 4px solid #fff; 
+  object-fit: cover; 
+}
+
+.profile-name {
+  font-size: 18px;
+  margin-top: 60px; 
+  color: #333;
+}
+
+.about {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #666; 
+}
+
+.btn {
+  margin: 10px 5px;
+  background: #7ce3ff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #7ce3ff;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background: #5cb8d6;
+  border-color: #5cb8d6;
+}
+.email-icon {
+  font-size: 24px;
+  color: #ef7ad9;
+  margin-right: 8px;
+}
+.email-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  position: center;
+} 

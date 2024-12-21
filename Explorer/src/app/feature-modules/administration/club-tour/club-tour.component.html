@@ -226,7 +226,7 @@
           <h2 class="club-tours-title">Exclusive Club Tours at Discounted Prices</h2>
           <p class="club-tours-description">Explore handpicked destinations with your club members and enjoy exclusive discounts. Adventure awaits!</p>
           
-          <button 
+          <button  *ngIf="isOwner"
           class="new-tour-button" (click)="displayForm()" 
           [style.background-image]="'url(' + getImage('plane.gif') + ')'"
       >
@@ -271,7 +271,7 @@
                       </div>
                     
                     
-                       <button class="tour-button"  (click)="addToCart(ct)">Buy now</button>
+                       <button class="tour-button" *ngIf="!isOwner" (click)="addToCart(ct)">Buy now</button>
                     
                   </div>
                   <p class="tour-disclaimer"></p>

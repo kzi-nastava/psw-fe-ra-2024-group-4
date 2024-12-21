@@ -1,29 +1,64 @@
 
-  <h2>Club Members</h2>
+<div>
 
-<div *ngFor="let member of members" class="member-cards">
-    <div *ngIf="member.id === ownerId"  class="member-card owner-card">
-        <!-- Prikaz vlasnika -->
-     
-        <div class="member-image">
-            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
-        </div>
-        <div class="member-info">
-            <div class="username">{{ member.username }}</div>
-            <div class="name">{{ member.name }} {{ member.surname }}</div>
-            <div class="email">{{ member.email }}</div>
+
+  <div *ngFor="let member of members" >
+    <div *ngIf="member.id === ownerId" class="member-cards">
+        <div class="header">
+            <h2 class="club-members-title">Club Members</h2>
+            <p class="club-members-description">{{members.length}} members</p>
+          </div>
+        <div class="card">
+            <div class="cover-photo">
+                <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="profile">
+            </div>
+            <h3 class="profile-name">{{ member.name }} {{ member.surname }}</h3>
+            <p>@{{member.username}}</p>
             <div>
                 <i class="fas fa-star" style="color: yellow;"></i> OWNER
             </div>
-       
+            <p class="about">{{member.motto}}</p>
+            <div >
+                <span class="email-icon">&#9993;</span>
+                <span>{{member.email}}</span>
+            </div>
+        </div>
+
     </div>
+</div> 
+
+
+<div class="members-container"> 
+    <div *ngFor="let member of members"  >
+        <div *ngIf="member.id !== ownerId" class="member-cards">
+           
+
+            <div class="card">
+                <div class="cover-photo">
+                    <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="profile">
+                </div>
+                <h3 class="profile-name">{{ member.name }} {{ member.surname }}</h3>
+                <p>@{{member.username}}</p>
+              
+                <p class="about">{{member.motto}}</p>
+                <div >
+                    <span class="email-icon">&#9993;</span>
+                    <span>{{member.email}}</span>
+                </div>
+                <button *ngIf="currentUserId === ownerId" (click)="removeMember(member.id)" class="remove-button">
+                    <i class="fas fa-user-minus"></i> Remove member
+                </button>
+            </div>
+
+        </div>
+    </div> 
     </div>
 </div>
-
+<!--  stara verzija liste
 <div class="members-container">
 <div *ngFor="let member of members"  >
     <div *ngIf="member.id !== ownerId" class="member-card">
-        <!-- Prikaz ostalih članova -->
+       
         <div class="member-image">
             <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
         </div>
@@ -37,7 +72,7 @@
         </div>
     </div>
 </div>
-</div>
+</div> -->
 
 <ng-template #noMembers>
     <p>No members found.</p>
