@@ -17,6 +17,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Encounter } from '../encounters/model/encounter.model';
 import { PersonInfo } from '../person.info/model/info.model';
 import { ClubTour } from './model/club-tour.model';
+import { ClubMember } from './model/club-member.model';
 
 
 @Injectable({
@@ -288,6 +289,10 @@ export class AdministrationService {
     return this.http.post<ClubTour>(environment.apiHost + 'clubTour', clubTour);
   }
 
+  //add banner sliku
+  addClubMemberBannerImage(clubMember: ClubMember): Observable<ClubMember>{
+    return this.http.post<ClubMember>(environment.apiHost + 'clubMember', clubMember);
+  }
   
 }
 
