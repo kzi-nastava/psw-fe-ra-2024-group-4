@@ -7,6 +7,11 @@ import { TourPreferenceService } from '../../tour-authoring/tour-preference.serv
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import html2canvas from 'html2canvas';
+import { ClubMember } from '../model/club-member.model';
+import { AdministrationService } from '../administration.service';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 @Component({
   selector: 'xp-quiz',
   templateUrl: './quiz.component.html',
@@ -20,6 +25,12 @@ export class QuizComponent implements AfterViewInit {
   @ViewChild('stepsContainer', { static: false }) stepsContainer!: ElementRef;
   @ViewChild('carouselContainer', { static: false }) container!: ElementRef;
   @ViewChild('title', {static: false}) title!: ElementRef; 
+
+
+  //user
+  user: User | null = null;
+  currentUserId: number | null = null;
+  imageBase64: string;
 
   slides = [0, 1, 2, 3, 4]; 
   currentSlideIndex = 0; 
@@ -180,10 +191,18 @@ export class QuizComponent implements AfterViewInit {
     this.currentPoolIndex = (this.currentPoolIndex + 1) % this.imagesPool.length; // Prebacivanje između slika
   }
 
-  constructor(private tourPreferenceService: TourPreferenceService, private router: Router) { }
+  constructor(private authService: AuthService, private service: AdministrationService ,private tourPreferenceService: TourPreferenceService, private router: Router) { }
   ngOnInit(): void {
+    this.authService.user$.subscribe((user: User | null) => {
+      this.currentUserId = user ? user.id : null; 
+      this.user = user;
+      console.log(user);
+
+     // console.log('sort klubova:');
+
+    });
     localStorage.removeItem('picture');
-this.currentImageIndex = 0;
+    this.currentImageIndex = 0;
     const savedImageName = localStorage.getItem('picture');
     console.log(`Učitana slika iz localStorage: ${savedImageName}`);
     if (savedImageName) {
@@ -355,7 +374,7 @@ this.currentImageIndex = 0;
         this.addToSelectedTagListForKeyword('vibe', 7);
         this.addToSelectedTagListForKeyword('wildlife', 8);
         this.addToSelectedTagListForKeyword('photography', 12);
-
+        this.captureDiv();
        // alert(this.selectedTagList);
       }
     }
@@ -407,8 +426,12 @@ this.currentImageIndex = 0;
   }
   previousSlide(): void {
     if (this.currentSlideIndex > 0) {
+      if(this.currentSlideIndex === 1 || this.currentSlideIndex === 2){
+        this.isStickerInside = {};
+      }
       this.currentSlideIndex--;
       this.progress(this.currentSlideIndex);
+
     }
     else{
       this.currentSlideIndex=4;
@@ -544,6 +567,138 @@ this.currentImageIndex = 0;
   //   // Pokaži izabrane opcije (za testiranje, može se ukloniti kasnije)
   //   alert(`Selected options: ${this.selectedTags.join(', ')}`);
   // }
+
+
+  //screenshot surely radi :) 
+  // captureDiv() {
+  //   const div = document.getElementById('capture-div');
+  //   if (div) {
+  //     html2canvas(div, { useCORS: true }).then((canvas) => {
+  //       // Pretvori Canvas u sliku (Base64 format)
+  //       const image = canvas.toDataURL('image/png');
   
+  //       // Kreiraj link za preuzimanje slike
+  //       const link = document.createElement('a');
+  //       link.href = image;
+  //       link.download = 'screenshot.png';
+  //       link.click();
+  //     }).catch((error) => {
+  //       console.error('Error capturing screenshot:', error);
+  //     });
+  //   }
+  // }
+  checkImagesLoaded() {
+    const images = document.querySelectorAll('img');
+    return Array.from(images).every(img => img.complete);
+  }
+  // captureDiv() {
+  //   const captureDiv = document.getElementById('slide2');
   
+  //   if (captureDiv) {
+  //     if (this.checkImagesLoaded()) {
+  //       html2canvas(captureDiv, {
+  //         useCORS: true, // Omogućava CORS za slike sa drugih domena
+  //         allowTaint: true, // Omogućava pristup "tainted" resursima (poput slika sa drugih domena)
+  //       }).then(canvas => {
+  //         // Ovde možemo dobiti sliku iz canvasa
+  //         const imgData = canvas.toDataURL('image/png');
+    
+  //         // Možemo sačuvati sliku ili je prikazati na ekranu
+  //         // Na primer, možemo je otvoriti u novom tabu:
+  //        const imgWindow = window.open();
+  //        imgWindow?.document.write('<img src="' + imgData + '" />');
+    
+  //         // Ili, ako želiš da je sačuvaš kao fajl:
+  //         // const link = document.createElement('a');
+  //         // link.href = imgData;
+  //         // link.download = 'custom-tour-screenshot.png';
+  //         // link.click();
+  //       });
+      
+  //     }
+  //   }
+  // }
+  captureDiv() {
+    const captureDiv = document.getElementById('slide2');
+
+    if (captureDiv) {
+      if (this.checkImagesLoaded()) {
+        html2canvas(captureDiv, {
+          useCORS: true, // Omogućava CORS za slike sa drugih domena
+          allowTaint: true, // Omogućava pristup "tainted" resursima (poput slika sa drugih domena)
+        }).then(canvas => {
+          // Ovde dobijamo sliku iz canvasa
+          const imgData = canvas.toDataURL('image/png');
+
+          // Definiši dimenzije koje želiš da zadržiš u procentima
+          const cropWidthPercent = 69;  // Na primer, 50% širine
+          const cropHeightPercent = 69; // Na primer, 50% visine
+
+          // Izračunaj dimenzije za cropovanje u pikselima
+          const cropWidth = canvas.width * (cropWidthPercent / 100);
+          const cropHeight = canvas.height * (cropHeightPercent / 100);
+
+          // Definiši koordinate za cropovanje (u ovom slučaju od 25% od početka slike)
+          const cropX = canvas.width * 0.155;  // Početak cropovanja sa 25% od leve strane
+          const cropY = canvas.height * 0.155; // Početak cropovanja sa 25% od gornje strane
+          
+          // Kreiraj novi canvas za cropovanu sliku
+          const croppedCanvas = document.createElement("canvas");
+          const croppedCtx = croppedCanvas.getContext("2d");
+
+          // Postavi dimenzije novog canvas-a
+          croppedCanvas.width = cropWidth;
+          croppedCanvas.height = cropHeight;
+
+          // Ispisivanje cropovane slike na novi canvas
+          if(croppedCtx)
+          croppedCtx.drawImage(canvas, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+          // Konvertuj cropped canvas u imgData
+          const croppedImgData = croppedCanvas.toDataURL('image/png');
+
+          // Otvori sliku u novom tabu
+          const imgWindow = window.open();
+          imgWindow?.document.write('<img src="' + croppedImgData + '" />');
+          console.log(croppedImgData); // Prikaz u konzoli
+          this.imageBase64 = croppedImgData;
+          //this.addClubMemberBannerImage();
+          // Ili, ako želiš da je sačuvaš kao fajl:
+          // const link = document.createElement('a');
+          // link.href = croppedImgData;
+          // link.download = 'custom-tour-screenshot-cropped.png';
+          // link.click();
+        });
+      }
+    }
+  }
+
+  addClubMemberBannerImage(){
+    if(this.currentUserId != null){
+      const clubMember: ClubMember = {
+        id: 0,
+        userId: this.currentUserId,
+        currentImage: '',
+        quizImage: '',
+        imageBase64: this.imageBase64 // Dodaj svoj base64 string ovde
+      };
+      
+
+      this.service.addClubMemberBannerImage(clubMember).subscribe({
+        next: (response) => {
+          console.log('Banner image successfully added:', response);
+          // Ovde možeš raditi dalje sa odgovorom, npr. osvežiti UI
+        },
+        error: (err) => {
+          console.error('Error adding banner image:', err);
+        }
+      });
+    }
+  }
 }
+
+  
+
+
+
+
