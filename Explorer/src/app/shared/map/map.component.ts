@@ -16,7 +16,7 @@ import { TourOverview } from 'src/app/feature-modules/tour-authoring/model/touro
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
+import { Encounter, EncounterStatus, EncounterType } from 'src/app/feature-modules/encounters/model/encounter.model';
 import { Router } from '@angular/router';
 
 
@@ -89,6 +89,12 @@ export class MapComponent {
     popupAnchor: [1, -34],
   });
 
+  private encounterMarker = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  })
 
    constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
      private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
@@ -507,7 +513,7 @@ private async showEncounterOnMap(): Promise<void> {
 
   if (this.selectedEncounterPoints && this.selectedEncounterPoints.length > 0) {
     this.selectedEncounterPoints.forEach(async point => {
-      const marker = L.marker([point.latitude, point.longitude], {icon: this.keypointIcon})
+      const marker = L.marker([point.latitude, point.longitude], {icon: this.encounterMarker})
       .addTo(this.map);
 
       const address = await this.getAddress(point.latitude, point.longitude);
@@ -524,12 +530,19 @@ private async showEncounterOnMap(): Promise<void> {
               </div>
             </div>
 
+            <!-- Conditionally display the image if the type is HiddenLocation -->
+            ${point.type === EncounterType.HiddenLocation ? `
+              <div class="card-image" style="text-align: center; margin-top: 10px;">
+                <img src="${point.hiddenLocationData?.imageUrl}" alt="Hidden Location" style="width: 100%; border-radius: 10px;">
+              </div>
+            ` : ''}
+
             <div class="card-footer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 10px;">
               <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
-                <p><strong>Type:</strong> ${point.type}</p>
+                <p><strong>Type:</strong> ${EncounterType[point.type]}</p>
               </div>
               <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
-                <p><strong>Status:</strong> ${point.status}</p>
+                <p><strong>Status:</strong> ${EncounterStatus[point.status]}</p>
               </div>
             </div>
           </div>

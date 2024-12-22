@@ -291,7 +291,7 @@ checkProximityToChallenges(): void {
   });
 
   
-  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+  this.encounterService.getInRadius(5, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: ((data) => {
       this.encounters = data.results;
   
@@ -336,7 +336,7 @@ checkProximityToChallenges(): void {
 }
 
 private removeFarEncounters(): void {
-  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+  this.encounterService.getInRadius(5, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: (data) => {
       const encountersInRadius = data.results.map(encounter => encounter.id); 
 
