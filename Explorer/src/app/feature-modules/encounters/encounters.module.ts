@@ -11,6 +11,7 @@ import { AuthorEncounterComponent } from './author-encounter/author-encounter.co
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [
     AdminEncounterComponent,
@@ -25,7 +26,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatInputModule,
     MatDialogModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRadioModule
 ]
 })
 export class EncounterModule { }

@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto, RequestStatus} from '../model/encounter.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { concat, interval } from 'rxjs';
@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
   styleUrls: ['./admin-encounter.component.css']
 })
 export class AdminEncounterComponent implements OnInit {
+  @Input() labelPosition: 'before' | 'after' = 'before';
 
   constructor(private encounterService: EncounterServiceService, private authService: AuthService) {}
 
@@ -20,9 +21,9 @@ export class AdminEncounterComponent implements OnInit {
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]  // Dynamically fetch the encounter types
   selectedEncounterType: string = "Social";  // Default type
 
-  social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
-  hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: '', latitude: number, longitude: number} = { imageUrl: '', activationRadius: 0, imageBase64: '', latitude: 0, longitude: 0}; // Default values
-  misc: { actionDescription: '' } = { actionDescription: '' };  // Default values  
+  social: SocialDataDto = { requiredParticipants: 0, radius: 0 };  // Default values
+  hiddenLocation: HiddenLocationDataDto = { imageUrl: '', activationRadius: 0, imageBase64: '', latitude: 0, longitude: 0}; // Default values
+  misc: MiscDataDto = { actionDescription: '' };  // Default values  
 
   encounter: Encounter = {
     title: '',
@@ -194,6 +195,8 @@ export class AdminEncounterComponent implements OnInit {
         console.error('Error loading tours:', err);
       }
       });
+
+    location.reload();
   }
 
   onMapClick(event: any) {
@@ -205,5 +208,9 @@ export class AdminEncounterComponent implements OnInit {
     }
     this.encounter.longitude = event.longitude;
     this.encounter.latitude = event.latitude;
+  }
+
+  openHiddenLocationMap(event: any) {
+    
   }
 }

@@ -1,59 +1,116 @@
 .container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  .encounter-form {
-    width: 40%;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .encounter-form h2 {
-    margin-bottom: 20px;
-  }
-  
-  .encounter-form form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .encounter-form label {
-    margin-bottom: 5px;
-  }
-  
-  .encounter-form input,
-  .encounter-form select {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .encounter-form button {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .encounter-form button:disabled {
-    background-color: #ccc;
-  }
-  
-  .map {
-    width: 55%;
-    height: 500px;
-    background-color: #e5e5e5;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  justify-self: center;
+}
 
-  ::ng-deep #map {
-    height: 500px !important; /* Or any other value you'd like */
-  }
+.encounter-form {
+  width: 50vw;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.encounter-form h2 {
+  margin-bottom: 20px;
+}
+
+.encounter-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.encounter-form label {
+  margin-bottom: 5px;
+}
+
+.encounter-form input,
+.encounter-form select {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.encounter-form button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.encounter-form button:disabled {
+  background-color: #ccc;
+}
+
+.map {
+  width: 40vw;
+  height: 60vh;
+  background-color: #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep #map {
+  height: 60vh !important; /* Or any other value you'd like */
+}
+
+.basic-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4%;
+}
+
+.encounter-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2%;
+  margin-top: 1%;
+}
+
+.type-option {
+  border: 2px groove gray;
+  border-radius: 8px;
+  padding: 0.2% 4%;
+  text-align: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 45%;
+  margin-bottom: 2%;
+}
+
+.section textarea {
+  flex: 1 1 100%; /* Ensure the textarea spans the full row */
+  min-height: 20vh;
+  resize: vertical;
+}
+
+.section-map {
+  margin: 2%;
+}
+
+.section.description-section {
+  flex-basis: 100%; /* Force the description section to take up the full width */
+  margin-bottom: 2%;
+}
+
+label {
+  padding-left: 0.5% !important;
+  font-size: larger !important;
+}
+
+input {
+  height: 3vh;
+}
+
+.hidden-location-map {
+  visibility: hidden;
+}
