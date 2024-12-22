@@ -112,24 +112,31 @@
                         <img [src]="'assets/images/tag' + (getTagNumber(t.tags[0] || '') + 1)  + '.jpg'" 
                   class="tour-image"
                 />
-                <div class="tour-content">
-                  <h3 class="tour-title">{{t.tourName}}</h3>
-                  <p class="tour-description">
-                    {{t.tourDescription}}
-                  </p>
-                  <div class="tour-info">
-                    <div>
-                      <span class="tour-price">17</span> per person*
-                      <div class="tour-reviews">
-                        <span class="stars">★★★★★</span>
-                        <span class="review-count">28 reviews</span>
-                      </div>
+                    <div class="tour-content">
+                      <h3 class="tour-title">{{t.tourName}}</h3>
+                      <p class="tour-description">
+                        {{t.tourDescription}}
+                      </p>
+                      <div class="tour-info2">
+                        <div>
+                          <span class="tour-price"></span>
+                          <div class="tour-reviews">
+                            <span class="difficulty">
+                              <span class="tour-difficulty-span" *ngIf="t.tourDifficulty === 'Moderate'">🌱 Easy</span>
+                              <span class="tour-difficulty-span" *ngIf="t.tourDifficulty === 'medium'">🌳 Medium</span>
+                              <span class="tour-difficulty-span" *ngIf="t.tourDifficulty === 'Hard'">🏔️ Hard</span>
+                            </span>
+                          </div>
+                          <span class="tour-price">{{t.price}} AC</span>
+                        </div>
+
+                          </div>
+                            <p class="tour-disclaimer"></p>
+                            <button mat-raised-button class="select-button">Select</button>
+                          </div>
+
                     </div>
-                    <button class="tour-button">Book now</button>
-                  </div>
-                  <p class="tour-disclaimer"></p>
-                </div>
-                    </div>
+
                 </div>
                 <!-- <div class ="organize-tour-cards">
                     <div class = "organize-tour-card" *ngFor="let t of tours">
