@@ -54,14 +54,14 @@ export class MapComponent {
   @Output() distanceChanged = new EventEmitter<number>();
 
   @Input() shouldEditKp: boolean = false;
-   @Input() selectedKeypoint: KeyPoint;
-   
+  @Input() selectedKeypoint: KeyPoint;
+  @Input() mapId: string = 'map';
   
    user: User;
    
 
 
-   private map: any;
+  map: any;
    private currentMarker: L.Marker | null = null; 
    private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
    private selectedEncounterMarkers: L.Marker[] = [];
@@ -106,7 +106,7 @@ export class MapComponent {
    
    
   private initMap(): void {
-    this.map = L.map('map', {
+    this.map = L.map(this.mapId, {
       center: [45.2396, 19.8227],
       zoom: 13,
     });

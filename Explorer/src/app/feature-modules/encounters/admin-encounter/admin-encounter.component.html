@@ -62,7 +62,8 @@
             <div class="section">
               <label for="secretLocation" style="margin-right: 1%;"
                 >Choose the pictures location (encounter's hidden location)</label>
-              <button color="accent" (click)="openHiddenLocationMap($event)">Open map to select</button>
+              <button type="button" color="accent" (click)="openHiddenLocationMap()">Open map to select</button>
+              <label>{{ address }}</label>
             </div>
         </div>
   
@@ -85,10 +86,5 @@
         [registeringObject]="true" [shouldEditKp]="false" (latitudeChanged)="onLatitudeChanged($event)"
         (longitudeChanged)="onLongitudeChanged($event)" (mapClick)="onMapClick($event)"></xp-map>
       </div>
-    </div>
-
-    <!-- TODO napraviti popup za mapu i povezati je sa hidden location lat i lon -->
-    <div class="hidden-location-map">
-      <xp-map class="card-map" [registeringObject]="true" [shouldEditKp]="false"></xp-map>
     </div>
   </div>  
