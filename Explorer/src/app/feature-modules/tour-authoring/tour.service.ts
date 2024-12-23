@@ -50,6 +50,10 @@ import { environment } from "src/env/environment";
       return this.http.put<Tour>('https://localhost:44333/api/author/tour/archive/' + tour.id, tour.userId);
     }
 
+    publishTour(tour: Tour): Observable<Tour> {
+      return this.http.put<Tour>('https://localhost:44333/api/author/tour/publish/' + tour.id, tour.userId);
+    }
+
     reactivateTour(tour: Tour): Observable<any> {
       return this.http.put('https://localhost:44333/api/author/tour/reactivate/' + tour.id, tour.userId);
     }
