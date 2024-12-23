@@ -22,9 +22,7 @@ export class ChatBotComponent implements OnInit {
   constructor(private service: ChatBotService, private authService: AuthService){}
   ngOnInit(): void {
 
-    this.firstLevel = ["About the app", "Tours", "Encounters"];
-    this.toursLevel1 = ["How to start a tour?", "Where can I find tours?", "Back"]
-    this.currentLevel = this.firstLevel;
+    this.getQuestions("ROOT");   
     this.answer = "Hi, how can I help you?";
     this.currentQuestion = "Welcome to the Chatbot"
     this.authService.user$.subscribe((user) => {
@@ -47,8 +45,8 @@ export class ChatBotComponent implements OnInit {
         next: (result) => {
           this.answer = result.message;
           this.currentQuestion = question;
-          if(question === "Tours")
-            this.currentLevel = this.toursLevel1;
+          this.showNextSet(question);
+        
         },
         error: (err: any) => {
           console.error(err);
@@ -57,6 +55,31 @@ export class ChatBotComponent implements OnInit {
     }
 
 
+  }
+
+  getQuestions(tag: string){
+
+    this.service.getQuestions(tag).subscribe({
+      next: (result) => {
+        this.currentLevel = result.questions;
+      },
+      error: (err: any) => {
+        this.currentLevel = ["Error"];
+      }
+    });
+
+  }
+
+  showNextSet(question: string)
+  {
+    switch(question){
+      case "Tours":
+        this.getQuestions("TOURS");
+        break;
+      case "How to start a tour?":
+        this.getQuestions("TOUR_EXECUTIONS");
+        break;
+    }
   }
 
 }

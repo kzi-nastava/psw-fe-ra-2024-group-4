@@ -13,9 +13,15 @@ export class ChatBotService {
 
   getResponse(question:string, userId: number): Observable<any>
   {
-    //question = "tours";
-  //  alert(environment.apiHost + 'chatbot/message/' + userId + '?message=' + encodeURIComponent(question));
+   
     return this.http.get<string>(
       environment.apiHost + 'chatbot/message/' + userId + '?message=' + encodeURIComponent(question));
+  }
+
+  getQuestions(tag:string): Observable<any>
+  {
+   
+    return this.http.get<string[]>(
+      environment.apiHost + 'chatbot/questions/?tag=' + encodeURIComponent(tag));
   }
 }
