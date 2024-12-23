@@ -11,8 +11,7 @@ import { Message } from '../model/Message.model';
 })
 export class ChatBotComponent implements OnInit {
 
-  firstLevel: string[]
-  toursLevel1: string[]
+  currentTag: string;
   currentLevel: string[]
   answer: string;
   user: User;
@@ -25,6 +24,7 @@ export class ChatBotComponent implements OnInit {
     this.getQuestions("ROOT");   
     this.answer = "Hi, how can I help you?";
     this.currentQuestion = "Welcome to the Chatbot"
+    this.currentTag = "ROOT";
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       
@@ -58,7 +58,8 @@ export class ChatBotComponent implements OnInit {
   }
 
   getQuestions(tag: string){
-
+    
+  
     this.service.getQuestions(tag).subscribe({
       next: (result) => {
         this.currentLevel = result.questions;
@@ -75,11 +76,29 @@ export class ChatBotComponent implements OnInit {
     switch(question){
       case "Tours":
         this.getQuestions("TOURS");
+        this.currentTag = "TOURS";
         break;
       case "How to start a tour?":
         this.getQuestions("TOUR_EXECUTIONS");
+        this.currentTag = "TOUR_EXECUTIONS";
         break;
     }
+  }
+
+  goBack()
+  {
+    switch(this.currentTag){
+      case "TOURS":
+        this.getQuestions("ROOT");
+        this.currentTag = "ROOT";
+        break;
+      case "TOUR_EXECUTIONS":
+        this.getQuestions("TOURS");
+        this.currentTag = "TOURS";
+        break;
+
+    }
+
   }
 
 }

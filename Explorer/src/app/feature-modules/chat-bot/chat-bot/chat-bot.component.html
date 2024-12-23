@@ -18,6 +18,8 @@
         <h1>Questions</h1>
         <button class="question-btn" (click) = "ask(question)" *ngFor="let question of currentLevel">{{ question }}</button>
     </div>
+
+<button *ngIf="this.currentTag !== 'ROOT'"  class = "back-btn" (click) = "goBack()">Go Back</button>
 </div>
 </div>
 </div>
