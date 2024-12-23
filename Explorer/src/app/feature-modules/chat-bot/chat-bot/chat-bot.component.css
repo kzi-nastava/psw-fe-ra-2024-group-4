@@ -53,6 +53,7 @@
 
 .questions-section{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 50%;
@@ -80,3 +81,8 @@
     font-size: x-large;
     width: 100%;
 }
+
+.back-btn{
+    margin-top: 1vh;
+}
+

@@ -24,4 +24,11 @@ export class ChatBotService {
     return this.http.get<string[]>(
       environment.apiHost + 'chatbot/questions/?tag=' + encodeURIComponent(tag));
   }
+
+  getSearchedQuestions(query:string): Observable<any>
+  {
+   
+    return this.http.get<string[]>(
+      environment.apiHost + 'chatbot/search/?query=' + encodeURIComponent(query));
+  }
 }

@@ -12,6 +12,7 @@ import { Message } from '../model/Message.model';
 export class ChatBotComponent implements OnInit {
 
   currentTag: string;
+  previousTag: string;
   currentLevel: string[]
   answer: string;
   user: User;
@@ -96,9 +97,34 @@ export class ChatBotComponent implements OnInit {
         this.getQuestions("TOURS");
         this.currentTag = "TOURS";
         break;
+      case "SEARCH":
+        this.getQuestions(this.previousTag);
+        this.currentTag = this.previousTag;
+        break;
 
     }
 
+  }
+
+  search()
+  {
+     const inputElement = document.getElementById("inputField") as HTMLInputElement;
+     const query = inputElement.value;
+
+     
+     this.service.getSearchedQuestions(query).subscribe({
+      next: (result) => {
+        this.previousTag = this.currentTag;
+        
+        this.currentLevel = result.questions;
+        this.currentTag = "SEARCH";
+
+      },
+      error: (err: any) => {
+        this.currentLevel = ["Error"];
+      }
+     })
+    
   }
 
 }
