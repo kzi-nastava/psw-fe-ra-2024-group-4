@@ -122,22 +122,25 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
 }
 
 .total-price {
   font-size: 18px;
   font-weight: bold;
-  margin-left: 900px;
+   /* Minimalna leva i desna margina */
 }
 
 .wallet-price {
+  margin-right: auto;
   font-size: 18px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .checkout {
   font-size: 18px;
-  margin-right: 150px;
+  margin-right: 10px 20px;
 }
 
 button {
@@ -256,6 +259,66 @@ div.tour-info {
   transform: rotate(-45deg);
 }
 
+.coupon-section {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Razmak između input polja i dugmeta */
+}
+
+.toggle-coupon-button {
+  margin-bottom: 10px; /* Razmak ispod dugmeta */
+  margin-left: 10px;
+  align-self: flex-start; /* Poravnava dugme ka vrhu sekcije */
+  width: 100%; /* Dugme zauzima celu širinu */
+  height: 50px; /* Veća visina za bolju uočljivost */
+  font-size: 16px; /* Veći tekst */
+  border-radius: 8px; /* Zaobljene ivice */
+}
+
+.coupon-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px; /* Razmak od dugmeta */
+  width: 100%;
+  max-width: 400px; /* Maksimalna širina sekcije */
+}
+
+.coupon-input-field {
+  flex: 0 1 150px; /* Fiksna širina input polja */
+  min-width: 120px;
+}
 
 
+.coupon-input-container-row {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Razmak između input polja i dugmeta */
+}
 
+.coupon-input-field {
+  flex: 0 1 150px; /* Input polje se širi da zauzme maksimalnu širinu */
+  min-width: 120px; /* Minimalna širina za input polje */
+}
+
+.apply-coupon-button {
+  height: 40px; /* Visina dugmeta */
+  font-size: 14px; /* Manji font za bolje uklapanje */
+  padding: 0 12px; /* Unutrašnji razmak */
+  border-radius: 8px; /* Zaobljene ivice */
+  margin-top: -20px; /* Pomeranje dugmeta ka gore */
+  margin-left: 5px; /* Pomeranje dugmeta ulevo */
+}
+
+.total-and-checkout {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Razmak između Total i Checkout dugmeta */
+  margin-right: 20px; /* Pomeranje sekcije malo ulevo */
+}
+.wallet-and-coupon {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Razmak između "Your wallet" i kupon dugmeta */
+}

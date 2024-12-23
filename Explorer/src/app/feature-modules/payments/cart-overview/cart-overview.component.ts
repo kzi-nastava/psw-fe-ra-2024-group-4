@@ -41,12 +41,12 @@ export class CartOverviewComponent implements OnInit {
   paymentRecord: PaymentRecord = {} as PaymentRecord;
   toursByOrderItem: { [key: number]: TourOverview[] } = {};
 
-
   promoCode: string = '';
   purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
   isChatOpen: boolean = false; 
+  isCouponInputVisible: boolean = false;
   chatMessage: string = 'Welcome to your shopping cart! You can remove any items you no longer want by clicking the trash icon next to them.Once you are ready, click Checkout to complete your purchase.';  
   toggleChat(isChat: boolean): void {
     this.isChatOpen = isChat;
@@ -105,7 +105,9 @@ export class CartOverviewComponent implements OnInit {
   getCachedTours(orderId: number): TourOverview[] {
     return this.toursByOrderItem[orderId] || [];
   }
-
+  toggleCouponInput(): void {
+    this.isCouponInputVisible = !this.isCouponInputVisible;
+  }
 
   loadCurrentCart(userId: number)
   {

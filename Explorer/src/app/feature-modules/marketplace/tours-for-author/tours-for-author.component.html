@@ -1,9 +1,14 @@
+<header>
+  <h1>Tours</h1>
+</header>
 <div class="main-container">
+  
   <div class="top-container">
-    <header>
-      <h1>Tours</h1>
-    </header>
+    
 
+    <div class="all">
+    <div class="prvi">
+    <div class="saleClass">
     <button mat-raised-button class="card-bottom-button" (click)="toggleSale()">Create Sale</button>
 
     <div *ngIf="showSaleCheckboxes" class="sale-form-container">
@@ -29,11 +34,10 @@
           The sale duration cannot exceed 14 days!
         </div>
 
-        <button type="submit" mat-raised-button [disabled]="!discount || dateError" color="accent">Create</button>
+        <button type="submit" class="submit1" mat-raised-button [disabled]="!discount || dateError" color="accent">Submit</button>
       </form>
     </div>
-  </div>
-</div>
+  
 
 <div class="tour-list-container" *ngIf="showSaleCheckboxes">
   <h2>Select Tours</h2>
@@ -43,8 +47,24 @@
     </mat-checkbox>
   </div>
 </div>
+</div>
+</div>
+</div>
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
+    Add Coupon for All Tours
+  </button>
+</div>
 
-<div class="content-container">
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
+    View all my coupons
+  </button>
+</div>
+
+</div>
+
+
   <div class="center-container">
     <div class="cards">
       <div class="card" *ngFor="let t of tours">
@@ -64,19 +84,23 @@
             </div>
 
             <div class="card-button-container">
+              <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 0" (click)="publishTour(t)">
+                <mat-icon>publish</mat-icon>
+              </button>
               <ng-container *ngIf="t.status === 2; else archiveButton">
                 <button mat-icon-button class="card-bottom-button" (click)="reactivateTour(t)">
                   <mat-icon>replay</mat-icon>
                 </button>
               </ng-container>
+              
               <ng-template #archiveButton>
                 <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 1" (click)="archiveTour(t)">
                   <mat-icon>archive</mat-icon>
                 </button>
               </ng-template>
 
-              <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
-              <button mat-raised-button class="card-bottom-button" (click)="viewTourDetails(t)">View</button>
+              
+              <button mat-raised-button class="card-bottom-button" id="viewButton" (click)="viewTourDetails(t)">View</button>
             </div>
           </div>
 
@@ -101,23 +125,14 @@
                   View Coupon
                 </button>
               </ng-template>
+              <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="add-coupon-all-container">
-      <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
-        Add Coupon for All Tours
-      </button>
-    </div>
-
-    <div class="view-all-container">
-      <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
-        View all my coupons
-      </button>
-    </div>
+    
 
     <!-- Overlay for coupon form -->
     <div class="overlay" *ngIf="shouldRenderCouponForm" (click)="closeCouponForm()">
@@ -140,5 +155,17 @@
         (close)="closeCouponView()"
       ></xp-coupon-view>
     </div>
+  </div>
+
+</div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
   </div>
 </div>

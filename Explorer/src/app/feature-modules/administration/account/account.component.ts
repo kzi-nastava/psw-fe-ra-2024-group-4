@@ -107,7 +107,7 @@ export class AccountComponent implements OnInit {
     this.service.updatePersonWallet(user).subscribe({
       next: (updatedUser) => {
         console.log('Wallet updated successfully:', updatedUser);
-        Swal.fire('Success!', `The wallet for ${updatedUser.name} has been updated to $${updatedUser.wallet}.`, 'success');
+        Swal.fire('Success!', `The wallet for ${updatedUser.name} has been updated to ${updatedUser.wallet} AC.`, 'success');
         this.ngOnInit();
       },
       error: (err) => {
@@ -120,7 +120,7 @@ export class AccountComponent implements OnInit {
   CreateNotification(userId: number, amount: number): void {
     const notification = {
       id: 0,
-      description: `You have been credited with $${amount} to your wallet`,
+      description: `You have been credited with ${amount} AC to your wallet`,
       creationTime: new Date(),
       isRead: false,
       notificationsType: 2,
@@ -145,7 +145,7 @@ export class AccountComponent implements OnInit {
     Swal.fire({
       title: 'Deposit Money',
       html: `
-        <p>Your current wallet balance is <strong>$${wlt}</strong>.</p>
+        <p>Your current wallet balance is <strong>${wlt} AC</strong>.</p>
         <label for="depositAmount">Enter deposit amount:</label>
         <input id="depositAmount" class="swal2-input" type="number" placeholder="Enter amount">
       `,
