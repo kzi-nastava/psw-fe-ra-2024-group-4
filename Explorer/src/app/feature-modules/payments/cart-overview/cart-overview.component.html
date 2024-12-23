@@ -46,51 +46,37 @@
         </mat-card-content>
       </mat-card>
       <div class="price-container">
-        <p><strong>{{ item.price }} $</strong></p>
+        <p><strong>{{ item.price }} AC</strong></p>
       </div>
     </div>
   </div>
-  <div class="chat-container">
-    <a (mouseenter)="toggleChat(true)" 
-      (mouseleave)="toggleChat(false)" class="fixed-circle">
-      ? 
-    </a>
-  
-    <div *ngIf="isChatOpen" class="chat-box">
-      <p>{{chatMessage}}</p>
-    </div>
-  
+
   <div class="cart-footer">
     <div class="footer-content">
-      <!-- Wallet i kupon -->
-      <div class="wallet-and-coupon">
-        <span class="wallet-price">Your wallet: {{ wallet }} $</span>
-        <div class="coupon-section">
-          <div *ngIf="!isCouponInputVisible; else couponForm">
-            <button mat-raised-button color="accent" class="toggle-coupon-button" (click)="toggleCouponInput()">
-              Do you have a coupon?
-            </button>
-          </div>
-          <ng-template #couponForm>
-            <div class="coupon-input-container-row">
-              <mat-form-field appearance="outline" class="coupon-input-field">
-                <mat-label>Coupon Code</mat-label>
-                <input matInput [(ngModel)]="promoCode" placeholder="Code" />
-              </mat-form-field>
-              <button mat-raised-button color="accent" class="apply-coupon-button" (click)="applyCoupon()">
-                Apply
-              </button>
-            </div>
-          </ng-template>
-        </div>
-      </div>
-  
-      <!-- Total price i checkout -->
-      <div class="total-and-checkout">
-        <span class="total-price">Total: {{ totalPrice }} $</span>
-        <button mat-raised-button class="checkout" color="accent" (click)="checkout()">Checkout</button>
-      </div>
+      <span class="wallet-price">Your wallet: {{ wallet }} $</span>
+      <span class="total-price">Total: {{ totalPrice }} $</span>
+      <div class="divider"></div> 
+      <button mat-raised-button class="checkout" color="accent" (click)="checkout()">BUY</button>
     </div>
+  </div>
+</div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
+
+  <div class="coupon-input">
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Coupon Code</mat-label>
+      <input matInput [(ngModel)]="promoCode" placeholder="Coupon Code">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="applyCoupon()">Apply Coupon</button>
   </div>
 
 
