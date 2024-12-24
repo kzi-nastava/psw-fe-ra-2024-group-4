@@ -28,7 +28,7 @@ export class ClubInvitationComponent {
   constructor(private service: AdministrationService, private authService: AuthService){}
 
   ngOnInit(): void {
-
+    this.fetchInvitations();
     this.authService.user$.subscribe((user) => {
       this.user = user; 
       console.log('PROVERA');
@@ -120,6 +120,7 @@ export class ClubInvitationComponent {
             next: () => {
               console.log('Invitation sent successfully!');
               this.refreshData();
+              this.fetchInvitations();
             },
             error: () => {
               console.error('Error sending invitation');
@@ -132,8 +133,16 @@ export class ClubInvitationComponent {
         // Učitaj listu članova za pozivanje
         this.service.getMembersForInvite(this.clubId).subscribe({
           next: (membersForInvite: Member[]) => {
-            this.membersForInvite = membersForInvite;
-            console.log('Updated members for invite:', membersForInvite);
+           // this.membersForInvite = membersForInvite;
+            //console.log('Updated members for invite:', membersForInvite);
+            if (membersForInvite.length === 0) {
+              console.warn('Members for invite list is empty.');
+            
+            } else {
+              this.membersForInvite = membersForInvite;
+              console.log('Updated members for invite:', membersForInvite);
+            }
+            this.fetchInvitations();
           },
           error: () => {
             console.error('Error refreshing members for invite');

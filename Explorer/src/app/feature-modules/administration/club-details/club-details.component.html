@@ -34,11 +34,12 @@
         <i class="fas fa-envelope-open-text"></i>  Invitations
       </button>
       <button 
-          class="custom-btn" >
-          <i class="fas fa-trophy"></i> Achievements
+          class="custom-btn" 
+          (click)="selectComponent('xp-club-posts')">
+          <i class="fas fa-comments"></i> Dashboard
         </button>
         <button 
-          class="custom-btn" >
+          class="custom-btn" *ngIf="currentUserId === club?.userId"   (click)="selectComponent('xp-club-join-request')"> 
           <i class="fas fa-user-check"></i> Join requests
         </button>
     </div>
@@ -57,7 +58,8 @@
       <xp-club-tour *ngIf="clubId !== null && selectedComponent === 'xp-club-tour'" [ownerId]="club?.userId ?? 0" [clubId]="clubId" [clubTags]="club?.tags ?? 0">
 
       </xp-club-tour>
-
+    <xp-club-posts *ngIf=" selectedComponent === 'xp-club-posts'" [clubId]="clubId ?? 0"></xp-club-posts>
+    <xp-club-join-request *ngIf=" selectedComponent === 'xp-club-join-request'" ></xp-club-join-request>
 
 
     </div>

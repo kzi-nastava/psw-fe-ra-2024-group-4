@@ -271,7 +271,7 @@
                       </div>
                     
                     
-                       <button class="tour-button" *ngIf="!isOwner" (click)="addToCart(ct)">Buy now</button>
+                       <button class="tour-button" *ngIf="!isOwner && !ct.isBought" (click)="addToCart(ct)">Buy now</button>
                     
                   </div>
                   <p class="tour-disclaimer"></p>

@@ -46,7 +46,8 @@ export class ClubTourComponent implements OnInit{
     tourId: 0,            // Postavite podrazumevane vrednosti
     date: new Date(),     // Postavite podrazumevanu vrednost za datum (danasnji datum)
     discount: 0,          // Postavite podrazumevanu vrednost za popust
-    touristIds: [],       // Postavite prazan niz za IDs turista
+    touristIds: [], 
+    isBought: false      // Postavite prazan niz za IDs turista
   };
   minDate: Date = new Date();
   selectedDate: Date | null = null;
@@ -490,63 +491,156 @@ export class ClubTourComponent implements OnInit{
       0
     );
   }
-  addToCart(clubTour: ClubTour): void {
-    if (!this.shoppingCart) {
-      // Ako korpa nije inicijalizovana, kreiraj je
-      this.getOrCreateCart(this.user?.id || -1);
-      return; // Sačekaj da se korpa inicijalizuje
-    }
+//   addToCart(clubTour: ClubTour): void {
+//     clubTour.isBought = true;
+//     if (!this.shoppingCart) {
+//       // Ako korpa nije inicijalizovana, kreiraj je
+//       this.getOrCreateCart(this.user?.id || -1);
+//       return; // Sačekaj da se korpa inicijalizuje
+//     }
   
-    const discountedPrice = clubTour.price && clubTour.discount 
+//     const discountedPrice = clubTour.price && clubTour.discount 
+//     ? clubTour.price - (clubTour.price * (clubTour.discount / 100))
+//     : clubTour.price || 0;
+
+//     const orderItem: OrderItem = {
+//       cartId: this.shoppingCart.id || -1,
+//       tourName: clubTour.title || '',
+//       price: discountedPrice,
+//       tourId: clubTour.tourId || -1,
+//       isBundle: false
+//     };
+  
+//     this.cartService.addToCart(orderItem).subscribe({
+//       next: () => {
+//        // alert('Club Tour successfully added to cart.');
+//         this.calculateTotalPrice();
+//         const currentCount = this.cartItemCount.value;
+//         this.cartItemCount.next(currentCount + 1);
+//         Swal.fire({
+//           title: 'Tour successfully purchased and added to cart!',
+//           text: 'What would you like to do next?',
+         
+//           showCancelButton: true,
+//           confirmButtonText: 'Go to Cart',
+//           cancelButtonText: 'Go Back to Club',
+//           reverseButtons: true,
+//           customClass: {
+//             popup: 'swal-popup',
+           
+//           },  willOpen: () => {
+//             // Dinamički postavljanje slike kao pozadinu pomoću stilova
+//             const imageUrl = this.getImage('plane.gif'); // Dinamički uzmi sliku
+//             document.querySelector('.swal-popup')!.setAttribute(
+//               'style',
+//               `background-image: url(${imageUrl}); background-size: cover; background-position: center;`
+//             );
+//           }
+//         }).then((result) => {
+//           if (result.isConfirmed) {
+//             // Navigacija do korpe
+//             this.router.navigate([`/cart`, this.shoppingCart.id]);
+//           } 
+//           // Ako je 'Cancel', ne radi ništa, samo zatvori modal
+//         });
+
+//       },
+//       error: () => alert('Error adding Club Tour to cart.')
+//     });
+
+// //OVO DODALA
+
+//     if (this.user) {
+//       // Dodaj ID korisnika u `touristIds` ako već nije prisutan
+//       if (!clubTour.touristIds.includes(this.user.id)) {
+//         clubTour.touristIds.push(this.user.id);
+//       }
+  
+//       // Pošalji ažurirani objekat na backend
+//       this.service.updateClubTour(clubTour).subscribe({
+//         next: (updatedClubTour) => {
+          
+//           this.getClubTours(); // Osveži listu tura
+//         },
+//         error: () => {
+//           console.error('Error updating tour');
+          
+//         }
+//       });
+//     }
+
+
+
+
+//   }
+  
+addToCart(clubTour: ClubTour): void {
+  clubTour.isBought = true;
+
+  if (!this.shoppingCart) {
+    this.getOrCreateCart(this.user?.id || -1);
+    return;
+  }
+
+  const discountedPrice = clubTour.price && clubTour.discount 
     ? clubTour.price - (clubTour.price * (clubTour.discount / 100))
     : clubTour.price || 0;
 
-    const orderItem: OrderItem = {
-      cartId: this.shoppingCart.id || -1,
-      tourName: clubTour.title || '',
-      price: discountedPrice,
-      tourId: clubTour.tourId || -1,
-      isBundle: false
-    };
-  
-    this.cartService.addToCart(orderItem).subscribe({
-      next: () => {
-       // alert('Club Tour successfully added to cart.');
-        this.calculateTotalPrice();
-        const currentCount = this.cartItemCount.value;
-        this.cartItemCount.next(currentCount + 1);
-        Swal.fire({
-          title: 'Tour successfully purchased and added to cart!',
-          text: 'What would you like to do next?',
-         
-          showCancelButton: true,
-          confirmButtonText: 'Go to Cart',
-          cancelButtonText: 'Go Back to Club',
-          reverseButtons: true,
-          customClass: {
-            popup: 'swal-popup',
-           
-          },  willOpen: () => {
-            // Dinamički postavljanje slike kao pozadinu pomoću stilova
-            const imageUrl = this.getImage('plane.gif'); // Dinamički uzmi sliku
-            document.querySelector('.swal-popup')!.setAttribute(
-              'style',
-              `background-image: url(${imageUrl}); background-size: cover; background-position: center;`
-            );
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Navigacija do korpe
-            this.router.navigate([`/cart`, this.shoppingCart.id]);
-          } 
-          // Ako je 'Cancel', ne radi ništa, samo zatvori modal
-        });
+  const orderItem: OrderItem = {
+    cartId: this.shoppingCart.id || -1,
+    tourName: clubTour.title || '',
+    price: discountedPrice,
+    tourId: clubTour.tourId || -1,
+    isBundle: false
+  };
 
+  this.cartService.addToCart(orderItem).subscribe({
+    next: () => {
+      this.calculateTotalPrice();
+      const currentCount = this.cartItemCount.value;
+      this.cartItemCount.next(currentCount + 1);
+
+      Swal.fire({
+        title: 'Tour successfully purchased and added to cart!',
+        text: 'What would you like to do next?',
+        showCancelButton: true,
+        confirmButtonText: 'Go to Cart',
+        cancelButtonText: 'Go Back to Club',
+        reverseButtons: true,
+        customClass: {
+          popup: 'swal-popup',
+        },
+        willOpen: () => {
+          const imageUrl = this.getImage('plane.gif');
+          document.querySelector('.swal-popup')!.setAttribute(
+            'style',
+            `background-image: url(${imageUrl}); background-size: cover; background-position: center;`
+          );
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate([`/cart`, this.shoppingCart.id]);
+        }
+      });
+    },
+    error: () => alert('Error adding Club Tour to cart.')
+  });
+
+  if (this.user) {
+    if (!clubTour.touristIds.includes(this.user.id)) {
+      clubTour.touristIds.push(this.user.id);
+    }
+
+    this.service.updateClubTour(clubTour).subscribe({
+      next: () => {
+        this.clubTours = this.clubTours.map((tour) =>
+          tour.tourId === clubTour.tourId ? { ...tour, isBought: true } : tour
+        );
       },
-      error: () => alert('Error adding Club Tour to cart.')
+      error: () => console.error('Error updating tour')
     });
   }
-  
+}
 
 
 }

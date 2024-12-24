@@ -12,4 +12,5 @@ export interface ClubTour{
     difficulty?: string;
     tags?: string[]; 
     lengthInKm?: number;
+    isBought?: boolean ;
 }

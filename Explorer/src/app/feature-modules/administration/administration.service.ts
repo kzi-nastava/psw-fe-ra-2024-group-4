@@ -294,5 +294,12 @@ export class AdministrationService {
     return this.http.post<ClubMember>(environment.apiHost + 'clubMember', clubMember);
   }
   
+
+
+
+  updateClubTour(clubTour: ClubTour): Observable<ClubTour> {
+    return this.http.put<ClubTour>(environment.apiHost+`clubTour/${clubTour.id}`, clubTour);
+  }
+  
 }
 

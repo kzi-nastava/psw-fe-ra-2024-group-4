@@ -36,6 +36,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ClubPostsComponent } from './club-posts/club-posts.component';
 @NgModule({
   declarations: [
     EquipmentFormComponent,
@@ -53,6 +54,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ClubMembersComponent,
     EncounterPublicStatusRequestComponent,
     ClubTourComponent,
+    ClubPostsComponent,
   ],
   imports: [
     CommonModule,
