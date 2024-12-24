@@ -11,12 +11,18 @@ import { PurchaseService } from '../tour-authoring/tour-purchase-token.service';
 export class SalesService {
 
   private apiUrl = environment.apiHost + 'author/sales';
+  private apiUrl2 = environment.apiHost + 'tourist/sales';
 
   constructor(private http: HttpClient, private purchaseService: PurchaseService) { }
 
   getSales(userId: number): Observable<Sale[]> {
     const params = new HttpParams().set('userId', userId.toString()); 
     return this.http.get<Sale[]>(this.apiUrl, { params }); 
+  }
+
+  //dobavljanje svih sale za turistu 
+  getSalesForTourist(): Observable<Sale[]> { 
+    return this.http.get<Sale[]>(this.apiUrl2); 
   }
 
   createSale(sale: Sale): Observable<Sale> {
