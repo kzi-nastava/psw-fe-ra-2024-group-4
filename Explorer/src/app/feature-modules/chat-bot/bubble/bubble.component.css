@@ -10,6 +10,7 @@
     border-width: 5px;
     border: 1px solid #ef7ad9;
     
+    
   }
   
   .chatbot-bubble::before {
@@ -29,5 +30,9 @@
 
   .chatbot-bubble p {
     font-size: large;
+    
   }
+
+  
+
 

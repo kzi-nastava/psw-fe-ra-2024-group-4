@@ -19,11 +19,22 @@ export class ChatBotComponent implements OnInit {
   message: Message;
   currentQuestion: string;
 
-  constructor(private service: ChatBotService, private authService: AuthService){}
+  soundOn: boolean;
+
+  speaker: SpeechSynthesisUtterance;
+
+  constructor(private service: ChatBotService, private authService: AuthService){
+    this.speaker = new SpeechSynthesisUtterance();
+    this.speaker.lang = 'en-US';
+  }
   ngOnInit(): void {
+
+    this.soundOn = false;
 
     this.getQuestions("ROOT");   
     this.answer = "Hi, how can I help you?";
+
+    this.playSound(this.answer);
     this.currentQuestion = "Welcome to the Chatbot"
     this.currentTag = "ROOT";
     this.authService.user$.subscribe((user) => {
@@ -47,6 +58,7 @@ export class ChatBotComponent implements OnInit {
           this.answer = result.message;
           this.currentQuestion = question;
           this.showNextSet(question);
+          this.playSound(this.answer);
         
         },
         error: (err: any) => {
@@ -125,6 +137,29 @@ export class ChatBotComponent implements OnInit {
       }
      })
     
+  }
+
+  toggleSound()
+  {
+     
+    this.soundOn = !this.soundOn;
+
+    if(this.soundOn == false)
+      window.speechSynthesis.cancel();
+    else
+      this.playSound(this.answer);
+
+  }
+
+  playSound(answer: string)
+  {
+
+    if(this.soundOn)
+    {
+      this.speaker.text = answer;
+      window.speechSynthesis.speak(this.speaker);
+    }
+
   }
 
 }
