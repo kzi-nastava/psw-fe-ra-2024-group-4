@@ -1,0 +1,38 @@
+.chatbot-bubble {
+    position: fixed;
+    margin-top: 3vh;
+    width: 20vh;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    border-width: #4b464a;
+    border-width: 5px;
+    border: 1px solid #ef7ad9;
+    
+    
+  }
+  
+  .chatbot-bubble::before {
+    position: absolute;
+    content: "";
+    top: 1vh;
+    left: -1.7vh;
+    width: 3.5vh;
+    height: 3.5vh;
+    background-color: #fff;
+    border-left: 1px solid #ef7ad9;
+    border-bottom: 1px solid #ef7ad9;
+    transform: rotate(45deg);
+    z-index: -1;
+    
+  }
+
+  .chatbot-bubble p {
+    font-size: large;
+    
+  }
+
+  
+
+

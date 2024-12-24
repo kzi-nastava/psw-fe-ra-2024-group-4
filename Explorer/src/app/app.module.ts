@@ -32,6 +32,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentsModule } from './feature-modules/payments/payments.module';
+import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { PaymentsModule } from './feature-modules/payments/payments.module';
     MatSnackBarModule,
     EncounterModule,
     MatSlideToggleModule,
-    PaymentsModule
+    PaymentsModule,
+    ChatBotModule
   ],
   providers: [
     {
