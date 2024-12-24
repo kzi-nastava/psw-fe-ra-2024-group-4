@@ -1,49 +1,58 @@
 <h1>My Objects</h1>
-<div class="myobjects-container">
-    <table class="objects-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Category</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of objects">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.image }}</td>
-                <td>{{ item.category }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.publicStatus}}</td>
-                <td>
-                    <button mat-button (click)="editObject(item)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
-    <xp-object-form [latitude]="selectedLatitude" 
-                    [longitude]="selectedLongitude"
-                    (objectCreated)="getObjects()"
-                    [objectToEdit]="selectedObject"></xp-object-form>
-</div>
 <div class="map-container">
     <xp-map 
+    (mousedown)="onMouseDown($event)"
+    (mouseup)="onMouseUp($event)"
     (latitudeChanged)="updateLatitude($event)" 
     (longitudeChanged)="updateLongitude($event)"
-    [objects] = 'objects' 
+    [selectedObjectPoints] = 'objects' 
     [registeringObject]="true">
     </xp-map>
+</div>
+<!-- Floating form container -->
+<div
+  class="form-map-container"
+  *ngIf="isFormVisible"
+  [ngStyle]="{ top: y + 'px', left: x + 'px' }"
+>
+  <form [formGroup]="objectForm" class="keypoint-form-div">
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" />
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Category -->
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category" required>
+        <mat-option value="WC">WC</mat-option>
+        <mat-option value="Restaurant">Restaurant</mat-option>
+        <mat-option value="Parking">Parking</mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Submit button -->
+    <button
+      mat-raised-button
+      type="submit"
+      color="accent"
+      (click)="createObject()"
+    >
+      Create Object
+    </button>
+  </form>
 </div>

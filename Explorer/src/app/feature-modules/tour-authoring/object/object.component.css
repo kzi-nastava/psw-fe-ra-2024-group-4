@@ -1,47 +1,62 @@
-table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+.map-container {
+    width: 100%;
+    height: 100vh;   /* Fill the full viewport height */
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+xp-map {
+    width: 100%;
+    height: 100%;
+}
+:host ::ng-deep .map-frame > div {
+    height: 80vh !important;
 }
 
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
-
-.mykeypoints-container{
-    margin-top: 2vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4%;
-}
-
-.keypoint-form-div{
+/* The floating container that wraps the form. */
+.form-map-container {
+    position: absolute;
     display: flex;
     flex-direction: column;
-}
+    align-items: center;
+    width: fit-content;
+    background-color: #ffffff;
+    margin-bottom: 2vh; /* or as needed */
+    z-index: 1000;     /* so it appears above the map */
+    opacity: 0.9;
+  }
+  
+  /* The actual form area */
+  .keypoint-form-div {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(253, 247, 239);
+    padding: 2%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    opacity: 0.9; /* slight transparency if you want */
+  }
+  
+  /* The container for the map, full width. 
+     Adjust height as you wish (e.g., 90vh) */
+  .map-container {
+    width: 100%;
+    height: 85vh; 
+    position: relative;
+    /* If you need it fullscreen, you can do 100vh 
+       and remove other body margins, etc. */
+  }
+  
+  /* Example to override Leaflet container if needed: */
+  ::ng-deep .edit-map #map {
+    width: 100%;
+    height: 85vh !important;
+  }
+  
+  
+  
