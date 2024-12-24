@@ -47,7 +47,13 @@ export class InfoComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
-          alert("There was an error while loading your profile information. Please try again later.");
+          Swal.fire({
+            icon: 'error', 
+            title: 'Error Loading Profile',
+            text: 'There was an error while loading your profile information. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
 
         }
       });
@@ -60,12 +66,23 @@ export class InfoComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
-          alert("There was an error while loading your profile information. Please try again later.");
+          Swal.fire({
+            icon: 'error', 
+            title: 'Error Loading Profile',
+            text: 'There was an error while loading your profile information. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
 
         }
       });
     } else {
-      alert("There was an error while loading your profile information. Please try again later.");
+      Swal.fire({
+        icon: 'error', 
+        title: 'Error Loading Profile',
+        text: 'There was an error while loading your profile information. Please try again later.',
+        confirmButtonText: 'OK' 
+      });
 
     }
     

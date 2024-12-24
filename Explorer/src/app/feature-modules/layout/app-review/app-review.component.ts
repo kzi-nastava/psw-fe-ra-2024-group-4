@@ -5,6 +5,8 @@ import { LayoutService } from '../layout.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'xp-app-review',
@@ -44,7 +46,7 @@ export class AppReviewComponent implements OnInit, OnChanges {
 
   loadAppReview(): void {
     if (!this.user) {
-      alert('You must be logged in.');
+      Swal.fire('Error', 'You must be logged in.', 'error');
       return;
     }
 
@@ -98,7 +100,7 @@ export class AppReviewComponent implements OnInit, OnChanges {
 
   addReview(): void {
     if (!this.user) {
-      alert('You must be logged in.');
+      Swal.fire('Error', 'You must be logged in.', 'error');
       return;
     }
 
@@ -139,7 +141,7 @@ export class AppReviewComponent implements OnInit, OnChanges {
 
   editReview(): void {
     if (!this.user) {
-      alert('You must be logged in.');
+      Swal.fire('Error', 'You must be logged in.', 'error');
       return;
     }
 

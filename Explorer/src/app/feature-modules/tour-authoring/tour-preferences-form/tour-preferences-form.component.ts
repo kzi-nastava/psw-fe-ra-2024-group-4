@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TourPreferenceService } from '../tour-preference.service';
 import { TourPreference } from '../../../shared/model/tour-preference.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -88,7 +89,15 @@ export class TourPreferencesFormComponent implements OnInit {
 
       this.tourPreferenceService.savePreference(tourPreference).subscribe({
         next: () => {
-          alert('Tour preference saved successfully!');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Tour preference saved successfully!',
+            showConfirmButton: true, // Prikazuje dugme za potvrdu
+            confirmButtonText: 'Close', // Tekst na dugmetu
+            position: 'center', // Pozicija obaveštenja
+          });
+          
           this.router.navigate(['tour-preferences']);
         },
         error: (err) => {

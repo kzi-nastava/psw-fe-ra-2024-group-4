@@ -12,6 +12,7 @@ import { TourService } from '../../tour-authoring/tour.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from '@angular/router';
 import { Notification } from '../../administration/model/notifications.model';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -197,7 +198,12 @@ export class ProblemTicketComponent implements OnInit {
     this.isModalOpen = true;
 
     if (!this.hasAuthorComment()) {
-      alert('You cannot close this problem! Author must first add a comment before closing the issue.');
+      Swal.fire({
+        icon: 'error', 
+        title: 'Action Denied',
+        text: 'You cannot close this problem! Author must first add a comment before closing the issue.',
+      });
+      
       this.isModalOpen = false;
       return;
   }

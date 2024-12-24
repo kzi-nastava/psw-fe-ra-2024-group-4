@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Encounter, EncounterType } from 'src/app/feature-modules/encounters/model/encounter.model';
 import { AdministrationService } from '../../administration.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-encounter-public-status-request',
@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EncounterPublicStatusRequestComponent {
   encounters: Encounter[] = [];
 
-  constructor(private service: AdministrationService,private snackBar: MatSnackBar){}
+  constructor(private service: AdministrationService){}
 
   ngOnInit(): void{
     this.getPendingEncounters();
@@ -35,11 +35,11 @@ export class EncounterPublicStatusRequestComponent {
       next: (response) => {
         console.log(response.Message);
         this.encounters = this.encounters.filter(encounter => encounter.id !== id);
-        this.showSnackbar('Encounter successfully approved!', 'Close'); // Show snackbar
+        this.showSwal('Success', 'Encounter successfully approved!', 'success'); 
       },
       error: (err) => {
         console.error('Error approving encounter:', err);
-        this.showSnackbar('Error approving encounter', 'Close'); // Show snackbar for error
+        this.showSwal('Error', 'Error approving encounter', 'error');
       }
     });
   }
@@ -49,20 +49,22 @@ export class EncounterPublicStatusRequestComponent {
       next: (response) => {
         console.log(response.Message);
         this.encounters = this.encounters.filter(encounter => encounter.id !== id);
-        this.showSnackbar('Encounter successfully rejected!', 'Close'); // Show snackbar
+        this.showSwal('Success', 'Encounter successfully rejected!', 'success');
       },
       error: (err) => {
         console.error('Error rejecting encounter', err);
-        this.showSnackbar('Error rejecting encounter', 'Close'); // Show snackbar for error
+        this.showSwal('Error', 'Error rejecting encounter', 'error'); 
       }
     });
   }
 
-  private showSnackbar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 3000, // Snackbar duration in milliseconds
-      verticalPosition: 'bottom', // Position at the bottom
-      horizontalPosition: 'center' // Center align horizontally
+  private showSwal(title: string, text: string, icon: 'success' | 'error' | 'warning' | 'info') {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      confirmButtonText: 'OK',
+      heightAuto: false // Sprečava automatsko menjanje visine
     });
   }
 }
