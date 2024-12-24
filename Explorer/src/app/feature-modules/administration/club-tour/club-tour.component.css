@@ -76,6 +76,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   font-size: 14px;
+  height: 100%;
 }
 .organize-tour-tour-list{
   position: absolute;
@@ -162,10 +163,13 @@ body {
   }
   
   .tour-image {
-    width: 200px;
+    width: 250px;
     object-fit: cover;
   }
-  
+  .tour-difficulty-span{
+    font-size: 1.25em;
+
+  }
   .tour-content {
     padding: 20px;
     display: flex;
@@ -186,11 +190,21 @@ body {
     font-style:unset;
   }
   
-  .tour-info {
+  .tour-info,.tour-info2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 15px 0;
+  }
+  .tour-info2{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    bottom: -15%;
+    margin: 15px 0;
+
   }
   
   .tour-price {
@@ -201,6 +215,7 @@ body {
   
   .tour-reviews {
     margin-top: 5px;
+    margin-bottom: 5px;
     color: #6c757d;
     font-size: 12px;
   }
@@ -226,8 +241,8 @@ body {
     justify-content: center; /* Centriranje teksta horizontalno */
     align-items: center;
     cursor: pointer;
-    height: 30px;
-    width: 100px;
+    height: 35px;
+    width: 85px;
     transition: background-color 0.3s ease;
   }
   
@@ -560,6 +575,13 @@ mat-form-field.readonly-input input[readonly]:focus {
 
 }
 
+.select-button{
+  background-color: #a36484;
+  color: white;
+  position:relative;
+  margin: 0 0% 0% auto; /* Gura dugme ka desnom uglu */
+  display: block; /* Da se margin pravilno primeni */
+}
   
   
 

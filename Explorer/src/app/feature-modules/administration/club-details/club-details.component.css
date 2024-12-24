@@ -1,23 +1,26 @@
 
-.containeR-member {
+.container-member {
   display: flex;
  /* height: 100vh; */
- height: auto;
-  align-items: flex-start; 
+  height: auto;
   margin: 0; 
+  width: 100%;
+  overflow: hidden;
 }
 .right-panel {
   width: 80%;
+  max-width: 80%;
  /* height: 100%;*/
   background-color: #ffffff;
  /* overflow-y: auto; 
   scrollbar-width: none;*/
-  overflow-y: visible;
+  overflow: hidden;
 }
 .left-panel {
   width: 20%;
   background-color: rgb(232, 212, 246);
  /* height: 5000000000%;*/
+  min-height: 100vh;
 }
 /*p {
   width: 300px; 

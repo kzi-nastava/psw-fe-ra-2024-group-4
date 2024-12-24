@@ -5,6 +5,7 @@ import { AdministrationService } from '../administration.service';
 import { environment } from 'src/env/environment';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { ClubMember } from '../model/club-member.model';
 
 @Component({
   selector: 'xp-club-members',
@@ -13,6 +14,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 })
 export class ClubMembersComponent implements OnInit{
   members: Member[] = [];
+  clubOwner: Member | null = null;
   @Input() clubId!: number; 
   @Input() ownerId!: number; 
   userId: number;
@@ -21,6 +23,7 @@ export class ClubMembersComponent implements OnInit{
   chatMessage: string = "Manage your clubs effortlessly! View all members, view tours that you can buy for great price, win xp and much more!";
   user: User | null = null;
   currentUserId: number | null = null;
+  memberBackgrounds: { [key: number]: string } = {};
 
   constructor(private route: ActivatedRoute, private service: AdministrationService,private authService: AuthService) {}
 
@@ -36,6 +39,26 @@ export class ClubMembersComponent implements OnInit{
     next: (members: Member[]) => { 
       console.log('Members:', members);
       this.members = members;
+      this.clubOwner = this.members.find(m => m.id===this.ownerId) || null;
+      this.members.forEach(member => {
+        this.service.getClubMemberById(member.id).subscribe({
+          next: (response: ClubMember) => {
+            // Postavi quizImage u memberBackgrounds mapi sa ID-em kao ključem
+            if (response.quizImage) {
+              this.memberBackgrounds[member.id] = response.quizImage;
+              console.log('added bg');
+            }
+            else{
+
+            }
+          },
+          error: (err) => {
+            console.error(`Error fetching banner for member ${member.id}:`, err);
+            this.memberBackgrounds[member.id] = "images/clubMembers/background-placeholder.png";
+            console.log('error bg');
+          }
+        });
+      });
     },
     error: () => {
       this.errorMessage = 'Error fetching members.'; 

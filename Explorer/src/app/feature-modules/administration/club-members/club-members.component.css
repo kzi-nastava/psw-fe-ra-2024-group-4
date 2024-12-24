@@ -3,28 +3,28 @@
   font-family: 'Arial', sans-serif; /* Elegantan sans-serif font */
   font-size: 2rem; /* Veći i istaknutiji naslov */
   font-weight: bold; /* Podebljan tekst */
-  color: #a36484; /* Tamnoplava boja za ozbiljan ton */
+  color: #111; /* Tamnoplava boja za ozbiljan ton */
   text-align: left; /* Naslov centriran na sredini */
   margin-top: 20px; /* Razmak iznad naslova */
   margin-bottom: 10px; /* Razmak ispod naslova */
-  text-transform: uppercase; /* Sva slova velikim slovima */
+  /*text-transform: uppercase;  Sva slova velikim slovima */
   letter-spacing: 1.5px; /* Proširenje slova za bolji efekat */
   margin-left: 10px;
 }
-.header {
-  display: flex;
-  justify-content:flex-start;
-  align-items: left;
-  margin-bottom: 20px;
-  margin-left: -520px;
-  margin-right: 20px;
+.members-icon {
+  height: 40px;
+  font-size: 36px;
+  vertical-align: middle;
+  /* margin-right: 20px; */
+  margin-left: 10px;
+  width: 40px;
+  color: #111;
 }
-
 .club-members-description {
   font-family: 'Georgia', serif; /* Klasičan serif font za opis */
   font-size: 1rem; /* Nešto manja veličina teksta od naslova */
   font-style: italic; /* Italik za sofisticiran izgled */
-  color: #34495e; /* Tamno siva boja za dobar kontrast */
+  color: #222; /* Tamno siva boja za dobar kontrast */
   text-align: center; /* Celo poravnanje centrirano */
   line-height: 1.6; /* Veći razmak između redova za lakše čitanje */
   margin-top: 25px; /* Uklanjanje nepotrebnog razmaka iznad */
@@ -54,7 +54,6 @@
     transition: box-shadow 0.3s ease;
 }
 .owner-text {
-  font-weight: bold;
   color: darkorchid; /* ili neka druga boja */
   font-size: 14px;
 }
@@ -82,7 +81,21 @@
   overflow-y: visible;
   margin-bottom: 250px;
 } */
-
+.owner-contact{
+  background-color: #ffffff;
+  font-family: Roboto;
+  display:flex;
+  flex-direction: column;
+  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-size: 1.1em;
+}
+.owner-contact-mail{
+  position: relative;
+  top: 25%;
+}
 
 
 
@@ -128,18 +141,18 @@
 
 /* Dugme za uklanjanje člana */
 .remove-button {
-  background-color:  rgb(192, 153, 218);
+  background-color:  #a36484;
   color: white;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
-  margin-top: 10px;
-  margin-left: 50px;
+  margin-top: 15px;
+  margin-left: 105px;
 }
 
 .remove-button:hover {
-  background-color:  rgb(172, 86, 230);  
+
 }
 
 
@@ -223,14 +236,19 @@
  .members-container { 
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   gap: 20px;
-  justify-content: center;
-  width: 100%;
+  width: calc(96% - 40px);
+  left:2%;
+  background-color: #f9f9f9;
   padding: 20px;
   min-height: 800px; 
+  border-radius: 0 0px 15px 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   
 } 
-
+ /*                                                 poslednji dajanin
  .card {
   width: 230px; 
   height: 320px;
@@ -239,7 +257,7 @@
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px; 
-}  
+}                                                */
 
 
 
@@ -300,7 +318,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }*/
 
-.cover-photo {
+/* .cover-photo {
   background: url(https://i.imgur.com/jxyuizJ.jpeg);
   background-size: cover;
   height: 120px;
@@ -359,4 +377,277 @@
   display: flex;
   align-items: center;
   position: center;
-} 
+}  */
+
+
+
+
+
+
+/* XDDDDDDDD */
+.main{
+  width: 100%;
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+}
+
+.owner-container{
+  width: 100%;
+  height: auto;
+  margin-top: 2%;
+  background-color: #7ce3ff;
+  justify-content: center;
+}
+.owner-section {
+  width: calc(96% - 40px);
+  margin-top: 2%;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-left: 2%;
+  margin-right: 2%;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  position: relative;
+  margin-top: 25px;
+  justify-content:flex-start;
+  align-items: left;
+  background-color: rgb(146, 122, 163);
+  left:2%;
+  width: 96%;
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+
+.owner-pfp-placeholder,
+.owner-pfp2-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: #ddd;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #555;
+}
+
+.owner-pfp2-placeholder {
+  width: 450px;
+  height: 100%;
+  background: url(https://i.imgur.com/jxyuizJ.jpeg);
+}
+
+.owner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.owner-info {
+  flex: 1;
+  display: flex;
+  height: 260px;
+  flex-direction: column;
+  margin: 0 20px;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e8d4f6;
+}
+.owner-main, .owner-secondary{
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e8d4f6;
+  height: 260px;
+}
+
+.owner-name {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0;
+  color: #523d77;
+  text-align: left;
+}
+
+.owner-text {
+  font-size: 1rem;
+  height: 45%;
+  max-height: 45%;
+  line-height: 1.3;
+  font-style: italic;
+  color: #6b5a77;
+  text-align: left;
+  background-color: #f5e8fc;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #e8d4f6;
+  overflow-y: auto;
+  font-weight: 500;
+}
+.owner-motto {
+  font-size: 1rem;
+  font-style: italic;
+  color: #6b5a77;
+  font-weight:900;
+}
+
+
+.highlighted-section {
+  background-color: #e8d4f6;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #c8a5df;
+  text-align: left;
+  height: 18%;
+}
+
+.highlighted-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #523d77;
+}
+
+
+.owner-email {
+  font-size: 1rem;
+  color: #523d77;
+  margin: 5px 0;
+  text-decoration: underline;
+}
+
+.highlighted-div {
+  text-align: center;
+  padding: 10px;
+  background-color: #ffd700;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.highlighted-div h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+.card {
+  padding: 10px;
+  width: 213.33px;
+  height: 316.67px;
+  background: #ffffff;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 3.33px 6.67px rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+
+.cover-photo {
+  position: relative;
+  background-size: cover;
+  height: 120px;
+  border-radius: 11.67px 11.67px 0 0;
+}
+
+.profile {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  bottom: -40px;
+  left: 10px;
+  border-radius: 50%;
+  border: 1.33px solid #ffffff;
+  background: #ffffff;
+  padding: 3.33px;
+}
+
+.profile-name {
+  font-size: 15px;
+  margin: 5.67px 0 10px 95px;
+
+  font-weight: 900;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-card-name{
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.about {
+  margin-top: 10px;
+  font-style: italic;
+  line-height: 1.6;
+}
+.user-card-about{
+  background-color: #ffffff;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items:flex-start;
+  padding-left: 5px;
+  padding-right: 5px;
+  bottom: 0%;
+  height: 32%;
+  max-height: 32%;
+  overflow: hidden;
+}
+
+.btn {
+  margin: 20px 10px;
+  background: #7ce3ff;
+  padding: 6.67px 16.67px;
+  border-radius: 2px;
+  border: 0.67px solid #7ce3ff;
+  font-weight: bold;
+  font-family: Montserrat;
+  cursor: pointer;
+  color: #222;
+  transition: 0.2s;
+}
+
+.btn:last-of-type {
+  background: transparent;
+  border-color: #7ce3ff;
+  color: #7ce3ff;
+}
+
+.btn:hover {
+  background: #7ce3ff;
+  color: #222;
+}
+
+.icons {
+  width: 120px;
+  margin: 0 auto 6.67px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.icons i {
+  cursor: pointer;
+  padding: 3.33px;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.icons i:hover {
+  color: #7ce3ff;
+}

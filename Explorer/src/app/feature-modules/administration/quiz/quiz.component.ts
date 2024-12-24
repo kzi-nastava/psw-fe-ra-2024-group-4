@@ -662,7 +662,7 @@ export class QuizComponent implements AfterViewInit {
           imgWindow?.document.write('<img src="' + croppedImgData + '" />');
           console.log(croppedImgData); // Prikaz u konzoli
           this.imageBase64 = croppedImgData;
-          //this.addClubMemberBannerImage();
+          this.addClubMemberBannerImage();
           // Ili, ako želiš da je sačuvaš kao fajl:
           // const link = document.createElement('a');
           // link.href = croppedImgData;

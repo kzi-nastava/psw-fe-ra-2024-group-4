@@ -293,6 +293,9 @@ export class AdministrationService {
   addClubMemberBannerImage(clubMember: ClubMember): Observable<ClubMember>{
     return this.http.post<ClubMember>(environment.apiHost + 'clubMember', clubMember);
   }
+  getClubMemberById(id: number): Observable<ClubMember> {
+    return this.http.get<ClubMember>(`${environment.apiHost}clubMember/${id}`);
+  }
   
 
 
