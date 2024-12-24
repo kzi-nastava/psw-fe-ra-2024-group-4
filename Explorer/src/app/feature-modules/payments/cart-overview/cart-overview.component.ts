@@ -337,7 +337,10 @@ refreshTourDetails(): void {
                         this.cartService.createToken(this.purchaseToken).subscribe({
                           next: (result: TourPurchaseToken) => {
                             this.loadUserWallet(this.userId || -1);
-                            Swal.fire('Success', 'Created token!', 'success');
+                            Swal.fire('Success', 'Tour added to your tours!', 'success').then(() => {
+                              // Preusmeravanje na stranicu "My Tours"
+                              this.router.navigate(['/purchased-tours']);
+                            });
         
                           },
                           error: (err: any) => {
@@ -373,7 +376,7 @@ refreshTourDetails(): void {
                   
                   this.cartService.createToken(this.purchaseToken).subscribe({
                     next: (result: TourPurchaseToken) => {
-                      Swal.fire('Success', 'Created token!', 'success');
+                      Swal.fire('Success', 'Created token! Tour added to your tours!', 'success');
   
                     },
                     error: (err: any) => {

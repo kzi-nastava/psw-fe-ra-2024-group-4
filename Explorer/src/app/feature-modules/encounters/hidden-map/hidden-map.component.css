@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+xp-map {
+    height: 50vh;
+    width: 50vw;
+    margin-bottom: 2vh;
+}
