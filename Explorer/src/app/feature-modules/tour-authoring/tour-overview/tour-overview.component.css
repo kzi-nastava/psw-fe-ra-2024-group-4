@@ -7,6 +7,11 @@ mat-card-content {
     overflow: auto;
 }
 
+.all {
+    display: flex; /* Enables flexbox layout */
+    gap: 10px; /* Optional: Adds space between the divs */
+}  
+
 
 
 :host ::ng-deep mat-card-subtitle {
@@ -44,7 +49,7 @@ mdc-evolution-chip__text-label mat-mdc-chip-action-label{
     margin-top: 30px;
     display: flex;
     justify-content: right;
-    margin-right: 50px;
+    margin-right: 10vh;
 }
 button[mat-icon-button] {
     /*position: relative; 
@@ -239,7 +244,7 @@ button[mat-icon-button] mat-icon {
   /* Center container */
   .center-container {
     width: 60%;
-
+    margin-left: 10vh;
    
   }
   

@@ -4,7 +4,7 @@
 <div id="account">
     <div class="filters-container">
         <div class="filters">
-            <p class="find">Find account</p>
+            <h2 class="find" style="font-size: 18px;">Find Account</h2>
             <mat-form-field>
                 <mat-label>Username</mat-label>
                 <input placeholder="Username or email" matInput type="text" [(ngModel)]="searchQuery" (input)="filterAccounts()"/>
@@ -27,6 +27,7 @@
             <p><strong>Email:</strong> {{ ac.email }}</p>
             <p><strong>Is Active:</strong> {{ ac.isActive ? 'Yes' : 'No' }}</p>
             <p *ngIf="ac.role === 'Tourist'" ><strong>Wallet:</strong> {{ ac.wallet }} AC</p>
+            <p *ngIf="ac.role !== 'Tourist'" ><strong>Wallet:</strong> None</p>
             <div>
             <button color="accent" *ngIf="ac.role === 'Tourist'" (click)="openDepositModal(ac.wallet || 0, ac.id)">Deposit money</button>
             <button 
@@ -39,3 +40,13 @@
         </div>
     </div>
 </div>
+<div  class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>
