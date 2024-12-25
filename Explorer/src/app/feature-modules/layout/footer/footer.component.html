@@ -9,6 +9,10 @@
                 <mat-icon>star</mat-icon>
                 <span>Rate Us</span>
             </a>
+            <a href="/appReviews" *ngIf="user && (user.role === 'administrator')" class="footer-icon">
+                <mat-icon>star</mat-icon>
+                <span>App Reviews</span>
+            </a>
             <a href="/quiz" *ngIf="user && (user.role==='tourist')" class="footer-icon">
                 <mat-icon>quiz</mat-icon>
                 <span>Quiz</span>
