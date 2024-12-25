@@ -1,6 +1,35 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
+} */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  color: black;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  z-index: 10;
+  position: relative; 
+  /* background: linear-gradient(to bottom, rgb(241, 226, 251), rgb(253, 248, 255));
+  border-top: 2px solid rgb(233, 200, 255); */
 }
 
 .header {
@@ -67,6 +96,3 @@ body {
   border-bottom: 1px solid #ef7ad9;
   transform: rotate(-45deg);
 }
-
-
-
