@@ -53,7 +53,7 @@
 .club-info h3 {
   margin: 0;
   font-size: 1.25rem;
-  color: #007bff;
+  color: #333;
 }
 
 .club-info p {
@@ -63,9 +63,11 @@
 }
 
 .club_h1 {
-  color: #007bff;
-  font-size: 2.5rem;
+  color: #333;
+  font-size: 2.2rem;
   display: inline; 
+  font-weight:400px;
+  font-family: 'Poppins', 'serif';
 }
 
 .club-image-container {
@@ -109,6 +111,7 @@
     border-radius: 5px; 
     cursor: pointer; 
 }
+
 .cancel-button{
     align-self: flex-end; 
     background-color: rgb(245, 108, 108); 
@@ -375,16 +378,16 @@
   display: flex;
 }
 
-/* Left side container */
+/* Left side container
 .left-side-container {
   flex: 0 0 15%;
-  /*background-color: #d1e7dd;*/
+  /*background-color: #d1e7dd;
   display: flex;
   justify-content: center;
   align-items: baseline;
   padding-top: 10%;
   text-align: center;
-}
+} */
 
 /* Center container */
 .center-container {
@@ -392,6 +395,8 @@
   flex: 0 0 65%;
  /* background-color: #f8d7da;*/
   display: flex;
+  margin-top: -60px;
+
 }
 
 /* Right side container */
@@ -418,4 +423,169 @@
 .recommended-text{
   text-align: center;
   font-weight: 700;
+}
+.left-side-container {
+  flex: 0 0 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: -10px;
+  padding-left: 5px;
+  text-align: center;
+}
+
+.filters-container mat-expansion-panel {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', serif !important;
+
+}
+
+.filters-container mat-panel-title {
+  font-size: 1.1rem;
+  color: #6c757d;
+  font-family: 'Poppins', serif !important;
+}
+
+.filter-options {
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Poppins', serif !important;
+
+}
+
+.filter-options mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Poppins', serif !important;
+
+}
+::ng-deep .filter-options * {
+  font-family: 'Poppins', serif !important;
+}
+::ng-deep .left-side-container mat-expansion-panel-header * {
+  font-family: 'Poppins', serif !important;
+}
+.left-side-container {
+  font-family: 'Poppins', serif !important;
+}
+
+/* Ensure Icons Keep Their Original Font */
+.left-side-container mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+
+.filter-options mat-form-field {
+  width: 100%;
+}
+
+.filter-options mat-slider {
+  width: 100%;
+  background-color: transparent;
+}
+
+.mat-slider-thumb {
+  background-color: #a36484 !important;
+}
+
+.mat-slider-track-fill {
+  background-color: #a36484 !important;
+}
+
+.mat-slider-track-wrapper {
+  background-color: rgba(163, 100, 132, 0.3) !important;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-button {
+  background-color: #a36484;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s;
+  width: auto;
+}
+
+.custom-button:hover {
+  opacity: 0.9;
+  background-color: #5f3d4e;
+}
+
+.reset-button {
+  margin-top: 10px; /* Manji razmak od vrha */
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5rem; /* Manja veličina fonta */
+  font-weight: 600; /* Blago istaknut tekst */
+  color: #a36484; /* Boja uklopljena s postojećim stilovima */
+  margin-left: 750px;
+  margin-top: 200px;
+  width: 700px;
+  animation: fadeIn 1.0s ease-in-out; /* Efekat animacije pri pojavi */
+  font-family: 'Poppins', serif;
+
+}
+/* *{
+  font-family: 'Poppins', serif !important;
+} */
+.fade-in-animation {
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h1 {
+  animation: fadeInTitle 0.5s ease-in-out;
+}
+
+@keyframes fadeInTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.custom-slider{
+  height: 8px; /* Visina linije slidera */
+  width: 95%; /* Širina slidera */
 }

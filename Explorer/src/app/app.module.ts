@@ -32,7 +32,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentsModule } from './feature-modules/payments/payments.module';
-
+import { MatSliderModule } from '@angular/material/slider';
+import { matExpansionAnimations, MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
+import { MatRadioModule } from '@angular/material/radio'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +68,10 @@ import { PaymentsModule } from './feature-modules/payments/payments.module';
     MatSnackBarModule,
     EncounterModule,
     MatSlideToggleModule,
-    PaymentsModule
+    PaymentsModule,
+    MatSliderModule ,
+    MatExpansionModule,
+    MatRadioModule   
   ],
   providers: [
     {

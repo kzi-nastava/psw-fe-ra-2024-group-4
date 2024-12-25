@@ -34,18 +34,92 @@
             <h1 class="club_h1">Clubs</h1>   
         </div>
         <div class="content-container">
-            <div class="left-side-container">
-                <!--<h1 class="club_h1">Create your club</h1> lose izgleda xdd-->
-                <div style="display: flex; flex-direction: column; align-items: start;">
-                    <button class="custom-button" (click)="onAddClicked()">Add Club</button>
-                    <button class="custom-button" style="margin-top: 10px" (click)="sortByPreference()">Sort by preference</button>
+          <div class="left-side-container">
+            <mat-accordion multi="true">
+              <!-- Search Section -->
+              <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>search</mat-icon> Search Clubs
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="filter-options">
+                  <mat-form-field appearance="outline" class="compact-form-field">
+                    <mat-label>Search by name</mat-label>
+                    <input matInput placeholder="Enter club name" [(ngModel)]="tempSearchTerm" />
+                  </mat-form-field>
                 </div>
-
+              </mat-expansion-panel>
+          
+              <!-- Sort By Section -->
+              <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>sort</mat-icon> Sort By
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="filter-options sort-options">
+                  <mat-radio-group [(ngModel)]="tempSortOption">
+                    <mat-radio-button value="alphabetical">Alphabetical</mat-radio-button>
+                    <mat-radio-button value="memberCount">Number of Members</mat-radio-button>
+                    <mat-radio-button value="preferences">Preferences</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </mat-expansion-panel>
+          
+              <!-- Member Range Section -->
+              <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>group</mat-icon> Member Range
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="filter-options">
+                  <input  
+                   class="custom-slider"
+                    type="range"
+                    min="1"
+                    max="100"
+                    [(ngModel)]="tempMemberCount"
+                  />
+                  <p>Minimum members: {{ tempMemberCount }}</p>
+                </div>
+              </mat-expansion-panel>
+          
+              <!-- Filter By Club Type -->
+              <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>filter_alt</mat-icon> Show
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="filter-options">
+                  <mat-radio-group [(ngModel)]="tempSelectedFilterType">
+                    <mat-radio-button value="all">All clubs</mat-radio-button>
+                    <mat-radio-button value="my">My clubs</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <div class="button-row">
+                <button mat-raised-button class="custom-button primary-button" (click)="applyFilters()">Apply Filters</button>
+                <button mat-raised-button class="custom-button primary-button" (click)="resetFilters()">Clear Filters</button>
+              </div>
+              <button mat-raised-button class="custom-button primary-button full-width" (click)="onAddClicked()">Add Club</button>
+            </div>
+          
+                
             </div>
             <div class="center-container">
               
-            <div class ="cards">
-    
+            <div class ="cards" [ngClass]="{ 'fade-in-animation': animate }" (animationend)="onAnimationEnd()">
+              <div *ngIf="club.length === 0" class="no-results">
+                No results found. Try adjusting your filters.
+              </div>
+          
                 <a href="" [routerLink]="['/clubDetails', cl.id]" class="card" *ngFor="let cl of club">
                     <img [src]="getImage(cl.image)" class="card-image"/>
                     <div class ="card-overlay">

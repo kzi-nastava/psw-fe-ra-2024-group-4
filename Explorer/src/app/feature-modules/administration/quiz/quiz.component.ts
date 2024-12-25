@@ -5,7 +5,6 @@ import { CdkDragMove, CdkDropList } from '@angular/cdk/drag-drop';
 import { environment } from 'src/env/environment';
 import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { TourPreference } from 'src/app/shared/model/tour-preference.model';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 @Component({

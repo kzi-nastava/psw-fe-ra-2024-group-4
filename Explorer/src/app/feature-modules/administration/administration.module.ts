@@ -28,6 +28,9 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { QuizIntroComponent } from './quiz-intro/quiz-intro.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
+import { MatRadioModule } from '@angular/material/radio'; 
 
 @NgModule({
   declarations: [
@@ -60,7 +63,10 @@ import { QuizIntroComponent } from './quiz-intro/quiz-intro.component';
     MatSelectModule,
     MatOptionModule,
     DragDropModule,
-    CdkDrag
+    CdkDrag,
+    MatSliderModule ,
+    MatExpansionModule,
+    MatRadioModule 
   ],
   exports: [
     EquipmentComponent,
