@@ -117,7 +117,7 @@
                     [class.inside]="isStickerInside['cycling']"
                     *ngIf="currentSlideIndex===1 && selectedPicture !== 'museum-background.jpg'"
                     >
-                        <img class="stikertest" [src]="getImage('cycling.png')">
+                        <img class="stikertest" [src]="getImage('cycling.png')" crossorigin="anonymous">
                     </div>
                     <div class="choice" id="hiking" cdkDrag (cdkDragMoved)="onDragMove($event)"
                     [class.inside]="isStickerInside['hiking']"
@@ -242,11 +242,12 @@
                     *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
                     >
                         <img class="stikertest" [src]="getImage('vibe.png')">
+                        
                     </div>
 
 
-                <div class="custom-tour" cdkDropList #customTourList="cdkDropList" >
-                  <img [src]="getImage(selectedPicture)" class="custom-tour-image">
+                <div id="capture-div" class="custom-tour" cdkDropList #customTourList="cdkDropList" >
+                  <img [src]="getImage(selectedPicture)" class="custom-tour-image" crossorigin="anonymous">
                    <!--[src]=getImage(sleectedImage)-->
                 </div>
                 <!-- <button *ngIf="currentSlideIndex === 1" (click)="submitPreferences()">Submit</button> -->

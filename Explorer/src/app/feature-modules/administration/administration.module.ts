@@ -27,9 +27,17 @@ import { EncounterPublicStatusRequestComponent } from './encounter-public-status
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { QuizIntroComponent } from './quiz-intro/quiz-intro.component';
+import { ClubTourComponent } from './club-tour/club-tour.component';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ClubPostsComponent } from './club-posts/club-posts.component';import { QuizIntroComponent } from './quiz-intro/quiz-intro.component';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
 import { MatRadioModule } from '@angular/material/radio'; 
 
 @NgModule({
@@ -48,6 +56,8 @@ import { MatRadioModule } from '@angular/material/radio';
     QuizComponent,
     ClubMembersComponent,
     EncounterPublicStatusRequestComponent,
+    ClubTourComponent,
+    ClubPostsComponent,
     QuizIntroComponent,
   ],
   imports: [
@@ -66,7 +76,11 @@ import { MatRadioModule } from '@angular/material/radio';
     CdkDrag,
     MatSliderModule ,
     MatExpansionModule,
-    MatRadioModule 
+    MatRadioModule ,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatDatepickerModule,
+    BrowserModule
   ],
   exports: [
     EquipmentComponent,

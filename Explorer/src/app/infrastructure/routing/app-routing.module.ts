@@ -39,6 +39,7 @@ import { AdminEncounterComponent } from 'src/app/feature-modules/encounters/admi
 import { EncounterPublicStatusRequestComponent } from 'src/app/feature-modules/administration/encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 import { BundleComponent } from 'src/app/feature-modules/payments/bundle/bundle.component';
 import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
+import { ClubTourComponent } from 'src/app/feature-modules/administration/club-tour/club-tour.component';
 import { QuizIntroComponent } from 'src/app/feature-modules/administration/quiz-intro/quiz-intro.component';
 
 
@@ -84,6 +85,7 @@ const routes: Routes = [
   {path: 'sales', component: SalesComponent},
   {path: 'equipment', component: EquipmentComponent},
   {path: 'quiz', component: QuizComponent},
+  {path: 'club-tour', component: ClubTourComponent},
   {path: 'quiz-intro', component: QuizIntroComponent}
 ];
 

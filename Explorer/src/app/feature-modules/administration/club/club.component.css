@@ -514,6 +514,7 @@
 .button-row {
   display: flex;
   justify-content: space-between;
+  gap:10px;
 }
 
 .custom-button {
@@ -524,6 +525,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  margin-left:2px;
   text-align: center;
   transition: background-color 0.3s;
   width: auto;

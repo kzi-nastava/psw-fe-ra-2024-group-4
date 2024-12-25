@@ -32,6 +32,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentsModule } from './feature-modules/payments/payments.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { matExpansionAnimations, MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
 import { MatRadioModule } from '@angular/material/radio'; 
@@ -69,6 +71,8 @@ import { MatRadioModule } from '@angular/material/radio';
     EncounterModule,
     MatSlideToggleModule,
     PaymentsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSliderModule ,
     MatExpansionModule,
     MatRadioModule   
