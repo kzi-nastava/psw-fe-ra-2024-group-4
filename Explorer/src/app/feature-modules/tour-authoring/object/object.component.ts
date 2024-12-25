@@ -1,10 +1,11 @@
 import { Component, ElementRef, HostListener, EventEmitter, Input, OnInit ,Output, ViewChild} from '@angular/core';
-import {PublicStatus, TourObject} from '../model/object.model';
+import {PublicStatus, TourObject, CategoryDTO} from '../model/object.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { FormGroup,FormControl, Validators } from '@angular/forms';
+import { MapComponent } from 'src/app/shared/map/map.component';
 
 
 @Component({
@@ -13,9 +14,10 @@ import { FormGroup,FormControl, Validators } from '@angular/forms';
   styleUrls: ['./object.component.css']
 })
 export class ObjectComponent implements OnInit {
-  @ViewChild('mapContainer') mapContainerRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('mapCmp') mapComponent: MapComponent;
 
   objects: TourObject[] = [];
+  categories: CategoryDTO[] = [];
   selectedObject: TourObject | null = null;
   constructor(private service: TourAuthoringService, private authService: AuthService){}
 
@@ -37,6 +39,16 @@ export class ObjectComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+    this.service.getObjectCategories().subscribe({
+      next: (data) => {
+        this.categories = data
+      },
+      error: (err) => {
+        console.error('Error fetching object categories!!', err);
+      }
+    
+      
+    })
   }
 
   objectForm = new FormGroup({
@@ -44,7 +56,7 @@ export class ObjectComponent implements OnInit {
     longitude: new FormControl(0.0,Validators.required),
     latitude: new FormControl(0.0,Validators.required),
     description: new FormControl('',Validators.required),
-    category: new FormControl('',Validators.required),
+    category: new FormControl(14,Validators.required),
     image: new FormControl(''),
     imageBase64: new FormControl(''),
     publicStatus: new FormControl(2,[Validators.required])
@@ -58,7 +70,7 @@ export class ObjectComponent implements OnInit {
         longitude: this.selectedLongitude || 0.0,
         latitude: this.selectedLatitude || 0.0,
         description: this.objectForm.value.description || '',
-        category: this.getCategoryValue() || 0,
+        category: this.objectForm.value.category || 0,
         image: this.objectForm.value.image || 'placeholder.jpg',
         imageBase64: this.objectForm.value.imageBase64 || '',
         userId: this.user?.id ?? -1,
@@ -69,6 +81,7 @@ export class ObjectComponent implements OnInit {
           this.getObjects();
           this.objectForm.reset();
           this.isFormVisible = false;
+          this.mapComponent.removeCurrentMarker();
           console.log("Object created: " ,createdObj);
         }
       })

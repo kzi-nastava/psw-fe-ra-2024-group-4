@@ -4,8 +4,10 @@ import { KeyPoint } from './model/keypoint.model';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Tour } from './model/tour.model';
-import { TourObject } from './model/object.model';
+import { TourObject, CategoryDTO } from './model/object.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +71,9 @@ export class TourAuthoringService {
   updateTourDistance(id: number, length: number): Observable<any> {
     console.log('pozvana funksija iz servisa'+length+id);
     return this.http.put('https://localhost:44333/api/author/tour/updateDistance/'+ id, length);
+  }
+  getObjectCategories(): Observable<CategoryDTO[]>{
+    return this.http.get<CategoryDTO[]>(`${environment.apiHost + 'objectaddition/object/objectcategories'}`);
   }
 
 }

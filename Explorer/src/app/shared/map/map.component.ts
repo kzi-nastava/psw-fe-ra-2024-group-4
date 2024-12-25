@@ -714,4 +714,10 @@ private async showEncounterOnMap(): Promise<void> {
       return 'Error fetching address';
     }
   }
+  public removeCurrentMarker() {
+    if(this.currentMarker){
+      this.map.removeLayer(this.currentMarker);
+      this.currentMarker = null;
+    }
+  }
 }

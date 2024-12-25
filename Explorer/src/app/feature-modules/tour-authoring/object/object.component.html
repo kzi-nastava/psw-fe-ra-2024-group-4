@@ -1,6 +1,7 @@
 <h1>My Objects</h1>
 <div class="map-container">
     <xp-map 
+    #mapCmp
     (mousedown)="onMouseDown($event)"
     (mouseup)="onMouseUp($event)"
     (latitudeChanged)="updateLatitude($event)" 
@@ -38,10 +39,11 @@
     <mat-form-field>
       <mat-label>Category</mat-label>
       <mat-select formControlName="category" required>
-        <mat-option value="WC">WC</mat-option>
-        <mat-option value="Restaurant">Restaurant</mat-option>
-        <mat-option value="Parking">Parking</mat-option>
-        <mat-option value="Other">Other</mat-option>
+        <mat-option
+        *ngFor="let cat of categories"
+        [value]="cat.id">
+          {{cat.name}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
