@@ -2,7 +2,7 @@
 <div class="cart-container">
     <button mat-icon-button color="primary" 
             (click)="openCart(shoppingCart.id || -1)" 
-            [matBadge]="cartItemCount$ | async" 
+            [matBadge]="cartItemCount" 
             matBadgeColor="warn"
             (mouseenter)="showCartPreview()" 
             (mouseleave)="hideCartPreview()">
@@ -19,9 +19,6 @@
                        
                         <span class="new-price">{{ item.price | currency }} </span>
                       </div>
-                  <!--  <div class="tags-container">
-                        <span *ngFor="let tag of item.tourDetails?.tags" class="tag">{{tag}} </span>
-                    </div>-->
                 </div>
             </div>
             
@@ -88,6 +85,11 @@
                                             </span>
                                         </mat-card-subtitle>
                                     </div>
+
+                                    <div style="margin-bottom: 10px;">
+                                        <span>Difficulty: <b>{{ t.tourDifficulty }}</b></span>
+                                    </div>
+
                                     <div class="price">
                                         <span *ngIf="t.originalPrice" class="old-price">{{ t.originalPrice | currency }}</span>
                                         <span class="new-price">{{ t.price | currency }} </span>
@@ -160,98 +162,4 @@
             </div>
 
                     
-                
-                
-            
-              
-              
-            
 
-
-      
-<!-- stari layout + clean kartica
-  <div class="container">
-    <div *ngFor="let t of tours">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>{{ t.tourName }}</mat-card-title>
-                <mat-card-subtitle>
-                    <span *ngFor="let tag of t.tags; let isFirst = first">
-                        <mat-chip>{{ tag }}</mat-chip>
-                    </span>
-                </mat-card-subtitle>
-            </mat-card-header>
-
-            <div class="img-container">
-                <div class="map-container" >
-                </div>
-            </div>
-
-            <mat-card-content>
-                <p>{{ t.tourDescription }}</p>
-            </mat-card-content>
-            <mat-card-content>
-                <p>
-                    Status: 
-                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 0">Active</span>
-                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 1">Completed</span>
-                    <span *ngIf="tourExecutions.get(t.tourId)?.status === 2">Abandoned</span>
-                    <span *ngIf="tourExecutions.get(t.tourId)?.status === null">Not Started</span>
-                  </p>
-              </mat-card-content>
-              
-
-            <mat-card-actions align="end">
-                <button *ngIf="tourExecutions.get(t.tourId)?.status === null && !isActive" mat-button style="margin-right: 5vh;" (click)="startTour(t.tourId)">START TOUR</button>
-                <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;">COMPLETE TOUR</button>
-                <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
-                <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
-                <button mat-button (click)="addToCart(t)">BUY</button>
-                <button mat-button (click)="reportProblem(t.tourId)" mat-button style="margin-right: 5vh;">Report Problem</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-        <div class="cards">
-            <div class="card" *ngFor="let t of tours">
-                <div class="card-image">
-                    <xp-map class="card-map" [showingTour]="true" [selectedTourPoints]="[t.firstKeyPoint]"></xp-map>
-                
-                </div>
-                
-                
-                <div class="card-overlay">
-                    <div class="card-header">
-
-                        <div class="card-header-text">
-                            <div class="card-title">{{ t.tourName }}</div>
-                            <mat-card-subtitle>
-                                <span *ngFor="let tag of t.tags; let isFirst = first">
-                                    <mat-chip>{{ tag }}</mat-chip>
-                                </span>
-                            </mat-card-subtitle>
-                            <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 0">Status: Active</span>
-                            <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 1">Status: Completed</span>
-                            <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === 2">Status: Abandoned</span>
-                            <span class="card-status" *ngIf="tourExecutions.get(t.tourId)?.status === null">Status: Not Started</span>
-                        </div>
-
-                        <mat-card-actions align="end">
-                            <button *ngIf="tourExecutions.get(t.tourId)?.status === null && !isActive" mat-button style="margin-right: 5vh;" (click)="startTour(t.tourId)">START TOUR</button>
-                            <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="completeTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;">COMPLETE TOUR</button>
-                            <button *ngIf="tourExecutions.get(t.tourId)?.status === 0" (click)="abandonTourExecution(tourExecutions.get(t.tourId)?.id)" mat-button style="margin-right: 5vh;" >ABANDON TOUR</button>
-                            <button mat-button (click)="openReviews(t.tourId)">SEE REVIEWS</button>
-                            <button mat-button (click)="addToCart(t)">BUY</button>
-                            <button mat-button (click)="reportProblem(t.tourId)" mat-button style="margin-right: 5vh;">Report Problem</button>
-                        </mat-card-actions>
-                    </div>
-
-
-                </div>
-
-            </div>
-        </div>
-
-
-
-    <xp-tour-search (tourSearchResults)="updateTours($event)"></xp-tour-search>
-</div>-->

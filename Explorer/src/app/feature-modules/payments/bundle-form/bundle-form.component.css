@@ -179,4 +179,28 @@ h1 {
     font-size: 16px; /* Veličina X-a */
     color: red; /* Boja X-a */
   }
+
+
+  #button1 {
+    width: 66vh;
+    font-size: 16px;
+  }
+
+  a {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    color: #1976d2; /* Primary link color */
+    text-decoration: none;
+    font-size: medium;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    color: #004ba0; /* Darker link color on hover */
+  }
+
+  p {
+    font-size: medium;
+  }
   
