@@ -11,9 +11,9 @@
       (click)="setRating(i + 1)"
       (mouseover)="hoverRating = i + 1"
       (mouseout)="hoverRating = 0"
-      [ngClass]="{'selected': (appReviewForm.value?.grade ?? 0) > i, 'hovered': hoverRating > i}"
+      [ngClass]="{'selected': (appReviewForm.value.grade ?? 0) > i, 'hovered': hoverRating > i}"
       >
-        {{ (appReviewForm.value?.grade ?? 0) >= star ? 'star' : 'star_border' }}
+        {{ (appReviewForm.value.grade ?? 0) >= star ? 'star' : 'star_border' }}
       </mat-icon>
     </div>
     <mat-error class="error-text" *ngIf="appReviewForm.get('grade')?.hasError('required')">
@@ -38,9 +38,9 @@
       <div class="star-rating readonly">
         <mat-icon 
           *ngFor="let star of [1,2,3,4,5]" 
-          [ngClass]="{'selected': (appReviewForm.value?.grade ?? 0) >= star}"
+          [ngClass]="{'selected': (appReviewForm.value.grade ?? 0) >= star}"
         >
-          {{ (appReviewForm.value?.grade ?? 0) >= star ? 'star' : 'star_border' }}
+          {{ (appReviewForm.value.grade ?? 0) >= star ? 'star' : 'star_border' }}
         </mat-icon>
       </div>
       <div class="edit-icon" (click)="shouldEdit = true">
@@ -50,7 +50,7 @@
 
     <div class="review-content">
       <p class="comment-text" *ngIf="appReviewForm.value?.comment">
-        {{ appReviewForm.value?.comment }}
+        {{ appReviewForm.value.comment }}
       </p>
     </div>
   </div>
