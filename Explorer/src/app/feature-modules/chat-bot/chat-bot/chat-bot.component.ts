@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ChatBotService } from '../chat-bot.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
@@ -7,10 +7,12 @@ import { Message } from '../model/Message.model';
 @Component({
   selector: 'xp-chat-bot',
   templateUrl: './chat-bot.component.html',
-  styleUrls: ['./chat-bot.component.css']
+  styleUrls: ['./chat-bot.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChatBotComponent implements OnInit {
 
+  searchTerm: string = '';
   currentTag: string;
   previousTag: string;
   currentLevel: string[]
@@ -95,6 +97,18 @@ export class ChatBotComponent implements OnInit {
         this.getQuestions("TOUR_EXECUTIONS");
         this.currentTag = "TOUR_EXECUTIONS";
         break;
+      case "How to buy a tour?":
+        this.getQuestions("TOUR_PURCHASE");
+        this.currentTag="TOUR_PURCHASE";
+        break;
+      case "How to use coupons?":
+        this.getQuestions("COUPONS");
+        this.currentTag="COUPONS";
+        break;
+      case "Blogs":
+        this.getQuestions("BLOGS");
+        this.currentTag = "BLOGS";
+        break;
     }
   }
 
@@ -113,15 +127,28 @@ export class ChatBotComponent implements OnInit {
         this.getQuestions(this.previousTag);
         this.currentTag = this.previousTag;
         break;
-
+      case "TOUR_PURCHASE":
+        this.getQuestions("TOURS");
+        this.currentTag = "TOURS";
+        break;
+      case "COUPONS":
+        this.getQuestions("TOUR_PURCHASE");
+        this.currentTag = "TOUR_PURCHASE";
+        break;
+      case "BLOGS":
+        this.getQuestions("ROOT");
+        this.currentTag = "ROOT";
+        break;
     }
-
+    if(this.currentTag==="ROOT"){
+      this.answer = "Hi I am Gavrilo, how can I help you?";
+    }
   }
 
   search()
   {
-     const inputElement = document.getElementById("inputField") as HTMLInputElement;
-     const query = inputElement.value;
+    
+     const query = this.searchTerm;
 
      
      this.service.getSearchedQuestions(query).subscribe({
