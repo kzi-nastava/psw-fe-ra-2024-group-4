@@ -29,6 +29,9 @@ export class ObjectComponent implements OnInit {
   startY = 0;
   user: User | undefined;
 
+  selectedFile: File | null = null;
+  imageBase64: string;
+
   ngOnInit(): void {
     this.getObjects();
     this.authService.user$.subscribe(user => {
@@ -43,6 +46,7 @@ export class ObjectComponent implements OnInit {
     description: new FormControl('',Validators.required),
     category: new FormControl('',Validators.required),
     image: new FormControl(''),
+    imageBase64: new FormControl(''),
     publicStatus: new FormControl(2,[Validators.required])
   })
 
@@ -56,12 +60,15 @@ export class ObjectComponent implements OnInit {
         description: this.objectForm.value.description || '',
         category: this.getCategoryValue() || 0,
         image: this.objectForm.value.image || 'placeholder.jpg',
+        imageBase64: this.objectForm.value.imageBase64 || '',
         userId: this.user?.id ?? -1,
         publicStatus: this.objectForm.value.publicStatus ?? 2,
       }
       this.service.addObject(object).subscribe({
         next: (createdObj: TourObject) => {
           this.getObjects();
+          this.objectForm.reset();
+          this.isFormVisible = false;
           console.log("Object created: " ,createdObj);
         }
       })
@@ -171,5 +178,16 @@ export class ObjectComponent implements OnInit {
     if (leafletTopDiv) {
         leafletTopDiv.style.display = 'none'; 
     }
+  }
+  onFileSelected(event: any){
+    const file:File = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        this.imageBase64 = reader.result as string;
+        this.objectForm.patchValue({
+          imageBase64: this.imageBase64
+        });
+    };
+    reader.readAsDataURL(file); 
   }
 }

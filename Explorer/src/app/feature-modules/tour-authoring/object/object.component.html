@@ -45,6 +45,11 @@
       </mat-select>
     </mat-form-field>
 
+    <input style="margin-top: 1vh;"
+      type="file"
+      (change)="onFileSelected($event)"/>
+      <mat-label style="margin-bottom: 1vh;">Upload Image</mat-label>
+
     <!-- Submit button -->
     <button
       mat-raised-button

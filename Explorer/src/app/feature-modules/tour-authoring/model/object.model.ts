@@ -3,6 +3,7 @@ export interface TourObject {
     name: string;
     description: string;
     image: string;
+    imageBase64?: string;
     category: number;
     longitude: number;
     latitude: number;
