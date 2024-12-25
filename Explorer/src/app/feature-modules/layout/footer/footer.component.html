@@ -1,0 +1,26 @@
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-icons">
+            <a href="/about-us" class="footer-icon">
+                <mat-icon>info</mat-icon>
+                <span>About Us</span>
+            </a>
+            <a *ngIf="user && (user.role === 'author' || user.role==='tourist')" (click)="openReviewDialog()" class="footer-icon">
+                <mat-icon>star</mat-icon>
+                <span>Rate Us</span>
+            </a>
+            <a href="/quiz" *ngIf="user && (user.role==='tourist')" class="footer-icon">
+                <mat-icon>quiz</mat-icon>
+                <span>Quiz</span>
+            </a>
+            <a href="/register" *ngIf="!user || (user.username === '' && user.id === 0 && user.role === '')" class="footer-icon">
+                <mat-icon>person</mat-icon>
+                <span>Sign Up</span>
+              </a>
+        </div>
+
+        <div class="footer-copyright">
+            <p>&copy; 2024 Travel Tales | PSW Team4</p>
+        </div>
+    </div>
+</footer>
