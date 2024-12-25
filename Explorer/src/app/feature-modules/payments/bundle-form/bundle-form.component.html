@@ -1,4 +1,4 @@
-<form [formGroup]="bundleForm" class="form-container">
+<form [formGroup]="bundleForm" class="form-container" class="form-style">
     <mat-form-field>
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" type="text" />
@@ -9,8 +9,8 @@
         <input matInput formControlName="price" type="number" />
       </mat-form-field>
 
-      <div class="button-container">
-        <button mat-raised-button type="submit" color="primary" (click)="openTourDialog()">Add tour</button>
+      <div>
+        <a (click)="openTourDialog()">Add Tour</a>
     </div>
 
      <div *ngIf="selectedTours.length > 0" class="selected-tours">
@@ -31,7 +31,8 @@
     
   
     <div class="button-container">
-        <button mat-raised-button type="submit" color="accent" (click)="addBundle()" >submit</button>
+        <button mat-raised-button type="submit" color="accent" (click)="addBundle()" id="button1" >Submit</button>
     </div>
   </form>
+  
   

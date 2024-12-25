@@ -39,7 +39,7 @@ import { AdminEncounterComponent } from 'src/app/feature-modules/encounters/admi
 import { EncounterPublicStatusRequestComponent } from 'src/app/feature-modules/administration/encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 import { BundleComponent } from 'src/app/feature-modules/payments/bundle/bundle.component';
 import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
-
+import { AboutUsComponent } from 'src/app/feature-modules/layout/about-us/about-us.component';
 
 
 
@@ -63,7 +63,7 @@ const routes: Routes = [
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
-  {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
+  {path: 'reviewApp', component: AppReviewComponent},
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
   {path: 'touristEquipment', component: PersonEquipmentComponent},
   {path: 'tourReviews', component: TourReviewsComponent},
@@ -83,7 +83,8 @@ const routes: Routes = [
   {path: 'bundle', component: BundleComponent},
   {path: 'sales', component: SalesComponent},
   {path: 'equipment', component: EquipmentComponent},
-  {path: 'quiz', component: QuizComponent}
+  {path: 'quiz', component: QuizComponent},
+  {path: 'about-us', component: AboutUsComponent}
 ];
 
 @NgModule({

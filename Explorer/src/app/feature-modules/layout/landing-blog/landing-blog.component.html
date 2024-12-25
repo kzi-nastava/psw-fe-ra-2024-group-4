@@ -19,10 +19,10 @@
             </ul>
         </div>
     </div>
-    <div *ngIf="user && (user.role === 'author' || user.role==='tourist')">
-    <mat-icon class="account-icon"  [routerLink]="['reviewApp']">star</mat-icon>
-    <span class="user-text" style="text-align: center;" >RATE US</span>
-</div>
+    <div *ngIf="user && (user.role === 'author' || user.role==='tourist')" (click)="openReviewDialog()">
+        <mat-icon class="account-icon">star</mat-icon>
+        <span class="user-text" style="text-align: center;" >RATE US</span>
+    </div>
 <div *ngIf="user && (user.role === 'administrator')">
     <mat-icon class="account-icon"  [routerLink]="['appReviews']">star</mat-icon>
     <span class="user-text" style="text-align: center;" >VIEW APP REVIEWS</span>
