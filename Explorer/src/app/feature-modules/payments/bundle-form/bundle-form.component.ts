@@ -50,7 +50,8 @@ export class BundleFormComponent implements OnInit{
   
           // Otvaranje dijaloga
           const dialogRef = this.dialog.open(TourSelectionDialogComponent, {
-            width: '400px',
+            width: '70vh',
+            height: '70vh',
             data: { 
               tours: this.tours,
               selectedTours: [] // Prosleđivanje prazne selekcije
