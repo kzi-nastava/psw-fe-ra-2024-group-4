@@ -381,7 +381,6 @@ body {
   position: relative;
   perspective: 1000px;
   transform-style: preserve-3d;
-  /* margin-bottom: 5vh; */ /* ANA */
 }
 .quiz-card{
   margin: auto;

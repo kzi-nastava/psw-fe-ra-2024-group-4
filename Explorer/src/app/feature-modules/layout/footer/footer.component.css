@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 5vh;
 }
 
 .footer-container {
@@ -36,14 +37,14 @@
 }
 
 .footer-icon:hover {
-    color: #642984;
+    color: #a36484;
     transform: scale(1.1);
 }
 
 .footer-icon mat-icon {
     font-size: 25px;
     margin-bottom: 8px;
-    color: #642984;
+    color: #a36484;
 }
 
 .footer-copyright {
