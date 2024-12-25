@@ -87,37 +87,6 @@ export class ObjectComponent implements OnInit {
       })
     }
   }
-  getCategoryString(categoryId: number): string{
-    switch(categoryId){
-      case 0:
-        return 'WC';
-      case 1:
-        return 'Restaurant';
-      case 2:
-        return 'Parking';
-      case 3:
-        return 'Other';
-      default:
-        return '';
-    }
-  }
-
-  getCategoryValue(category?: string): number {
-    const categoryValue = category ?? this.objectForm.value.category;
-  
-    switch (categoryValue) {
-      case 'WC':
-        return 0;
-      case 'Restaurant':
-        return 1;
-      case 'Parking':
-        return 2;
-      case 'Other':
-        return 3;
-      default:
-        return -1; // Default value if no matching category is found
-    }
-  };
 
   getObjects(): void{
     
@@ -171,7 +140,6 @@ export class ObjectComponent implements OnInit {
   //ako je kliknuto van mape zatvorice formu
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent){
-    console.log(event);
     const target = event.target as HTMLElement;
     const isInsideMap = target.closest('.map-container');
     const isInsideForm = target.closest('.keypoint-form-div');

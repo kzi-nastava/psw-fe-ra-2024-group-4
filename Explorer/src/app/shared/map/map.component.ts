@@ -97,6 +97,151 @@ export class MapComponent {
     iconAnchor: [12, 41],
     popupAnchor: [1, -34]
   })
+  private wcIcon = L.icon({
+    iconUrl: 'assets/icons/objects/WC.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private restaurantIcon = L.icon({
+    iconUrl: 'assets/icons/objects/restaurant.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private parkingIcon = L.icon({
+    iconUrl: 'assets/icons/objects/parking.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private viewpointIcon = L.icon({
+    iconUrl: 'assets/icons/objects/viewpoint.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private churchIcon = L.icon({
+    iconUrl: 'assets/icons/objects/church.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private mosqueIcon = L.icon({
+    iconUrl: 'assets/icons/objects/mosque.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private bridgeIcon = L.icon({
+    iconUrl: 'assets/icons/objects/bridge.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private beachIcon = L.icon({
+    iconUrl: 'assets/icons/objects/beach.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private parkIcon = L.icon({
+    iconUrl: 'assets/icons/objects/park.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private fountainIcon = L.icon({
+    iconUrl: 'assets/icons/objects/fountain.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private shoppingCenterIcon = L.icon({
+    iconUrl: 'assets/icons/objects/shopping-center.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private museumIcon = L.icon({
+    iconUrl: 'assets/icons/objects/museum.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private marketPlaceIcon = L.icon({
+    iconUrl: 'assets/icons/objects/market-place.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private nightClubIcon = L.icon({
+    iconUrl: 'assets/icons/objects/night-club.png',
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+private otherIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+});
+private stadiumIcon = L.icon({
+  iconUrl: 'assets/icons/objects/stadium.png',
+  iconSize: [40, 40],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+});
+private fortressIcon = L.icon({
+  iconUrl: 'assets/icons/objects/castle.png',
+  iconSize: [40, 40],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+});
+private getObjectIcon(category: number): L.Icon {
+  switch (category) {
+    case 0:
+      return this.wcIcon;
+    case 1:
+      return this.restaurantIcon;
+    case 2:
+      return this.parkingIcon;
+    case 3:
+      return this.viewpointIcon;
+    case 4:
+      return this.churchIcon;
+    case 5:
+      return this.mosqueIcon;
+    case 6:
+      return this.bridgeIcon;
+    case 7:
+      return this.beachIcon;
+    case 8:
+      return this.parkIcon;
+    case 9:
+      return this.fountainIcon;
+    case 10:
+      return this.shoppingCenterIcon;
+    case 11:
+      return this.museumIcon;
+    case 12:
+      return this.marketPlaceIcon;
+    case 13:
+      return this.nightClubIcon;
+    case 14:
+      return this.stadiumIcon;
+    case 15:
+      return this.fortressIcon;
+    case 16:
+      return this.otherIcon;
+    default:
+      return this.otherIcon;
+  }
+}
+
+
+
 
    constructor(private http: HttpClient,private mapService: MapService, private service: TourExecutionService,
      private authService: AuthService, private touAuthService: TourAuthoringService, private router: Router) {
@@ -147,34 +292,19 @@ export class MapComponent {
          
         },
         error: (err: any) => {
-          console.log("Error fetching position:", err);
-         
+        console.log("Error fetching position:", err);
       }
        
       })
-
-     
-  
-
-     
     }
   }
-
-  
-
-
   ngAfterViewInit(): void {
-
-    
-    
    /* let DefaultIcon = L.icon({
       iconUrl: 'assets/icons/keypointmark.svg',
       iconSize: [40, 40],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
-
-   
 
     L.Marker.prototype.options.icon = DefaultIcon;*/
     this.initMap();
@@ -255,9 +385,6 @@ export class MapComponent {
         }
     }
 }
-
-
-
 
   showPoint() : void
   {
@@ -369,17 +496,11 @@ export class MapComponent {
 
 
   registerPosition(): void {
-
-    
-    
-   
     this.map.on('click', (e: any) => {
       
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-      
-     
 
       if (this.currentMarker) {
         this.map.removeLayer(this.currentMarker);
@@ -481,9 +602,6 @@ export class MapComponent {
     //   var summary = routes[0].summary;
     //   alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     // });
-
-    
-
   }
   /*
   private plotExistingObjects(): void {
@@ -492,8 +610,6 @@ export class MapComponent {
         .addTo(this.map)
         .bindPopup(`<strong>${obj.name}</strong><br>${obj.description}`);
     });
-
-    
   }
     */
 
@@ -504,8 +620,10 @@ export class MapComponent {
     
     if (this.selectedObjectPoints && this.selectedObjectPoints.length > 0) {
         this.selectedObjectPoints.forEach(async (obj: TourObject) => {
-            const marker = L.marker([obj.latitude, obj.longitude], { icon: this.redIcon })
-                .addTo(this.map);
+            const iconForThisCategory = this.getObjectIcon(obj.category);
+
+            const marker = L.marker([obj.latitude, obj.longitude], { icon: iconForThisCategory })
+              .addTo(this.map);
 
             const address = await this.getAddress(obj.latitude, obj.longitude);
 
