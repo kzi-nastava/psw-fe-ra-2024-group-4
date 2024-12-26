@@ -21,6 +21,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { TeamComponent } from './about-us/team/team.component';
 import { PurposeComponent } from './about-us/purpose/purpose.component';
 import { AboutAppComponent } from './about-us/about-app/about-app.component';
+import { PopupsModule } from '../badges/popups/popups.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AboutAppComponent } from './about-us/about-app/about-app.component';
     MatInputModule, 
     AdministrationModule ,
     MatTabsModule,
+    PopupsModule
 ],
   exports: [
     NavbarComponent,

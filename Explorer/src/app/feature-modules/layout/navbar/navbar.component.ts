@@ -1,7 +1,9 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { CustomPopupComponent } from '../../badges/popups/custom-popup/custom-popup.component';
+
 
 @Component({
   selector: 'xp-navbar',
@@ -14,6 +16,7 @@ export class NavbarComponent implements OnInit {
   showNotifications = false; 
   userLevel: number = 1;
   isUserLevelLoaded: boolean = false;
+  @ViewChild(CustomPopupComponent) customPopupComponent!: CustomPopupComponent;
 
 
   constructor(
@@ -79,6 +82,23 @@ export class NavbarComponent implements OnInit {
     return this.user?.role === 'tourist' && this.userLevel > 9;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.ctrlKey && event.key === 'x') {
+      event.preventDefault(); // Prevent the default 'cut' action
+      this.customPopupComponent.showGlobetrotterPopup();
+    }
+    if (event.ctrlKey && event.key === 'a') {
+      event.preventDefault();
+      this.customPopupComponent.showCityBronze();
+    }
+    if (event.ctrlKey && event.key === 'd') {
+      event.preventDefault();
+      this.customPopupComponent.showCultureGold();
+    }
+  }
+
+  
   scrollDown(event: Event) {
     event.preventDefault(); 
 
