@@ -42,6 +42,7 @@ export class ClubComponent implements OnInit {
   tempSearchTerm: string = '';
   tempSelectedFilterType: string = 'all';
   tempSortOption: string = ''; // "alphabetical", "memberCount" ili "preferences"
+  animateOnLoad = false;
 
 
   //samo za formu da se zatvara samo na click van
@@ -110,6 +111,12 @@ export class ClubComponent implements OnInit {
      // console.log('sort klubova:');
 
     });
+    this.animateOnLoad = true;
+
+  // Resetujte animaciju nakon završetka
+  setTimeout(() => {
+    this.animateOnLoad = false;
+  }, 700);
     this.tourPreferenceService.getTourPreference().subscribe((response: any) => {
       this.userTags = response.tags;
     }, (error) => {
