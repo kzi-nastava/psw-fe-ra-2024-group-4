@@ -4,35 +4,71 @@
     /*width: 20vh;*/
     max-width: 60vw;
     max-height: fit-content;
-    padding: 15px;
+    padding: 15px 20px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 50px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     border-width: #4b464a;
     border-width: 5px;
-    border: 1px solid #ef7ad9;
+    border: 3px solid #ef7ad9;
     
     
   }
   
   .chatbot-bubble::before {
     position: absolute;
-    content: "";
+    content: none;
     top: 1vh;
-    left: -1.7vh;
-    width: 3.5vh;
-    height: 3.5vh;
+    left: -2vh;
+    width: 2.5vh;
+    bottom: -0.5;
+    height: 2.5vh;
     background-color: #fff;
-    border-left: 1px solid #ef7ad9;
-    border-bottom: 1px solid #ef7ad9;
+    border-left: 3px solid #ef7ad9;
+    border-bottom: 3px solid #ef7ad9;
     transform: rotate(45deg);
     z-index: -1;
     
   }
-
+  .chatbot-bubble-tail {
+    position: absolute;
+    bottom: -3vh; /* Treći mehurić */
+    left: -6vh;
+    width: 1.5vh;
+    height: 1.5vh;
+    background-color: #fff;
+    border: 1px solid #ef7ad9;
+    border-radius: 50%;
+    z-index: -2;
+  }
+  .chatbot-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5vh; /* Drugi mehurić */
+    left: -4vh;
+    width: 2vh;
+    height: 2vh;
+    background-color: #fff;
+    border: 1px solid #ef7ad9;
+    border-radius: 50%;
+    z-index: -1;
+  }
   .chatbot-bubble p {
-    font-size: large;
+    font-size: 22px;
     font-family: 'Poppins', sans-serif;
+    padding: 2px;
+
+  }
+  .chatbot-bubble-extra {
+    position: absolute;
+    bottom: -4.5vh; /* Četvrti mehurić */
+    left: -8vh;
+    width: 1vh;
+    height: 1vh;
+    background-color: #fff;
+    border: 1px solid #ef7ad9;
+    border-radius: 50%;
+    z-index: -2;
   }
 
   

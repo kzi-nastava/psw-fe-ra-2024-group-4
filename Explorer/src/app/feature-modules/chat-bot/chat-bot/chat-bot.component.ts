@@ -20,7 +20,7 @@ export class ChatBotComponent implements OnInit {
   user: User;
   message: Message;
   currentQuestion: string;
-
+  currentTitle: string = 'Questions';
   soundOn: boolean;
 
   speaker: SpeechSynthesisUtterance;
@@ -78,6 +78,10 @@ export class ChatBotComponent implements OnInit {
     this.service.getQuestions(tag).subscribe({
       next: (result) => {
         this.currentLevel = result.questions;
+        if (this.currentLevel.length === 0) {
+          setTimeout(() => {
+            this.goBack();
+          }, 3000);}
       },
       error: (err: any) => {
         this.currentLevel = ["Error"];
@@ -92,23 +96,31 @@ export class ChatBotComponent implements OnInit {
       case "Tours":
         this.getQuestions("TOURS");
         this.currentTag = "TOURS";
+        this.currentTitle = "Tours";
         break;
       case "How to start a tour?":
         this.getQuestions("TOUR_EXECUTIONS");
         this.currentTag = "TOUR_EXECUTIONS";
+        this.currentTitle = "Tour Executions";
         break;
       case "How to buy a tour?":
         this.getQuestions("TOUR_PURCHASE");
         this.currentTag="TOUR_PURCHASE";
+        this.currentTitle = "Tour Purchase";
         break;
       case "How to use coupons?":
         this.getQuestions("COUPONS");
         this.currentTag="COUPONS";
+        this.currentTitle = "Coupons";
         break;
       case "Blogs":
         this.getQuestions("BLOGS");
         this.currentTag = "BLOGS";
+        this.currentTitle = "Blogs";
         break;
+      default:
+        this.currentTitle = "Questions";
+    
     }
   }
 
@@ -118,26 +130,32 @@ export class ChatBotComponent implements OnInit {
       case "TOURS":
         this.getQuestions("ROOT");
         this.currentTag = "ROOT";
+        this.currentTitle = "Questions";
         break;
       case "TOUR_EXECUTIONS":
         this.getQuestions("TOURS");
         this.currentTag = "TOURS";
+        this.currentTitle = "Tours";
         break;
       case "SEARCH":
         this.getQuestions(this.previousTag);
         this.currentTag = this.previousTag;
+
         break;
       case "TOUR_PURCHASE":
         this.getQuestions("TOURS");
         this.currentTag = "TOURS";
+        this.currentTitle = "Tours";
         break;
       case "COUPONS":
         this.getQuestions("TOUR_PURCHASE");
         this.currentTag = "TOUR_PURCHASE";
+        this.currentTitle = "Tour Purchase";
         break;
       case "BLOGS":
         this.getQuestions("ROOT");
         this.currentTag = "ROOT";
+        this.currentTitle = "Questions";
         break;
     }
     if(this.currentTag==="ROOT"){

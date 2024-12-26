@@ -1,4 +1,5 @@
 <div class="chatbot-page">
+  <h1 class="chatbot-title" >Welcome to Chatbot</h1>
     <div class="chatbot-container">
   
       <div class="chatbot-left">
@@ -37,7 +38,10 @@
           <div 
           class="questions-section-content"
           [ngClass]="{ 'root-level': currentTag === 'ROOT' }">
-            <h1>Questions</h1>
+            <h1>{{ currentTitle }}</h1>
+            <div *ngIf="currentLevel.length === 0" class="no-results">
+              <p>No results found. Returning to the main menu...</p>
+            </div>
             <button
               class="question-btn"
               (click)="ask(question)"
