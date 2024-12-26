@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { BubbleComponent } from './bubble/bubble.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,7 +14,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   ],
   imports: [
     CommonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatIconModule,
+    FormsModule
 
   ]
 })
