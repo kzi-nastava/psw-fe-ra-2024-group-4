@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { ManageTourEquipmentComponent } from '../manage-tour-equipment/manage-tour-equipment.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'xp-necessary-equipment',
@@ -38,7 +39,7 @@ export class NecessaryEquipmentComponent implements OnInit {
     14: 'SelfGuided'
   };
 
-  constructor(private service: TourService, private route: ActivatedRoute, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(private service: TourService, private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -96,11 +97,16 @@ export class NecessaryEquipmentComponent implements OnInit {
       if (result) {
         console.log('Izmenjena oprema:', result);
         this.getEquipment();
-        this.snackBar.open('Equipment successfully added!', 'Close', {
-          duration: 3000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'center',
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Equipment successfully added!',
+          showConfirmButton: true, // Prikazuje dugme za potvrdu
+          confirmButtonText: 'Close', // Tekst na dugmetu
+          position: 'center',
         });
+        
+        
       }
     });
   }
@@ -115,11 +121,15 @@ export class NecessaryEquipmentComponent implements OnInit {
     this.service.removeEquipmentFromTour(equipment.id!, this.tourId).subscribe({
       next: (() => {
         console.log(`Removed equipment ID: ${equipment.id} from tour ID: ${this.tourId}`);
-        this.snackBar.open('Equipment successfully removed!', 'Close', {
-          duration: 3000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'center',
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Equipment successfully removed!',
+          showConfirmButton: true, // Prikazuje dugme za potvrdu
+          confirmButtonText: 'Close', // Tekst na dugmetu
+          position: 'center',
         });
+        
       }),
       error: (err) => console.error('Error removing equipment:', err),
     });

@@ -62,7 +62,11 @@ export class TourOverviewComponent implements OnInit {
 
   selectedTabIndex: number = 0;
 
-
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Your shopping cart is ready! You can preview the items added to your cart by hovering over the shopping cart icon. If you’re ready, click on "BUY" to complete the purchase. You can also see the total price for all items in the cart.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
 
   constructor(private tourOverviewService: TourOverviewService, 
     private mapService: MapService, 

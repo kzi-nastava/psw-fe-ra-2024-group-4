@@ -2,7 +2,7 @@ import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output } fro
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Equipment } from '../model/equipment.model';
 import { AdministrationService } from '../administration.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-equipment-form',
@@ -15,7 +15,13 @@ export class EquipmentFormComponent implements OnChanges {
   @Input() equipment: Equipment;
   @Input() shouldEdit: boolean = false;
 
-  constructor(private service: AdministrationService, private snackBar: MatSnackBar) {
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Equipment Form! Here, you can add new equipment or update existing equipment details. Please fill in both the "Name" and "Description" fields. The form will show an error message if these fields are left empty. Once you’ve filled out the form, click the "Done" button to save your changes. If you’re editing an existing item, the form will update it accordingly.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
+  constructor(private service: AdministrationService) {
   }
 
   ngOnChanges(): void {
@@ -32,7 +38,7 @@ export class EquipmentFormComponent implements OnChanges {
 
   addEquipment(): void {
     if (this.equipmentForm.invalid) {
-      this.snackBar.open('Please fill out all required fields.', 'Close', { duration: 3000 });
+      this.showSwal('Warning', 'Please fill out all required fields.', 'warning');
       return;
     }
     const equipment: Equipment = {
@@ -41,19 +47,19 @@ export class EquipmentFormComponent implements OnChanges {
     };
     this.service.addEquipment(equipment).subscribe({
       next: () => {
-        this.snackBar.open('Equipment added successfully!', 'Close', { duration: 3000 });
+        this.showSwal('Success', 'Equipment added successfully!', 'success');
         this.equipmentForm.reset(); // Clear the form
         this.equipmentUpdated.emit();
       },
       error: () => {
-        this.snackBar.open('Failed to add equipment.', 'Close', { duration: 3000 });
+        this.showSwal('Error', 'Failed to add equipment.', 'error');
       }
     });
   }
 
   updateEquipment(): void {
     if (this.equipmentForm.invalid) {
-      this.snackBar.open('Please fill out all required fields.', 'Close', { duration: 3000 });
+      this.showSwal('Warning', 'Please fill out all required fields.', 'warning');
       return;
     }
     const equipment: Equipment = {
@@ -63,13 +69,23 @@ export class EquipmentFormComponent implements OnChanges {
     equipment.id = this.equipment.id;
     this.service.updateEquipment(equipment).subscribe({
       next: () => {
-        this.snackBar.open('Equipment updated successfully!', 'Close', { duration: 3000 });
+        this.showSwal('Success', 'Equipment updated successfully!', 'success');
         this.equipmentForm.reset(); // Clear the form
         this.equipmentUpdated.emit();
       },
       error: () => {
-        this.snackBar.open('Failed to update equipment.', 'Close', { duration: 3000 });
+        this.showSwal('Error', 'Failed to update equipment.', 'error');
       }
+    });
+  }
+
+  private showSwal(title: string, text: string, icon: 'success' | 'error' | 'warning' | 'info') {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      confirmButtonText: 'OK',
+      heightAuto: false
     });
   }
 }

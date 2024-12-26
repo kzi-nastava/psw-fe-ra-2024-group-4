@@ -16,6 +16,13 @@ import { HiddenMap } from '../hidden-map/hidden-map.component';
 export class AdminEncounterComponent implements OnInit {
   @Input() labelPosition: 'before' | 'after' = 'before';
 
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Create a new encounter by selecting the type, adding a title, description, and setting up additional details. Depending on the encounter type, you can specify participants, activation radius, or even select a hidden location on the map. Once you fill in the necessary fields, click "Create Encounter" to publish it!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private encounterService: EncounterServiceService, private authService: AuthService) {}
 
   isChosingSecretLocation = false;

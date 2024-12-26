@@ -366,7 +366,14 @@ createDiscount() {
   this.salesService.createSale(newSale).subscribe({
     next: (response) => {
       console.log('Popust uspešno kreiran:', response);
-      alert('Sale successfully created!');
+      Swal.fire({
+        icon: 'success', // Ikonica uspeha
+        title: 'Success!',
+        text: 'Sale successfully created!',
+        timer: 3000, // Automatsko zatvaranje posle 3 sekunde (opciono)
+        showConfirmButton: false // Bez dugmeta "OK" (opciono)
+      });
+      
       
       this.discount = 0;
       this.startDate = null;
@@ -376,7 +383,13 @@ createDiscount() {
     },
     error: (error) => {
       console.error('Greška prilikom kreiranja popusta:', error);
-      alert('Error creating sale. Please try again.');
+      Swal.fire({
+        icon: 'error', // Ikonica greške
+        title: 'Error!',
+        text: 'Error creating sale. Please try again.',
+        confirmButtonText: 'OK' // Tekst na dugmetu
+      });
+      
     }
   });
 }

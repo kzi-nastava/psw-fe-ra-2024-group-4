@@ -39,6 +39,12 @@ export class TourReviewFormComponent implements OnInit {
   imageBase64: string;
   editMode: boolean = false;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'You can leave a review for this tour by providing a rating, comment, and optional image. If you already have a review, you can view, edit, or delete it. Note: You must have completed more than 35% of the tour and have participated within the last 7 days to leave a review.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private fb: FormBuilder, private service: MarketplaceService, private route: ActivatedRoute, private authService: AuthService, private tourEService: TourExecutionService, private router: Router) {
     this.reviewForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],

@@ -42,6 +42,13 @@ export class ProblemComponent implements OnInit{
     4: 'Medium High',
     5: 'High'
   };
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'On this page, you can report and track issues. Click the icon for help with issues.'; // New page description
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router,@Inject(MAT_DIALOG_DATA) private data: {tourId: number }){
     this.tourId = data.tourId;
   }

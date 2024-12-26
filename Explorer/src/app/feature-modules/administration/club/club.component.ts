@@ -80,6 +80,11 @@ export class ClubComponent implements OnInit {
 
 
 
+    isChatOpen: boolean = false; 
+    chatMessage: string = 'Welcome to the Clubs page! Here, you can browse through available clubs, view their descriptions, and see who owns them. You can join a club, leave a club, or edit your own club if you are the owner. Use the Add Club button to create a new club or sort clubs by your preferences.';
+    toggleChat(isChat: boolean): void {
+      this.isChatOpen = isChat;
+    }
 
   constructor(private service: AdministrationService, private authService: AuthService, private personInfoService: PersonInfoService, private tourPreferenceService: TourPreferenceService,
     private router: Router
