@@ -442,6 +442,12 @@ export class ClubTourComponent implements OnInit{
       this.service.addClubTour(this.clubTour).subscribe(
         (response) => {
           console.log('Tour added successfully!', response);
+          Swal.fire({
+            title: 'Success!',
+            text: 'The tour has been successfully organized in the club.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
           // Možete da uradite nešto sa odgovorom, npr. redirekcija ili obaveštenje korisniku
           this.getClubTours();
         },

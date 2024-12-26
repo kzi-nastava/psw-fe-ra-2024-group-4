@@ -421,6 +421,7 @@ export class QuizComponent implements AfterViewInit {
           console.log('Preference saved successfully', response);
           this.saveSuccess = true;
           this.isQuizCompleted = true;
+          this.addClubMemberBannerImage();
         },
         (error) => {
           console.error('Error saving preference', error);
@@ -706,11 +707,11 @@ export class QuizComponent implements AfterViewInit {
           const croppedImgData = croppedCanvas.toDataURL('image/png');
 
           // Otvori sliku u novom tabu
-          const imgWindow = window.open();
-          imgWindow?.document.write('<img src="' + croppedImgData + '" />');
+          // const imgWindow = window.open();
+          // imgWindow?.document.write('<img src="' + croppedImgData + '" />');
           console.log(croppedImgData); // Prikaz u konzoli
           this.imageBase64 = croppedImgData;
-          this.addClubMemberBannerImage();
+          //this.addClubMemberBannerImage();
           // Ili, ako želiš da je sačuvaš kao fajl:
           // const link = document.createElement('a');
           // link.href = croppedImgData;
