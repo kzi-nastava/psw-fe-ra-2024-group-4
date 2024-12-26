@@ -19,6 +19,12 @@ export class InfoComponent implements OnInit {
   imageBase64: string | null = null;
   editMode: boolean = false;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to your profile! Here you can view and edit your personal information. Click "Edit Profile" to make changes to your name, surname, biography, or motto. You can also update your profile picture by selecting a new image. If you need any help, feel free to ask!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(
     private profileService: PersonInfoService,
     private authService: AuthService ,

@@ -11,6 +11,12 @@ import Swal from 'sweetalert2';
 export class EncounterPublicStatusRequestComponent {
   encounters: Encounter[] = [];
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Encounter Requests page! Here, you can view all pending requests from tourists for publishing their encounters. You have the option to accept or reject each request. Click on the location link to view the encounter’s location on the map.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: AdministrationService){}
 
   ngOnInit(): void{

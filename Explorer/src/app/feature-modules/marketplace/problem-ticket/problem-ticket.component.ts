@@ -62,6 +62,11 @@ export class ProblemTicketComponent implements OnInit {
       },
     ],
   };*/
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'You are currently viewing the details of a problem. You can see its category, priority, and status, along with the description and comments. Add a new comment or close the problem if it is active.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
 
   constructor(private service: MarketplaceService, private authService: AuthService, private personInfoService: PersonInfoService, private tourService: TourService, private router: Router) {
     this.authService.user$.subscribe((user) => {

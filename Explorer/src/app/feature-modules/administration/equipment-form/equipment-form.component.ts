@@ -15,6 +15,12 @@ export class EquipmentFormComponent implements OnChanges {
   @Input() equipment: Equipment;
   @Input() shouldEdit: boolean = false;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Equipment Form! Here, you can add new equipment or update existing equipment details. Please fill in both the "Name" and "Description" fields. The form will show an error message if these fields are left empty. Once you’ve filled out the form, click the "Done" button to save your changes. If you’re editing an existing item, the form will update it accordingly.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: AdministrationService) {
   }
 
