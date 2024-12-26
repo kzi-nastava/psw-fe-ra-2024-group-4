@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Problem } from './model/problem.model';
 import { environment } from 'src/env/environment';
@@ -25,6 +25,12 @@ export class MarketplaceService {
     console.log('hgh');
     return this.http.get<Problem[]>(environment.apiHost + 'problem/byTourist/'+id);
   }
+  getFirstProblemByTourId(tourId: number): Observable<Problem | null> {
+    return this.http.get<Problem[]>(`${environment.apiHost}problem/byTour/${tourId}`).pipe(
+      map(problems => (problems.length > 0 ? problems[0] : null))
+    );
+  }
+  
 
 
   deleteProblem(id: number): Observable<Problem>{

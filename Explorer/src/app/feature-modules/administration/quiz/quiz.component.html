@@ -1,10 +1,24 @@
 <div class="main-container">
-  <div class="top-container">
-        
-        
-    <h2 class="title" id="title">Tourist Personality Quiz</h2>
-  </div>
+   <div class="background-container">
+    <video
+  #backgroundVideo
+  autoplay
+  muted
+  loop
+  preload="auto"
+  playsinline
+  id="background-video"
+>
+  <source src="https://localhost:44333/images/quiz/background3.mp4?v=1" type="video/mp4" />
+  Vaš pretraživač ne podržava HTML5 video.
+</video>
 
+    
+  </div>
+<!-- </div> -->
+
+  <div class="top-container">   
+  </div>
     <div class="content-container">
         <div class="progress-bar-container">  
             <div class="progress">
@@ -89,17 +103,21 @@
 
                   
                 <button *ngIf="currentSlideIndex === 0" id="next" class="next-button1" (click)="nextSlide()">Next</button>
+                
             </div>
             <!--2-->
             <div class="quiz-card" for="s2" id="slide2">
-              <p>Customize your perfect tour!</p>
+              <p  class="quiz-title">Customize your perfect tour!</p>
                 <!-- <p>{{ this.selectedPicture || 'No picture selected' }}</p> -->
                 <!-- <div class="choice-container" > -->
+                  <p class="quiz-description">
+                    Drag and drop objects onto the main image to pick your favorites:
+                  </p>
                     <div class="choice" id="cycling" cdkDrag (cdkDragMoved)="onDragMove($event)"
                     [class.inside]="isStickerInside['cycling']"
                     *ngIf="currentSlideIndex===1 && selectedPicture !== 'museum-background.jpg'"
                     >
-                        <img class="stikertest" [src]="getImage('cycling.png')">
+                        <img class="stikertest" [src]="getImage('cycling.png')" crossorigin="anonymous">
                     </div>
                     <div class="choice" id="hiking" cdkDrag (cdkDragMoved)="onDragMove($event)"
                     [class.inside]="isStickerInside['hiking']"
@@ -224,11 +242,12 @@
                     *ngIf="currentSlideIndex===1 && selectedPicture === 'beach.jpg'"
                     >
                         <img class="stikertest" [src]="getImage('vibe.png')">
+                        
                     </div>
 
 
-                <div class="custom-tour" cdkDropList #customTourList="cdkDropList" >
-                  <img [src]="getImage(selectedPicture)" class="custom-tour-image">
+                <div id="capture-div" class="custom-tour" cdkDropList #customTourList="cdkDropList" >
+                  <img [src]="getImage(selectedPicture)" class="custom-tour-image" crossorigin="anonymous">
                    <!--[src]=getImage(sleectedImage)-->
                 </div>
                 <!-- <button *ngIf="currentSlideIndex === 1" (click)="submitPreferences()">Submit</button> -->
@@ -258,7 +277,7 @@
                     </div>
                   </div>
 
-                <button class="select-button" (click)="selectOption()">Select</button>
+                <!-- <button class="select-button" (click)="selectOption()">Select</button> -->
                 <button *ngIf="currentSlideIndex === 2" id="back" class="back-button3" (click)="previousSlide()" >Back</button>
                 <button *ngIf="currentSlideIndex === 2" id="next" class="next-button3" (click)="nextSlide()">Next</button>
             </div>
@@ -287,7 +306,7 @@
             </div> -->
             <div class="quiz-card" for="s5" id="slide5">
                 <h2 class="quiz-title">
-                    Ready to take control of your adventure? Turn the wheel to decide – will you explore the world solo, or with the company of your loved ones?
+                    Ready to take control of your adventure? <span class="purple-text">Turn the wheel to decide</span> – will you explore the world solo, or with the company of your loved ones?
                 </h2>
                 <!-- <p class="quiz-description">
                     Choose one option that truly reflects your spirit:
@@ -320,7 +339,68 @@
                 <button *ngIf="currentSlideIndex === 4" id="next" class="next-button5" (click)="nextSlide()">Finish</button>
             </div>
             
+            
           </section>
+          <div *ngIf="showFailureFeedback" class="feedback-container">
+            <!-- Pozadinski blur -->
+            <div class="feedback-overlay"></div>
+            
+            <!-- Glavna kartica sa pozadinskom slikom -->
+            <div class="feedback-card">
+              <!-- Pozadinska slika -->
+              <div class="feedback-background" 
+                   [ngStyle]="{'background-image': 'url(' + getImage('oops.jpeg') + ')'}">
+              </div>
+          
+              <!-- Poruka za grešku -->
+              <div class="feedback-content">
+                <h1 class="feedback-title">⚠️ Oops...</h1>
+                <p class="feedback-message">
+                  You need to choose one picture before we continue!
+                </p>
+                <div class="feedback-buttons">
+                  <button (click)="closeFailureFeedback()" class="feedback-btn primary-btn">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div *ngIf="isQuizCompleted" class="feedback-container">
+            <!-- Pozadinski blur -->
+            <div class="feedback-overlay"></div>
+          
+            <!-- Glavna kartica sa pozadinskom slikom -->
+            <div class="feedback-card">
+
+            <div class="feedback-background"  [ngStyle]="{'background-image': 'url(' + getImage('success1.jpeg') + ')'}"></div>
+              <!-- Success poruka -->
+              <div *ngIf="saveSuccess" class="feedback-content">
+                <h1 class="feedback-title">🎉 You did it!</h1>
+                <p class="feedback-message">
+                  Congratulations! Your preferences are saved, and your experience is now tailored just for you.
+                </p>
+                <div class="feedback-buttons">
+                  <button (click)="navigateToClubs()" class="feedback-btn primary-btn">Back to Clubs</button>
+                  <button (click)="navigateToHome()" class="feedback-btn secondary-btn">Back to Home</button>
+                </div>
+              </div>
+          
+              <!-- Error poruka -->
+              <div *ngIf="!saveSuccess" class="feedback-content">
+                <h1 class="feedback-title">⚠️ Oh no!</h1>
+                <p class="feedback-message">
+                  Something went wrong while saving your preferences. Please try again later.
+                </p>
+                <div class="feedback-buttons">
+                  <button (click)="retrySave()" class="feedback-btn primary-btn">Try Again</button>
+                  <button (click)="navigateToHome()" class="feedback-btn secondary-btn">Back to Home</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
     </div>
 
 </div>

@@ -56,6 +56,7 @@ export class ClubDetailsComponent implements OnInit {
   
   selectComponent(component: string) {
     this.selectedComponent = component;
+    console.log(this.selectedComponent);
   }
   getImage(image: string): string {
     return environment.webroot + image;

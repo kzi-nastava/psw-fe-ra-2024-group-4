@@ -3,8 +3,11 @@ import { PersonInfoService } from '../person.info.service';
 import { PersonInfo } from '../model/info.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { environment } from 'src/env/environment';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'xp-info',
@@ -18,11 +21,15 @@ export class InfoComponent implements OnInit {
   user: User | null = null;
   imageBase64: string | null = null;
   editMode: boolean = false;
+  showAd:boolean=true;
+  
 
   constructor(
     private profileService: PersonInfoService,
     private authService: AuthService ,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private preferenceService:TourPreferenceService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +41,16 @@ export class InfoComponent implements OnInit {
         this.getPersonInfo(user.id);  
       }
       
+    });
+    this.preferenceService.hasTourPreference().subscribe({
+      next: (result) => {
+        this.showAd = !result;
+        console.log('Preference status:', result);
+      },
+      error: (err) => {
+        console.error('Error fetching preferences', err);
+        this.showAd = true; 
+      }
     });
   }
 
@@ -69,6 +86,9 @@ export class InfoComponent implements OnInit {
 
     }
     
+  }
+  getAdImage(image:string){
+    return environment.webroot + "images/quiz/" + image;
   }
 
   updateProfile(): void {
@@ -146,12 +166,20 @@ export class InfoComponent implements OnInit {
     }
   }
   
+  
   getImage(profilePicture: string): string {
     if (profilePicture.startsWith('data:image')) {
       return profilePicture; // Vrati `base64` podatke direktno ako su već u tom formatu
     }
     return environment.webroot + profilePicture; // Inače koristi `webroot`
   }
+  closeAd() {
+    this.showAd = false;
+}
+
+navigateToQuiz() {
+    this.router.navigate(['/quiz-intro']);
+}
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];

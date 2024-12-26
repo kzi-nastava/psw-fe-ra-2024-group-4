@@ -13,6 +13,7 @@ import { PersonInfo } from '../../person.info/model/info.model';
 import { TourPreferenceService } from '../../tour-authoring/tour-preference.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'xp-club',
   templateUrl: './club.component.html',
@@ -31,6 +32,18 @@ export class ClubComponent implements OnInit {
   userRequestCache: { [key: number]: boolean } = {};
   userIsOwner: {[key: number]: boolean } = {};
   userIsMember: {[key: number]: boolean } = {};
+  memberCount: number = 1;  //slider za membere
+  searchTerm: string = ''; //pretraga po nazivu
+  selectedFilterType: string = 'all'; 
+  sortOptions :string='';
+
+  //privremene promenljive
+  tempMemberCount: number = 1;
+  tempSearchTerm: string = '';
+  tempSelectedFilterType: string = 'all';
+  tempSortOption: string = ''; // "alphabetical", "memberCount" ili "preferences"
+  animateOnLoad = false;
+
 
   //samo za formu da se zatvara samo na click van
   isMouseDownWithinForm: boolean=false;
@@ -38,6 +51,7 @@ export class ClubComponent implements OnInit {
   isMouseDownWithinOverlay: boolean=false;
   isMouseUpWithinOverlay: boolean =false;
   shouldRenderForm: boolean=false;      // za novu  formu koja iskoci
+  animate = false;
 
   //tmp za preference sort
   //postavi tags koje hoces da budu, kad napravimo kviz i kada se budu cuvale userPreferences onda lako mozemo samo ucitati, do tad hardcoded
@@ -80,7 +94,9 @@ export class ClubComponent implements OnInit {
 
 
 
-
+    onAnimationEnd() {
+      this.animate = false; 
+    }
   constructor(private service: AdministrationService, private authService: AuthService, private personInfoService: PersonInfoService, private tourPreferenceService: TourPreferenceService,
     private router: Router
   ) {}
@@ -95,6 +111,12 @@ export class ClubComponent implements OnInit {
      // console.log('sort klubova:');
 
     });
+    this.animateOnLoad = true;
+
+  // Resetujte animaciju nakon završetka
+  setTimeout(() => {
+    this.animateOnLoad = false;
+  }, 700);
     this.tourPreferenceService.getTourPreference().subscribe((response: any) => {
       this.userTags = response.tags;
     }, (error) => {
@@ -115,7 +137,7 @@ export class ClubComponent implements OnInit {
         allowOutsideClick: false ,
       }).then((result) => {
         if (result.isConfirmed) {
-          this.router.navigate(['/quiz']); 
+          this.router.navigate(['/quiz-intro']); 
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           
         }
@@ -151,6 +173,7 @@ export class ClubComponent implements OnInit {
     });
     this.getClubJoinRequests();
   }
+  
 
   getClubJoinRequests(){
     this.service.getClubJoinRequests().subscribe({
@@ -163,6 +186,87 @@ export class ClubComponent implements OnInit {
       }
     })
   }
+  // sortAlphabetically(): void {
+  //   this.club = [...this.club].sort((a, b) => a.name.localeCompare(b.name));
+  // }
+  
+  // sortByMemberCount(): void {
+  //   this.club = [...this.club].sort((a, b) => (b.userIds?.length || 0) - (a.userIds?.length || 0));
+  // }
+  
+  // filterClubs(filterType: string): void {
+  //   if (filterType === 'my') {
+  //     this.club = this.club.filter(club => club.userId === this.currentUserId);
+  //   } else {
+  //     this.getAllClubs(); 
+  //   }
+  // }
+  applyFilters(): void {
+    console.log('Current slider value:', this.tempMemberCount); // Ovo proverava da li slider radi
+
+    let filteredClubs = [...this.club]; 
+    this.animate = true; 
+    // Sortiranje po izabranom kriterijumu
+    if (this.tempSortOption === 'alphabetical') {
+      filteredClubs = filteredClubs.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (this.tempSortOption === 'memberCount') {
+      filteredClubs = filteredClubs.sort((a, b) => (b.userIds?.length || 0) - (a.userIds?.length || 0));
+    } else if (this.tempSortOption === 'preferences') {
+      this.sortByPreference();
+      return; // Ako sortiraš po preferencama, ne treba dalje filtrirati
+    }
+  
+    // Filtriranje po broju članova
+    filteredClubs = filteredClubs.filter(club => (club.userIds?.length || 0) >= this.tempMemberCount);
+  
+    // Filtriranje po pretrazi
+    filteredClubs = filteredClubs.filter(club =>
+      club.name.toLowerCase().includes(this.tempSearchTerm.toLowerCase())
+    );
+  
+    // Filtriranje po tipu prikaza
+    if (this.tempSelectedFilterType === 'my') {
+      filteredClubs = filteredClubs.filter(club => club.userId === this.currentUserId);
+    }
+  
+    this.club = filteredClubs; 
+    console.log('Filters applied!');
+  }
+  
+  clearSearch(): void {
+    this.tempSearchTerm = '';
+    this.applyFilters(); // Ažurira rezultate pretrage
+  }
+  
+  filterByMemberCount(): void {
+    // Filtriraj klubove sa brojem članova većim od `memberCount`
+    this.club = this.club.filter(club => (club.userIds?.length || 0) >= this.memberCount);
+  }
+  searchClubs(): void {
+    this.club = this.club.filter(club => club.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+  }
+  resetFilters(): void {
+    this.tempMemberCount = 1;
+    this.tempSearchTerm = '';
+    this.tempSelectedFilterType = 'all';
+    this.tempSortOption ='';
+    this.clubIsRecommended = {}; // Praznimo preporučene klubove
+    this.animate = true; 
+
+    this.getAllClubs(); 
+  }  
+  
+  sectionsVisibility = {
+    sort: true,
+    memberRange: true,
+    search: true
+};
+
+toggleSection(section: 'sort' | 'memberRange' | 'search'): void {
+  this.sectionsVisibility[section] = !this.sectionsVisibility[section];
+}
+
+    
 
   populateUserRequestCache() {
     this.onInitCacheFill();

@@ -44,5 +44,16 @@ export class TourPreferenceService{
     }
     
   }
+  hasTourPreference(): Observable<boolean> {
+    const token = localStorage.getItem('access-token');
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      const touristId = decodedToken.id;
+      return this.http.get<boolean>(`${this.apiUrl}/has-preference/${touristId}`);
+    } else {
+      throw new Error('Token not found');
+    }
+  }
+  
   
 }

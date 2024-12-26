@@ -16,6 +16,8 @@ import { Notification } from './model/notifications.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Encounter } from '../encounters/model/encounter.model';
 import { PersonInfo } from '../person.info/model/info.model';
+import { ClubTour } from './model/club-tour.model';
+import { ClubMember } from './model/club-member.model';
 
 
 @Injectable({
@@ -277,6 +279,30 @@ export class AdministrationService {
     return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
   }
 
+  //organized tours
+  //    return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'administration/equipment')
+
+  getAllClubTours():Observable<PagedResults<ClubTour>>{
+    return this.http.get<PagedResults<ClubTour>>(environment.apiHost + 'clubTour');
+  }
+  addClubTour(clubTour: ClubTour): Observable<ClubTour> {
+    return this.http.post<ClubTour>(environment.apiHost + 'clubTour', clubTour);
+  }
+
+  //add banner sliku
+  addClubMemberBannerImage(clubMember: ClubMember): Observable<ClubMember>{
+    return this.http.post<ClubMember>(environment.apiHost + 'clubMember', clubMember);
+  }
+  getClubMemberById(id: number): Observable<ClubMember> {
+    return this.http.get<ClubMember>(`${environment.apiHost}clubMember/${id}`);
+  }
+  
+
+
+
+  updateClubTour(clubTour: ClubTour): Observable<ClubTour> {
+    return this.http.put<ClubTour>(environment.apiHost+`clubTour/${clubTour.id}`, clubTour);
+  }
   
 }
 
