@@ -137,7 +137,9 @@ export class ObjectComponent implements OnInit {
       this.x = endX + 50 + window.scrollX;
       this.y = endY + 100 + window.scrollY - 200;
       this.isFormVisible = true;
-      //this.adjustForm(1);
+      setTimeout(() => {
+        this.adjustFormPosition();
+      });
     }
   }
   
@@ -152,12 +154,34 @@ export class ObjectComponent implements OnInit {
       this.isFormVisible = false;
     }
   }
-  adjustForm(opacity: any){
-    const form = document.querySelector('.form-map-container') as HTMLElement;
-    if(form){
-      form.style.opacity = opacity;
+  private adjustFormPosition(): void {
+    const formContainer = document.querySelector('.form-map-container') as HTMLElement;
+    if (!formContainer) return;
+  
+    const formWidth = formContainer.offsetWidth;
+    const formHeight = formContainer.offsetHeight;
+  
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+  
+    // If the form goes beyond the right edge, shift it left
+    if (this.x + formWidth > viewportWidth) {
+      this.x = viewportWidth - formWidth - 10; 
+    }
+    // If it goes beyond the bottom edge, shift it up
+    if (this.y + formHeight > viewportHeight) {
+      this.y = viewportHeight - formHeight - 10;
+    }
+  
+    // Prevent negative values in case user clicked at top-left corner
+    if (this.x < 0) {
+      this.x = 10;
+    }
+    if (this.y < 0) {
+      this.y = 10;
     }
   }
+  
   adjustMap(){
     const leafletTopDiv = document.querySelector('.leaflet-control-container') as HTMLElement;
     if (leafletTopDiv) {

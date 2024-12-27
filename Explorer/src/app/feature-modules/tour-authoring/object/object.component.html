@@ -48,10 +48,13 @@
       </mat-select>
     </mat-form-field>
 
-    <input style="margin-top: 1vh;"
+    <mat-label style="margin-bottom: 0;">Upload Image</mat-label>
+    <input style="margin-bottom: 4px;"
       type="file"
       (change)="onFileSelected($event)"/>
-      <mat-label style="margin-bottom: 1vh;">Upload Image</mat-label>
+    
+      
+      
 
     <!-- Conditionally show either "Create" or "Update" button -->
     <button
