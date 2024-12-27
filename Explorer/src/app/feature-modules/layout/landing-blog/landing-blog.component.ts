@@ -7,6 +7,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
 import { AppReviewComponent } from '../app-review/app-review.component';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-landing-blog',
@@ -91,7 +92,7 @@ export class LandingBlogComponent implements OnInit {
       }
 
    }catch{
-    alert("Error");
+    Swal.fire('Error', 'Error.', 'error');
    }
   }
 }

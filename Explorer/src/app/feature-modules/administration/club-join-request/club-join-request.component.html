@@ -25,3 +25,15 @@
         </tr>
     </tbody>
 </table>
+
+
+<div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+</div>

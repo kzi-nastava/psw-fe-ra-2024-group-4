@@ -1,20 +1,27 @@
 <!--<div class="header">
   <xp-header></xp-header>
 </div>-->
-<div class="navbar">
-  <xp-navbar></xp-navbar>
-</div>
-
-<div *ngIf="showFixedCircle" class="chat-container">
-  <a (mouseenter)="toggleChat(true)" 
-  (mouseleave)="toggleChat(false)" class="fixed-circle">
-    ? 
-  </a>
-
-  <div *ngIf="isChatOpen" class="chat-box">
-    <p>{{chatMessage}}</p>
+<div class="app-container">
+  <div class="navbar">
+    <xp-navbar></xp-navbar>
   </div>
+
+  <div *ngIf="showFixedCircle" class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer class="footer">
+    <xp-footer></xp-footer>
+  </footer>
 </div>
-
-
-<router-outlet></router-outlet>

@@ -32,6 +32,12 @@ export class CommentComponent implements OnInit {
   editingStates: Map<number, boolean> = new Map();
   commentForm: FormGroup;
   
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Blog Post page! Here, you can view the full details of a blog post, including its title, image, and description. You can upvote or downvote the post if you are a tourist user. You can also add, edit, or delete comments on the post, depending on your role. Comments are displayed with their creation date, and if edited, the edit date is shown. If there are no comments yet, you will see a message indicating that. Feel free to share your thoughts in the comments section!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor( private service: CommentService,private postService: PostService, private route: ActivatedRoute,private authService: AuthService){}
 
   ngOnInit(): void {

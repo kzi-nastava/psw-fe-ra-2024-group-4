@@ -21,6 +21,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { TeamComponent } from './about-us/team/team.component';
 import { PurposeComponent } from './about-us/purpose/purpose.component';
 import { AboutAppComponent } from './about-us/about-app/about-app.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AboutAppComponent } from './about-us/about-app/about-app.component';
     AboutUsComponent,
     TeamComponent,
     PurposeComponent,
-    AboutAppComponent
+    AboutAppComponent,
+    FooterComponent
 
   ],
   imports: [
@@ -58,7 +60,8 @@ import { AboutAppComponent } from './about-us/about-app/about-app.component';
     MykeypointsComponent,
     LandingBlogComponent,
     AppReviewComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   
 })

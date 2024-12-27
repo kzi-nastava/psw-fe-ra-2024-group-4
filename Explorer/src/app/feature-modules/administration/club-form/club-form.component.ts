@@ -38,6 +38,13 @@ export class ClubFormComponent implements OnChanges {
   user: User | null = null;
   imageBase64: string = '';
 
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Club Management page! Here, you can create a new club by uploading an image, adding a name, description, and selecting tags that best represent your club\'s vision. If you are editing an existing club, make the necessary updates and save your changes. Hover over the help icon for additional guidance.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(
     private service: AdministrationService,
     private authService: AuthService
