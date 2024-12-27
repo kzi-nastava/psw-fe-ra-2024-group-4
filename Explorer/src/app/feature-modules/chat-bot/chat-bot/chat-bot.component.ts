@@ -95,6 +95,8 @@ export class ChatBotComponent implements OnInit {
         this.getQuestions("TOUR_EXECUTIONS");
         this.currentTag = "TOUR_EXECUTIONS";
         break;
+     
+
     }
   }
 
