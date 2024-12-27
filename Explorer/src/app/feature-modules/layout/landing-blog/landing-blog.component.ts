@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Post, BlogStatus } from '../../blog/model/post.model';
 import { CommentService } from '../../blog/comment.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -8,21 +8,25 @@ import { Router } from '@angular/router';
 import { AppReviewComponent } from '../app-review/app-review.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { TourTags } from '../../tour-authoring/create-tour/create-tour.component';
+import { TourOverview } from '../../tour-authoring/model/touroverview.model';
 
 @Component({
   selector: 'xp-landing-blog',
   templateUrl: './landing-blog.component.html',
   styleUrls: ['./landing-blog.component.css']
 })
-export class LandingBlogComponent implements OnInit {
+export class LandingBlogComponent implements OnInit, AfterViewInit {
 
   
   genericImage: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6raU10dijlmB2SobtTOlXvlwOe55tE0LjQ&s"
   blogs: Post[] = [];
   mainBlog: Post | undefined;
+  tours: TourOverview[] = [];
+  mainTour: TourOverview | undefined;
   user: User | undefined;
 
-  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {}
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog, private el: ElementRef, private renderer: Renderer2) {}
 
   /*
   constructor( private service: CommentService,private authService: AuthService){
@@ -33,6 +37,25 @@ export class LandingBlogComponent implements OnInit {
   }
     */
 
+  ngAfterViewInit() {
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Dodaj klasu "show" kad je element vidljiv
+          this.renderer.addClass(entry.target, 'show');
+          observer.unobserve(entry.target); // Opcionalno: prestani da posmatraš element
+        }
+      });
+    });
+
+    // Pronađi sve kartice u DOM-u
+    const cardContainers = this.el.nativeElement.querySelectorAll('.card-container');
+    cardContainers.forEach((card: HTMLElement) => {
+      observer.observe(card);
+    });
+  }
+
   ngOnInit(): void {
     this.getBlogs();
     this.authService.user$.subscribe(user => {
@@ -41,12 +64,7 @@ export class LandingBlogComponent implements OnInit {
   }
 
 
-  openReviewDialog(): void {
-    const dialogRef = this.dialog.open(AppReviewComponent, { width: 'auto',
-      height: 'auto'
-     });
   
-  }
 
   getBlogs(): void {
     /*
@@ -95,4 +113,13 @@ export class LandingBlogComponent implements OnInit {
     Swal.fire('Error', 'Error.', 'error');
    }
   }
+
+
+  getTours(): void {
+
+  }
+
+  getTagName(tagId: number): string {
+      return TourTags[tagId];
+    }
 }

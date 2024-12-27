@@ -18,10 +18,23 @@ h1 {
 }
 
 .card-container {
-    height: 90vh;
-    margin-bottom: 50px;
+    height: auto;
+    min-height: 50vh;
+    max-height: 110vh;
+    margin-top: 20px;
     min-width: 80vw;
+    max-width: 80vw;
     display: grid;
+    align-items: stretch; /* Elementi iste visine */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    overflow: hidden;
+}
+
+.card-container.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .title-section {
@@ -31,35 +44,60 @@ h1 {
 }
 
 
+
+.title-section h1,
+.title-section mat-icon {
+    transition: transform 0.3s ease; /* Animacija za elemente unutar sekcije */
+}
+
+.title-section:hover h1 {
+    transform: scale(1.05); /* Blago povećanje naslova */
+}
+
+.title-section:hover mat-icon {
+    transform: translateX(5px); /* Blago pomeranje ikone na hover */
+}
+
+
 .container {
     min-width: 80vw;
+    min-height: 250vh;
     display: grid;
     row-gap: 10vh;
     padding: 20px;
-    height: 100vh;
+    margin: 10px;
 }
 
 .content {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: start;
     gap: 20px;
-    width: 100%;
+    min-height: 70vh;
+    max-height:  100vh;
     min-width: 80vw;
 }
 
 .main-blog {
-    border-radius: 5px;
     position: relative;
-    height: 100%; /* Take full remaining height */
+    height: 90vh; /* Take full remaining height */
     width: 55%; /* Adjusted to fit alongside the scroll list */
+    border: 2px solid #ddd; /* Svetli obrub */
+    border-radius: 10px; /* Zaobljeni uglovi */
+    padding: 20px; /* Unutrašnji razmak */
+    background-color: #fff; /* Bele pozadina za čist izgled */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Glatka tranzicija za hover */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Blaga senka */
+    background: linear-gradient(to bottom, #f2e6e9, #fff); /* Gradijent pozadina */
+}
+.main-blog:hover {
+    transform: scale(1.03); /* Blago povećanje */
+    box-shadow: 0 4px 15px #642984ff; /* Intenzivnija senka */
 }
 
 .main-blog p {
     margin-top: 20px;
     word-wrap: break-word;
-    font-size: 1.1rem;
-    text-indent: 30px;
-    font-family: Montserrat;
 }
 
 .img-container {
@@ -67,11 +105,14 @@ h1 {
 }
 
 .scroll-list {
+    height: 95vh;
     flex: 0 0 40%; /* Takes 40% of the container */
-    padding: 20px;
+    padding: 3px;
+    padding-bottom: 0;;
+    padding-right: 10px;
     border-radius: 5px;
-    height: 80vh; /* Fixed height for the scrollable area */
-    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-y: scroll; /* Enables vertical scrolling */
+    scrollbar-color:gray #f2e6e9;
 }
 
 .scroll-list ul {
@@ -86,6 +127,14 @@ h1 {
     margin-bottom: 15px; /* Space between blog cards */
     padding: 10px; /* Space inside the card */
     padding-top: 0px;
+    border: 1px solid #ddd; /* Svetli obrub */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    background: linear-gradient(to bottom, #f2e6e9, #fff);
+}
+
+.blog-card:hover {
+    transform: scale(1.01); /* Blago povećanje */
+    box-shadow: 0 4px 15px #642984ff; /* Intenzivnija senka */
 }
 
 .blog-image {
@@ -93,9 +142,77 @@ h1 {
     height: 22vh; /* Fixed height for images */
     border-radius: 5px; /* Optional: rounded corners for images */
     margin-right: 10px; /* Space between image and title */
+    margin: 4px;
 }
 
 .blog-title {
     font-size: 16px; /* Font size for the blog title */
     font-weight: bold; /* Make the title bold */
+    font-family: 'Poppins', sans-serif;
+    color: #6A515E;
+}
+
+
+.main-title {
+    font-family: 'Poppins', sans-serif; /* Elegantan i moderan font */
+    font-weight: bold; /* Istakni naslov */
+    font-size: 2rem; /* Povećaj veličinu */
+    color: #333; /* Neutralna tamna boja */
+    margin-bottom: 10px; /* Razmak između naslova i opisa */
+}
+
+.main-description {
+    font-family: 'Roboto', sans-serif; /* Jednostavan font za opis */
+    font-size: 1rem; /* Udobna veličina za čitanje */
+    line-height: 1.5; /* Povećaj razmak između linija */
+    color: #6A515E; /* Svetlija nijansa za opis */
+    text-align: left; /* Tekst poravnat sa obe strane */
+    margin: 0px 20px; /* Razmak sa strana i od naslova */
+    padding: 10px; /* Unutrašnji razmak za udobnije čitanje */
+    /*border-radius: 5px; /* Lagano zaobljeni uglovi */
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Blaga senka za dubinu */
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap; /* Omogućava tagovima da se prelomljuju na sledeći red kada je potrebno */
+      
+    color: #333;                /* Tekst u tamnijoj boji */
+    font-size: 16px;            /* Manji font */
+    padding: 4px 8px;           /* Razmak oko broja */
+    border-radius: 12px;        /* Zaokruženi ivice kao kod tagova */
+    margin-left: 10px;
+    gap: 8px;                   /* Razmak između tagova */
+}
+
+.tag {
+    background-color: #e0e0e0;  /* Pozadina za svaki tag */
+    padding: 4px 12px;           /* Unutrašnji razmak u tagu */
+    border-radius: 12px;         /* Zaokruženi ivice tagova */
+}
+
+
+/*SCROLL-BAR*/
+.scroll-list::-webkit-scrollbar {
+    width: 10px; /* Širina scrollbar-a */
+    height: 12px; /* Visina scrollbar-a za horizontalni scroll */
+    border-radius: 10px;
+}
+
+.scroll-list::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px; /* Zaobljeni uglovi */
+}
+
+.scroll-list::-webkit-scrollbar-thumb {
+    background-color: #6A515E; /* Boja scrollbar-a */
+    border-radius: 10px; /* Zaobljeni scrollbar */
+    border: 3px solid #f0f0f0; /* Prostor između scrollbar-a i trake */
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.scroll-list::-webkit-scrollbar-thumb:hover {
+    background-color: #642984ff; /* Promena boje na hover */
+    border-color: #ddd;
 }
