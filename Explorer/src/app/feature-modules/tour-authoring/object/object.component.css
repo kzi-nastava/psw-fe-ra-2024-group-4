@@ -2,7 +2,6 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y: hidden;
 }
 h1{
   display: flex;
@@ -61,6 +60,9 @@ xp-map {
     height: 100% !important;
   }
   .updButton{
+    margin-bottom: 5px;
+  }
+  .delButton{
     margin-bottom: 5px;
   }
 

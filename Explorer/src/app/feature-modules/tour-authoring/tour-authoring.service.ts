@@ -75,5 +75,8 @@ export class TourAuthoringService {
   getObjectCategories(): Observable<CategoryDTO[]>{
     return this.http.get<CategoryDTO[]>(`${environment.apiHost + 'objectaddition/object/objectcategories'}`);
   }
+  deleteObject(id: number): Observable<TourObject>{
+    return this.http.delete<TourObject>(environment.apiHost + 'objectaddition/object/' + id);
+  }
 
 }

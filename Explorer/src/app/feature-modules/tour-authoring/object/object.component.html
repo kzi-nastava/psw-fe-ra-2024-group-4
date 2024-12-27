@@ -75,6 +75,15 @@
       Update Object
     </button>
 
+    <button class="delButton"
+      mat-raised-button
+      color="accent"
+      *ngIf="isEditing"
+      (click)="deleteObject()"
+    >
+      Delete Object
+    </button>
+
     <!-- Cancel button only if editing -->
     <button
       mat-raised-button

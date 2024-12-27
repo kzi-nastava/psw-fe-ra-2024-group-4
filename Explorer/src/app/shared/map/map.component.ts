@@ -820,7 +820,7 @@ private async showEncounterOnMap(): Promise<void> {
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
       );
       const data = await response.json();
-  
+      
       // Extract the house number and street
       const { house_number, road } = data.address || {};
   

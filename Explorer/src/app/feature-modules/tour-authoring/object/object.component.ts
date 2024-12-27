@@ -6,6 +6,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { FormGroup,FormControl, Validators } from '@angular/forms';
 import { MapComponent } from 'src/app/shared/map/map.component';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -86,6 +87,22 @@ export class ObjectComponent implements OnInit {
           this.isFormVisible = false;
           this.mapComponent.removeCurrentMarker();
           console.log("Object created: " ,createdObj);
+
+          Swal.fire({
+            title: 'Object Created',
+            text: 'Your object has been created successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        },
+        error: (err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to create the object.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          console.error('Error creating object', err);
         }
       })
     }
@@ -234,9 +251,21 @@ export class ObjectComponent implements OnInit {
           console.log('Object updated: ', res);
           this.getObjects();
           this.onCancelEdit();
+          Swal.fire({
+            title: 'Object Updated',
+            text: 'Your object has been updated successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
         },
         error: (err) => {
           console.error('Error updating object', err);
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to update the object.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       });
     }
@@ -246,6 +275,45 @@ export class ObjectComponent implements OnInit {
     this.isEditing = false;
     this.isFormVisible = false;
     this.selectedObject = null;
+  }
+
+  deleteObject(){
+    const id = this.selectedObject?.id;
+    if (id) {
+      Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this object?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.deleteObject(id).subscribe({
+        next: (res) => {
+          console.log('Object deleted: ', res);
+          this.getObjects();
+          this.onCancelEdit();
+          Swal.fire({
+          title: 'Object Deleted',
+          text: 'Your object has been deleted successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+          });
+        },
+        error: (err) => {
+          console.error('Error deleting object', err);
+          Swal.fire({
+          title: 'Error',
+          text: 'Failed to delete the object.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+          });
+        }
+        });
+      }
+      });
+    }
   }
   
 }
