@@ -98,6 +98,17 @@ export class ChatBotComponent implements OnInit {
         this.currentTag = "TOURS";
         this.currentTitle = "Tours";
         break;
+      case "Encounters":
+        this.getQuestions("ENCOUNTERS");
+        this.currentTag = "ENCOUNTERS";
+        this.currentTitle = "Encounters";
+        break;
+      case "What are encounters?":
+        this.getQuestions("ENCOUNTER_TYPES");
+        this.currentTag = "ENCOUNTER_TYPES";
+        this.currentTitle = "Encounter types";
+        break;
+
       case "How to start a tour?":
         this.getQuestions("TOUR_EXECUTIONS");
         this.currentTag = "TOUR_EXECUTIONS";
@@ -158,6 +169,18 @@ export class ChatBotComponent implements OnInit {
         this.currentTag = "ROOT";
         this.currentTitle = "Questions";
         break;
+      case "ENCOUNTERS":
+        this.getQuestions("ROOT");
+        this.currentTag = "ROOT";
+        this.currentTitle = "Questions";
+        break;
+      
+      case "ENCOUNTER_TYPES":
+        this.getQuestions("ENCOUNTERS");
+        this.currentTag = "ENCOUNTERS";
+        this.currentTitle = "Encounters";
+        break;
+
     }
     if(this.currentTag==="ROOT"){
       this.answer = "Hi I am Gavrilo, how can I help you?";
