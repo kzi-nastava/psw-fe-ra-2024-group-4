@@ -2,20 +2,35 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-  }
+    overflow-y: hidden;
+}
+h1{
+  display: flex;
+  justify-content: center;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  color: #642984ff;
+}
 .map-container {
-    width: 100%;
-    height: 100vh;   /* Fill the full viewport height */
+    width: 99%;
+    height: 80vh;   /* Fill the full viewport height */
     margin: 0;
     padding: 0;
     position: relative;
+    margin-left: 6px;
+    display: flex;
+    justify-content: center;
 }
 xp-map {
     width: 100%;
     height: 100%;
+    margin-bottom: 0px;
 }
 :host ::ng-deep .map-frame > div {
     height: 80vh !important;
+    margin: 0;
+    padding: 0;
 }
 
 /* The floating container that wraps the form. */
@@ -41,21 +56,9 @@ xp-map {
     border-radius: 4px;
     opacity: 0.9; /* slight transparency if you want */
   }
-  
-  /* The container for the map, full width. 
-     Adjust height as you wish (e.g., 90vh) */
-  .map-container {
-    width: 100%;
-    height: 85vh; 
-    position: relative;
-    /* If you need it fullscreen, you can do 100vh 
-       and remove other body margins, etc. */
-  }
-  
   /* Example to override Leaflet container if needed: */
   ::ng-deep .edit-map #map {
-    width: 100%;
-    height: 85vh !important;
+    height: 100% !important;
   }
   
   

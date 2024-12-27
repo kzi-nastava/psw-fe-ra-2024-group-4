@@ -56,7 +56,7 @@ export class ObjectComponent implements OnInit {
     longitude: new FormControl(0.0,Validators.required),
     latitude: new FormControl(0.0,Validators.required),
     description: new FormControl('',Validators.required),
-    category: new FormControl(14,Validators.required),
+    category: new FormControl(16,Validators.required),
     image: new FormControl(''),
     imageBase64: new FormControl(''),
     publicStatus: new FormControl(2,[Validators.required])
