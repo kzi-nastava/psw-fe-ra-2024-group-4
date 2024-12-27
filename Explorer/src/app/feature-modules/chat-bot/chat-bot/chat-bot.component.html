@@ -1,32 +1,66 @@
-
 <div class="chatbot-page">
-<div class="chatbot-container">
-
-<div class="chatbot-section">
-    <div class="chatbot-section-content">
-        <button (click)="toggleSound()" id="muteBtn" class="mute-btn">Sound On</button>
-    <div class="chatbot-image-div" matTooltip="Gavrilo">
-        <img class="chatbot-image" src="assets/images/chatbot.svg"/>
+  <h1 class="chatbot-title" >Welcome to Chatbot</h1>
+    <div class="chatbot-container">
+  
+      <div class="chatbot-left">
+        <div class="chatbot-image-div">
+          <img 
+           class="chatbot-image" 
+           src="assets/images/chatbot.svg"
+           matTooltip="Gavrilo"
+           matTooltipPosition="above">
+        </div>
+        <button (click)="toggleSound()" class="mute-btn">
+          <mat-icon *ngIf="soundOn">volume_up</mat-icon>
+          <mat-icon *ngIf="!soundOn">volume_off</mat-icon>
+        </button>
+      </div>
+  
+      <div class="chatbot-right">
+        <div class="answer-bubble">
+          <xp-bubble [answer]="this.answer"></xp-bubble>
+        </div>
+        <div class="questions-section">
+          <div class="search-div">
+            <input
+              type="text"
+              id="inputField"
+              placeholder="Search..."
+              [(ngModel)]="searchTerm"
+            />
+            <button
+             (click)="search()"
+              class="search-btn"
+              [disabled] = "!searchTerm">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+          <div 
+          class="questions-section-content"
+          [ngClass]="{ 'root-level': currentTag === 'ROOT' }">
+            <h1>{{ currentTitle }}</h1>
+            <div *ngIf="currentLevel.length === 0" class="no-results">
+              <p>No results found. Returning to the main menu...</p>
+            </div>
+            <button
+              class="question-btn"
+              (click)="ask(question)"
+              *ngFor="let question of currentLevel"
+            >
+              {{ question }}
+            </button>
+          </div>
+          <button
+            *ngIf="this.currentTag !== 'ROOT'"
+            class="back-btn"
+            (click)="goBack()"
+          >
+          <mat-icon>arrow_back</mat-icon>
+            Go Back
+          </button>
+  
+        </div>  
+      </div>
     </div>
-    <div class="question-answer">
-    <h1>{{this.currentQuestion}}</h1>
-   <xp-bubble [answer] = "this.answer"></xp-bubble>
-</div>
-</div>
-</div>
-<div class="questions-section">
-    <div class="search-div">
-        <input type="text" id="inputField" placeholder="Enter search term">
-        <button (click)="search()">Search</button>
-       
-    </div>
-    <div class="questions-section-content">
-        <h1>Questions</h1>
-        <button class="question-btn" (click) = "ask(question)" *ngFor="let question of currentLevel">{{ question }}</button>
-    </div>
-
-<button *ngIf="this.currentTag !== 'ROOT'"  class = "back-btn" (click) = "goBack()">Go Back</button>
-</div>
-</div>
-</div>
-
+  </div>
+  

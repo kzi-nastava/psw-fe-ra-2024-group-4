@@ -351,13 +351,9 @@ button[mat-icon-button] mat-icon {
     justify-content: center;
 }
 
-/*.map-keypoint{
+.map-keypoint{
     width: 100%;
 }
-*/
-
-
-
 
 .cart-container {
     position: relative;
@@ -596,4 +592,3 @@ button[mat-icon-button] mat-icon {
         font-weight: bold;
         color: green; /* Optional: change color to highlight the discount */
     }
-    

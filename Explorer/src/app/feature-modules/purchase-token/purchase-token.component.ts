@@ -46,40 +46,54 @@ export class PurchaseTokenComponent implements OnInit{
 
 
   ngOnInit(): void {
-    
-    this.authService.getUser().subscribe(user => {
-      this.userId = user.id; 
+    this.authService.getUser().subscribe((user) => {
+      this.userId = user.id;
 
       if (user) {
         this.tourExecutionService.getPositionByTourist(user.id).subscribe({
-            next: (position: PositionSimulator) => {
-                console.log('Position retrieved:', position);
-                this.position = position;
-            },
-            error: (err) => {
-                console.error('Error retrieving position:', err);
-            }
+          next: (position: PositionSimulator) => {
+            console.log('Position retrieved:', position);
+            this.position = position;
+          },
+          error: (err) => {
+            console.error('Error retrieving position:', err);
+          },
         });
-    }
-      
-      this.purchaseService.getUserPurchasedTours(this.userId).subscribe(tokens => {
+      }
+
+      this.purchaseService.getUserPurchasedTours(this.userId).subscribe((tokens) => {
         this.purchasedTokens = tokens;
 
-        const tourRequests = tokens.map(token => this.purchaseService.getTour(token.tourId));
-        
-        forkJoin(tourRequests).subscribe(tourDetails => {
+        if (tokens.length === 0) {
+          // Show SweetAlert if no tours have been purchased
+          Swal.fire({
+            icon: 'info',
+            title: 'No Purchased Tours',
+            text: "You haven't purchased any tours yet.",
+            confirmButtonText: 'Go to Tours Overview',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/tour-overview']);
+            }
+          });
+          return; // Exit if no tours are found
+        }
 
+        const tourRequests = tokens.map((token) =>
+          this.purchaseService.getTour(token.tourId)
+        );
+
+        forkJoin(tourRequests).subscribe((tourDetails) => {
           this.tours = tourDetails.map((tour, index) => {
             const token = tokens[index];
             return {
               ...tour,
-              price: token.price
+              price: token.price,
             };
           });
 
           this.tours = tourDetails;
           this.loadTourExecutions();
-
         });
       });
     });

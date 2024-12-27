@@ -1,59 +1,130 @@
 <div>
 <div id="main-content">
-  <div *ngIf="postDetails" id="post" class="card post-card">
-    <div id="post-details">
-      <div class="post-content">
-        <div>
-          <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
-          <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
-        </div>
-        <div>
-          <h2 class="post-title">{{ postDetails.title }}</h2>
-          <p class="post-date">Created At: {{ postDetails.createdAt | date: 'short' }}</p>
-          <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
-        </div>
-      </div>  
-      <!-- Voting section inside the post card -->
-      <div class="vote-section-horizontal">
-        <p class="rate-label">Rate:</p>
-        <button *ngIf="currentUser && currentUser.role==='tourist'&& postDetails.status!==2" class="upvote-btn" [ngClass]="{'active-vote': userHasUpvoted}" (click)="upvotePost()">
+  <div class="content-container">
+  <div class="blog-details">
+    <!-- Blog Details Section -->
+    <div *ngIf="postDetails" id="post" class="card post-card">
+      <h2 class="post-title">{{ postDetails.title }}</h2>
+      <img *ngIf="postDetails.imageUrl" [src]="getImage(postDetails.imageUrl)" alt="{{ postDetails.title }}" class="post-image">
+      <div *ngIf="!postDetails.imageUrl" class="no-image">No Image Available</div>
+      <div class="post-description-container">
+        <p class="description-label">Dive into the story:</p>
+        <p class="post-description"><markdown>{{ postDetails.description }}</markdown></p>
+      </div>          
+      <div class="vote-section">
+        <button 
+        [disabled]="!currentUser || currentUser.role !== 'tourist' || postDetails.status === 2" 
+        class="upvote-btn" 
+        [ngClass]="{'active-vote': userHasUpvoted}" 
+        (click)="upvotePost()">
           <mat-icon>arrow_upward</mat-icon>
         </button>
         <p class="vote-count">{{ postDetails.ratingSum }}</p>
-        <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="downvote-btn" [ngClass]="{'active-vote': userHasDownvoted}" (click)="downvotePost()">
+        <button 
+        [disabled]="!currentUser || currentUser.role !== 'tourist' || postDetails.status === 2"
+        class="downvote-btn" 
+        [ngClass]="{'active-vote': userHasDownvoted}" 
+        (click)="downvotePost()">
           <mat-icon>arrow_downward</mat-icon>
         </button>
-        <p class="rate-label">Comments:</p>
-        <p class="comment-count">{{comment.length}}</p>
+        <div class="comment-info">
+          <mat-icon>comment</mat-icon>
+          <p class="vote-count">{{ comment.length }}</p>
+        </div>
       </div>
+      
+      <p class="post-date">{{ postDetails.createdAt | date: 'short' }}</p>
     </div>
   </div>
 
   <!-- Comment section -->
-  <div *ngFor="let c of comment" class="card comment-card">
-    <p class="comment-text">{{ c.text }}</p>
-    <p class="comment-author">Author: {{ c.username }}</p>
-    <p class="comment-date">Created At: {{ c.createdAt | date: 'short' }}</p>
-    <p class="comment-updated">Updated At: {{ c.updatedAt | date: 'short' }}</p>
-    <div class="actions">
-      <button *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status!==2" class="primary" (click)="onEditClicked(c)">
-        <mat-icon>edit</mat-icon> Edit
-      </button>
-      <button *ngIf="currentUser && currentUser.role==='tourist' && currentUser.id === c.userId && postDetails.status!==2" class="warn" (click)="deleteComment(c)">
-        <mat-icon>delete</mat-icon> Delete
-      </button>
+  <div class="comments-section">
+
+    <p class="comments-title">Recent Comments</p>
+    <div *ngIf="comment.length===0" class="no-results">
+      <p>No comments available!</p>
     </div>
+    <div *ngFor="let c of comment" class="card comment-card">
+      <div *ngIf="c.id !== undefined && editingStates.has(c.id)">
+        <form [formGroup]="commentForm" (ngSubmit)="saveComment(c)">
+          <textarea
+            formControlName="text"
+            class="edit-textarea"
+            placeholder="Edit your comment..."
+          ></textarea>
+          <div class="comment-actions">
+            <button class="edit-btn" type="submit">Save</button>
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="stopEditing(c.id)"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    
+      <!-- View Mode -->
+      <div *ngIf="c.id !== undefined && !editingStates.has(c.id)">
+        <p class="comment-text">{{ c.text }}</p>
+        <div class="comment-author-info">
+          <p class="comment-author">Left by <span class="username-highlight">{{ c.username }}</span></p>
+        </div>
+        <div class="comment-actions">
+          <button
+            class="edit-btn"
+            *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status !== 2"
+            [disabled]="shouldRenderCommentForm"
+            (click)="onEditClicked(c)"
+          >
+            Edit
+          </button>
+          <button
+            class="delete-btn"
+            *ngIf="currentUser && currentUser.role === 'tourist' && currentUser.id === c.userId && postDetails.status !== 2"
+            (click)="deleteComment(c)"
+          >
+            Delete
+          </button>
+        </div>
+        <p
+          class="comment-date"
+          *ngIf="c.updatedAt !== c.createdAt"
+        >
+          Edited At: {{ c.updatedAt | date: 'short' }}
+        </p>
+        <p
+          class="comment-date"
+          *ngIf="c.updatedAt === c.createdAt"
+        >
+          {{ c.createdAt | date: 'short' }}
+        </p>
+      </div>
+    </div>    
+    <form *ngIf="shouldRenderCommentForm" [formGroup]="commentForm" (ngSubmit)="addComment()" class="comment-form">
+      <mat-form-field class="comment-textarea">
+        <mat-label>Text</mat-label>
+        <textarea matInput formControlName="text" placeholder="Add a comment"></textarea>
+        <mat-error *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
+          Comment cannot be empty.
+        </mat-error>
+      </mat-form-field>
+      <div class="comment-actions-inline">
+        <button 
+        class="edit-btn" 
+        [disabled]="commentForm.invalid && editingStates.size>0">Add</button>
+        <button class="delete-btn" (click)="cancelAdd()">Cancel</button>
+      </div>
+    </form>    
+    <button *ngIf="!shouldRenderCommentForm && currentUser.role==='tourist'" class="add-comment-btn" (click)="onAddClicked()">Add Comment</button>
   </div>
-
-  <button *ngIf="currentUser && currentUser.role==='tourist' && postDetails.status!==2" class="primary add-comment-btn" (click)="onAddClicked()">
-    <mat-icon>add</mat-icon> Add Comment
-  </button>
-
-  <div>
-    <xp-comment-form *ngIf="shouldRenderCommentForm" (commentUpdated)="getPostDetails(postId)" [comment]="selectedComment" [shouldEdit]="shouldEdit" [postId]="postId"></xp-comment-form>
-  </div>
-
-  <button mat-button color="primary" [routerLink]="['/blogPost']">
+</div>
+</div>
+<div class="back-button-container">
+  <button mat-button class="back-btn" [routerLink]="['/blogPost']">
     <mat-icon>arrow_back</mat-icon> Back to see all posts
   </button>
 </div>
+</div>
+

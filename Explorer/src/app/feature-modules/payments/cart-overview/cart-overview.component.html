@@ -46,7 +46,7 @@
         </mat-card-content>
       </mat-card>
       <div class="price-container">
-        <p><strong>{{ item.price }} $</strong></p>
+        <p><strong>{{ item.price }} AC</strong></p>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
       <span class="wallet-price">Your wallet: {{ wallet }} $</span>
       <span class="total-price">Total: {{ totalPrice }} $</span>
       <div class="divider"></div> 
-      <button mat-raised-button class="checkout" color="accent" (click)="checkout()">Checkout</button>
+      <button mat-raised-button class="checkout" color="accent" (click)="checkout()">BUY</button>
     </div>
   </div>
 </div>
@@ -79,5 +79,9 @@
     <button mat-raised-button color="accent" (click)="applyCoupon()">Apply Coupon</button>
   </div>
 
+
+  
+    
+  
   <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
 </div>

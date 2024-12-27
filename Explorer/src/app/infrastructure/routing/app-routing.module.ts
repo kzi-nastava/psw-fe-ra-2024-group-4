@@ -31,7 +31,6 @@ import { CartOverviewComponent } from 'src/app/feature-modules/payments/cart-ove
 import { PurchaseTokenComponent } from '../../feature-modules/purchase-token/purchase-token.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/marketplace/tour-review-form/tour-review-form.component';
 import { QuizComponent } from 'src/app/feature-modules/administration/quiz/quiz.component';
-
 import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-execution/position-simulator/position-simulator.component';
 import { PublicStatusRequestComponent } from 'src/app/feature-modules/administration/public-status-request/public-status-request.component';
 import { TourDetailsNewComponent } from 'src/app/feature-modules/tour-authoring/tour-details-new/tour-details-new.component';
@@ -39,9 +38,8 @@ import { AdminEncounterComponent } from 'src/app/feature-modules/encounters/admi
 import { EncounterPublicStatusRequestComponent } from 'src/app/feature-modules/administration/encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 import { BundleComponent } from 'src/app/feature-modules/payments/bundle/bundle.component';
 import { SalesComponent } from 'src/app/feature-modules/payments/sales/sales.component';
+import { AboutUsComponent } from 'src/app/feature-modules/layout/about-us/about-us.component';
 import { ChatBotComponent } from 'src/app/feature-modules/chat-bot/chat-bot/chat-bot.component';
-
-
 
 
 const routes: Routes = [
@@ -64,7 +62,7 @@ const routes: Routes = [
   {path: 'tour/:id/equipment', component: NecessaryEquipmentComponent },
   {path: 'object-view', component: ObjectViewComponent},
   {path: 'appReviews', component: AppReviewTableComponent, canActivate: [AuthGuard],},
-  {path: 'reviewApp', component: AppReviewComponent,canActivate: []},
+  {path: 'reviewApp', component: AppReviewComponent},
   {path: 'clubJoinRequest', component: ClubJoinRequestComponent},
   {path: 'touristEquipment', component: PersonEquipmentComponent},
   {path: 'tourReviews', component: TourReviewsComponent},
@@ -85,7 +83,10 @@ const routes: Routes = [
   {path: 'sales', component: SalesComponent},
   {path: 'equipment', component: EquipmentComponent},
   {path: 'quiz', component: QuizComponent},
-  {path: 'chatbot', component: ChatBotComponent}
+  {path: 'chatbot', component: ChatBotComponent},
+  {path: 'about-us', component: AboutUsComponent}
+
+
 ];
 
 @NgModule({

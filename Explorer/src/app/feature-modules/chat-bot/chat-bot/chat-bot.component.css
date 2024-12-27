@@ -1,125 +1,273 @@
 
-.chatbot-page{
+.chatbot-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column; 
+    justify-content: center; 
     align-items: center;
-}
-.chatbot-container{
+    min-height: 100vh; 
+    background: url('background_pictures\gif3.gif') no-repeat center center fixed; /* Putanja do GIF-a */
+    background-size: cover;
+  
+  }
+  
+  .chatbot-container {
     display: flex;
-   
     width: 80%;
-    height: 80vh;
     margin-top: 4vh;
-    border: 0.3vh solid #BFA8D7;
+    border: none;
+    border-radius: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+    box-shadow: none;
+    background: none;
+  }
+  .chatbot-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%; 
+    background-color: none;
     border-top-left-radius: 2vh;
-    border-top-right-radius: 2vh;
     border-bottom-left-radius: 2vh;
+  
+    
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .mute-btn {
+    background-color: #a36484; 
+    border: none;
+    cursor: pointer;
+    width: 75px;  
+    height: 40px;  
+    border-radius: 50%; 
+    margin-bottom: 2vh;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  .mute-btn:hover {
+    background-color: #bf788f; 
+    transform: scale(1.05);   
+  }
+  
+  .mute-btn mat-icon {
+    font-size: 1.5rem; 
+    color: #ffffff;  
+  }
+  .chatbot-image-div {
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .chatbot-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .chatbot-right {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin:0;
+    
+    background-color: none;
+    border-top-right-radius: 2vh;
     border-bottom-right-radius: 2vh;
     animation: fadeIn 0.3s ease-in forwards;
-
-   
-}
-
-
-.chatbot-section-content{
-    display: flex;
-    margin-left: 14vh;
-    
-   
-}
-
-.chatbot-section{
-    display: flex;
-    
-    align-items: center;
-    background-color: #ecdaff;
-    width: 50%;
-    border-top-left-radius: 2vh;
-    border-bottom-left-radius: 2vh;
-    
-   
-}
-
-.chatbot-image-div{
-    cursor: pointer;
-}
-.question-answer{
+  }
+  
+  .answer-bubble {
+    padding: 2vh;
+  }
+  
+  .questions-section {
     display: flex;
     flex-direction: column;
-    margin-top: -5vh;
-    
-}
-
-
-.question-answer h1{
-    font-size: large;
-}
-
-
-.questions-section{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 50%;
-    background-color: #bcdbff;
-    border-top-right-radius: 2vh;
-    border-bottom-right-radius: 2vh;
     gap: 2vh;
+    padding: 2vh;
+    background: none; /* Uklanja pozadinu sekcije sa pitanjima */
     
-}
-
-.questions-section-content{
+  }
+  
+  .search-div {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    animation: fadeIn 0.3s ease-in forwards;
+  }
+  
+  .search-div input[type="text"] {
+    width: 25vw; 
+    padding: 1vh 2vh;
+    font-size: 1rem;
+    border-radius: 2vh; 
+    border: 1px solid #999;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    border: 3px solid #ef7ad9;
+  }
+  .search-btn {
+    background-color: #a36484; 
+    border: none;
+    cursor: pointer;
+    border-radius: 50%; 
+    font-size: 1.2rem;
+    padding: 0.5vh 1vh; 
+    display: flex;
+    width: 50px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  .search-btn:hover:not(:disabled) {
+    background-color: #bf788f; 
+    transform: scale(1.05); 
+  }
+  .search-btn:disabled{
+    background-color: #ccc;
+    cursor:not-allowed;
+    opacity: 0.8;
+    transform: none;
+    transition: none;
+    pointer-events: none;
+  }
+  .search-btn mat-icon {
+    font-size: 1.2rem;  
+    color: #ffffff;  
+  }
+  .questions-section-content {
     display: flex;
     flex-direction: column;
     gap: 1vh;
     align-items: center;
-   
-   
-}
-
-.question-btn{
+    background: none; /* Uklanja pozadinu sekcije sa pitanjima */
+    
+    
+  }
+  .questions-section-content h1 {
+    margin-bottom: 1vh;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .question-btn {
+    font-size: 1.3rem;
+    background-color:#d8b8f8;  
+    color: #ffffff;
+    border: 0.3vh solid #a36484;
+    width: 200px;           
+    height: 50px; 
+    border-radius: 8px;
+    margin-bottom: 2vh;
+    cursor: pointer;
+    width: 100%;
     animation: fadeIn 0.3s ease-in forwards;
-}
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .question-btn:hover {
+    background-color: #bf788f; 
+    color:#424040;
+    transform: scale(1.05); 
+  }
 
-.back-btn{
-    animation: fadeIn 0.3s ease-in forwards;
-}
-
-.search-div{
-    animation: fadeIn 0.3s ease-in forwards;
-}
-@keyframes fadeIn {
+  .chatbot-title {
+    font-size: 20px; /* Veličina naslova */
+    font-weight: 900; /* Najdeblji font */
+    color: #ef7ad9; /* Ljubičasta boja */
+    text-align: center; /* Centriran tekst */
+    font-family: 'Poppins', sans-serif; /* Font */
+    text-shadow: 0px 0.5vh 1vh rgba(0, 0, 0, 0.3); /* Blaga senka */
+    cursor: pointer; /* Pokazivač pri hoveru */
+    animation: fadeInTitle 1s ease-in-out; /* Animacija ulaska */
+    transition: transform 0.3s ease, color 0.3s ease; /* Hover efekti */
+  }
+  
+  .chatbot-title:hover {
+    transform: scale(1.5); /* Uvećanje naslova pri hoveru */
+    color: #bf788f; /* Promena boje pri hoveru */
+  }
+  
+  /* Definicija animacije ulaska */
+  @keyframes fadeInTitle {
     from {
-        opacity: 0;
+      opacity: 0; /* Početna nevidljivost */
+      transform: translateY(-20px); /* Početno pomeranje prema gore */
     }
     to {
-        opacity: 1;
+      opacity: 1; /* Postepeni prikaz */
+      transform: translateY(0); /* Vraćanje na originalnu poziciju */
     }
-}
-
-
-
-.chatbot-image-div{
-    height: 40vh;
-}
-
-.question-btn{
-    font-size: x-large;
-    width: 100%;
-}
-
-.back-btn{
-    margin-top: 1vh;
-}
-
-.search-div{
-    display: flex;
-    gap: 1vh;
+  }
+  .back-btn {
+    background-color: #a36484; 
+    border: none;
+    cursor: pointer;
+    height: 40px;  
+    border-radius: 50px;
+    margin-bottom: 2vh;
+    display: inline-flex; 
+    align-items: center; 
     justify-content: center;
-    
+    gap: 0.5rem;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: 'Poppins', sans-serif;
 }
 
-.mute-btn{
-    height: 4vh;
+.back-btn:hover {
+  background-color: #bf788f;
+  transform: scale(1.05); 
+}
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  a.fixed-circle {
+    display: none !important;
+  }
+  .chat-container a.fixed-circle {
+    display: none !important;
+  }
+
+.root-level .question-btn{
+  font-size: 1.8rem;
+  height: 60px;
+  transform: scale(1.1) rotate(1deg);
+}
+
+
+.no-results { 
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centriranje i horizontalno i vertikalno */
+  text-align: center;
+  font-size: 2rem; /* Prilagođena veličina fonta */
+  font-weight: bold; /* Istaknut tekst */
+  color: #a36484; /* Naglašena boja */
+  margin: 20px auto; /* Centrirano na stranici */
+  animation: fadeIn 1s ease-in-out; /* Animacija za lep efekat prikaza */
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
