@@ -32,7 +32,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PaymentsModule } from './feature-modules/payments/payments.module';
+
+import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
+
 import { MatRadioModule } from '@angular/material/radio';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +72,9 @@ import { MatRadioModule } from '@angular/material/radio';
     EncounterModule,
     MatSlideToggleModule,
     PaymentsModule,
+    ChatBotModule,
     MatRadioModule
+
   ],
   providers: [
     {
