@@ -60,6 +60,9 @@ xp-map {
   ::ng-deep .edit-map #map {
     height: 100% !important;
   }
+  .updButton{
+    margin-bottom: 5px;
+  }
   
   
   

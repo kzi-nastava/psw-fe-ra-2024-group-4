@@ -16,6 +16,8 @@ import { MapComponent } from 'src/app/shared/map/map.component';
 export class ObjectComponent implements OnInit {
   @ViewChild('mapCmp') mapComponent: MapComponent;
 
+  
+
   objects: TourObject[] = [];
   categories: CategoryDTO[] = [];
   selectedObject: TourObject | null = null;
@@ -24,6 +26,7 @@ export class ObjectComponent implements OnInit {
   selectedLatitude: number | null = null;
   selectedLongitude: number | null = null;
   isFormVisible: boolean = false;
+  isEditing = false;
 
   x = 0;
   y = 0;
@@ -171,4 +174,53 @@ export class ObjectComponent implements OnInit {
     };
     reader.readAsDataURL(file); 
   }
+  onObjectClicked(object: TourObject){
+    this.isEditing = true;
+    this.isFormVisible=true;
+    this.selectedObject = object;
+
+    this.objectForm.patchValue({
+      name: object.name,
+      longitude: object.longitude,
+      latitude: object.latitude,
+      description: object.description,
+      category: object.category,
+      image: object.image,
+      imageBase64: object.imageBase64,
+      publicStatus: object.publicStatus
+    });
+  }
+  updateObject(): void{
+    if (this.objectForm.valid && this.selectedObject) {
+      const updatedObject: TourObject = {
+        ...this.selectedObject, // preserve original id, userId, etc.
+        name: this.objectForm.value.name || this.selectedObject.name,
+        longitude: this.objectForm.value.longitude || this.selectedObject.longitude,
+        latitude: this.objectForm.value.latitude || this.selectedObject.latitude,
+        description: this.objectForm.value.description || this.selectedObject.description,
+        category: this.objectForm.value.category || this.selectedObject.category,
+        image: this.objectForm.value.image || this.selectedObject.image,
+        imageBase64: this.objectForm.value.imageBase64 || '',
+        publicStatus: this.objectForm.value.publicStatus || 2
+      };
+  
+      this.service.updateObject(updatedObject).subscribe({
+        next: (res: TourObject) => {
+          console.log('Object updated: ', res);
+          this.getObjects();
+          this.onCancelEdit();
+        },
+        error: (err) => {
+          console.error('Error updating object', err);
+        }
+      });
+    }
+  }
+  onCancelEdit(): void {
+    this.objectForm.reset();
+    this.isEditing = false;
+    this.isFormVisible = false;
+    this.selectedObject = null;
+  }
+  
 }

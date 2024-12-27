@@ -6,6 +6,7 @@
     (mouseup)="onMouseUp($event)"
     (latitudeChanged)="updateLatitude($event)" 
     (longitudeChanged)="updateLongitude($event)"
+    (objectClicked)="onObjectClicked($event)"
     [selectedObjectPoints] = 'objects' 
     [registeringObject]="true">
     </xp-map>
@@ -52,14 +53,34 @@
       (change)="onFileSelected($event)"/>
       <mat-label style="margin-bottom: 1vh;">Upload Image</mat-label>
 
-    <!-- Submit button -->
+    <!-- Conditionally show either "Create" or "Update" button -->
     <button
       mat-raised-button
-      type="submit"
       color="accent"
+      *ngIf="!isEditing"
       (click)="createObject()"
     >
       Create Object
+    </button>
+
+    <button class="updButton"
+      mat-raised-button
+      color="primary"
+      *ngIf="isEditing"
+      (click)="updateObject()"
+    >
+      Update Object
+    </button>
+
+    <!-- Cancel button only if editing -->
+    <button
+      mat-raised-button
+      color="warn"
+      *ngIf="isEditing"
+      type="button"
+      (click)="onCancelEdit()"
+    >
+      Cancel
     </button>
   </form>
 </div>

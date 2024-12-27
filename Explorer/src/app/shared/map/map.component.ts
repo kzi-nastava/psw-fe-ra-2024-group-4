@@ -51,6 +51,8 @@ export class MapComponent {
   @Output() touristPositionUpdate = new EventEmitter<PositionSimulator>();
   @Output() tourSearchLat=new EventEmitter<number>();
   @Output() tourSearchLon=new EventEmitter<number>();
+  @Output() objectClicked = new EventEmitter<TourObject>();
+
 
   @Output() distanceChanged = new EventEmitter<number>();
 
@@ -614,6 +616,8 @@ private getObjectIcon(category: number): L.Icon {
     */
 
   private plotExistingObjects(): void {
+
+    
     
     this.selectedObjectMarkers?.forEach(marker => this.map.removeLayer(marker));
     this.selectedObjectMarkers = [];
@@ -658,6 +662,10 @@ private getObjectIcon(category: number): L.Icon {
             marker.on('mouseout', () => {
                 marker.closePopup();
             });
+            marker.on('click', () => {
+              this.objectClicked.emit(obj); // obj is a TourObject
+            });
+            
 
             // Save the marker for future updates or clearances
             this.selectedObjectMarkers.push(marker);
