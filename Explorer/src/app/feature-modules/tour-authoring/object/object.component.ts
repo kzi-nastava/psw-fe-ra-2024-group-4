@@ -123,8 +123,8 @@ export class ObjectComponent implements OnInit {
     this.startX = event.clientX;
     this.startY = event.clientY;
     this.isFormVisible=false;
-    this.adjustMap();
-    this.adjustForm(0);
+    //this.adjustMap();
+    //this.adjustForm(0);
   }
   // Metoda koja se pokreće na mouseup i proverava da li je reč o kliku
   onMouseUp(event: MouseEvent) {
@@ -136,7 +136,7 @@ export class ObjectComponent implements OnInit {
       this.x = endX + 50 + window.scrollX;
       this.y = endY + 100 + window.scrollY - 200;
       this.isFormVisible = true;
-      this.adjustForm(1);
+      //this.adjustForm(1);
     }
   }
   

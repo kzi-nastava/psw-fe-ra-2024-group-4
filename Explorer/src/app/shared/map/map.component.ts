@@ -790,14 +790,11 @@ private async showEncounterOnMap(): Promise<void> {
 
 
     
-          // Use mouseover and mouseout events to show/hide the popup
-          marker.on('mouseover', () => {
-            marker.bindPopup(popupContent).openPopup();
-          });
-    
-          marker.on('mouseout', () => {
-            marker.closePopup();
-          });
+      marker.bindTooltip(popupContent, {
+        direction: 'top',    // or 'auto', 'right', etc.
+        sticky: true         // keep the tooltip open if the cursor drifts slightly
+      });
+      
         this.selectedTourPointsMarkers.push(marker)
         
 
