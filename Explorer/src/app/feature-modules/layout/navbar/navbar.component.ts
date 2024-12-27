@@ -38,30 +38,41 @@ export class NavbarComponent implements OnInit {
   isToursMenuOpen = false;
   isBlogsMenuOpen = false;
   isClubsMenuOpen = false;
-
+  isHelpMenuOpen = false;
 
   openToursMenu() {
       this.isToursMenuOpen = true;
       this.isBlogsMenuOpen = false; // Close blogs menu
       this.isClubsMenuOpen = false; // Close clubs menu
+      this.isHelpMenuOpen = false;
   }
   
   openBlogsMenu() {
       this.isBlogsMenuOpen = true;
       this.isToursMenuOpen = false; // Close tours menu
       this.isClubsMenuOpen = false; // Close clubs menu
+      this.isHelpMenuOpen = false;
   }
   
   openClubsMenu() {
       this.isClubsMenuOpen = true;
       this.isToursMenuOpen = false; // Close tours menu
       this.isBlogsMenuOpen = false; // Close blogs menu
+      this.isHelpMenuOpen = false;
   }
+
+  openHelpMenu() {
+    this.isClubsMenuOpen = false;
+    this.isToursMenuOpen = false; // Close tours menu
+    this.isBlogsMenuOpen = false; // Close blogs menu
+    this.isHelpMenuOpen = true;
+}
   
   closeAllMenus() {
       this.isToursMenuOpen = false;
       this.isBlogsMenuOpen = false;
       this.isClubsMenuOpen = false;
+      this.isHelpMenuOpen = false;
   }
   getUserLevel(): void{
     if(!this.user) return;
