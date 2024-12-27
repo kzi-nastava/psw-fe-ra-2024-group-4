@@ -110,10 +110,11 @@ export class ObjectComponent implements OnInit {
   }
   updateLongitude(newLongitude: number): void{
     this.selectedLongitude = newLongitude;
+    this.objectForm.patchValue({ longitude: newLongitude });
   }
   updateLatitude(newLatitude: number): void{
     this.selectedLatitude = newLatitude;
-    
+    this.objectForm.patchValue({ latitude: newLatitude });
   }
   editObject(item: TourObject): void{
     this.selectedObject = item;
