@@ -59,6 +59,11 @@ tbody tr:nth-of-type(even) {
     display: flex;
     align-items: center; 
     justify-content: center; 
+    color:  #ffffff;
+}
+
+.description-column {
+    max-width: 200px;
 }
 
   
