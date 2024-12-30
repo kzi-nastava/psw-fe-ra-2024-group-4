@@ -63,7 +63,7 @@ export class ObjectComponent implements OnInit {
     category: new FormControl(16,Validators.required),
     image: new FormControl(''),
     imageBase64: new FormControl(''),
-    publicStatus: new FormControl(2,[Validators.required])
+    publicStatus: new FormControl(2)
   })
 
   createObject(): void {
@@ -83,7 +83,16 @@ export class ObjectComponent implements OnInit {
       this.service.addObject(object).subscribe({
         next: (createdObj: TourObject) => {
           this.getObjects();
-          this.objectForm.reset();
+          this.objectForm.reset({
+            name: '',
+            longitude: 0.0,
+            latitude: 0.0,
+            description: '',
+            category: 16,
+            image: '',
+            imageBase64: '',
+            publicStatus: 2
+          });
           this.isFormVisible = false;
           this.mapComponent.removeCurrentMarker();
           console.log("Object created: " ,createdObj);
@@ -105,6 +114,9 @@ export class ObjectComponent implements OnInit {
           console.error('Error creating object', err);
         }
       })
+    } else {
+      console.log('isEditing', this.isEditing);
+      console.log('Form is invalid:', this.objectForm.errors, this.objectForm.value);
     }
   }
 

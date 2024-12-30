@@ -69,6 +69,8 @@ export class MapComponent {
   private selectedTourPointsMarkers: L.Marker[] = []; // Niz markera
   private selectedEncounterMarkers: L.Marker[] = [];
   private selectedObjectMarkers: L.Marker[] = [];
+  private addressCache: Map<string, string> = new Map<string, string>();
+
    
 
 
@@ -629,7 +631,7 @@ private getObjectIcon(category: number): L.Icon {
             const marker = L.marker([obj.latitude, obj.longitude], { icon: iconForThisCategory })
               .addTo(this.map);
 
-            const address = await this.getAddress(obj.latitude, obj.longitude);
+            //const address = await this.getAddress(obj.latitude, obj.longitude);
 
             const popupContent = `
                 <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
@@ -647,7 +649,7 @@ private getObjectIcon(category: number): L.Icon {
                         </div>
                         <div class="card-footer">
                             <div class="card-footer-item" style="font-size: 0.8em; color: #6A515E; display: flex; justify-content: center;">
-                                <p><strong>Address:</strong> ${address || 'Loading address...'}</p>
+                                <p><strong>Address:</strong> ${'Loading address...'}</p>
                             </div>
                         </div>
                     </div>
@@ -656,7 +658,15 @@ private getObjectIcon(category: number): L.Icon {
 
             // Add hover interaction for showing and hiding popups
             marker.on('mouseover', () => {
-                marker.bindPopup(popupContent).openPopup();
+              const key = `${obj.latitude},${obj.longitude}`;
+              if(!this.addressCache.has(key)) {
+                this.getAddress(obj.latitude, obj.longitude).then(address => {
+                  this.addressCache.set(key, address);
+                  marker.bindPopup(popupContent.replace('Loading address...', address)).openPopup();
+                });
+              } else {
+                marker.bindPopup(popupContent.replace('Loading address...', this.addressCache.get(key) ?? 'Unknown address!')).openPopup();
+              }
             });
 
             marker.on('mouseout', () => {
@@ -823,7 +833,6 @@ private async showEncounterOnMap(): Promise<void> {
       
       // Extract the house number and street
       const { house_number, road } = data.address || {};
-  
       // Format the address with street and house number
       if (road && house_number) {
         return `${road} ${house_number} `;
