@@ -20,7 +20,9 @@ export class AccountComponent implements OnInit {
   user: User | undefined;
   selectedRole: string = '';
   searchQuery: string='';
-  filteredAccounts: Account[] = []
+  filteredAccounts: Account[] = [];
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'As an admin, you can view all profiles, deactivate some if needed, and deposit money to users.';
   
 
   constructor(private service: AdministrationService, private authService: AuthService, private personInfoService: PersonInfoService) { }
@@ -167,6 +169,10 @@ export class AccountComponent implements OnInit {
         }
       }
     });
+  }
+
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
   }
   
 

@@ -23,6 +23,12 @@ export class BundleFormComponent implements OnInit{
   nextId: number=0;
   selectedTours: Tour[]=[]
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page allows you to create a new bundle by entering a name and price. You can also add tours to the bundle and see the total price. Once the form is completed, you can submit the bundle.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private tourService: TourService, private authService: AuthService, 
     private service: PaymentsService, private dialog: MatDialog, private router: Router){}
 
@@ -50,7 +56,8 @@ export class BundleFormComponent implements OnInit{
   
           // Otvaranje dijaloga
           const dialogRef = this.dialog.open(TourSelectionDialogComponent, {
-            width: '400px',
+            width: '70vh',
+            height: '70vh',
             data: { 
               tours: this.tours,
               selectedTours: [] // Prosleđivanje prazne selekcije

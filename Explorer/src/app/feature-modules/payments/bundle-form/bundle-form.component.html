@@ -20,7 +20,7 @@
           <h4>{{ tour.name }}</h4>
           <p>Price: ${{ tour.price }}</p>
           <button mat-icon-button (click)="removeTour(tour)" class="remove-button">
-            <mat-icon>close</mat-icon>
+            <span style="font-size: 18px;">❌</span>
           </button>
         </div>
       </div>
@@ -35,4 +35,13 @@
     </div>
   </form>
   
+  <div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
   
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>

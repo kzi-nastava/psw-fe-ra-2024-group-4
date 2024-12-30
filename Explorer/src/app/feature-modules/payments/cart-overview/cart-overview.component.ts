@@ -487,7 +487,13 @@ refreshTourDetails(): void {
         },
         error: (err) => {
           console.error(`Error fetching authorId for tourId ${item.tourId}:`, err);
-          alert("Author information is missing for some items. Please try again later.");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Missing Information',
+            text: 'Author information is missing for some items. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
         },
       });
     });

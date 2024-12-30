@@ -26,6 +26,13 @@ export class ProblemFormComponent {
   ];
 
   
+  
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Submit a new problem or issue by filling out the form below. Specify the category, description, and priority of the problem. Once completed, click Done to submit the issue.';  
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private servis: MarketplaceService, 
               private authService: AuthService, 
               private dialogRef: MatDialogRef<ProblemFormComponent>,
