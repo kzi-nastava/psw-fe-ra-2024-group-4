@@ -57,7 +57,10 @@ import { environment } from "src/env/environment";
     getAuthorIdByTourId(tourId: number): Observable<number> {
       return this.http.get<number>(`${environment.apiHost}person/tourist/getAuthor/${tourId}`);
     }
-  
+
+    getAllTours(): Observable<Tour[]> {
+      return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/getAllTours`);
+    } 
   
 
   }

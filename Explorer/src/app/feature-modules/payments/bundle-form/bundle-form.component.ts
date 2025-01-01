@@ -10,6 +10,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TourSelectionDialogComponent } from '../tour-selection-dialog/tour-selection-dialog.component';
 import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'xp-bundle-form',
@@ -44,20 +45,17 @@ export class BundleFormComponent implements OnInit{
     if (this.user && this.user.role === 'author') {
       this.tourService.getToursForAuthor(this.user.id).subscribe({
         next: (result: Tour[]) => {
-          // Povezivanje dostupnih tura
           this.tours = result;
           console.log('Tours loaded:', this.tours);
   
-          // Otvaranje dijaloga
           const dialogRef = this.dialog.open(TourSelectionDialogComponent, {
             width: '400px',
             data: { 
               tours: this.tours,
-              selectedTours: [] // Prosleđivanje prazne selekcije
+              selectedTours: []
             }
           });
   
-          // Nakon zatvaranja dijaloga ažuriraj selektovane ture
           dialogRef.afterClosed().subscribe((selectedTours: Tour[]) => {
             if (selectedTours) {
               this.selectedTours = selectedTours;
@@ -109,7 +107,6 @@ export class BundleFormComponent implements OnInit{
       this.service.addBundle(bundle).subscribe({
         next: (result: Bundle) => {
           console.log(bundle.name);
-          // Navigacija na drugu stranicu, npr. "/bundles"
           this.router.navigate(['/author-tours']);
         },
         error: (error) => {
