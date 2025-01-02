@@ -16,6 +16,12 @@ export class EquipmentComponent implements OnInit {
   shouldRenderEquipmentForm: boolean = false;
   shouldEdit: boolean = false;
   
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Equipment Management page! Here, you can view the details of all equipment items. You can add new equipment, edit existing items, or delete them as needed. Click the edit or delete button next to each item to make changes. The form below will allow you to add or update equipment details.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: AdministrationService) { }
 
   ngOnInit(): void {

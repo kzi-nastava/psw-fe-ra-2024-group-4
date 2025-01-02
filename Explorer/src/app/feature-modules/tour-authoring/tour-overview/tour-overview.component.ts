@@ -17,11 +17,12 @@ import { PositionSimulator } from '../model/position-simulator.model';
 import { Tour } from '../model/tour.model';
 import { PurchaseService } from '../tour-purchase-token.service';
 import { ProblemComponent } from '../../marketplace/problem/problem.component';
-
+import Swal from 'sweetalert2';
 import { PaymentsService } from '../../payments/payments.service';
 import { OrderItem } from '../../payments/model/order-item.model';
 import { Bundle } from '../model/budle.model';
 import { SalesService } from '../../payments/sales.service';
+import { TourPurchaseToken } from '../../payments/model/tour-purchase-token.model';
 
 
 
@@ -47,8 +48,9 @@ export class TourOverviewComponent implements OnInit {
 
   isCartPreviewVisible = false;
 
-  private cartItemCount = new BehaviorSubject<number>(0);
-  cartItemCount$ = this.cartItemCount.asObservable(); 
+  //pracenje broja artikala i preview
+  cartItemCount: number = 0; 
+  cartItems: OrderItem[] = [];
 
   orderItem: OrderItem;
   shoppingCart: ShoppingCart;
@@ -60,7 +62,11 @@ export class TourOverviewComponent implements OnInit {
 
   selectedTabIndex: number = 0;
 
-
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Your shopping cart is ready! You can preview the items added to your cart by hovering over the shopping cart icon. If you’re ready, click on "BUY" to complete the purchase. You can also see the total price for all items in the cart.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
 
   constructor(private tourOverviewService: TourOverviewService, 
     private mapService: MapService, 
@@ -140,13 +146,21 @@ export class TourOverviewComponent implements OnInit {
         }
       });
       
-     
-      
-     
     });
     
 
-    
+    this.cartService.cartItemCount$.subscribe((count) => {
+      this.cartItemCount = count;
+    });
+
+    this.cartService.cartItems$.subscribe((items) => {
+      this.cartItems = items;
+    });
+
+    // Učitavanje stanja korpe pri pokretanju
+    this.cartService.getCartItems(this.user.id).subscribe();
+  
+
     this.loadTours();
     this.loadBundles();
     
@@ -158,6 +172,7 @@ export class TourOverviewComponent implements OnInit {
     this.speaker.text = text;
     window.speechSynthesis.speak(this.speaker);
   }
+  
   calculateTotalPrice(): void {
     this.totalPrice = 0;
     if (this.shoppingCart && this.shoppingCart.items) {
@@ -184,17 +199,18 @@ export class TourOverviewComponent implements OnInit {
       totalPrice: 0
     };
 
-    
-
-    
-
       this.cartService.createShoppingCart(this.shoppingCart).subscribe({
         next: (result: ShoppingCart) => { 
           this.shoppingCart = result;
         
         
         },
-        error: (err: any) => alert("Error creating cart.")
+        error: (err: any) => Swal.fire({
+          title: 'Error!',
+          text: 'Error creating cart.',
+          icon: 'error',
+          confirmButtonText: 'Try Again'
+        })
       } );
   }
   
@@ -205,28 +221,52 @@ export class TourOverviewComponent implements OnInit {
 
   }
   loadTours(): void {
-    this.tourOverviewService.getAllWithoutReviews().subscribe({
-      next: (data: PagedResults<TourOverview>) => {
-        console.log('Tours loaded:', data);
-        this.tours = data.results;
-        this.applyDiscounts();
-        this.loadTourExecutions();
-        
-      },
-      error: (err) => {
-        console.error('Error loading tours:', err);
-      }
-    });
+    // Prvo dohvatite kupljene ture korisnika
+    if (this.user) {
+      this.purchaseService.getUserPurchasedTours(this.user.id).subscribe({
+        next: (purchasedTokens: TourPurchaseToken[]) => {
+          const purchasedTourIds = purchasedTokens.map(token => token.tourId);
+  
+          // Dohvatite sve ture
+          this.tourOverviewService.getAllWithoutReviews().subscribe({
+            next: (data: PagedResults<TourOverview>) => {
+              console.log('Tours loaded:', data);
+  
+              // Filtrirajte ture koje korisnik nije kupio
+              this.tours = data.results.filter(tour => !purchasedTourIds.includes(tour.tourId));
+              
+              this.applyDiscounts();
+              this.loadTourExecutions();
+            },
+            error: (err) => {
+              console.error('Error loading tours:', err);
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching purchased tours:', err);
+        }
+      });
+    } else {
+      console.error('User not logged in. Cannot load tours.');
+    }
   }
-
-  // applyDiscounts(): void {
-  //   this.tours.forEach((tour) => {
-  //     if (tour.discountedPrice !== undefined) {
-  //       tour.originalPrice = tour.price; 
-  //       tour.price = tour.discountedPrice; 
+  
+  // loadTours(): void {
+  //   this.tourOverviewService.getAllWithoutReviews().subscribe({
+  //     next: (data: PagedResults<TourOverview>) => {
+  //       console.log('Tours loaded:', data);
+  //       this.tours = data.results;
+  //       this.applyDiscounts();
+  //       this.loadTourExecutions();
+        
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading tours:', err);
   //     }
   //   });
   // }
+
   applyDiscounts(): void { 
     const currentDate = new Date();
 
@@ -310,27 +350,43 @@ calculateDiscountedPrice(price: number, discountPercentage: number): number {
   }
 
   addToCart(tour: TourOverview): void {
+    const existingItem = this.shoppingCart.items.find(item => item.tourId === tour.tourId);
+
+    if (existingItem) {
+      Swal.fire({
+        title: 'Already in Cart!',
+        text: 'This tour is already in your cart.',
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
+      return; // Prekini izvršavanje funkcije ako je tura već u korpi
+    }
 
     this.orderItem.cartId = this.shoppingCart.id || -1;
     this.orderItem.tourName = tour.tourName;
     this.orderItem.price = tour.discountedPrice !== undefined ? tour.discountedPrice : tour.price || 0; //tour.price || 0.0;
     this.orderItem.tourId = tour.tourId;
 
-
+  this.shoppingCart.items.push(this.orderItem);
+  this.cartItemCount = this.shoppingCart.items.length;
    
           this.cartService.addToCart(this.orderItem).subscribe({
             next: (result: OrderItem) => {
-              alert("Item successfully added.");
+              Swal.fire({
+                title: 'Success!',
+                text: 'Item successfully added.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
               this.calculateTotalPrice();
             },
-            error: (err:any) => alert("Error adding item.")
+            error: (err:any) => Swal.fire({
+              title: 'Error!',
+              text: 'Error adding item.',
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            })
           });
-        
-        
-      
-
-    const currentCount = this.cartItemCount.value;
-    this.cartItemCount.next(currentCount + 1);
    
    
   }
@@ -427,17 +483,27 @@ calculateDiscountedPrice(price: number, discountPercentage: number): number {
    
           this.cartService.addToCart(this.orderItem).subscribe({
             next: (result: OrderItem) => {
-              alert("Item successfully added.");
+              Swal.fire({
+                title: 'Success!',
+                text: 'Item successfully added.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
               this.calculateTotalPrice();
             },
-            error: (err:any) => alert("Error adding item.")
+            error: (err:any) => Swal.fire({
+              title: 'Error!',
+              text: 'Error adding item.',
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            })
           });
         
         
       
 
-    const currentCount = this.cartItemCount.value;
-    this.cartItemCount.next(currentCount + 1);
+    // const currentCount = this.cartItemCount.value;
+    // this.cartItemCount.next(currentCount + 1);
   }
 
   

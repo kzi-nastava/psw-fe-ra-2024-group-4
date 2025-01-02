@@ -1,7 +1,8 @@
 <div>
-    
     <form [formGroup]="registrationForm" (ngSubmit)="register()" class="form-style">
         <h1>REGISTRATION FORM</h1>
+        
+        <!-- Ime i prezime -->
         <div class="two-inputs">
             <mat-form-field appearance="fill" floatLabel="auto">
                 <mat-label>Name</mat-label>
@@ -18,6 +19,8 @@
                 </mat-error>
             </mat-form-field>
         </div>
+        
+        <!-- Korisničko ime -->
         <div class="one-input">
             <mat-form-field appearance="fill" floatLabel="auto">
                 <mat-label>Username</mat-label>
@@ -25,13 +28,14 @@
                 <mat-error *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.dirty">
                     This field is required
                 </mat-error>
-    
             </mat-form-field>
         </div>
+
+        <!-- Email -->
         <div class="one-input">
             <mat-form-field appearance="fill" floatLabel="auto">
                 <mat-label>Email</mat-label>
-                <input matInput type="text" formControlName="email" placeholder="Ex: john@example.com">
+                <input matInput type="email" formControlName="email" placeholder="Ex: john@example.com">
                 <mat-error *ngIf="registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.dirty">
                     This field is required
                 </mat-error>
@@ -40,6 +44,8 @@
                 </mat-error>
             </mat-form-field>
         </div>
+
+        <!-- Lozinka i potvrda lozinke -->
         <div class="one-input">
             <mat-form-field appearance="fill" floatLabel="auto">
                 <mat-label>Password</mat-label>
@@ -53,16 +59,45 @@
             </mat-form-field>
         </div>
         <div class="one-input">
+            <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>Confirm Password</mat-label>
+                <input 
+                    matInput 
+                    type="password" 
+                    formControlName="confirmPassword" 
+                    placeholder="Confirm your password" 
+                    required>
+                <mat-icon *ngIf="registrationForm.hasError('passwordMismatch') && registrationForm.get('confirmPassword')?.dirty">close</mat-icon>
+                <mat-icon *ngIf="!registrationForm.hasError('passwordMismatch') && registrationForm.get('confirmPassword')?.dirty">check</mat-icon>
+                <mat-error *ngIf="registrationForm.get('confirmPassword')?.hasError('required') && registrationForm.get('confirmPassword')?.dirty">
+                    This field is required
+                </mat-error>
+                <mat-error *ngIf="registrationForm.hasError('passwordMismatch') && registrationForm.get('confirmPassword')?.dirty">
+                    Passwords do not match
+                </mat-error>
+            </mat-form-field>
+            
+        </div>
+
+        <!-- Profilna slika -->
+        <div class="one-input">
             <label>Profile picture</label>
             <input type="file" (change)="onFileSelected($event)" />
             <mat-error *ngIf="registrationForm.get('profilePicture')?.touched">
                 Image is required.
             </mat-error>
         </div>
-    
-        <!-- Submit Button -->
+
+        <!-- Submit dugme -->
         <div class="field">
-            <button color="primary" type="submit" mat-raised-button class="submit-button">Register</button>
+            <button 
+                color="primary" 
+                type="submit" 
+                mat-raised-button 
+                class="submit-button" 
+                [disabled]="registrationForm.invalid || registrationForm.hasError('passwordMismatch')">
+                Register
+            </button>
         </div>
     </form>
 </div>

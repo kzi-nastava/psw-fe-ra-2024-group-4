@@ -6,72 +6,96 @@
       <form (ngSubmit)="onSubmit()">
         <!-- Encounter Type Dropdown -->
         <div>
-          <label for="encounterType">Encounter Type</label>
-          <select id="encounterType" [(ngModel)]="selectedEncounterType" name="encounterType" (change)="onEncounterTypeChange()">
-            <option *ngFor="let type of encounterTypes" [value]="type" >{{ type }}</option>
-          </select>
+          <label for="encounterType">Encounter Type</label><br/>
+          <mat-radio-group id="encounterType" [(ngModel)]="selectedEncounterType" class="encounter-group"
+          name="encounterType" (change)="onEncounterTypeChange()">
+            <mat-radio-button *ngFor="let type of encounterTypes" class="type-option"
+              [value]="type" 
+              [labelPosition]="labelPosition">{{ type }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- Title and Description Fields -->
+        <div class="basic-info">
+          <div class="section">
+            <label for="title">Title</label>
+            <input type="text" id="title" [(ngModel)]="encounter.title" name="title" required />
+          </div>
+
+          <div class="section">
+            <label for="xp">Xp</label>
+            <input type="number" id="xp" [(ngModel)]="encounter.xp" name="xp" required min="1" step="1" />
+          </div>
+  
+          <div class="section description-section">
+            <label for="description">Description</label>
+            <textarea id="description" [(ngModel)]="encounter.description" name="description" required></textarea>
+          </div>
         </div>
   
         <!-- Social Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'Social'">
+        <div *ngIf="selectedEncounterType === 'Social'" class="basic-info">
+          <div class="section">
             <label for="requiredParticipants">Required Participants</label>
-            <input type="number" id="requiredParticipants" [(ngModel)]="social.requiredParticipants " 
-            name="requiredParticipants" />
+            <input type="number" id="requiredParticipants" [(ngModel)]="social.requiredParticipants" 
+              name="requiredParticipants" min="1" step="1"/>
+          </div>
+            
+          <div class="section">
             <label for="radius">Radius (km)</label>
             <input type="number" id="radius" [(ngModel)]="social.radius" name="radius" />
+          </div>
         </div>
   
         <!-- HiddenLocation Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'HiddenLocation'">
-            <p><mat-slide-toggle [(ngModel)]="isChosingSecretLocation" [ngModelOptions]="{standalone: true}"
-              >Choose secret location</mat-slide-toggle></p>
-            <br/>
-            <label for="imageUrl">!!!Image URL //PROMENITI U FILE</label>
-            <input type="text" id="imageUrl" [(ngModel)]="hiddenLocation.imageUrl" name="imageUrl" />
-            <br/>
-            <label for="activationRadius">Activation Radius</label>
-            <input type="number" id="activationRadius" [(ngModel)]="hiddenLocation.activationRadius" name="activationRadius" />
-            
-            <label for="longitude">Hidden Location Longitude</label>
-            <input type="number" id="longitude" [(ngModel)]="hiddenLocation.longitude" name="longitude" />
-              
-            <label for="latitude">Hidden Location Latitude</label>
-            <input type="number" id="latitude" [(ngModel)]="hiddenLocation.latitude" name="latitude" />
+        <div *ngIf="selectedEncounterType === 'HiddenLocation'" class="basic-info">
+            <div class="section">
+              <label for="imageUrl">Picture of the place/object the tourist should find</label>
+              <input type="file" id="imageUrl" [(ngModel)]="hiddenLocation.imageUrl" name="imageUrl" />
+            </div>
+
+            <div class="section">
+              <label for="activationRadius">Activation Radius</label>
+              <input type="number" id="activationRadius" [(ngModel)]="hiddenLocation.activationRadius" name="activationRadius" />
+            </div>
+
+            <div class="section">
+              <label for="secretLocation" style="margin-right: 1%;"
+                >Choose the pictures location (encounter's hidden location)</label>
+              <button type="button" color="accent" (click)="openHiddenLocationMap()">Open map to select</button>
+              <label>{{ address }}</label>
+            </div>
         </div>
   
         <!-- Misc Encounter Type -->
-        <div *ngIf="selectedEncounterType === 'Misc'">
+        <div *ngIf="selectedEncounterType === 'Misc'" class="section">
             <label for="actionDescription">Action Description</label>
             <input type="text" id="actionDescription" [(ngModel)]="misc.actionDescription" name="actionDescription" />
         </div>
   
-  
-        <!-- Title and Description Fields -->
-        <div>
-          <label for="title">Title</label>
-          <input type="text" id="title" [(ngModel)]="encounter.title" name="title" required />
-  
-          <label for="description">Description</label>
-          <textarea id="description" [(ngModel)]="encounter.description" name="description" required></textarea>
-        </div>
-  
-        <!-- Longitude and Latitude Fields -->
-        <div>
-          <label for="longitude">Longitude</label>
-          <input type="text" id="longitude" [(ngModel)]="encounter.longitude" name="longitude" readonly />
-  
-          <label for="latitude">Latitude</label>
-          <input type="text" id="latitude" [(ngModel)]="encounter.latitude" name="latitude" readonly />
-        </div>
-  
-        <button type="submit" [disabled]="!encounter.longitude || !encounter.latitude || !encounter.title || !encounter.description">Submit Encounter</button>
+        <button type="submit" color="primary"
+        [disabled]="!encounter.longitude || !encounter.latitude || !encounter.title || !encounter.description">Create Encounter</button>
       </form>
     </div>
-  
-    <!-- Map Component -->
-    <div class="map">
-        <xp-map class="card-map" [showEncounters]="true" [selectedEncounterPoints]="encounters" 
+    
+    <div class="section-map">
+      <h2>Encounter Location</h2>
+      <!-- Map Component -->
+      <div class="map">
+        <xp-map class="card-map" [showEncounters]="true" [selectedEncounterPoints]="encounters"
         [registeringObject]="true" [shouldEditKp]="false" (latitudeChanged)="onLatitudeChanged($event)"
         (longitudeChanged)="onLongitudeChanged($event)" (mapClick)="onMapClick($event)"></xp-map>
+      </div>
     </div>
   </div>  
+
+  <div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>

@@ -32,6 +32,12 @@ export class PostComponent implements OnInit{
   isMouseDownWithinOverlay: boolean=false;
   isMouseUpWithinOverlay: boolean =false;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Blog section! Explore the latest posts and share your thoughts with us. If you are an author, you can add, edit, or delete your posts. You can also filter posts based on their status.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: PostService,private comService: CommentService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 

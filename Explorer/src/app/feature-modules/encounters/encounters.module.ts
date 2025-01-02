@@ -11,11 +11,15 @@ import { AuthorEncounterComponent } from './author-encounter/author-encounter.co
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
+import { HiddenMap } from './hidden-map/hidden-map.component';
+
 @NgModule({
   declarations: [
     AdminEncounterComponent,
     EncounterComponent,
-    AuthorEncounterComponent
+    AuthorEncounterComponent,
+    HiddenMap
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatInputModule,
     MatDialogModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRadioModule
 ]
 })
 export class EncounterModule { }

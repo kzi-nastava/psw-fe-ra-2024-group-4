@@ -5,6 +5,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
+import { AppReviewComponent } from '../app-review/app-review.component';
+import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'xp-landing-blog',
@@ -19,7 +22,7 @@ export class LandingBlogComponent implements OnInit {
   mainBlog: Post | undefined;
   user: User | undefined;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {}
 
   /*
   constructor( private service: CommentService,private authService: AuthService){
@@ -35,6 +38,14 @@ export class LandingBlogComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+  }
+
+
+  openReviewDialog(): void {
+    const dialogRef = this.dialog.open(AppReviewComponent, { width: 'auto',
+      height: 'auto'
+     });
+  
   }
 
   getBlogs(): void {
@@ -81,7 +92,7 @@ export class LandingBlogComponent implements OnInit {
       }
 
    }catch{
-    alert("Error");
+    Swal.fire('Error', 'Error.', 'error');
    }
   }
 }

@@ -5,7 +5,6 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { environment } from 'src/env/environment';
 import { MatDialog } from '@angular/material/dialog';
-import { AdminEncounterComponent } from '../../encounters/admin-encounter/admin-encounter.component';
 import { AuthorEncounterComponent } from '../../encounters/author-encounter/author-encounter.component';
 
 @Component({

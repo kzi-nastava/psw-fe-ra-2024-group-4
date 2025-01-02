@@ -6,6 +6,12 @@ import { TourOverview } from '../model/touroverview.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TourTags } from '../model/tour.tags.model';
 import Swal from 'sweetalert2';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { PurchaseService } from '../tour-purchase-token.service';
+import { TourPurchaseToken } from '../../payments/model/tour-purchase-token.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { TourExecutionService } from '../../tour-execution/tour-execution.service';
+import { PositionSimulator } from '../model/position-simulator.model';
 
 @Component({
   selector: 'xp-tour-search',
@@ -37,24 +43,47 @@ export class TourSearchComponent implements OnInit {
   availableDiff =[ 'Easy', 'Medium', 'Hard']
   currentTags: string[] = [];
   resultingTours:TourOverview[] = []; 
+  user: User;
   
 
-  constructor(private servis: TourOverviewService){}
+  constructor(private service: TourOverviewService, private purchaseService: PurchaseService, private authService: AuthService){}
   ngOnInit(): void {
+     this.authService.user$.subscribe(user => {
+           this.user = user;
+            console.log(user);
+      });
      this.getAllTours();
   }
 
   getAllTours(): void {
-    this.servis.getAllWithoutReviews().subscribe({
-      next: (data: PagedResults<TourOverview>) => {
-        this.resultingTours = data.results;
-        this.tourSearchResults.emit(data.results);
-        console.log(data.results);
-      },
-      error: (err) => {
-        console.error('Error searching tours:', err);
-      }
-    });
+    // Prvo dohvatite kupljene ture korisnika
+        if (this.user) {
+          this.purchaseService.getUserPurchasedTours(this.user.id).subscribe({
+            next: (purchasedTokens: TourPurchaseToken[]) => {
+              const purchasedTourIds = purchasedTokens.map(token => token.tourId);
+              console.log(purchasedTokens);
+      
+              // Dohvatite sve ture
+              this.service.getAllWithoutReviews().subscribe({
+                next: (data: PagedResults<TourOverview>) => {
+                  console.log('Tours loaded:', data);
+      
+                  // Filtrirajte ture koje korisnik nije kupio
+                  this.resultingTours = data.results.filter(tour => !purchasedTourIds.includes(tour.tourId));
+                  
+                },
+                error: (err) => {
+                  console.error('Error loading tours:', err);
+                }
+              });
+            },
+            error: (err) => {
+              console.error('Error fetching purchased tours:', err);
+            }
+          });
+        } else {
+          console.error('User not logged in. Cannot load tours.');
+        }
   }
 
   tourSearchForm=new FormGroup({
@@ -86,7 +115,7 @@ export class TourSearchComponent implements OnInit {
 
     if(distanceValue === 0){
       console.log('Usli u ime')
-      this.servis.getAllWithoutReviews().subscribe({
+      this.service.getAllWithoutReviews().subscribe({
         next: (data: PagedResults<TourOverview>) => {
           let filteredResults = data.results;
           console.log('poziv servisu prosao')
@@ -108,7 +137,7 @@ export class TourSearchComponent implements OnInit {
     }
 
     if(nameValue === ''){
-      this.servis.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
+      this.service.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
         next: (data: PagedResults<TourOverview>) => {
           this.resultingTours = data.results;
          
@@ -124,7 +153,7 @@ export class TourSearchComponent implements OnInit {
 
     
     
-    this.servis.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
+    this.service.getToursByKeyPointLocation(this.longitude, this.latitude, distanceValue).subscribe({
       next: (data: PagedResults<TourOverview>) => {
         let filteredResults = data.results;
             

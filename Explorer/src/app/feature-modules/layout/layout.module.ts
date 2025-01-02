@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppReviewComponent } from './app-review/app-review.component';
@@ -14,6 +15,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LandingBlogComponent } from './landing-blog/landing-blog.component';
 import { AdministrationModule } from '../administration/administration.module';
 import { HeaderComponent } from './header/header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TeamComponent } from './about-us/team/team.component';
+import { PurposeComponent } from './about-us/purpose/purpose.component';
+import { AboutAppComponent } from './about-us/about-app/about-app.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -23,11 +31,14 @@ import { HeaderComponent } from './header/header.component';
     ObjectViewComponent,
     FirstPageComponent,
     AppReviewComponent,
-    AppReviewComponent,
     LandingBlogComponent,
-    AppReviewComponent,
     HeaderComponent,
-    HeaderComponent
+    HeaderComponent,
+    AboutUsComponent,
+    TeamComponent,
+    PurposeComponent,
+    AboutAppComponent,
+    FooterComponent
 
   ],
   imports: [
@@ -37,8 +48,11 @@ import { HeaderComponent } from './header/header.component';
     TourAuthoringModule,
     ReactiveFormsModule,
     MatMenuModule,
-    AdministrationModule 
-
+    AdministrationModule,
+    MatFormFieldModule,
+    MatInputModule, 
+    AdministrationModule ,
+    MatTabsModule,
 ],
   exports: [
     NavbarComponent,
@@ -46,7 +60,8 @@ import { HeaderComponent } from './header/header.component';
     MykeypointsComponent,
     LandingBlogComponent,
     AppReviewComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   
 })

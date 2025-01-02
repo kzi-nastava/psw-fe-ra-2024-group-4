@@ -18,6 +18,12 @@ export class SalesComponent {
   displayedColumns: string[] = ['startDate', 'endDate', 'discount', 'tours', 'actions'];
   selectedSale: Sale | null = null;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page allows you to manage your sales and discounts. You can view the details of all active sales, including the start and end dates, discount percentages, and the tours that are on sale. If you want to update an existing sale, simply click the "Update" button and modify the start date, end date, or discount percentage. You can also delete a sale by clicking the "Delete" button. If no sales are available, the page will show a message indicating that no sales are found.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private salesService: SalesService, private authService: AuthService, private tourService: TourService) {}
 
   ngOnInit(): void {
