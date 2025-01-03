@@ -20,7 +20,7 @@ h1 {
 .card-container {
     height: auto;
     min-height: 50vh;
-    max-height: 110vh;
+    max-height: 200vh;
     margin-top: 20px;
     min-width: 80vw;
     max-width: 80vw;
@@ -41,6 +41,7 @@ h1 {
     display: flex;
     justify-content: flex-start;
     min-width: 80vw;
+    margin-left: 10px;
 }
 
 
@@ -71,16 +72,15 @@ h1 {
 .content {
     display: flex;
     justify-content: flex-start;
-    align-items: start;
     gap: 20px;
-    min-height: 70vh;
-    max-height:  100vh;
-    min-width: 80vw;
+    max-height:  170vh;
+    min-width: 50vw;
+    padding: 20px;
 }
 
 .main-blog {
     position: relative;
-    height: 90vh; /* Take full remaining height */
+    height: auto; /* Take full remaining height */
     width: 55%; /* Adjusted to fit alongside the scroll list */
     border: 2px solid #ddd; /* Svetli obrub */
     border-radius: 10px; /* Zaobljeni uglovi */

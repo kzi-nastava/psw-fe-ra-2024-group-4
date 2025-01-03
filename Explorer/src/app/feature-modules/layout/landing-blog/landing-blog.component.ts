@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { TourTags } from '../../tour-authoring/create-tour/create-tour.component';
 import { TourOverview } from '../../tour-authoring/model/touroverview.model';
+import { TourOverviewService } from '../../tour-authoring/tour-overview.service';
 
 @Component({
   selector: 'xp-landing-blog',
@@ -21,12 +22,30 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   
   genericImage: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6raU10dijlmB2SobtTOlXvlwOe55tE0LjQ&s"
   blogs: Post[] = [];
-  mainBlog: Post | undefined;
+  mainBlog: Post;
   tours: TourOverview[] = [];
-  mainTour: TourOverview | undefined;
+  mainTour: TourOverview;
   user: User | undefined;
 
-  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog, private el: ElementRef, private renderer: Renderer2) {}
+  tourTagMap: { [key: number]: string } = {
+    0: 'Cycling',
+    1: 'Culture',
+    2: 'Adventure',
+    3: 'FamilyFriendly',
+    4: 'Nature',
+    5: 'CityTour',
+    6: 'Historical',
+    7: 'Relaxation',
+    8: 'Wildlife',
+    9: 'NightTour',
+    10: 'Beach',
+    11: 'Mountains',
+    12: 'Photography',
+    13: 'Guided',
+    14: 'SelfGuided'
+  };
+
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog, private el: ElementRef, private renderer: Renderer2, private tourOverviewService: TourOverviewService, private comService: CommentService) {}
 
   /*
   constructor( private service: CommentService,private authService: AuthService){
@@ -57,69 +76,108 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getTours();
     this.getBlogs();
+
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+  }
+
+  getTours(): void {
+      this.tourOverviewService.getAllWithoutReviews().subscribe({
+        next: (data: PagedResults<TourOverview>) => {
+          console.log('Tours loaded:', data);
+          this.tours = data.results;
+          this.mainTour = this.tours[0];
+          
+        },
+        error: (err) => {
+          console.error('Error loading tours:', err);
+        }
+      });
+
   }
 
 
   
 
   getBlogs(): void {
-    /*
-    this.service.getPosts().subscribe({
+
+    this.comService.getPosts().subscribe({
       next: (result: PagedResults<Post>) => {
-        this.blogs = result.results.slice(0, 20);
-        this.blogs.forEach(b => {
-          b.imageUrl = b.imageUrl != undefined ? b.imageUrl : this.genericImage
-        })
-        if (this.blogs.length > 0) {
-          this.mainBlog = this.blogs[0];
-        }
+        this.blogs = result.results;
+        this.blogs = this.blogs.filter(p => p.status!== 0);
+        this.mainBlog = this.blogs[0];
       },
       error: (err: any) => {
-        alert(1);
         console.log(err);
       }
     });
-    */
-   try{
-    for(let i = 0; i < 20; i++) {
-      const blog: Post = {
-        id: i + 1,
-        title: `Title ${i + 1}`,
-        description: `Description for blog post ${i + 1}`,
-        createdAt: new Date(),
-        imageUrl: this.genericImage,
-        status: BlogStatus.Published,  // Assuming Published status
-        userId: 1,
-        ratingSum: 0,
-        imageBase64:'',
-        comments: [],
-        ratings:[]
-      };
+  //  try{
+  //   for(let i = 0; i < 20; i++) {
+  //     const blog: Post = {
+  //       id: i + 1,
+  //       title: `Title ${i + 1}`,
+  //       description: `Description for blog post ${i + 1}`,
+  //       createdAt: new Date(),
+  //       imageUrl: this.genericImage,
+  //       status: BlogStatus.Published,  // Assuming Published status
+  //       userId: 1,
+  //       ratingSum: 0,
+  //       imageBase64:'',
+  //       comments: [],
+  //       ratings:[]
+  //     };
       
-      this.blogs.push(blog);
-     }
+  //     this.blogs.push(blog);
+  //    }
   
-     if (this.blogs.length > 0) {
-        this.mainBlog = this.blogs[0];
-        this.blogs.shift();
-        this.mainBlog.imageUrl = "https://cdn.shopify.com/s/files/1/1083/2612/files/cr2_480x480.png?v=1721726734";
+  //    if (this.blogs.length > 0) {
+  //       this.mainBlog = this.blogs[0];
+  //       this.blogs.shift();
+  //       this.mainBlog.imageUrl = "https://cdn.shopify.com/s/files/1/1083/2612/files/cr2_480x480.png?v=1721726734";
+  //     }
+
+  //  }catch{
+  //   Swal.fire('Error', 'Error.', 'error');
+  //  }
+  }
+
+
+
+
+
+  getTagNumber(word: string): number { //daj broj od tada
+    for (const [key, value] of Object.entries(this.tourTagMap)) {
+      if (value === word) {
+        return +key; // Convert the key back to a number
       }
-
-   }catch{
-    Swal.fire('Error', 'Error.', 'error');
-   }
-  }
-
-
-  getTours(): void {
-
-  }
-
-  getTagName(tagId: number): string {
-      return TourTags[tagId];
     }
+    return -1; // Return -1 or any default value if the word is not found
+  }
+
+  setMainTour(tour: TourOverview) {
+    this.mainTour = tour;
+  }
+  setMainBlog(blog: Post) {
+    this.mainBlog = blog;
+  }
+
+  openBrowseTours() {
+    if (!this.user) {
+      this.router.navigate(['login']); 
+    } else {
+      this.router.navigate(['tour-overview']); 
+    }
+
+  }
+
+  openBlogs() {
+    if (!this.user) {
+      this.router.navigate(['login']); 
+    } else {
+      this.router.navigate(['blogPost']); 
+    }
+  }
 }

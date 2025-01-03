@@ -1,62 +1,55 @@
 <div class="container">
     <div class="card-container">
-        <div class="title-section">
+        <div class="title-section" (click)="openBrowseTours()">
             <h1> View Tours</h1>
             <mat-icon>keyboard_arrow_right</mat-icon>
         </div>
         <div class="content">
             <div class="main-blog">
                 <div class="img-container">
-                    <img [src]="mainBlog?.imageUrl" alt="Main Blog Image">
+                    <img *ngIf="mainTour.tags.length > 0" 
+                    [src]="'assets/images/tag' + (getTagNumber(mainTour.tags[0]) + 1) + '.jpg'"  
+                    alt="Main Tour Image">
                 </div>
-                <p class="main-title">Tour title</p>
-                <p class="main-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a leo nibh. Nullam sit amet lacus at tellus sollicitudin hendrerit sit amet sit amet dolor. Mauris consectetur facilisis nulla id sagittis. Mauris hendrerit vel mauris in consequat. Aliquam sagittis arcu. </p>
+                <p class="main-title">{{ mainTour.tourName }}</p>
+                <p class="main-description">{{ mainTour.tourDescription }} </p>
                 <div class="tags-container">
-                    <span *ngFor="let tag of [1, 2, 3]" class="tag">{{ getTagName(tag) }}</span>
+                    <span *ngFor="let tag of mainTour.tags" class="tag">{{ tag }}</span>
                 </div>
     
             </div>
             <div class="scroll-list">
                 <ul>
-                    <li *ngFor="let blog of blogs" class="blog-card">
-                        <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
-                        <span class="blog-title">{{ mainBlog?.title }}</span>
+                    <li *ngFor="let tour of tours" class="blog-card" (click) = setMainTour(tour)>
+                        <img [src]="'assets/images/tag' + (getTagNumber(tour.tags[0]) + 1) + '.jpg'" alt="{{ tour.tourName }}" class="blog-image">
+                        <span class="blog-title">{{ tour.tourName }}</span>
                       </li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="card-container">
-        <div class="title-section">
+        <div class="title-section" (click)="openBlogs()">
             <h1> View Blogs</h1>
             <mat-icon>keyboard_arrow_right</mat-icon>
         </div>
         <div class="content">
             <div class="main-blog">
                 <div class="img-container">
-                    <img [src]="mainBlog?.imageUrl" alt="Main Blog Image">
+                    <img [src]="mainBlog.imageUrl" alt="Main Blog Image">
                 </div>
-                <p class="main-title">Tour title</p>
-                <p class="main-description">Tour description</p>
+                <p class="main-title">{{ mainBlog.title }}</p>
+                <p class="main-description">{{ mainBlog.description }}</p>
     
             </div>
             <div class="scroll-list">
                 <ul>
-                    <li *ngFor="let blog of blogs" class="blog-card">
+                    <li *ngFor="let blog of blogs" class="blog-card" (click) = setMainBlog(blog)>
                         <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
-                        <span class="blog-title">{{ mainBlog?.title }}</span>
+                        <span class="blog-title">{{ mainBlog.title }}</span>
                       </li>
                 </ul>
             </div>
         </div>
     </div>
-    
-        <!-- <div *ngIf="user && (user.role === 'author' || user.role==='tourist')" (click)="openReviewDialog()">
-            <mat-icon class="account-icon">star</mat-icon>
-            <span class="user-text" style="text-align: center;" >RATE US</span>
-        </div>
-    <div *ngIf="user && (user.role === 'administrator')">
-        <mat-icon class="account-icon"  [routerLink]="['appReviews']">star</mat-icon>
-        <span class="user-text" style="text-align: center;" >VIEW APP REVIEWS</span>
-    </div> -->
 </div>
