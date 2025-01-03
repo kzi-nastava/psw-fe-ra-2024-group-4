@@ -88,7 +88,8 @@ h1 {
     background-color: #fff; /* Bele pozadina za čist izgled */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Glatka tranzicija za hover */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Blaga senka */
-    background: linear-gradient(to bottom, #f2e6e9, #fff); /* Gradijent pozadina */
+    background: linear-gradient(to bottom, #f2e6e9, #fff); 
+    /* background: #fff */
 }
 .main-blog:hover {
     transform: scale(1.03); /* Blago povećanje */
@@ -130,6 +131,7 @@ h1 {
     border: 1px solid #ddd; /* Svetli obrub */
     border-radius: 5px; /* Zaobljeni uglovi */
     background: linear-gradient(to bottom, #f2e6e9, #fff);
+    /* background: #fff */
 }
 
 .blog-card:hover {

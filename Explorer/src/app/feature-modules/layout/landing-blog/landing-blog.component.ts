@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { TourTags } from '../../tour-authoring/create-tour/create-tour.component';
 import { TourOverview } from '../../tour-authoring/model/touroverview.model';
 import { TourOverviewService } from '../../tour-authoring/tour-overview.service';
+import { LayoutService } from '../layout.service';
+import { environment } from 'src/env/environment';
 
 @Component({
   selector: 'xp-landing-blog',
@@ -25,7 +27,7 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   mainBlog: Post;
   tours: TourOverview[] = [];
   mainTour: TourOverview;
-  user: User | undefined;
+  user: User;
 
   tourTagMap: { [key: number]: string } = {
     0: 'Cycling',
@@ -45,7 +47,7 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
     14: 'SelfGuided'
   };
 
-  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog, private el: ElementRef, private renderer: Renderer2, private tourOverviewService: TourOverviewService, private comService: CommentService) {}
+  constructor(private authService: AuthService, private router: Router, private el: ElementRef, private renderer: Renderer2, private service: LayoutService) {}
 
   /*
   constructor( private service: CommentService,private authService: AuthService){
@@ -85,7 +87,7 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   }
 
   getTours(): void {
-      this.tourOverviewService.getAllWithoutReviews().subscribe({
+      this.service.getAllWithoutReviews().subscribe({
         next: (data: PagedResults<TourOverview>) => {
           console.log('Tours loaded:', data);
           this.tours = data.results;
@@ -104,7 +106,7 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
 
   getBlogs(): void {
 
-    this.comService.getPosts().subscribe({
+    this.service.getPosts().subscribe({
       next: (result: PagedResults<Post>) => {
         this.blogs = result.results;
         this.blogs = this.blogs.filter(p => p.status!== 0);
@@ -144,6 +146,10 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   //  }
   }
 
+  getImage(imageUrl: string | undefined): string {
+      return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png'; // Provide a fallback image or empty string
+  }
+
 
 
 
@@ -165,19 +171,23 @@ export class LandingBlogComponent implements OnInit, AfterViewInit {
   }
 
   openBrowseTours() {
-    if (!this.user) {
-      this.router.navigate(['login']); 
+    if (this.user?.id !== 0) { 
+      if(this.user.role === 'author'){
+        this.router.navigate(['author-tours']);
+      } else {        
+        this.router.navigate(['tour-overview']); 
+      }
     } else {
-      this.router.navigate(['tour-overview']); 
+      this.router.navigate(['login']); 
     }
 
   }
 
   openBlogs() {
-    if (!this.user) {
-      this.router.navigate(['login']); 
-    } else {
+    if (this.user?.id !== 0) {      
       this.router.navigate(['blogPost']); 
+    } else {
+      this.router.navigate(['login']); 
     }
   }
 }

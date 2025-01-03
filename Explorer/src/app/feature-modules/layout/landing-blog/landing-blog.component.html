@@ -36,17 +36,19 @@
         <div class="content">
             <div class="main-blog">
                 <div class="img-container">
-                    <img [src]="mainBlog.imageUrl" alt="Main Blog Image">
+                    <img [src]="getImage(mainBlog.imageUrl)" alt="Main Blog Image">
                 </div>
                 <p class="main-title">{{ mainBlog.title }}</p>
-                <p class="main-description">{{ mainBlog.description }}</p>
+                <markdown *ngIf="mainBlog?.description" 
+                class="main-description" 
+                [data]="mainBlog.description"></markdown>
     
             </div>
             <div class="scroll-list">
                 <ul>
                     <li *ngFor="let blog of blogs" class="blog-card" (click) = setMainBlog(blog)>
-                        <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="blog-image">
-                        <span class="blog-title">{{ mainBlog.title }}</span>
+                        <img [src]="getImage(blog.imageUrl)" alt="{{ blog.title }}" class="blog-image">
+                        <span class="blog-title">{{ blog.title }}</span>
                       </li>
                 </ul>
             </div>
