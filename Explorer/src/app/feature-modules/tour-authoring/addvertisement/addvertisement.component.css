@@ -3,43 +3,53 @@
     border: 2px solid #dcdcdc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    overflow: visible;
     margin-left: 5vh;
   }
   
   .advertisement-card img {
-    width: 100%;
+    width: 90%;
     height: 180px;
+    margin-left: 10px;
     object-fit: cover;
   }
-  
-  .advertisement-card h2 {
-    font-size: 1.2em;
-    margin: 8px 0;
+
+  .text {
+    margin-top: 15px;
+    font-size: 1.3em;
   }
   
-  .price {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #e53935; /* Naglašena boja za cenu */
-  }
+  .info  p{
+    display: flex;
+    font-size: 1em;
+    justify-content: left;
+    margin-top: -15px;
+  } 
+    
+  .info  h2{
+    display: flex;
+    font-size: 1.5em;
+    justify-content: left;
+    margin-top: 5px;
+  } 
+  
   
   .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: -10px;
+    right: -10px;
     background-color: #fff; /* Boja pozadine */
     border: 2px solid #000; /* Boja ivice */
-    border-radius: 50%; /* Zaobljeni oblik */
-    width: 30px; /* Širina */
-    height: 30px; /* Visina */
+    width: 5px; /* Širina */
+    height: 25px; /* Visina */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 15px;
     color: #000; /* Boja × */
     cursor: pointer;
     z-index: 2; /* Postavite z-index kako bi bilo ispred drugih elemenata */
+    border-radius: 50%;
   }
   
   .close-btn:hover {
@@ -51,3 +61,42 @@
     outline: none; /* Uklanjanje okvira fokusa */
   }
   
+  .price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ff5722;
+    display: inline-block;
+    animation: pulseAnimation 1s ease-in-out infinite, rotateAnimation 2s linear infinite;
+  }
+  
+  @keyframes pulseAnimation {
+    0% {
+      transform: scale(1) rotate(-10deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(-10deg);
+    }
+    100% {
+      transform: scale(1) rotate(-10deg);
+    }
+  }
+
+
+  
+  .price-circle {
+    position: absolute;
+    bottom: 25px; /* Pomera krug ispod kartice */
+    right: 25px; /* Pomera krug izvan kartice */
+    background-color: #60b3f7e0; /* Plava boja */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%; /* Krug */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translate(50%, 50%); /* Pomera krug izvan ivica kartice */
+  }

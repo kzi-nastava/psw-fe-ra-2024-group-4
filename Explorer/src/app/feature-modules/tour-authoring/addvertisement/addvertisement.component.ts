@@ -9,11 +9,24 @@ import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { trigger, style, animate, keyframes, transition } from '@angular/animations';
+
 
 @Component({
   selector: 'xp-addvertisement',
   templateUrl: './addvertisement.component.html',
-  styleUrls: ['./addvertisement.component.css']
+  styleUrls: ['./addvertisement.component.css'],
+  animations: [
+    trigger('pulse', [
+      transition('* => *', [
+        animate('1s ease-in-out', keyframes([
+          style({ transform: 'scale(1)', offset: 0 }), // Početna veličina
+          style({ transform: 'scale(1.1)', offset: 0.5 }), // Povećanje na pola trajanja
+          style({ transform: 'scale(1)', offset: 1 }) // Vraćanje na početnu veličinu
+        ]))
+      ])
+    ])
+  ]
 })
 export class AddvertisementComponent implements OnInit{
 
@@ -33,9 +46,26 @@ export class AddvertisementComponent implements OnInit{
               private tourPreferenceService: TourPreferenceService){}
 
   ngOnInit(): void{
+
     this.tourService.getAllTours().subscribe({
       next: (tours: Tour[]) => {
         this.tours = tours;
+        console.log('shshsh')
+        this.tourPreferenceService.getTourPreference().subscribe({
+          next: (preference: TourPreference | null) => {
+            if (preference) {
+              this.touristPreference = preference; 
+              console.log('Tourist preference retrieved:', preference);
+            } else {
+              console.warn('No tour preference found for the current user.');
+            }
+          },
+          error: (err) => {
+            console.error('Error retrieving tour preference:', err);
+          }
+        });
+    
+        this.findMatchingTours()
       },
       error: (err: any) => {
         console.error('Error retrieving tours: ', err);
@@ -51,42 +81,34 @@ export class AddvertisementComponent implements OnInit{
       }
     });
 
-    this.tourPreferenceService.getTourPreference().subscribe({
-      next: (preference: TourPreference | null) => {
-        if (preference) {
-          this.touristPreference = preference; 
-          console.log('Tourist preference retrieved:', preference);
-        } else {
-          console.warn('No tour preference found for the current user.');
-        }
-      },
-      error: (err) => {
-        console.error('Error retrieving tour preference:', err);
-      }
-    });
-
-    this.findMatchingTours()
+    
     this.findMatchingClubs()
   }
 
   findMatchingTours(): void {
 
-    if (!this.touristPreference?.tags || !this.tours) {
-      this.matchingTours = this.tours
-      return;
+    if(this.tours){
+      this.matchingTours = this.tours;
+  
+      if(this.touristPreference){
+        const preferenceTags = this.touristPreference.tags;
+  
+      this.matchingTours = this.tours.filter(tour =>
+        tour.tags.some(tag => preferenceTags.includes(tag))
+      );
+      }
+
+      console.log('Matching Tours:', this.matchingTours);
+
+      
+      this.tourAd = this.matchingTours 
+        ? this.matchingTours[Math.floor(Math.random() * this.matchingTours.length)] 
+        : null;
+  
+      console.log(this.tourAd)
+      console.log('rekl')
     }
-
-    const preferenceTags = this.touristPreference.tags;
-
-    this.matchingTours = this.tours.filter(tour =>
-      tour.tags.some(tag => preferenceTags.includes(tag))
-    );
-
-    console.log('Matching Tours:', this.matchingTours);
-
-    this.tourAd = this.matchingTours.length > 0 
-      ? this.matchingTours[Math.floor(Math.random() * this.matchingTours.length)] 
-      : null;
+    
   }
 
   findMatchingClubs(): void {

@@ -59,7 +59,11 @@ import { environment } from "src/env/environment";
     }
 
     getAllTours(): Observable<Tour[]> {
-      return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/getAllTours`);
+      console.log('wwwwwwwww')
+      var tour= this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/getPublished`);
+      console.log(tour)
+      console.log('tur')
+      return tour;
     } 
   
 

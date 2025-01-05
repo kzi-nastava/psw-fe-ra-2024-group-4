@@ -1,9 +1,16 @@
 <mat-card class="advertisement-card">
     <button class="close-btn" (click)="closeAdvertisement()">×</button>
+    <p class="text">Choose your next journey wisely!</p>
     <img mat-card-image [src]="'assets/images/tag' + 2 + '.jpg'" alt="Slika ture">
     <mat-card-content>
-      <h2>Moscow</h2>
-      <p class="price">Cena: <span>500$</span></p>
+      <div class="info">
+        <h2>Moskva</h2>
+       <p>Jan 17-25</p>
+      </div>      
+      <div class="price-circle">
+      <!--  <img mat-card-image [src]="'assets/images/pr.png'" alt="Slika ture">-->
+        <span class="price" [@pulse]>500$</span>
+      </div>
     </mat-card-content>
   </mat-card>
   
