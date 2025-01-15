@@ -161,6 +161,7 @@ h1 {
     font-size: 2rem; /* Povećaj veličinu */
     color: #333; /* Neutralna tamna boja */
     margin-bottom: 10px; /* Razmak između naslova i opisa */
+    line-height: 1;
 }
 
 .main-description {
