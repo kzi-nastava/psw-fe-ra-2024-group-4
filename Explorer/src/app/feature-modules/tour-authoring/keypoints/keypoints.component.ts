@@ -4,6 +4,8 @@ import { KeyPoint, PublicStatus } from '../model/keypoint.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { environment } from 'src/env/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthorEncounterComponent } from '../../encounters/author-encounter/author-encounter.component';
 
 @Component({
   selector: 'xp-keypoints',
@@ -22,7 +24,7 @@ export class KeypointsComponent implements OnInit {
   image: string;
   
 
-  constructor(private service: TourAuthoringService, private authService: AuthService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService,private dialog: MatDialog){}
 
   ngOnInit(): void {
    
@@ -105,5 +107,11 @@ export class KeypointsComponent implements OnInit {
     keypoint.publicStatus = newStatus;
   }
 
-
+  addEncounter(keyPoint: KeyPoint): void {
+    this.dialog.open(AuthorEncounterComponent, {
+      width: '28%',
+      height: 'auto',
+      data: keyPoint, 
+    });
+  }
 }

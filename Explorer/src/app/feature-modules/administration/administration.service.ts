@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Equipment } from './model/equipment.model';
 import { AppReview } from './model/appreview.model';
@@ -14,6 +14,8 @@ import { KeyPoint } from '../tour-authoring/model/keypoint.model';
 import { TourObject } from '../tour-authoring/model/object.model';
 import { Notification } from './model/notifications.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Encounter } from '../encounters/model/encounter.model';
+import { PersonInfo } from '../person.info/model/info.model';
 
 
 @Injectable({
@@ -216,6 +218,14 @@ export class AdministrationService {
     return this.http.get<PagedResults<Account>>(environment.apiHost + 'administration/account')
   }
 
+  getTouristInfo(personId: number): Observable<PersonInfo> {
+    return this.http.get<PersonInfo>(`${environment.apiHost}administration/account/wallet/${personId}`);
+  }
+
+  updatePersonWallet(info: PersonInfo): Observable<PersonInfo> {
+    return this.http.put<PersonInfo>(`${environment.apiHost}administration/account/wallet/${info.id}`, info);
+  }
+
   blockAccount(account: Account): Observable<Account> {
     return this.http.put<Account>(environment.apiHost + 'administration/account/block',account);
   } 
@@ -247,6 +257,24 @@ export class AdministrationService {
 
   updateKeyPoint(keyPoint: KeyPoint): Observable<KeyPoint>{
     return this.http.put<KeyPoint>(environment.apiHost + 'administration/publicRequest/updateKeyPoint', keyPoint);
+  }
+  approveEncounter(id: number): Observable<{ Message: string }> {
+    const url = `${environment.apiHost}encounters/${id}/approve`;
+    return this.http.put<{ Message: string }>(url, {});
+  }
+  
+  rejectEncounter(id: number): Observable<{ Message: string }> {
+    const url = `${environment.apiHost}encounters/${id}/reject`;
+    return this.http.put<{ Message: string }>(url, {});
+  }
+  getRequestedEncounters(): Observable<Encounter[]>{
+    return this.http.get<{results: Encounter[]}>(`${environment.apiHost}encounters/pending`).pipe(
+      map(response => response.results)
+    );
+  }
+
+  createAdminNotification(notification:Notification):Observable<Notification>{
+    return this.http.post<Notification>(`${environment.apiHost}administrator/notification`, notification)
   }
 
   

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeyPoint } from './model/keypoint.model';
 import { Observable, Subject } from 'rxjs';
@@ -14,6 +14,15 @@ export class TourAuthoringService {
 
   constructor(private http: HttpClient) { 
     
+  }
+
+  getObjectsInRadius(radius: number, lat: number, lon: number): Observable<TourObject[]> {
+    const params = new HttpParams()
+        .set('radius', radius.toString())
+        .set('lat', lat.toString())
+        .set('lon', lon.toString());
+
+    return this.http.get<TourObject[]>(environment.apiHost + 'tourist/object/getInRadius', {params})
   }
 
   getObjects(): Observable<PagedResults<TourObject>> {

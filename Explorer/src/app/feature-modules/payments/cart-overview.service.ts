@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { OrderItem } from '../tour-authoring/model/order-item.model';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+
 import { environment } from 'src/env/environment';
-import { TourPurchaseToken } from '../tour-authoring/model/tour-purchase-token.model';
-import { ShoppingCart } from '../tour-authoring/model/shopping-cart.model';
+import { TourPurchaseToken } from './model/tour-purchase-token.model';
+import { ShoppingCart } from './model/shopping-cart.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Notification } from '../administration/model/notifications.model';
+import { OrderItem } from './model/order-item.model';
 
 @Injectable({
   providedIn: 'root' 
@@ -13,6 +16,12 @@ import { ShoppingCart } from '../tour-authoring/model/shopping-cart.model';
 export class CartService {
   private cartItems: any[] = []; 
   private tours: Tour[] = [];
+
+  //pracenje broja artikala i preview 
+  private cartItemCount = new BehaviorSubject<number>(0); 
+  cartItemCount$ = this.cartItemCount.asObservable(); 
+  private cartItemsSubject = new BehaviorSubject<OrderItem[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(private http: HttpClient) {}
   
@@ -22,7 +31,13 @@ export class CartService {
 
   addToCart(item: OrderItem): Observable<OrderItem> {
     //this.cartItems.push(item);
-    return this.http.post<OrderItem>(environment.apiHost + 'shopping/item', item);
+    return this.http.post<OrderItem>(environment.apiHost + 'shopping/item', item)
+    .pipe(
+      tap(() => {
+        this.updateCartItemCount(1); // Povećavamo broj artikala
+        this.getCartItems(item.cartId).subscribe(); // Automatski osveži korpu
+      })
+    );
 
 
   }
@@ -33,12 +48,32 @@ export class CartService {
 
 
   removeFromCart(itemId: number): Observable<void> {
-    return this.http.delete<void>(environment.apiHost + 'shopping/item/' + itemId);
+    return this.http.delete<void>(environment.apiHost + 'shopping/item/' + itemId)
+    .pipe(
+      tap(() => {
+        this.updateCartItemCount(-1); // Smanjujemo broj artikala
+      })
+    );
   }
 
   getCartItems(cartId: number): Observable<OrderItem[]> {
     //return this.cartItems;
-    return this.http.get<OrderItem[]>(environment.apiHost + 'shopping/item/getAllFromCart/' + cartId);
+    return this.http.get<OrderItem[]>(environment.apiHost + 'shopping/item/getAllFromCart/' + cartId)
+    .pipe(
+      tap((items) => {
+        this.cartItemCount.next(items.length); // Postavljamo inicijalni broj artikala
+        this.updateCartItems(items);
+      })
+    );
+  }
+
+  private updateCartItemCount(change: number): void {
+    const currentCount = this.cartItemCount.value;
+    this.cartItemCount.next(currentCount + change);
+  }
+
+  private updateCartItems(items: OrderItem[]): void {
+    this.cartItemsSubject.next(items);
   }
 
   createShoppingCart(cart: ShoppingCart): Observable<ShoppingCart>{
@@ -64,5 +99,32 @@ export class CartService {
 
   updateCart(cartId: number, cart: ShoppingCart): Observable<ShoppingCart>{
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/' + cartId, cart);
+  }
+
+
+  applyCoupon(cartId: number, promoCode: string): Observable<ShoppingCart> {
+    // Koristimo HttpParams za dodavanje query parametara
+    const url = `${environment.apiHost}shopping/applyCoupon/${cartId}`;
+    return this.http.put<ShoppingCart>(url, null, {
+      params: { promoCode }, // Query param
+    });
+
+  }
+
+  getAllNotifications(userId: number, role: 'tourist' | 'author' | 'administrator'): Observable<PagedResults<Notification>> {
+    const url = `${environment.apiHost}${role}/notification/getall/${userId}`;
+    return this.http.get<PagedResults<Notification>>(url);
+  }
+
+  updateNotification(role: 'tourist' | 'author' | 'administrator', notification: Notification): Observable<any> {
+    const url = `${environment.apiHost}${role}/notification/${notification.id}`;
+    return this.http.put(url, notification);
+  }
+
+  createNotification(role: 'tourist' | 'author' | 'administrator', notification: Notification): Observable<Notification>
+  {
+    const url = `${environment.apiHost}${role}/notification/`;
+    return this.http.post<Notification>(url, notification);
+
   }
 }

@@ -5,6 +5,9 @@
             <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;"><img class="logo" src="assets/icons/traveltaleslogo3.svg"/></a>
 
             <div class="links">
+                <a mat-raised-button class="hover-icon" [routerLink]="['about-us']">
+                    About us
+                </a>
                 <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openToursMenu()">
                     Tours <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
@@ -76,9 +79,11 @@
             <ul class="menu-list">
                 <li><h1 >Objects to visit <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'author')"><a href="object-view">View all objects</a></li>
+                <li *ngIf="user && (user.role === 'author')"><a href="sales">View my sales</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Record the equipment</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-overview">Browse tours</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="purchased-tours">My tours</a></li>
+                <li *ngIf="user && canCreateEncounter()"><a href="admin-encounters">Create encounter</a></li>
             </ul>
 
         </div>
@@ -103,6 +108,9 @@
             <ul class="menu-list">
                 <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>
                 <li *ngIf="user && (user.role === 'administrator')"><a href="public-status-request">Key Points and Objects public requests</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="admin-encounters">Encounters</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="request-encounters">Requests for encounters</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="equipment">Record equipment</a></li>
             </ul>
 
         </div>

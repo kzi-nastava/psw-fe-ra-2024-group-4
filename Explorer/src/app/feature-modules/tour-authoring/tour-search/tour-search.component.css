@@ -15,32 +15,80 @@
   
   .map-container{
      width: 70%;
+     margin-bottom: 10px;
      height: 70%;
      
      
      
   }
-  .container p {
+  .container p{
     font-size: 17px; /* Veličina fonta */
     color: #333;     /* Boja teksta */
     font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
     font-weight: 400; /* Debljina fonta */
     line-height: 1.6; /* Visina linije, kako bi tekst bio čitljiviji */
-    margin: 20px 0;   /* Gornji i donji razmak */
+    margin: 5px 0;   /* Gornji i donji razmak */
     padding: 10px;    /* Unutrašnji razmak */
     text-align: center; /* Centriranje teksta */
     background-color: #f4f4f4; /* Pozadinska boja */
     border-radius: 5px; /* Zaobljeni uglovi */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
   }
+
   
-  form > div {
+
+  
+
+  .sub-container p{
+    font-size: 15px; /* Veličina fonta */
+    color: #333;     /* Boja teksta */
+    font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
+    font-weight: 400; /* Debljina fonta */
+    line-height: 1.6; /* Visina linije, kako bi tekst bio čitljiviji */
+    margin: 10px 0;   /* Gornji i donji razmak */
+    text-align: center; /* Centriranje teksta */
+    background-color: #f4f4f4; /* Pozadinska boja */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
+  }
+
+  
+
+  .tags-container p{
+    font-size: 15px; /* Veličina fonta */
+    color: #333;     /* Boja teksta */
+    font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
+    font-weight: 400; /* Debljina fonta */
+    line-height: 1.6; /* Visina linije, kako bi tekst bio čitljiviji */
+    margin: 10px 0;   /* Gornji i donji razmak */
+    text-align: center; /* Centriranje teksta */
+    background-color: #f4f4f4; /* Pozadinska boja */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blagi senka oko paragrafa */
+  }
+
+  
+
+  mat-icon {
+    margin-right: 10px;
+    font-size: 24px; /* Podesi veličinu ikonice */
+    vertical-align: middle;
+  }
+
+
+  
+ 
+
+  .field-container {
     display: flex;
     align-items: center; /* Postavlja input i "km" u isti red */
+    color: #e2bdc8 !important;
   }
   
+
+  
   mat-form-field {
-    width: 80px; /* Smanjite širinu forme */
+    width: 200px; /* Smanjite širinu forme */
     margin-right: 10px; /* Razmak između inputa i "km" */
   }
   
@@ -50,5 +98,58 @@
   
   .search{
     margin-top: 5px;
-    width: 200px;
+    width: 100px;
+    background-color: #a36484 !important;
+    color: white; 
   }
+
+  .clear{    
+    margin-top: 5px;
+    margin-left: 20px;
+    width: 100px;
+    background-color: #a36484 !important;
+    color: white; 
+  }
+
+  
+
+
+  .tags-container {
+    flex: 250px; 
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin: 5px;
+  }
+
+  mat-selection-list {
+    max-height: 48vh; 
+    min-width: 200px;
+    width: 100%;
+    overflow-y: auto; 
+  }
+
+  mat-checkbox {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 18px; /* Povećava veličinu teksta checkbox-a */
+    text-align: left; /* Poravnava tekst na levu stranu */
+    display: block; /* Osigurava da svaki checkbox zauzima ceo red */
+    margin-bottom: 10px; /* Razmak između checkbox-a */
+}
+
+  mat-panel-title {
+    font-size: 15px; /* Veličina fonta */
+    color: #333;     /* Boja teksta */
+    font-family: 'Poppins', sans-serif; /* Font porodica (ako koristite Poppins, možete je dodati u HTML) */
+    font-weight: 400; /* Debljina fonta */
+    line-height: 1.6; 
+    text-align: left; /* Centriranje teksta */
+  }
+
+  
+
+
+
+  

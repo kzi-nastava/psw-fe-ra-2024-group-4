@@ -1,8 +1,14 @@
 <div class="main" (click)="closeMap()">
- 
-    <div class="map-container" >
-        <xp-map class="tour-map" [tourOverview] = "tourOverview" [showingFirstKp] = "showFirstKp" (distanceChanged)="onDistanceChanged($event)" (click)="$event.stopPropagation()" [showingTour]="true" [selectedTourPoints]="keyPoints"></xp-map>
-
+    <label class="title">Tour's first key point</label>
+    <div class="map-wrapper">
+        <div class="map-container">
+            <xp-map class="tour-map" [tourOverview]="tourOverview" [showingFirstKp]="showFirstKp" 
+                    (distanceChanged)="onDistanceChanged($event)" 
+                    (click)="$event.stopPropagation()" 
+                    [showingTour]="true" 
+                    [selectedTourPoints]="keyPoints">
+            </xp-map>
+        </div>
     </div>
-
+    <button class="button">X</button>
 </div>

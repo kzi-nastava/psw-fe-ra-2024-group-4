@@ -60,7 +60,7 @@ header h3, header h4, header h5, header h6 {
 
 
 .container {
-    margin-top: 12vh !important;
+    
     display: flex;
     justify-content: center;
     align-items: center;

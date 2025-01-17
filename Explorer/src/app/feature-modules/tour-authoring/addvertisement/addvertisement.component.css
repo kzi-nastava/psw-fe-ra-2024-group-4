@@ -1,0 +1,53 @@
+.advertisement-card {
+    width: 200px;
+    border: 2px solid #dcdcdc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-left: 5vh;
+  }
+  
+  .advertisement-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .advertisement-card h2 {
+    font-size: 1.2em;
+    margin: 8px 0;
+  }
+  
+  .price {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #e53935; /* Naglašena boja za cenu */
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fff; /* Boja pozadine */
+    border: 2px solid #000; /* Boja ivice */
+    border-radius: 50%; /* Zaobljeni oblik */
+    width: 30px; /* Širina */
+    height: 30px; /* Visina */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #000; /* Boja × */
+    cursor: pointer;
+    z-index: 2; /* Postavite z-index kako bi bilo ispred drugih elemenata */
+  }
+  
+  .close-btn:hover {
+    background-color: #f0f0f0; /* Boja pozadine pri hover-u */
+    color: red; /* Boja ikone pri hover-u */
+  }
+  
+  .close-btn:focus {
+    outline: none; /* Uklanjanje okvira fokusa */
+  }
+  

@@ -20,6 +20,12 @@ export class PublicStatusRequestComponent {
   declineReason: string = '';
   isObject: boolean;
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Requests page! Here, you can manage both object and key point requests. For each request, you can either accept it by clicking the "Done" button or decline it by clicking the "Remove Circle" button. If you choose to decline a request, a field will appear where you can enter the reason for the decline. Once the reason is provided, click "Submit" to confirm your decision or "Cancel" to discard it. This page allows you to easily handle incoming requests and provide feedback if necessary.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: AdministrationService, private mpService: MarketplaceService) {}
 
   ngOnInit(): void {

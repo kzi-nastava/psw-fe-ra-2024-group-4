@@ -30,11 +30,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PaymentsModule } from './feature-modules/payments/payments.module';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,10 @@ import { EncounterModule } from './feature-modules/encounters/encounters.module'
     MatMenuModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    EncounterModule
+    EncounterModule,
+    MatSlideToggleModule,
+    PaymentsModule,
+    MatRadioModule
   ],
   providers: [
     {

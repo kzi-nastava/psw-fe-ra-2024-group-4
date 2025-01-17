@@ -9,6 +9,7 @@ import { Login } from './model/login.model';
 import { AuthenticationResponse } from './model/authentication-response.model';
 import { User } from './model/user.model';
 import { Registration } from './model/registration.model';
+import { PersonInfo } from 'src/app/feature-modules/person.info/model/info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,8 @@ export class AuthService {
     this.user$.next(user);
   }
 
+  
+
   isLoggedIn(): boolean{
     const user = this.user$.value;
     return user && user.id > 0;
@@ -83,5 +86,12 @@ export class AuthService {
   public getUser(): BehaviorSubject<User>{
     return this.user$;
   }
+  getPersonInfo(userID: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiHost}author/person/${userID}`);
+  }
 
+  checkUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiHost}users/check-username/${username}`);
+  }
+  
 }

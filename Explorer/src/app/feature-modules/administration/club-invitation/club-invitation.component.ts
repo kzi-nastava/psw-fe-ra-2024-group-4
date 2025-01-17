@@ -25,6 +25,13 @@ export class ClubInvitationComponent {
   errorMessage: string | null = null;
   userId: number;
 
+  
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Club Invitations page! Here, you can invite new members to join your club by selecting them from the available list and sending them an invitation. Additionally, you can view the status of all sent invitations, whether they are still processing, accepted, or denied. Manage your club members effortlessly!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: AdministrationService, private authService: AuthService){}
 
   ngOnInit(): void {

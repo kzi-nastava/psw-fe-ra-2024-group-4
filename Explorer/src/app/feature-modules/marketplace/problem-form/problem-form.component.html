@@ -24,3 +24,15 @@
         <button  color="primary" type="submit" (click)="addProblem()" mat-raised-button>Done</button>
     </div>
 </form>
+
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
+</div>

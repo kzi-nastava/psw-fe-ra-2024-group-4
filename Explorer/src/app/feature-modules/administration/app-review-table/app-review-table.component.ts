@@ -13,6 +13,12 @@ import { Equipment } from '../model/equipment.model';
 })
 export class AppReviewTableComponent {
   reviews: AppReview[] = [];
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the App Reviews page! Here, you can see all user reviews, including their grades, comments, and the date they were submitted.';
+ 
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
   
   constructor(private service: AdministrationService) { }
 

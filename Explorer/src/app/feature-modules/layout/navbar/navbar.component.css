@@ -38,6 +38,7 @@ a[mat-raised-button] {
     transition: background-color 0.3s ease, transform 0.2s ease;
     position: relative;
     font-family: 'Poppins', sans-serif;
+    text-decoration: none;
 }
 
 .hover-icon.active .icon-down {
@@ -198,6 +199,8 @@ a[mat-raised-button]:hover {
     width: auto; 
     height: auto; 
 }
+
+
 
 
 h1{

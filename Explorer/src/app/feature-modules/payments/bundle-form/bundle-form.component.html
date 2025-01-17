@@ -1,0 +1,47 @@
+<form [formGroup]="bundleForm" class="form-container" class="form-style">
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Price in $</mat-label>
+        <input matInput formControlName="price" type="number" />
+      </mat-form-field>
+
+      <div>
+        <a (click)="openTourDialog()">Add Tour</a>
+    </div>
+
+     <div *ngIf="selectedTours.length > 0" class="selected-tours">
+      <div *ngFor="let tour of selectedTours" class="selected-tour-card">
+        <img [src]="'assets/images/tag' + 3 + '.jpg'" alt="{{ tour.name }}" class="tour-image" />
+        <div class="tour-details">
+          <h4>{{ tour.name }}</h4>
+          <p>Price: ${{ tour.price }}</p>
+          <button mat-icon-button (click)="removeTour(tour)" class="remove-button">
+            <span style="font-size: 18px;">❌</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+      <p>Total price: {{totalPrice}}</p>
+    
+  
+    <div class="button-container">
+        <button mat-raised-button type="submit" color="accent" (click)="addBundle()" id="button1" >Submit</button>
+    </div>
+  </form>
+  
+  <div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>

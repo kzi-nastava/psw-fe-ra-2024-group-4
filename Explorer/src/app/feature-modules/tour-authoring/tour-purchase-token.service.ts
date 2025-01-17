@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { TourPurchaseToken } from './model/tour-purchase-token.model';
+import { TourPurchaseToken } from '../payments/model/tour-purchase-token.model';
 import { environment } from 'src/env/environment';
 import { Tour } from './model/tour.model';
 

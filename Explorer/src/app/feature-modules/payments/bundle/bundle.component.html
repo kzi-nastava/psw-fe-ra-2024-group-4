@@ -1,0 +1,62 @@
+
+<div *ngIf="bundles && bundles.length > 0">
+    <div class="cards">
+      <div class="card" *ngFor="let bundle of bundles">
+        <img [src]="'assets/images/tag' + 3 + '.jpg'" class="card-image" />
+
+        <div class="card-overlay">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">{{ bundle.name }}</div>
+              <span class="card-status" *ngIf="bundle.status === 0">Status: Draft</span>
+              <span class="card-status" *ngIf="bundle.status === 1">Status: Published</span>
+              <span class="card-status" *ngIf="bundle.status === 2">Status: Archived</span>
+            </div>
+            <div class="card-button-container">
+                <button
+                  mat-icon-button
+                  class="card-bottom-button"
+                  *ngIf="bundle.status == 0"
+                  (click)="onDelete(bundle)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                
+                <button
+                  mat-raised-button
+                  class="card-bottom-button"
+                  *ngIf="bundle.canBePublished == true && bundle.status != 1"
+                  (click)="onPublish(bundle)"
+                >publish
+                </button>
+                
+              
+              <button
+                mat-icon-button
+                class="card-bottom-button"
+                *ngIf="bundle.status == 1"
+                (click)="onArchive(bundle)">
+                <mat-icon>archive</mat-icon>
+              </button>       
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="card-footer-description">Price: ${{ bundle.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
+</div>

@@ -27,6 +27,12 @@ export class PersonEquipmentComponent implements OnInit{
     wallet: 0
   };
   
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'You can select the equipment you want to modify by checking the boxes next to each item. Once you’ve made your selections, click "Save changes" to apply them. If you need any assistance, feel free to ask!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
  constructor(private service: PersonInfoService, private authService: AuthService) {
 	
 	  

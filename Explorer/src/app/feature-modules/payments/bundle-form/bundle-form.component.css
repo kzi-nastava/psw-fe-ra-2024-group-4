@@ -1,0 +1,197 @@
+
+h1 {
+    text-align: center;
+  }
+  
+  .container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+  }
+  
+  form {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 70vh;
+    margin-left: 37vh;
+    margin-top: 5vh;
+  }
+  
+  .mat-tab-group {
+    width: 100%;                /* Širina za celokupnu širinu ekrana */
+    margin: 0;                  /* Uklanjanje margine */
+    padding: 0;                 /* Uklanjanje paddinga */
+  }
+  
+  
+  .mat-tab-body {
+    margin: 0;                  /* Uklanjanje margine unutar tab tela */
+    padding: 0;                 /* Uklanjanje paddinga unutar tab tela */
+  }
+  
+  
+  mat-form-field {
+    width: 100%; 
+    margin-bottom: 10px; 
+  }
+  
+  .tags-container {
+    flex: 0 0 250px; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-right: 40vh;
+  }
+  
+  mat-selection-list {
+    max-height: 48vh; 
+    overflow-y: auto; 
+  }
+  
+  .error {
+    color: #d32f2f; /* Red color for error */
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  
+  
+  .fixed-circle {
+    position: fixed;
+    bottom: 7vh;
+    right: 8vh;
+    width: 10vh;
+    height: 10vh;
+    background-color: rgb(192, 153, 218);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 9999; /* Ensure it's on top */
+    color: white; /* White question mark */
+    font-size: 5vh; /* Adjust size as needed */
+    font-weight: bold; /* Optional for styling */
+  }
+  
+  .fixed-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .chat-box {
+    position: fixed;
+    bottom: 21vh; 
+    right: 7vh;
+    width: 200px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    border-width: #4b464a;
+    border-width: 5px;
+    border: 1px solid #ef7ad9;
+    z-index: 9999;
+  }
+  
+  .chat-box::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 4vh;
+    width: 4vh;
+    height: 4vh;
+    background-color: #fff;
+    border-left: 1px solid #ef7ad9;
+    border-bottom: 1px solid #ef7ad9;
+    transform: rotate(-45deg);
+  }
+  
+  
+  
+  .center-container {
+    display: flex;              /* Aktivira fleksibilno poravnavanje */
+    justify-content: center;    /* Centriranje horizontalno */
+    margin: 0 auto;             /* Automatsko centriranje širine */
+    width: 70%;                /* Visina da se centriranje odnosi na ceo ekran */
+    box-sizing: border-box;     /* Uključuje padding i border u širinu */
+  }
+  
+  .selected-tours {
+    display: flex;
+    flex-wrap: wrap; /* Omogućava prelamanje kartica na sledeći red */
+    gap: 20px; /* Razmak između kartica */
+    justify-content: start; /* Poravnanje kartica od početka */
+    margin-top: 20px;
+  }
+
+  .selected-tour-card {
+    display: block;
+    margin-bottom: 10px;
+    width: 100px;
+    position: relative;
+    overflow: hidden; /* Osigurava da sadržaj ne izlazi van granica */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .tour-image {
+    width: 100%;
+    height: 100px; /* Podesite visinu slike po potrebi */
+    object-fit: cover;
+    border-top: 3px solid #ccc; /* Gornja polovina border-a */
+    display: block; 
+  }
+  
+  .tour-details {
+    padding: 10px;
+    text-align: center;
+    background-color: #fff; /* Pozadina za detalje */
+  }
+  
+  .tour-details h4,
+  .tour-details p {
+    margin: 5px 0; /* Razmak između elemenata */
+  }
+  
+  .remove-button {
+    position: absolute;
+    top: -1vh;
+    right: 2vh;
+    cursor: pointer;
+    background: none; /* Ensure no background color */
+  border: none; /* Remove any borders */
+  box-shadow: none; /* Remove shadow */
+  width: 3vh;
+  }
+  
+
+
+  #button1 {
+    width: 66vh;
+    font-size: 16px;
+  }
+
+  a {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    color: #1976d2; /* Primary link color */
+    text-decoration: none;
+    font-size: medium;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    color: #004ba0; /* Darker link color on hover */
+  }
+
+  p {
+    font-size: medium;
+  }
+  

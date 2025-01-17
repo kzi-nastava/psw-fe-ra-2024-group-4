@@ -41,9 +41,10 @@ mdc-evolution-chip__text-label mat-mdc-chip-action-label{
 }
 
 .cart-container {
-    margin-top: 3vh;
+    margin-top: 30px;
     display: flex;
-    justify-content: left;
+    justify-content: right;
+    margin-right: 50px;
 }
 button[mat-icon-button] {
     /*position: relative; 
@@ -61,23 +62,18 @@ button[mat-icon-button] mat-icon {
 }
 .cards {
     display: grid;
-    height: 100%;
-    width: 100%; /*ovo je upitno*/
-    grid-template-columns: repeat(auto-fit, minmax(250px, 24vw));
-    gap: 6vh;
-    margin: 0;
-    padding: 2vh;
-    list-style-type: none;
-    align-content: top;
-    justify-items: center;
-    padding-top: 10%;
+ /*   grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));*/
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+    
 }
 
 .card {
     position: relative;
     display: block; 
     width: 24vw; 
-    height: 40vw;
+    height: 60vh;
     min-width: 250px; /*mozda nije lose piksele za min*/
     max-width: 25vw;
     min-height: 350px;
@@ -90,11 +86,11 @@ button[mat-icon-button] mat-icon {
 
 .card-image{
     width: 24vw; 
-    height: 40vw;
+    height: 45vh;
     min-width: 250px;
     max-width: 25vw;
-    min-height: 350px;
-    max-height: 30vw;
+    
+    
 }
 
 .card-overlay{
@@ -103,7 +99,7 @@ button[mat-icon-button] mat-icon {
     left: 0;
     right: 0;
     z-index: 1;
-    border-radius: calc(38 * 1px) 0 0 0;
+    border-radius: calc(38 * 1px) calc(38 * 1px) 0 0;
     background-color: white;
     transform: translateY(100%);
     transition: .2s ease-in-out;
@@ -129,7 +125,7 @@ button[mat-icon-button] mat-icon {
     /*max-height: 18em;*/
     padding: 1.5em;
     padding-bottom: 0;
-    border-radius: calc(40*1px) 0 0 0;
+    border-radius: calc(25*1px) calc(25*1px) 0 0;
     background-color: white;
     transform: translateY(-100%);
     transition: .2s ease-in-out;
@@ -180,6 +176,7 @@ button[mat-icon-button] mat-icon {
     color: #6A515E;
     margin-left: 3%;
     opacity: 95%;
+    
 }
 
 .card-footer{
@@ -231,20 +228,19 @@ button[mat-icon-button] mat-icon {
   .left-side-container {
     flex: 0 0 20%;
     /*background-color: #d1e7dd;*/
-    margin-right: 5%;
+    margin-right: 1%;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: baseline;
-    padding-top: 10%;
     text-align: center;
   }
   
   /* Center container */
   .center-container {
     width: 60%;
-    flex: 0 0 60%;
-   /* background-color: #f8d7da;*/
-    display: flex;
+
+   
   }
   
   /* Right side container */
@@ -355,12 +351,298 @@ button[mat-icon-button] mat-icon {
     justify-content: center;
 }
 
-/*.map-keypoint{
+.map-keypoint{
     width: 100%;
 }
-}*/
+
+.cart-container {
+    position: relative;
+}
+
+.cart-preview {
+    position: absolute;
+    top: 50px;  /* Adjust as necessary */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 700px;
+    z-index: 1000;
+    border-radius: 8px; 
+    display: flex;              /* Flexbox for the entire preview */
+    flex-direction: column;     /* Stack items vertically */
+}
+
+.cart-item-preview {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-preview:last-child {
+    border-bottom: none;
+}
+
+.cart-item {
+    display: flex;              /* Flexbox container */
+    align-items: center;        /* Vertically center the items */
+    gap: 10px;                  /* Adds space between image and text */
+}
+
+.card-image-preview {
+    width: 150px;               /* Set the image size */
+    height: 100px;
+    object-fit: cover;          /* Makes sure the image maintains aspect ratio */
+}
+
+.tour-info {
+    display: flex;
+    flex-direction: column;      /* Stack text elements vertically */
+    justify-content: center;     /* Vertically center text */
+}
+
+.tour-name {
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #666;
+    font-size: 16px;
+}
+
+.tour-price {
+    font-size: 14px;
+}
+
+.divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-top: 2px solid #333;
+}
+
+.price-total {
+    align-self: flex-end;           /* Push the total price to the right */
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 130px;
+}
+
+
+/*STILOVI ZA BUNDLE*/
+/* Kontejner za sve bundle kartice */
+.bundles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Pojedinačna kartica za bundle */
+.bundle-card-container {
+    position: relative;
+    display: block;
+    width: 40vw;
+    max-width: 60vw;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.2);
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.bundle-card-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.bundle-title {
+    font-size: 1.5rem;
+    color: #6A515E;
+    margin: 0.5rem 0;
+}
+
+.bundle-price {
+    font-size: 1.2rem; color: #6A515E; margin-bottom: 1.5rem; 
+}
+
+.bundle-buy-btn { 
+    padding: 0.5rem 1.2rem; 
+    font-size: 15px !important;
+    border: none; 
+    background-color: #a36484; 
+    color: white; 
+    border-radius: 7px; 
+    cursor: pointer; 
+    font-size: 1.2rem; 
+    transition: background-color 0.3s ease; 
+}
+
+
+
+/* Kontejner za kartice tura */
+.tours-grid {
+    display: grid;
+  /*  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+  grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Pojedinačna kartica za turu */
+.tour-card-container {
+    position: relative;
+    display: block;
+    width: 16vw;
+    height: 20vw;
+    min-width: 200px;
+    max-width: 250px;
+    min-height: 250px;
+    max-height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(162, 0, 255, 0.2);
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(162, 0, 255, 0.2);
+}
+
+.tour-card-image {
+    width: 100%;
+    height: 40%;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.tour-card-overlay {
+    position: absolute;
+    top: 60%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 0 0 15px 15px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tour-card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #6A515E;
+}
+
+
+
+.tour-card-footer {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: #6A515E;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tour-card-description {
+    font-size: 0.9rem;
+    color: #6A515E;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 1rem;
+}
+
+.tour-card-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 5px;
+    margin-top: 1rem;
+}
+
+.tour-card-btn-reviews,
+.tour-card-btn-map {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #a36484;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: background-color 0.3s ease;
+}
+
+
+
 
   /*
 :host ::ng-deep .leaflet-container {
      height: 150% !important;
     }*/ 
+
+    .old-price {
+        text-decoration: line-through;
+        color: red; /* Optional: change color to red for crossed-out prices */
+    }
+    
+    .new-price {
+        font-weight: bold;
+        color: green; /* Optional: change color to highlight the discount */
+    }
+
+    .fixed-circle {
+        position: fixed;
+        bottom: 7vh;
+        right: 8vh;
+        width: 10vh;
+        height: 10vh;
+        background-color: rgb(192, 153, 218);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        z-index: 9999; 
+        color: white; 
+        font-size: 5vh; 
+        font-weight: bold;
+      }
+      
+      .fixed-circle:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+      }
+      
+      
+      .chat-box {
+        position: fixed;
+        bottom: 21vh; 
+        right: 7vh;
+        width: 200px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        border-width: #4b464a;
+        border-width: 5px;
+        border: 1px solid #ef7ad9;
+        z-index: 9999;
+      }
+      
+      .chat-box::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 4vh;
+        width: 4vh;
+        height: 4vh;
+        background-color: #fff;
+        border-left: 1px solid #ef7ad9;
+        border-bottom: 1px solid #ef7ad9;
+        transform: rotate(-45deg);
+      }

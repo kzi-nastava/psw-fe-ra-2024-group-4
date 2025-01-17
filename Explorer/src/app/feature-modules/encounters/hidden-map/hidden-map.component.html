@@ -1,0 +1,9 @@
+<div class="container">
+    <xp-map [mapId]="'hiddenMap'" 
+        [registeringObject]="true" 
+        (latitudeChanged)="onLatitudeChanged($event)"
+        (longitudeChanged)="onLongitudeChanged($event)"
+    ></xp-map>
+    <button mat-button [mat-dialog-close]="{ latitude: latitude, longitude: longitude, address: address }"
+         cdkFocusInitial>Register hidden location</button>
+</div>

@@ -1,4 +1,6 @@
 #equipment {
+    flex: 1;
+    overflow-y: auto;
     margin-top: 20px;
     margin-left: 20px;
     max-width: 500px;
@@ -66,4 +68,41 @@
     display: flex;
     justify-content: space-between; 
     margin-top: 20px; 
+}
+.search{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.search-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+.fixed-actions {
+  display: flex;
+  position: sticky;
+  bottom: 0; /* Sticks to the bottom of the dialog */
+  z-index: 2;
+  background-color: white;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  justify-content: center; /* Center align the button */
+}
+.no-equipment-label {
+  text-align: center;
+  font-size: 1.2em;
+  color: gray;
+  margin-top: 1em;
+}
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Ensure the dialog content doesn't overflow */
 }

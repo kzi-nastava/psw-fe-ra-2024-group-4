@@ -1,14 +1,19 @@
 <header>
-<h1>Create tour</h1>
-</header>
-<div class="container">
-    <form [formGroup]="tourForm">
-        <div>
-            <mat-form-field>
+    <h1>Create Tour or Bundle</h1>
+  </header>
+  
+  <div class="container" >
+    <mat-tab-group class="center-container">
+      <!-- Tab for Tours -->
+      <mat-tab label="Tours">
+        <div class="tour-form-container" >
+          <form [formGroup]="tourForm">
+            <div class="form-style">
+              <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput formControlName="name" type="text" required/>
-            </mat-form-field>
-            <mat-form-field>
+                <input matInput formControlName="name" type="text" required />
+              </mat-form-field>
+              <mat-form-field>
                 <mat-label>Difficulty</mat-label>
                 <mat-select formControlName="difficulty" required>
                   <mat-option value="Easy">Easy</mat-option>
@@ -16,45 +21,59 @@
                   <mat-option value="Hard">Hard</mat-option>
                 </mat-select>
               </mat-form-field>
-            <mat-form-field>
+              <mat-form-field>
                 <mat-label>Description</mat-label>
-                <textarea matInput
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="1"
-                    formControlName="description"
-                    cdkAutosizeMaxRows="5" required></textarea>
-            </mat-form-field>
-            <mat-form-field>
+                <textarea
+                  matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  formControlName="description"
+                  cdkAutosizeMaxRows="5"
+                  required
+                ></textarea>
+              </mat-form-field>
+              <mat-form-field>
                 <mat-label>Price in $</mat-label>
-                <input matInput formControlName="price" type="text" required/>
-            </mat-form-field>
-            <button color="accent" type="submit" (click)="addTour()" mat-raised-button>Submit</button>
-            <p class="error">{{error_message}}</p>
-        </div>
-    </form>
-    
-
-    <div class="tags-container">
-        <header><h3>Select Tags</h3></header>
-        <mat-selection-list>
-            <div *ngFor="let tag of tourTags; let index = index">
-                <mat-checkbox 
-                    (change)="onTagChange($event, index)"
-                    [checked]="tourForm.get('tags')?.value?.includes(index)">
-                    {{ tag.label }}
-                </mat-checkbox>
+                <input matInput formControlName="price" type="text" required />
+              </mat-form-field>
+              <button color="accent" type="submit" (click)="addTour()" mat-raised-button>
+                Submit
+              </button>
+              <p class="error">{{ error_message }}</p>
             </div>
-        </mat-selection-list>
-    </div>
-    <div class="chat-container">
-        <a (mouseenter)="toggleChat(true)" 
-        (mouseleave)="toggleChat(false)" class="fixed-circle">
-          ? 
-        </a>
-      
-        <div *ngIf="isChatOpen" class="chat-box">
-          <p>{{chatMessage}}</p>
+          </form>
+  
+          <div  id="tags-container" class="form-style">
+            <header><h3>Select Tags</h3></header>
+            <mat-selection-list>
+              <div *ngFor="let tag of tourTags; let index = index">
+                <mat-checkbox
+                  (change)="onTagChange($event, index)"
+                  [checked]="tourForm.get('tags')?.value?.includes(index)"
+                >
+                  {{ tag.label }}
+                </mat-checkbox>
+              </div>
+            </mat-selection-list>
+          </div>
         </div>
-      </div>
-</div>
-
+      </mat-tab>
+  
+      <!-- Tab for Bundles -->
+      <mat-tab label="Bundles">     
+        <xp-bundle-form></xp-bundle-form>
+        
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>
+  

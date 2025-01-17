@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { environment } from 'src/env/environment';
 import { ActivatedRoute } from '@angular/router';
 import { TourService } from '../tour.service';
+import { Subscription } from 'rxjs';
+import { MapService } from 'src/app/shared/map/map.service';
 
 @Component({
   selector: 'xp-tour-details-new',
@@ -37,8 +39,9 @@ export class TourDetailsNewComponent implements OnInit {
   registerObj: boolean = false;
   shouldDisplayMap: boolean = false;
   registerObjRoute: boolean = false;
+  private lengthUpdatedSubscription!: Subscription;
 
-  constructor(private service: TourAuthoringService, private authService: AuthService, private route: ActivatedRoute, private tourService: TourService){}
+  constructor(private service: TourAuthoringService, private authService: AuthService, private route: ActivatedRoute, private tourService: TourService, private mapService: MapService){}
 
   ngOnInit(): void {
    
@@ -57,6 +60,15 @@ export class TourDetailsNewComponent implements OnInit {
         
       }
     });
+
+    this.mapService.currentDistance.subscribe(distance =>
+      { console.log('pzovano')
+       const tour = this.tours.find(t => t.id === distance.tourId);
+       if (tour) {
+         tour.lengthInKm = distance.distance;
+       }
+      }
+    );
     
     
   }

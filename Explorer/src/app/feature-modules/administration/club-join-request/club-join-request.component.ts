@@ -23,6 +23,12 @@ export class ClubJoinRequestComponent implements OnInit {
   user: User | null = null;
   personNames: { [key: number]: string } = {};
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Club Membership Requests page! Here, you can view all incoming requests to join your clubs. Review the details of each request, including the club name, member, and current status. You can approve or decline pending requests directly from this table.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service:AdministrationService,
     private authService: AuthService,
     private personInfoService: PersonInfoService){
