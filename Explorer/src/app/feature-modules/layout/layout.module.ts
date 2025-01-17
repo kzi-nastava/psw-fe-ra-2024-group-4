@@ -22,6 +22,7 @@ import { TeamComponent } from './about-us/team/team.component';
 import { PurposeComponent } from './about-us/purpose/purpose.component';
 import { AboutAppComponent } from './about-us/about-app/about-app.component';
 import { FooterComponent } from './footer/footer.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FooterComponent } from './footer/footer.component';
     MatInputModule, 
     AdministrationModule ,
     MatTabsModule,
+    MarkdownModule
 ],
   exports: [
     NavbarComponent,
