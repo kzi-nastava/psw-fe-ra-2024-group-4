@@ -5,6 +5,11 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { environment } from 'src/env/environment';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileBadgesModalComponent } from '../profile-badges-modal/profile-badges-modal.component';
+import { AchievementLevel, BadgeDto, BadgeName } from '../../badges/model/badge.model';
+import { BadgeService, PagedResult } from '../../badges/popups/badge.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'xp-info',
@@ -18,11 +23,16 @@ export class InfoComponent implements OnInit {
   user: User | null = null;
   imageBase64: string | null = null;
   editMode: boolean = false;
+  earnedBadges: string[];
+  populate: boolean = true;
+  
 
   constructor(
     private profileService: PersonInfoService,
     private authService: AuthService ,
-    private cdr: ChangeDetectorRef
+    private badgeService: BadgeService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +47,88 @@ export class InfoComponent implements OnInit {
     });
   }
 
+  showAchievements(): void {
+    this.populateBadges();
+    if(!this.populate){
+      this.badgeService.getAll().subscribe(response => {
+      const badges = response.items; 
+      this.earnedBadges = this.mapBadgesToFileNames(badges);
+      });
+    }
+    this.dialog.open(ProfileBadgesModalComponent, {
+      data: this.earnedBadges,
+      width: '900px',
+    });
+  
+}
+
+populateBadges(): void{
+    this.earnedBadges = [
+  '100km.png',
+  'photo.png',
+  'SOCIAL.png',
+  'taster.png',
+  
+  'culture_bronze.png',
+  'adventure_bronze.png',
+  'adventure_silver.png',
+
+  'mountain_bronze.png',
+  'mountain_silver.png',
+
+  'party_bronze.png',
+
+  'city_bronze.png',
+
+  'relax_bronze.png',
+
+  'wildlife_bronze.png',
+  'wildlife_silver.png',
+
+  'beach_bronze.png',
+  'beach_silver.png',
+  'beach_gold.png'
+];
+
+}
+
+mapBadgesToFileNames(badges: BadgeDto[]): string[] {
+  const specialBadgeMap: { [key in BadgeName]?: string } = {
+    [BadgeName.ExplorerStep]: '100km.png',
+    [BadgeName.Globetrotter]: '1000km.png',
+    [BadgeName.TravelBuddy]: 'buddies.png',
+    [BadgeName.PhotoPro]: 'photo.png',
+    [BadgeName.SocialButterfly]: 'SOCIAL.png',
+    [BadgeName.TourTaster]: 'taster.png'
+  };
+
+  const shortenedNameMap: { [key in BadgeName]?: string } = {
+    [BadgeName.PartyManiac]: 'party',
+    [BadgeName.MountainConqueror]: 'mountain',
+    [BadgeName.CulturalEnthusiast]: 'cultural',
+    [BadgeName.AdventureSeeker]: 'adventure',
+    [BadgeName.NatureLover]: 'nature',
+    [BadgeName.CityExplorer]: 'city',
+    [BadgeName.HistoricalBuff]: 'history',
+    [BadgeName.RelaxationGuru]: 'relax',
+    [BadgeName.WildlifeWanderer]: 'wildlife',
+    [BadgeName.BeachLover]: 'beach'
+  };
+
+  return badges
+    .filter(b => b.level !== AchievementLevel.None || specialBadgeMap[b.name])
+    .map(b => {
+      if (specialBadgeMap[b.name]) {
+        return specialBadgeMap[b.name]!;
+      }
+
+      const base = shortenedNameMap[b.name] ?? BadgeName[b.name].toLowerCase();
+      const level = AchievementLevel[b.level].toLowerCase();
+      return `${base}_${level}.png`;
+    });
+}
+
+
   getPersonInfo(personId: number): void {
     if(this.user?.role === 'tourist'){
       this.profileService.getTouristInfo(personId).subscribe({
@@ -48,6 +140,7 @@ export class InfoComponent implements OnInit {
         error: (err) => {
           console.error('Error fetching person info:', err);  
           alert("There was an error while loading your profile information. Please try again later.");
+          // this.setDefaultProfile(); 
 
         }
       });
@@ -61,15 +154,36 @@ export class InfoComponent implements OnInit {
         error: (err) => {
           console.error('Error fetching person info:', err);  
           alert("There was an error while loading your profile information. Please try again later.");
-
+          // this.setDefaultProfile();
         }
       });
     } else {
       alert("There was an error while loading your profile information. Please try again later.");
-
+      // this.setDefaultProfile();
     }
     
   }
+
+  setDefaultProfile(): void {
+  const defaultImage = 'assets/images/logo.png'; // stavi pravu putanju do placeholder slike ako je imaš
+
+  this.infoPerson = {
+    id: 0,
+    userId: this.user?.id ?? 0,
+    name: 'Unknown',
+    surname: 'User',
+    imageUrl: defaultImage,
+    biography: 'This is a default biography.',
+    motto: 'Stay curious!',
+    imageBase64: '',
+    equipment: [],
+    wallet: 0
+  };
+
+  this.editPerson = { ...this.infoPerson };
+  this.imageBase64 = null;
+  this.cdr.detectChanges(); // da bi UI odmah prikazao nove podatke
+}
 
   updateProfile(): void {
     if (this.user?.role === 'tourist') {
