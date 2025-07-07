@@ -386,7 +386,7 @@ export class CustomPopupComponent {
   showCityGold(){
     this.showPopup(
       'city1',
-      'city',
+      'city_gold',
       "The city is your playground, and you’re its master explorer!",
       "Congratulations! You've earned the 'Gold City Explorer' badge! Keep exploring to earn more!"
     );
