@@ -10,9 +10,7 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     border-width: #4b464a;
     border-width: 5px;
-    border: 3px solid #ef7ad9;
-    
-    
+    border: 2px solid #eebce5;
   }
   
   .chatbot-bubble::before {
@@ -37,7 +35,7 @@
     width: 1.5vh;
     height: 1.5vh;
     background-color: #fff;
-    border: 1px solid #ef7ad9;
+    border: 2px solid #eebce5;
     border-radius: 50%;
     z-index: -2;
   }
