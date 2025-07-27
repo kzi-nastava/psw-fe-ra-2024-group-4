@@ -31,8 +31,12 @@
 
     <div class="main-container">
         <div class="top-container">
-            <h1 class="club_h1">Clubs</h1>   
+            <h1 class="club_h1">Clubs</h1> 
+            
         </div>
+        <!-- <p class="discover-description">
+          Explore new opportunities, connect with like-minded people, and build amazing memories with your favorite clubs!
+        </p>  -->
         <div class="content-container">
           <div class="left-side-container">
             <mat-accordion multi="true">
@@ -113,7 +117,7 @@
           
                 
             </div>
-            <div class="center-container">
+            <div class="center-container"  [ngClass]="{ 'fade-in-animation': animateOnLoad }">
               
             <div class ="cards" [ngClass]="{ 'fade-in-animation': animate }" (animationend)="onAnimationEnd()">
               <div *ngIf="club.length === 0" class="no-results">
@@ -167,20 +171,8 @@
                 </xp-club-form>
             </div>
             </div>
-            <div class="right-side-container">
-              
-            </div>
-        </div>
+            <!-- <div class="right-side-container"></div> -->
         
     </div>
 
-    <!--irinina stara forma-->
-    <!--<div class="club-form-container">
-        <xp-club-form 
-            (clubUpdated)="getAllClubs()" 
-            (formClosed)="onFormClosed()" 
-            *ngIf="shouldRenderClubForm" 
-            [club]="selectedClub" 
-            [shouldEdit]="shouldEdit">
-        </xp-club-form>
-    </div>-->
+  
