@@ -14,7 +14,8 @@ h1 {
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 70vh;
-    margin-left: 45vh;
+    margin-left: 37vh;
+    margin-top: 5vh;
   }
   
   .mat-tab-group {
@@ -160,23 +161,37 @@ h1 {
   
   .remove-button {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px; /* Širina kruga */
-    height: 24px; /* Visina kruga */
-    background-color: white; /* Boja pozadine */
-    border-radius: 50%; /* Zaokruženi oblik */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: -1vh;
+    right: 2vh;
     cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Blaga senka za bolji izgled */
-    border: 1px solid #ccc; /* Ivica kruga */
+    background: none; /* Ensure no background color */
+  border: none; /* Remove any borders */
+  box-shadow: none; /* Remove shadow */
+  width: 3vh;
   }
   
-  .remove-button mat-icon {
-    z-index: 3; 
-    font-size: 16px; /* Veličina X-a */
-    color: red; /* Boja X-a */
+
+
+  #button1 {
+    width: 66vh;
+    font-size: 16px;
+  }
+
+  a {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    color: #1976d2; /* Primary link color */
+    text-decoration: none;
+    font-size: medium;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    color: #004ba0; /* Darker link color on hover */
+  }
+
+  p {
+    font-size: medium;
   }
   

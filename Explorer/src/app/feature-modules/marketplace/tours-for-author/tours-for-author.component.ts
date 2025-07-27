@@ -31,11 +31,11 @@ export class ToursForAuthorComponent implements OnInit {
   selectedKeypoints: KeyPoint[] = [];
   private lengthUpdatedSubscription!: Subscription;
   isChatOpen: boolean = false; 
-  chatMessage: string = "Manage your tours effortlessly! View all available tours, archive the ones you no longer need, or click View to explore more details and set their destination.";
+  chatMessage: string = "Manage your tours effortlessly! View all available tours, publish or archive the ones you no longer need, or click View to explore more details and set their destination.";
   
   selectedToursForDiscount: Set<number> = new Set(); 
   discount = 1;
-  showSaleCheckboxes = false;
+  showSaleCheckboxes = true;
   startDate: Date | null = null;
   endDate: Date | null = null;
   dateError = false;
@@ -275,6 +275,43 @@ export class ToursForAuthorComponent implements OnInit {
     });
   }
 
+  publishTour(tour: Tour): void {
+    if (tour.status === 2) {
+      console.log("Only draft tours can be archived.");
+      return;
+    }
+  
+    if (tour.keyPoints.length < 2) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Insufficient KeyPoints',
+        text: 'You must have at least 2 KeyPoints to publish the tour.',
+      });
+      return;
+    }
+  
+    tour.status = 1; 
+    this.service.publishTour(tour).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Tour Published',
+          text: `Tour ${tour.name} published successfully.`,
+        });
+        this.getTours(this.user?.id!); 
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error publishing tour. Please try again.',
+        });
+        console.error('Error publishing tour:', error);
+      }
+    });
+  }
+  
+
   reactivateTour(tour: Tour): void {
     if (tour.status !== 2) {
         console.log("Only archived tours can be reactivated.");
@@ -329,7 +366,14 @@ createDiscount() {
   this.salesService.createSale(newSale).subscribe({
     next: (response) => {
       console.log('Popust uspešno kreiran:', response);
-      alert('Sale successfully created!');
+      Swal.fire({
+        icon: 'success', // Ikonica uspeha
+        title: 'Success!',
+        text: 'Sale successfully created!',
+        timer: 3000, // Automatsko zatvaranje posle 3 sekunde (opciono)
+        showConfirmButton: false // Bez dugmeta "OK" (opciono)
+      });
+      
       
       this.discount = 0;
       this.startDate = null;
@@ -339,7 +383,13 @@ createDiscount() {
     },
     error: (error) => {
       console.error('Greška prilikom kreiranja popusta:', error);
-      alert('Error creating sale. Please try again.');
+      Swal.fire({
+        icon: 'error', // Ikonica greške
+        title: 'Error!',
+        text: 'Error creating sale. Please try again.',
+        confirmButtonText: 'OK' // Tekst na dugmetu
+      });
+      
     }
   });
 }

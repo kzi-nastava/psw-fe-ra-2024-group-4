@@ -24,6 +24,12 @@ export class InfoComponent implements OnInit {
   showAd:boolean=true;
   
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to your profile! Here you can view and edit your personal information. Click "Edit Profile" to make changes to your name, surname, biography, or motto. You can also update your profile picture by selecting a new image. If you need any help, feel free to ask!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(
     private profileService: PersonInfoService,
     private authService: AuthService ,
@@ -64,7 +70,13 @@ export class InfoComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
-          alert("There was an error while loading your profile information. Please try again later.");
+          Swal.fire({
+            icon: 'error', 
+            title: 'Error Loading Profile',
+            text: 'There was an error while loading your profile information. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
 
         }
       });
@@ -77,12 +89,23 @@ export class InfoComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching person info:', err);  
-          alert("There was an error while loading your profile information. Please try again later.");
+          Swal.fire({
+            icon: 'error', 
+            title: 'Error Loading Profile',
+            text: 'There was an error while loading your profile information. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
 
         }
       });
     } else {
-      alert("There was an error while loading your profile information. Please try again later.");
+      Swal.fire({
+        icon: 'error', 
+        title: 'Error Loading Profile',
+        text: 'There was an error while loading your profile information. Please try again later.',
+        confirmButtonText: 'OK' 
+      });
 
     }
     

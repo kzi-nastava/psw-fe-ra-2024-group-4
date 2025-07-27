@@ -15,6 +15,12 @@ export class CouponViewComponent {
   @Input() tours: Tour[] = [];
   editingStates = new Map<number, FormGroup>(); // Mapa za praćenje uređivanja
 
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page allows you to manage all your active coupons. You can view the details of each coupon, including the promo code, discount percentage, and expiration date. Additionally, you can edit or delete existing coupons. To edit a coupon, simply click the "Edit" button, make the necessary changes, and save them. You can also cancel the editing process if needed.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private couponService: CouponService) {}
   showDeleteConfirmation(tourName: string): Promise<SweetAlertResult<any>> {
     return Swal.fire({

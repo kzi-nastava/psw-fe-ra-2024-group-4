@@ -39,6 +39,14 @@ export class CouponComponent  implements OnChanges{
       this.couponForm.reset();
     }
   }
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page allows you to create a new coupon for a specific tour or all tours. You can set a discount percentage, choose an expiration date, and submit the coupon for creation. If the coupon already exists, its details, including promo code, discount, and expiration date, will be displayed.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
+
   constructor(private service:CouponService,private authService: AuthService){
     this.authService.user$.subscribe((user)=>{
       this.user=user;

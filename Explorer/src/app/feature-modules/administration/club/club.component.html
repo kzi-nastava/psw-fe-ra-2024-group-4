@@ -176,3 +176,23 @@
     </div>
 
   
+    <!--irinina stara forma-->
+    <!--<div class="club-form-container">
+        <xp-club-form 
+            (clubUpdated)="getAllClubs()" 
+            (formClosed)="onFormClosed()" 
+            *ngIf="shouldRenderClubForm" 
+            [club]="selectedClub" 
+            [shouldEdit]="shouldEdit">
+        </xp-club-form>
+    </div>-->
+    <div class="chat-container">
+        <a (mouseenter)="toggleChat(true)" 
+          (mouseleave)="toggleChat(false)" class="fixed-circle">
+          ? 
+        </a>
+      
+        <div *ngIf="isChatOpen" class="chat-box">
+          <p>{{chatMessage}}</p>
+        </div>
+    </div>

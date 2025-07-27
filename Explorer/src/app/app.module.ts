@@ -37,6 +37,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { matExpansionAnimations, MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
 import { MatRadioModule } from '@angular/material/radio'; 
+
+import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +80,9 @@ import { MatRadioModule } from '@angular/material/radio';
     MatNativeDateModule,
     MatSliderModule ,
     MatExpansionModule,
-    MatRadioModule   
+    MatRadioModule, 
+    ChatBotModule,
+
   ],
   providers: [
     {

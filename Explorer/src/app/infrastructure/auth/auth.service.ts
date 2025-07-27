@@ -90,4 +90,8 @@ export class AuthService {
     return this.http.get<any>(`${environment.apiHost}author/person/${userID}`);
   }
 
+  checkUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiHost}users/check-username/${username}`);
+  }
+  
 }

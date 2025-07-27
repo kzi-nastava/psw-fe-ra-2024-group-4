@@ -5,6 +5,9 @@
             <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;"><img class="logo" src="assets/icons/traveltaleslogo3.svg"/></a>
 
             <div class="links">
+                <a mat-raised-button class="hover-icon" [routerLink]="['about-us']">
+                    About us
+                </a>
                 <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openToursMenu()">
                     Tours <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
@@ -17,6 +20,10 @@
                    (mouseenter)="openClubsMenu()">Clubs
                    <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
                 </a>
+                <a *ngIf="user && (user.role === 'tourist')" mat-raised-button  class="hover-icon" 
+                (mouseenter)="openHelpMenu()">Help
+                <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
+             </a>
             </div>
         </div>
         
@@ -165,6 +172,32 @@
 </div>
 </div>
 
+
+<!-- Help Menu -->
+<div class="menu-container" *ngIf="isHelpMenuOpen">
+    <div class="menu-header">
+        <span class="menu-title">Help</span>
+        <span class="menu-description">If you need help with using the app, ask our ChatBot!</span>
+
+    </div>
+
+    <div class="menu-list-container" *ngIf="user && user.username === ''" style="margin-right: 15vh;">
+        <ul class="menu-list">
+            <li><h1 >Basic information about clubs <i class="fas fa-arrow-right"></i></h1></li>
+            <li ><a  (click)="scrollDown($event)">View more</a></li>
+        </ul>
+
+    </div>
+    <div class="menu-list-container" *ngIf="user && (user.role==='tourist')">
+        <ul class="menu-list">
+            <li><h1 >Help options <i class="fas fa-arrow-right"></i></h1></li>
+    
+            
+            <li *ngIf="user && (user.role==='tourist')"><a href="chatbot">ChatBot</a></li>
+         
+        </ul>
+</div>
+</div>
 
 </div>
 

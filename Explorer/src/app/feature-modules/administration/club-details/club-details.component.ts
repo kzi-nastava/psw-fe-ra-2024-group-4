@@ -21,6 +21,14 @@ export class ClubDetailsComponent implements OnInit {
   club: Club | null = null;  // Dodajemo promenljivu za čuvanje kluba
   user: User | null = null;
   currentUserId: number | null = null;
+
+  
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome to the Club Details page! Here, you can explore information about the club, view tours, see the list of members, send invitations (if you are the owner), check achievements, and manage join requests. Use the buttons on the left panel to navigate through the club features.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private route: ActivatedRoute, private service: AdministrationService,private authService: AuthService) {}
 
   ngOnInit(): void {
