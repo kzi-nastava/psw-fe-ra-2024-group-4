@@ -14,7 +14,6 @@
             </svg> -->
             <p class="club-Name">{{club.name}}</p>
             <img [src]="getImage(club.image)" class="club-image"/>
-            <p class="club-description"><i>{{club.description}}</i></p>
           </div>
           </div>
 
@@ -35,7 +34,8 @@
       </button>
       <button 
           class="custom-btn" 
-          (click)="selectComponent('xp-club-posts')">
+          (click)="selectComponent('xp-club-posts')"
+          >
           <i class="fas fa-comments"></i> Dashboard
         </button>
         <button 

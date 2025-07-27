@@ -44,8 +44,7 @@
 .member-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  gap: 40px;
  /* margin-bottom: 5px;*/
   
 }
@@ -237,11 +236,11 @@
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  gap: 20px;
-  width: calc(96% - 40px);
+  gap: 40px;
+  width: calc(96% - 80px);
   left:2%;
   background-color: #f9f9f9;
-  padding: 20px;
+  padding: 40px;
   min-height: 800px; 
   border-radius: 0 0px 15px 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -7,6 +7,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PersonInfo } from '../../person.info/model/info.model';
 import { PersonInfoService } from '../../person.info/person.info.service';
 import { environment } from 'src/env/environment';
+import { Club } from '../model/club.model';
+import { AdministrationService } from '../administration.service';
+import { Subject, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'xp-club-posts',
@@ -15,6 +18,8 @@ import { environment } from 'src/env/environment';
 })
 export class ClubPostsComponent implements OnInit {
   @Input() clubId!: number; // Prosleđuje se kao ulaz u komponentu
+  club! : Club;
+  isOwner = false;
   
   tourId!: number; // Tour ID se vezuje za Club ID
   problem: Problem; // Podaci o problemu
@@ -29,18 +34,64 @@ export class ClubPostsComponent implements OnInit {
   userFullNames: { [key: number]: string } = {}; // Mape za imena korisnika
   userImages: { [key: number]: string } = {}; // Mape za imena korisnika
   roles: { [key: number]: string } = {}; // Mape za uloge korisnika
-
+  showEditModal = false;
+  editableDescription = '';
   constructor(
     private service: MarketplaceService,
     private authService: AuthService,
-    private personInfoService: PersonInfoService
+    private personInfoService: PersonInfoService,
+    private clubService: AdministrationService
   ) {}
 
   ngOnInit(): void {
     console.log(this.clubId);
     this.tourId = this.clubId; // Dodela clubId kao tourId
-    this.authService.user$.subscribe(user => (this.user = user)); // Dobijanje trenutnog korisnika
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      //this.isOwner = this.user?.id === this.club?.userId;
+      //console.log('ids', this.user.id)
+     // console.log('isowner', this.isOwner);
+    }); // Dobijanje trenutnog korisnika
     this.loadProblem(); // Učitavanje problema i povezanih podataka
+    this.getClubById(this.clubId).subscribe({
+      next: (club) => {
+        this.isOwner = this.user?.id === club.userId;
+        console.log('isOwner', this.isOwner);
+      },
+      error: (err) => console.error('Error fetching club', err)
+    });
+    //this.isOwner = this.user.id == this.club.userId;
+  }
+  updateClub(): void {
+
+    if (this.user && this.club) {
+      const club: Club = {
+        id: this.club.id,
+        name: this.club.name || '',
+        description: this.editableDescription || '',
+        image: this.club.image || '',
+        userId: this.club.userId,
+        userIds: this.club.userIds,
+        imageBase64: this.club.imageBase64,
+        tags: this.club.tags,
+      };
+
+      this.clubService.updateClub(club).subscribe({
+        next: (_) => {
+        },
+        error: (err) => {
+          console.error('Error occurred:', err);
+        },
+      });
+    }
+  }
+  getClubById(clubId: number): Observable<Club> {
+    return this.clubService.getClubById(clubId).pipe(
+      tap((club: Club) => {
+        this.club = club;
+        console.log('Fetched club:', this.club);
+      })
+    );
   }
   loadProblem(): void {
     this.service.getFirstProblemByTourId(this.clubId).subscribe({
@@ -149,5 +200,31 @@ getImage(image: string): string {
     }
     getImage1(image: string): string {
       return environment.webroot  + image;
+    }
+
+    openEditModal() {
+      this.editableDescription = this.club.description || '';
+      this.showEditModal = true;
+    }
+    
+    closeEditModal() {
+      this.showEditModal = false;
+    }
+    
+    saveDescription() {
+      if (!this.club) return;
+    
+      this.club.description = this.editableDescription;
+    
+      // Ovde pozovi servis za update, npr:
+      this.clubService.updateClub(this.club).subscribe({
+        next: () => {
+          this.showEditModal = false;
+          // opcionalno: poruka uspeha ili refresh
+        },
+        error: (err) => {
+          console.error('Neuspešno ažuriranje opisa', err);
+        }
+      });
     }
 }

@@ -1,153 +1,127 @@
-.main{
-   
-    width: 100%;
-    height: 630px;
-}
-.container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    font-size: 16px;
-    margin-bottom: 10%;
-    background-color: rgb(255, 255, 255);
-}
-.comment-section {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    width: 50%;
+.content-container {
+    max-width: 800px; /* širina za oba bloka */
     margin: 0 auto;
-    background-color: #fff;
-}
-/* .problem-description-container {
-   
-   margin-top:5px;
-    width: 600px;
-    height: 200px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    color: black;
-} */
-
-.problem-description-container {
-   /* margin-top: 5px; /* Povećan razmak od vrha */
-   margin-bottom: 2px;
-   margin-left: -40px;
-   /* width: 100%; /* Širina je sada 100% */
-    width: 650px; /* Maksimalna širina usklađena sa komentarima */
-    height: 200px; /* Povećana visina */
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    background-size: cover; /* Slika popunjava prostor */
-    background-position: center; /* CEntriranje slike */
-    background-repeat: no-repeat; /* Bez ponavljanja slike */
-    color: black;
-    margin-left: auto; /* Centriranje */
-    margin-right: auto;
-   font-style: oblique;
-}
-.problem-description-container .text-content {
-    max-width: 400px; /* Maksimalna širina teksta */
-    width: 100%; /* Osigurava prilagodljivost */
-    word-wrap: break-word; /* Razbijanje reči ako je potrebno */
-}
-.comment-text-opinion{
-    font-style: italic;
-}
-.owner-description{
-    text-transform: uppercase;
-    font-size: 10px;
-}
-.comment-list-container {
-    width: 650px;
-    max-height: 250px;
-    overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-.comment {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 10px 0;
-    background-color: #f9f9f9;
-}
-.comment-header {
-    display: flex;
-    align-items: center;
-}
-.profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    background-size: cover; /* Da slika popuni prostor */
-    background-position: center; /* Da slika bude centrirana */
-    background-repeat: no-repeat; /* Sprečavanje ponavljanja slike */
-}
-
-.commenter-info {
-    flex-grow: 1;
-}
-.commenter-name {
-    margin: 0;
-    font-size: 1.1em;
-}
-.comment-date {
-    color: #777;
-    font-size: 0.9em;
-}
-.comment-text {
-    margin-top: 10px;
-    font-size: 1em;
-    line-height: 1.5;
-}
-.add-comment-container {
-    padding: 10px;
-    background-color: #ffffff;
-}
-.new-comment-input-container {
-    display: flex;
-    align-items: center;
-}
-.new-comment-text-input {
-    width: 100%;
-    height: 75px;
-    padding: 5px;
-    border: 1px solid #838282;
-    border-radius: 5px;
-    line-height: 1.2;
-    resize: none;
-}
-.submit-button { 
-    width: 40px; /* Širina dugmeta */
-    height: 40px; /* Visina dugmeta */
-    background-size: cover; /* Slika će popuniti ceo prostor dugmeta */
-    background-position: center; /* Slika će biti centrirana */
-    background-repeat: no-repeat; /* Sprečava ponavljanje slike */
-    border: none; /* Uklanja okvir dugmeta */
-    cursor: pointer; /* Pokazivač postaje "ruka" */
-    background-color: transparent; /* Pozadina je providna */
-    box-shadow: none; /* Uklanja senku */
-    outline: none; /* Uklanja fokus okvir */
   }
-.close-problem-button {
-    margin-top: 30px;
-    padding: 5px 10px;
-    height: 40px;
+  
+  .problem-description-container {
+    position: relative;           /* Omogućava pozicioniranje child elemenata */
+    background-size: contain;     /* Cela slika vidljiva */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-top: -100px;
+    &.img{
+        //height: 115%;
+    };
+  }
+
+  
+  .text-content {
+    position: absolute;
+    top: 50%;                     /* Vertikalno centriraj */
+    left: 50%;                    /* Horizontalno centriraj */
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  }
+  .description-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .club-description-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .club-description-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .club-description-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.4;
+  }
+  
+  .edit-btn {
+    padding: 5px 12px;
     border: none;
     border-radius: 5px;
-    background-color: #f8c2ff;
-    color: white;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 0.9rem;
     cursor: pointer;
-}
+    transition: background-color 0.3s;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Modal (isto ostaje) */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .modal-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .modal-buttons button:hover {
+    background-color: #0056b3;
+  }
+  .editable-description {
+    width: 100%;
+    height: 120px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: left;          /* tekst nije centriran */
+    resize: vertical;          /* korisnik može da menja visinu */
+    overflow-y: auto;          /* scroll ako ima više teksta */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    line-height: 1.4;
+    box-sizing: border-box;
+  }
+  
+  
