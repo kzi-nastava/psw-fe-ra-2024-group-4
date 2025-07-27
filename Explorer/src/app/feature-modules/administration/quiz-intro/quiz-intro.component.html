@@ -1,0 +1,22 @@
+<div class="quiz-container">
+    <img [src]="getImage('intro14.jpeg')" class="quiz-background" alt="Background Image">
+  
+    <div class="quiz-left-content slide-in">
+      <h1 class="discover-title">DISCOVER YOURSELF</h1>
+      <p class="quiz-subtitle">Take the quiz to find out what type of traveler you are.</p>
+      
+      <div class="quiz-buttons">
+        <button class="quiz-btn slide-in" (click)="navigateToQuiz()">Take the Quiz</button>
+        <a class="learn-more-btn slide-in" (click)="showDescription()">Learn More</a>
+      </div>
+    </div>
+  
+    <div *ngIf="showMore" class="quiz-description slide-in-teze">
+      <ul class="quiz-points">
+        <li>Discover your unique travel style.</li>
+        <li>Find out if you are a solo traveler, group adventurer, or cultural explorer.</li>
+        <li>Unlock the best tours and clubs tailored to your preferences.</li>
+      </ul>
+    </div>
+  </div>
+  

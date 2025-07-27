@@ -1,4 +1,4 @@
-<div class="containeR-member">
+<div class="container-member">
     <div class="left-panel">
       
         <div *ngIf="club">
@@ -14,12 +14,12 @@
             </svg> -->
             <p class="club-Name">{{club.name}}</p>
             <img [src]="getImage(club.image)" class="club-image"/>
-            <p class="club-description"><i>{{club.description}}</i></p>
           </div>
           </div>
 
           <button 
-          class="custom-btn" >
+          class="custom-btn" 
+          (click)="selectComponent('xp-club-tour')">
           <i class="fas fa-map-marked-alt"></i> Tours
         </button>
       <button 
@@ -33,11 +33,13 @@
         <i class="fas fa-envelope-open-text"></i>  Invitations
       </button>
       <button 
-          class="custom-btn" >
-          <i class="fas fa-trophy"></i> Achievements
+          class="custom-btn" 
+          (click)="selectComponent('xp-club-posts')"
+          >
+          <i class="fas fa-comments"></i> Dashboard
         </button>
         <button 
-          class="custom-btn" >
+          class="custom-btn" *ngIf="currentUserId === club?.userId"   (click)="selectComponent('xp-club-join-request')"> 
           <i class="fas fa-user-check"></i> Join requests
         </button>
     </div>
@@ -47,16 +49,23 @@
     
       <xp-club-members *ngIf="clubId !== null && selectedComponent === 'xp-club-members'"  [clubId]="clubId"  [ownerId]="club?.userId ?? 0"></xp-club-members>
        <xp-club-invitation 
-       *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId">
+       *ngIf="clubId !== null  && selectedComponent === 'xp-club-invitation'" [clubId]="clubId" >
       </xp-club-invitation>
     <!--  <app-component3 
         *ngIf="selectedComponent === 'comp3'" 
         [clubId]="clubId">
       </app-component3> -->
+      <xp-club-tour *ngIf="clubId !== null && selectedComponent === 'xp-club-tour'" [ownerId]="club?.userId ?? 0" [clubId]="clubId" [clubTags]="club?.tags ?? 0">
+
+      </xp-club-tour>
+    <xp-club-posts *ngIf=" selectedComponent === 'xp-club-posts'" [clubId]="clubId ?? 0"></xp-club-posts>
+    <xp-club-join-request *ngIf=" selectedComponent === 'xp-club-join-request'" ></xp-club-join-request>
+
+
     </div>
   
   
-  </div>
+</div>
 
   
 <div class="chat-container">

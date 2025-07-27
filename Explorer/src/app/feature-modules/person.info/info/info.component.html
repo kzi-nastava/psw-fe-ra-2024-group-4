@@ -73,6 +73,22 @@
                 </div>
             </div>
         </ng-template>
+        <div class="ad-container" [ngClass]="{'hidden': !showAd}" *ngIf="showAd">
+            <div class="ad-background"></div>
+            <button class="close-btn" (click)="closeAd()">&times;</button>
+            <div class="ad-background"></div>
+            <div class="ad-content">
+                <div class="ad-image" [ngStyle]="{'background-image': 'url(' + getAdImage('cikica2.png') + ')'}"></div>
+                <div class="ad-text">
+                    <p><span class="highlight">Let’s find out what type of traveler you are!</span> Take the quiz and explore your travel personality.</p>
+                    <button mat-raised-button color="primary" (click)="navigateToQuiz()">Take the Quiz</button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
     </div>
 </body>
 
