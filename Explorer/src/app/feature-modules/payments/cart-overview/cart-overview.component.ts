@@ -114,6 +114,7 @@ export class CartOverviewComponent implements OnInit {
     this.cartService.getCartsByUser(userId).subscribe({
       next: (result: ShoppingCart[]) => {
           this.currentCart = result[0];
+          console.log('cur cart:', this.currentCart);
           this.loadCartItems();
       }
     })
