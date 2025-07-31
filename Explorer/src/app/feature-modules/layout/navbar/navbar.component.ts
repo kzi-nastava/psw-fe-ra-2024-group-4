@@ -30,8 +30,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       this.user = user;
+      if (this.user) {
+      this.getUserLevel();  // sada je this.user sigurno definisan
+    }
     });
-    this.getUserLevel();
+    //this.getUserLevel();
     // this.checkNewBadges();
   }
 
@@ -87,6 +90,7 @@ export class NavbarComponent implements OnInit {
       next: (person) => {
         this.isUserLevelLoaded = true;
         this.userLevel = person.level || 1;
+        console.log("Posle get: ", this.userLevel)
       },
       error: (err) => {
         console.error('Error fetchin user level!');
@@ -94,6 +98,8 @@ export class NavbarComponent implements OnInit {
     })
   }
   canCreateEncounter(): boolean {
+    console.log('Ulogovani: ',this.user)
+    console.log('Level: ',this.userLevel)
     return this.user?.role === 'tourist' && this.userLevel > 9;
   }
 
