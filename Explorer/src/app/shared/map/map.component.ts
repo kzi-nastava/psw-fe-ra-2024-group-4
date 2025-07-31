@@ -573,31 +573,122 @@ private async showEncounterOnMap(): Promise<void> {
 
       const address = await this.getAddress(point.latitude, point.longitude);
 
+      const instanceOfUser = point.instances?.find(x => x.userId == this.user.id);
+      var pointStatus;
+      var isActivated;
+      if(instanceOfUser == null) {
+        isActivated = false;
+        pointStatus = "Available"
+      } else {
+        isActivated = true;
+        pointStatus = instanceOfUser?.status == 0 ? "In Progres" : "Completed";
+      }
+
       const popupContent = `
-        <div class="card" style="width: 14vw; max-height: 30vh; height: auto; border-radius: 15px; overflow: hidden; transition: transform 0.3s ease; cursor: pointer; background: radial-gradient(circle, rgb(241, 226, 251), rgb(253, 248, 255));">
-          <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; padding: 10px;">
-            <div class="card-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;">
-              <div class="card-title" style="font-size: 1.2em; margin-top: 0.7vh; margin-bottom: 3px; font-weight: bold; color: #5D4F6A; text-align: center;">
+        <div class="card" style="
+          width: 16vw;
+          max-height: 35vh;
+          height: auto;
+          border-radius: 15px;
+          overflow: hidden;
+          box-sizing: border-box;
+          box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          cursor: pointer;
+          background: radial-gradient(circle, #f1e2fb, #fdf8ff);
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          color: #4B3F5A;
+          display: flex;
+          flex-direction: column;
+        ">
+          <div class="card-body" style="
+            background: white; /* OVDE je ključno */
+            border-radius: 15px; /* isto kao card, da se zaokruži */
+            padding: 15px 20px;
+            box-sizing: border-box;
+            flex-grow: 1; /* da zauzme sav raspoloživi prostor */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          ">
+            <!-- sadržaj popup-a -->
+            <div class="card-header" style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 10px;
+            ">
+              <div class="card-title" style="
+                font-size: 1.4em;
+                font-weight: 700;
+                color: #5D4F6A;
+                text-align: center;
+                text-shadow: 1px 1px 2px rgba(93,79,106,0.4);
+                margin-bottom: 6px;
+              ">
                 ${point.title}
               </div>
-              <div class="card-footer-description" style="font-size: 0.9em; line-height: 1.4; color: #777; text-align: center; overflow: hidden;">
+              <div class="card-description" style="
+                font-size: 1em;
+                color: #6A5D7B;
+                text-align: center;
+                font-style: italic;
+                margin-bottom: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              ">
                 ${point.description}
               </div>
             </div>
 
-            <!-- Conditionally display the image if the type is HiddenLocation -->
             ${point.type === EncounterType.HiddenLocation ? `
-              <div class="card-image" style="text-align: center; margin-top: 10px;">
-                <img src="${point.hiddenLocationData?.imageUrl}" alt="Hidden Location" style="width: 100%; border-radius: 10px;">
+              <div class="card-image" style="text-align: center; margin-bottom: 15px;">
+                <img src="${point.hiddenLocationData?.imageUrl}" alt="Hidden Location" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
               </div>
             ` : ''}
 
-            <div class="card-footer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 10px;">
-              <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
-                <p><strong>Type:</strong> ${EncounterType[point.type]}</p>
+            <div class="card-extra-description" style="
+              font-size: 0.9em;
+              color: #7C6E8A;
+              margin-bottom: 10px;
+              text-align: center;
+              max-height: 6vh;
+              overflow-y: auto;
+              line-height: 1.3;
+            ">
+              <strong>Opis:</strong> ${point.miscData?.actionDescription || point.socialData?.requiredParticipants || 'Nema dodatnog opisa.'}
+            </div>
+
+            <div class="card-exp" style="
+              font-size: 0.9em;
+              color: #7C6E8A;
+              font-weight: 600;
+              text-align: center;
+              margin-bottom: 8px;
+            ">
+              <strong>Exp:</strong> ${point.xp ?? 'Nije definisano'}
+            </div>
+
+            <div class="card-footer" style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-around;
+              align-items: center;
+              margin-top: 5px;
+              border-top: 1px solid #ddd;
+              padding-top: 8px;
+              color: #6A515E;
+              font-size: 0.9em;
+            ">
+              <div class="card-footer-item" style="display: flex; flex-direction: column; align-items: center;">
+                <span><strong>Type</strong></span>
+                <span>${EncounterType[point.type]}</span>
               </div>
-              <div class="card-footer-item" style="font-size: 0.9em; color: #6A515E; display: flex; justify-content: center; margin-top: 5px;">
-                <p><strong>Status:</strong> ${EncounterStatus[point.status]}</p>
+              <div class="card-footer-item" style="display: flex; flex-direction: column; align-items: center;">
+                <span><strong>Status</strong></span>
+                <span>${pointStatus}</span>
               </div>
             </div>
           </div>

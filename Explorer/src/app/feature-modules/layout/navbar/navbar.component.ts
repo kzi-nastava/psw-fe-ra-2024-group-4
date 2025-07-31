@@ -40,6 +40,9 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     this.authService.logout();
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications; 

@@ -37,7 +37,9 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(login).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/']).then(() => {
+            window.location.reload();
+          });
         },
         error: () => {
           this.loginForm.setErrors({ invalidCredentials: true });
