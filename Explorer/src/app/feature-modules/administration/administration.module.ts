@@ -23,7 +23,22 @@ import { QuizComponent } from './quiz/quiz.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClubMembersComponent } from './club-members/club-members.component';
+import { EncounterPublicStatusRequestComponent } from './encounter-public-status-request/encounter-public-status-request/encounter-public-status-request.component';
 
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { ClubTourComponent } from './club-tour/club-tour.component';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ClubPostsComponent } from './club-posts/club-posts.component';import { QuizIntroComponent } from './quiz-intro/quiz-intro.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatRadioModule } from '@angular/material/radio'; 
 
 @NgModule({
   declarations: [
@@ -40,7 +55,10 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     NotificationsComponent,
     QuizComponent,
     ClubMembersComponent,
-
+    EncounterPublicStatusRequestComponent,
+    ClubTourComponent,
+    ClubPostsComponent,
+    QuizIntroComponent,
   ],
   imports: [
     CommonModule,
@@ -52,8 +70,17 @@ import { ClubMembersComponent } from './club-members/club-members.component';
     MatFormFieldModule,      
     MatInputModule,
     FormsModule,
+    MatSelectModule,
+    MatOptionModule,
     DragDropModule,
-    CdkDrag
+    CdkDrag,
+    MatSliderModule ,
+    MatExpansionModule,
+    MatRadioModule ,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatDatepickerModule,
+    BrowserModule
   ],
   exports: [
     EquipmentComponent,

@@ -28,7 +28,7 @@
                         <p class="placeholder"><strong>Motto:</strong> Not provided. Click edit to add your motto.</p>
                     </ng-template>
                 </div>
-                
+                <button mat-raised-button color="secondary" (click)="showAchievements()">Show Achievements</button>
                 <button mat-raised-button color="primary" (click)="enableEditMode()">Edit Profile</button>
             </div>
         </div>
@@ -73,5 +73,33 @@
                 </div>
             </div>
         </ng-template>
+        <div class="ad-container" [ngClass]="{'hidden': !showAd}" *ngIf="showAd">
+            <div class="ad-background"></div>
+            <button class="close-btn" (click)="closeAd()">&times;</button>
+            <div class="ad-background"></div>
+            <div class="ad-content">
+                <div class="ad-image" [ngStyle]="{'background-image': 'url(' + getAdImage('cikica2.png') + ')'}"></div>
+                <div class="ad-text">
+                    <p><span class="highlight">Let’s find out what type of traveler you are!</span> Take the quiz and explore your travel personality.</p>
+                    <button mat-raised-button color="primary" (click)="navigateToQuiz()">Take the Quiz</button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
     </div>
 </body>
+
+
+<div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>

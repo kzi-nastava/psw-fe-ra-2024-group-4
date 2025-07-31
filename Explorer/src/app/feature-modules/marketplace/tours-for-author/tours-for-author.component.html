@@ -1,129 +1,171 @@
-<!-- <div id="equipment">
-    <header><h1>Tours</h1></header>
-
-    <div id="equipment-details">
-        <div class="card-container" >
-            <div *ngFor="let tr of tours" class="global-card" >
-                <header><h3>{{ tr.name }}</h3></header>
-                <p><strong>Description:</strong> {{ tr.description }}</p>
-                <p><strong>Difficulty:</strong> {{ tr.difficulty }}</p>
-                <p><strong>Price:</strong> ${{ tr.price }}</p>
-                <p><strong>Status:</strong> 
-                    {{ 
-                        tr.status === 0 ? 'Draft' : 
-                        tr.status === 1 ? 'Published' : 
-                        tr.status === 2 ? 'Archived' : 
-                        '-' 
-                    }}
-                </p>
-                <p><strong>Length in km:</strong> {{ tr.lengthInKm | number: '1.2-2' }}</p>
-                <p><strong>Tags:</strong> {{ getTagNames(tr.tags).join(', ') }}</p>
-                
-                <div class="card-actions">
-                    <ng-container *ngIf="tr.status === 2; else archiveButton">
-                        <button mat-icon-button color="primary" 
-                            (click)="reactivateTour(tr)">
-                            <mat-icon>replay</mat-icon> 
-                        </button>
-                    </ng-container>
-                    <ng-template #archiveButton>
-                        <button mat-icon-button color="primary" 
-                            [disabled]="tr.status !== 1"
-                            (click)="archiveTour(tr)">
-                            <mat-icon>archive</mat-icon> 
-                        </button>
-                    </ng-template>
-                    <button mat-raised-button color="primary" (click)="viewTourDetails(tr)">View</button>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-     <div class="tourDetails">
-        <xp-tour-details *ngIf="shouldViewTour" (tourUpdated)="notifyTourUpdated($event)" 
-                         [tour]="selectedTour" [tourKeypoints]="selectedKeypoints" (distanceChanged)="onDistanceChanged($event)" >
-        </xp-tour-details>
-    </div> 
-</div>-->
-
-
+<header>
+  <h1>Tours</h1>
+</header>
 <div class="main-container">
-<div class="top-container">
-    <header><h1>Tours</h1></header>
-<div class="content-container">
+  
+  <div class="top-container">
     
-    <div class="center-container">
-        <div class="cards">
-            <div class="card" *ngFor="let t of tours">
-                <img [src]="'assets/images/tag' + (t.tags[0] + 1) + '.jpg'" class="card-image">
-                
-                
-                <div class="card-overlay">
-                    <div class="card-header">
 
-                        <div class="card-header-text">
-                            <div class="card-title">{{ t.name }}</div>
-                            <div class="card-status">Difficulty: {{ t.difficulty }}</div>
-                            <div class="card-status">Length: {{ t.lengthInKm | number: '1.2-2'}}km</div>
-                            <span class="card-status" *ngIf="t.status === 0">Status: Draft</span>
-                            <span class="card-status" *ngIf="t.status === 1">Status: Published</span>
-                            <span class="card-status" *ngIf="t.status === 2">Status: Archived</span>
+    <div class="all">
+    <div class="prvi">
+    <div class="saleClass">
+    <button mat-raised-button class="card-bottom-button" (click)="toggleSale()">Create Sale</button>
 
-                        </div>
-                        <div class="card-button-container">
-                            
-                                <ng-container *ngIf="t.status === 2; else archiveButton">
-                                    <button mat-icon-button class="card-bottom-button" 
-                                        (click)="reactivateTour(t)">
-                                        <mat-icon>replay</mat-icon> 
-                                    </button>
-                                </ng-container>
-                                <ng-template #archiveButton>
-                                    <button mat-icon-button class="card-bottom-button"
-                                        [disabled]="t.status !== 1"
-                                        (click)="archiveTour(t)">
-                                        <mat-icon>archive</mat-icon> 
-                                    </button>
-                                </ng-template>
-                            <button mat-raised-button class="card-bottom-button" (click)="viewTourDetails(t)">View</button>
-                        
-                    
-                    </div>
+    <div *ngIf="showSaleCheckboxes" class="sale-form-container">
+      <form (ngSubmit)="createDiscount()" class="sale-form">
+        <label class="discount" for="discount">Discount (%):</label>
+        <input class="discount" type="number" id="discount" [(ngModel)]="discount" name="discount" required min="1" max="100">
 
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker1" [(ngModel)]="startDate" name="startDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
 
-                    </div>
-                    <div class="card-footer">
-                        <!--<div class="card-footer-description">{{t.tourDescription}}</div>
-                    -->
-                        <div>
-                            <mat-card-subtitle>
-                                <span *ngFor="let tag of getTagNames(t.tags); let isFirst = first">
-                                    <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
-                                </span>
-                            </mat-card-subtitle>
-                        </div>
-                        <div class="card-footer-description">Price: ${{t.price}}</div>
-                        <div class="card-footer-description">{{t.description}}</div>
-                    </div>
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate" name="endDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
 
-                </div>
-                
-                
+        <div *ngIf="dateError" class="error">
+          The sale duration cannot exceed 14 days!
         </div>
+
+        <button type="submit" class="submit1" mat-raised-button [disabled]="!discount || dateError" color="accent">Submit</button>
+      </form>
     </div>
-    
-        <div class="chat-container">
-            <a (mouseenter)="toggleChat(true)" 
-            (mouseleave)="toggleChat(false)" class="fixed-circle">
-              ? 
-            </a>
-          
-            <div *ngIf="isChatOpen" class="chat-box">
-              <p>{{chatMessage}}</p>
+  
+
+<div class="tour-list-container" *ngIf="showSaleCheckboxes">
+  <h2>Select Tours</h2>
+  <div *ngFor="let t of tours" class="tour-list-item">
+    <mat-checkbox (change)="toggleTourSelection(t.id!, $event.checked)">
+      {{ t.name }}
+    </mat-checkbox>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="addCouponForAll()">
+    Add Coupon for All Tours
+  </button>
+</div>
+
+<div class="couponButton">
+  <button mat-raised-button class="add-coupon-all-button" (click)="viewAllCoupons()">
+    View all my coupons
+  </button>
+</div>
+
+</div>
+
+
+  <div class="center-container">
+    <div class="cards">
+      <div class="card" *ngFor="let t of tours">
+        <!-- Image section -->
+        <img [src]="'assets/images/tag' + (t.tags[0] + 1) + '.jpg'" class="card-image">
+
+        <!-- Card overlay -->
+        <div class="card-overlay">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">{{ t.name }}</div>
+              <div class="card-status">Difficulty: {{ t.difficulty }}</div>
+              <div class="card-status">Length: {{ t.lengthInKm | number: '1.2-2'}} km</div>
+              <span class="card-status" *ngIf="t.status === 0">Status: Draft</span>
+              <span class="card-status" *ngIf="t.status === 1">Status: Published</span>
+              <span class="card-status" *ngIf="t.status === 2">Status: Archived</span>
+            </div>
+
+            <div class="card-button-container">
+              <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 0" (click)="publishTour(t)">
+                <mat-icon>publish</mat-icon>
+              </button>
+              <ng-container *ngIf="t.status === 2; else archiveButton">
+                <button mat-icon-button class="card-bottom-button" (click)="reactivateTour(t)">
+                  <mat-icon>replay</mat-icon>
+                </button>
+              </ng-container>
+              
+              <ng-template #archiveButton>
+                <button mat-icon-button class="card-bottom-button" [disabled]="t.status !== 1" (click)="archiveTour(t)">
+                  <mat-icon>archive</mat-icon>
+                </button>
+              </ng-template>
+
+              
+              <button mat-raised-button class="card-bottom-button" id="viewButton" (click)="viewTourDetails(t)">View</button>
             </div>
           </div>
+
+          <!-- Card footer -->
+          <div class="card-footer">
+            <mat-card-subtitle>
+              <span *ngFor="let tag of getTagNames(t.tags); let isFirst = first">
+                <mat-chip style="font-size: 8px">{{ tag }}</mat-chip>
+              </span>
+            </mat-card-subtitle>
+            <div class="card-footer-description">Price: {{ t.price }} AC</div>
+            <div class="card-footer-description">{{ t.description }}</div>
+
+            <div class="card-button-container">
+              <ng-container *ngIf="t?.id !== undefined && !couponMap.get(t.id!); else viewCouponButton">
+                <button mat-raised-button class="card-bottom-button" (click)="openCouponForm(t)">
+                  Add Coupon
+                </button>
+              </ng-container>
+              <ng-template #viewCouponButton>
+                <button mat-raised-button class="card-bottom-button" (click)="viewCouponDetails(t)">
+                  View Coupon
+                </button>
+              </ng-template>
+              <button mat-raised-button class="card-bottom-button" (click)="goToTourEquipment(t.id!)">Equipment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     
+
+    <!-- Overlay for coupon form -->
+    <div class="overlay" *ngIf="shouldRenderCouponForm" (click)="closeCouponForm()">
+      <xp-coupon
+        [viewMode]="viewMode"
+        [tour]="selectedCouponTour"
+        (click)="$event.stopPropagation()"
+        [isForAllTours]="!selectedCouponTour"
+        (close)="closeCouponForm()"
+        (couponCreated)="getTours(user?.id || 0)"
+      ></xp-coupon>
+    </div>
+
+    <!-- Overlay for coupon view -->
+    <div class="overlay" *ngIf="shouldRenderCouponView" (click)="closeCouponView()">
+      <xp-coupon-view
+        [authorId]="user?.id"
+        [tours]="tours"
+        (click)="$event.stopPropagation()"
+        (close)="closeCouponView()"
+      ></xp-coupon-view>
+    </div>
+  </div>
+
 </div>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+  (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
 </div>

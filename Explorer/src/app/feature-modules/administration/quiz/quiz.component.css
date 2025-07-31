@@ -1,13 +1,16 @@
 .main-container {
-    display: flex;
+    position: relative; /*dodala za video*/
+    display: flex;  /*dodala za video*/
     flex-direction: column;
     width: 100%;
     height: 100%; 
-    background-color: #fff;
+    /* background-color: #fff; */
     overflow: hidden;
+    z-index: 1; /* Osigurava da glavni sadržaj bude iznad */
+
 }
 .top-container {
-    flex: 0 0 10%; /* 10% visine stranice */
+    flex: 0 0 5%; /* 10% visine stranice */
     /*background-color: #e0e0e0;*/
     display: flex;
     padding-top: 1%;
@@ -59,6 +62,13 @@
   object-fit: cover;
   object-position: bottom;
 }
+.title {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  display: inline; 
+}
+
+
 ::ng-deep .custom-tour-image {
   object-fit: contain !important;
   object-fit: cover !important;
@@ -377,6 +387,7 @@ body {
 }
 .quiz-card{
   margin: auto;
+  margin-top: -1%;
   width: 65%;
   height: 100%;
   border-radius: 4px;
@@ -456,6 +467,23 @@ body {
     background: #C2C599; 
     border: 2px solid rgb(194, 197, 153); 
 }
+#s1:checked ~ .title{
+  color: #BFA8D7; 
+}
+
+#s2:checked ~ .title{
+  color: #A3BEDC; 
+}
+
+#s3:checked ~ .title{
+  color: #E7C89E; 
+}
+#s4:checked ~ .title{
+  color: #D8A7B8; 
+}
+#s5:checked ~ .title{
+  color: #C2C599; 
+}
 
 
 #s1:checked ~ #slide1 {
@@ -465,6 +493,7 @@ body {
   
   #s1:checked ~ #slide2 {
     transform: translate3d(15%, 0, -100px); /* Desno */
+
   }
   
   #s1:checked ~ #slide3 {
@@ -511,6 +540,7 @@ body {
   
   #s3:checked ~ #slide3 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
+
   }
   
   #s3:checked ~ #slide4 {
@@ -536,7 +566,8 @@ body {
   
   #s4:checked ~ #slide4 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
-  }
+
+   }
   
   #s4:checked ~ #slide5 {
     transform: translate3d(15%, 0, -100px); /* Desno */
@@ -561,6 +592,7 @@ body {
   
   #s5:checked ~ #slide5 {
     transform: translate3d(0, 0, 0); /* Središnja kartica */
+
   }
   
   input[type="radio"]:checked + .quiz-card {
@@ -571,6 +603,76 @@ body {
     bottom: 5%;
     right: 5%;
   }
+  .next-button1{
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .next-button1:hover{
+    background-color: #b390d8;
+  }
+  .next-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .next-button2:hover {
+    background-color: #739bcf; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .next-button3:hover {
+    background-color: #d6a35b; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .next-button4:hover {
+    background-color: #cc718c; /* Blago modifikovana osnovna boja */
+  }
+  
+  .next-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    right: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .next-button5:hover {
+    background-color: #a7b150; /* Blago modifikovana osnovna boja */
+  }
+
+
   
   .back-button{
     position: absolute;
@@ -578,16 +680,89 @@ body {
     left: 5%;
   }
 
+  .back-button1 {
+    position: absolute;
+    background-color: #ab7ddd;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #ab7ddd;
+  }
+  .back-button1:hover {
+    background-color: #b390d8;
+  }
+  
+  .back-button2 {
+    position: absolute;
+    background-color: #4b8bd4;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #A3BEDC;
+  }
+  .back-button2:hover {
+    background-color: #739bcf;
+  }
+  
+  .back-button3 {
+    position: absolute;
+    background-color: #e4ae63;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #dba04c;
+  }
+  .back-button3:hover {
+    background-color: #d6a35b;
+  }
+  
+  .back-button4 {
+    position: absolute;
+    background-color: #da7699;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #d15882;
+  }
+  .back-button4:hover {
+    background-color: #cc718c;
+  }
+  
+  .back-button5 {
+    position: absolute;
+    background-color: #a3a860c0;
+    bottom: 5%;
+    width: 8%;
+    height: 5%;
+    left: 5%;
+    color: white;
+    border: 1px solid #717722;
+  }
+  .back-button5:hover {
+    background-color: #a7b150;
+  }
+  
+
+
+
   .progress-bar-container{
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: -2%;
+    bottom: 11%;
     left:30%;
     width: 40%;
     height: 5%;
-    background-color: #ffffff;
+    background-color: transparent;
   }
   .container {
     position: absolute;
@@ -604,32 +779,32 @@ body {
   .step {
     width: 20px;
     height: 20px;
-    background: #fff;
-    border: 2px solid #ACACA6;
+    background: #885bb9;
+    border: 2px solid #885bb9;
     border-radius: 50%;
     cursor: pointer;
     transition: background 1s;
   }
   .step.selected {
-    border: 2px solid #4B81BD;   
+    border: 2px solid #e0e0dbee;   
   }
   .step.completed {
-    border: 2px solid #4B81BD;
-    background: #4B81BD; 
+    border: 2px solid #e0e0dbee;
+    background: #e0e0dbee; 
   }
   .progress {
     position: absolute;
     width: 100%;
     height: 50%;
     bottom: 47%;
-    border-bottom: 2px solid #ACACA6;
+    border-bottom: 2px solid #885bb9;
     z-index: 0;
   }
   .percent {
     position: absolute;
     width: 0;
     height: 100%;
-    border-bottom: 2px solid #4B81BD;
+    border-bottom: 2px solid #e0e0dbee;
     z-index: 1;
     transition: width 1s;
   }
@@ -700,7 +875,7 @@ body {
 }
   /*irina*/
   .quiz-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 26px;
     color: #2c3e50;
     text-align: center;
@@ -717,7 +892,7 @@ body {
   
 .background-wrapper {
   width: 70%; 
-  height: 70%;
+  height: 65%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -726,25 +901,34 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center; 
-  position: absolute;
-  left: 30%;
-  padding: 20px;
+  position: relative;
+  padding: 1%; 
+  margin-left: 14%; 
+  margin-top: 2%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.background-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px; 
 }
 
 .image-description {
   position: absolute;
-  top: 20px; 
+  top: 5%; 
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.6);
   color: #34495e;
-  padding: 10px 15px;
+  padding: 1% 2%;
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
+  font-size: 14px;
   text-align: center;
-  max-width: 90%;
+  max-width: 80%;
+  max-width: 80%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -777,21 +961,20 @@ body {
 }
 
 .arrow:hover {
-  color: #9E9E9E; /* Svetlija siva boja na hover */
+  color: #9E9E9E; 
   transform: scale(1.1); 
 }
 
 .select-button {
   position: absolute; 
-  bottom: 20px; 
-  left: 45%; 
-  /* transform: translateX(-50%); */
-  padding: 12px 40px;
+  bottom: 5%; 
+  left: 45%;  
+  padding: 1% 2%;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   color: white;
-  background-color: rgb(192, 153, 218);
+  background-color: #e4ae63;
   border: none;
   border-radius: 4px; /* Minimalno zaobljeni uglovi */
   cursor: pointer;
@@ -799,7 +982,7 @@ body {
 }
 
 .select-button:hover {
-  background-color: rgb(192, 153, 218);
+  background-color: #d6a35b;
   /* transform: scale(1.05);  */
 }
 
@@ -810,7 +993,8 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 150px;
+  margin-top: 10%;  
+  margin-top: 10%;  
 }
 
 .image-container img {
@@ -820,32 +1004,100 @@ body {
   border-radius: 10px;
 }
 
-/* .select-button {
+
+.scaled-image img {
+  width: 205%; 
+  height: 95%;
+}
+.scaled-image5 img {
+  width: 155%; 
+  height: 95%;
+}
+/* Animacija za volan-potencijalno */
+@keyframes rotateWheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.steering-wheel {
   position: absolute; 
-  bottom: 20px; 
-  left: 48%; 
-  padding: 12px 40px;
-  font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  top: 0.4%; 
+  left: 90%;
+  cursor: pointer;
+  width: 9%;  
+  height: auto;
+  transition: transform 0.5s ease;  
+  z-index: 20;  
+}
+
+.steering-wheel.clicked {
+  animation: rotateWheel 0.5s forwards;  /* Rotacija volana */
+}
+
+.steering-wheel img {
+  width: 130%; /* Slika zauzima celu širinu volana */
+  height: 20%; /* Podesite visinu automatski */
+  transition: transform 0.5s ease;  /* Efekat rotacije slike */
+}
+
+.arrow-cont {
+  position: absolute;
+  top: 10%; 
+  left: 78%; 
+  transform: translateX(-50%); 
+  z-index: 10;
+}
+
+.arrow-str {
+  font-size: 5%;  
+  color: #f39c12; 
   font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
+  transition: color 0.3s ease, transform 0.3s ease;  
+  transform: rotate(45deg); 
+}
+
+.arrow-str:hover {
+  color: #e67e22;  /* Promena boje na hover */
+  transform: scale(1.1) rotate(45deg);  
+}
+
+.arrow-str img {
+  width: 40%; 
+  height: 40%;  
+  transition: transform 0.3s ease; 
+}
+
+.arrow-cont img {
+  width: 50%; 
+  height: auto;  
   cursor: pointer;
 }
 
 
-.select-button:hover {
-  background-color: #0056b3;
-} */
-.scaled-image img {
-  width: 300px; 
-  height: 130px;
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0); 
+    opacity: 1;
+  }
+  to {
+    transform: translateX(170%); 
+    opacity: 0;
+  }
 }
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease-out forwards;
+}
+
+
 @keyframes slideInLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateX(-140%);
     opacity: 0;
   }
   to {
@@ -987,6 +1239,7 @@ body {
 #carousel-item-last{
   margin-right: 1%;
 }
+
 
 .carousel__container:hover .carousel-item1 {
   opacity: 0.3;
@@ -1132,4 +1385,194 @@ body {
 .carousel-item__details--subtitle {
   color: #fff;
   margin: 5px 0;
+}
+/* za sijalicu */
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* button img {
+  width: 50px; 
+  height: 80px;
+  display: block;
+} */
+.lightbulb-image {
+  position: absolute; /* Omogućava pozicioniranje u odnosu na roditeljski element */
+  top: 0; /* Postavlja element na vrh ekrana */
+  left: 50%; /* Horizontalno centriranje */
+  transform: translateX(-50%); /* Poravnava element tako da mu je centar na sredini ekrana */
+  /* Održava proporcije slike */
+  width: 30px; /* Prilagodite veličinu prema potrebama */
+  height: 90px;
+  display: block;
+  transform-origin: top center; /* Fiksiramo vrh slike kao tačku rotacije */
+  animation: swing-fast 4s infinite ; /* Animacija traje po 0.5 sekundi */
+  /* Traje 5 sekundi */
+  animation-fill-mode: forwards;
+}
+
+@keyframes swing-fast {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.image-toggle-container {
+  margin-top: 3%; /* Uklanja spoljne razmake */
+  padding: 0; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.toggle-image{
+  width: 80%;
+  height: 70%;
+}
+.on {
+  color: #e4e443; /* Svetla žuta boja za ON */
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(226, 245, 103, 0.7), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3); /* Efekat svetlosti */
+}
+
+.off {
+  color: #4d4d4d; /* Tamno siva boja za OFF */
+  font-weight: normal;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3); /* Siva senka za OFF */
+
+}
+
+.background-container {
+  position: absolute; /* Stavi ga kao pozadinu */
+  top: 0; /* Počinje od vrha stranice */
+  left: 0;
+  width: 100%;
+  height: 100%; /* Pokriva ceo ekran */
+  z-index: -1; /* Stavlja ga iza sadržaja */
+}
+
+#background-video {
+  width: 100%; /* Pokriva širinu */
+  height: 100%; /* Pokriva visinu */
+  object-fit: cover; /* Zadržava proporcije slike */
+}
+/* Overlay koji pokriva ceo ekran */
+.feedback-overlay {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100vw; /* Širina celog ekrana */
+  height: 100vh; /* Visina celog ekrana */
+  background: rgba(0, 0, 0, 0.5); /* Blur pozadina */
+  backdrop-filter: blur(8px); /* Blur efekat */
+  z-index: 9999; /* Visok z-index da se prikaže iznad */
+  margin: 0; /* Eliminisanje margina */
+  padding: 0; /* Eliminisanje paddinga */
+  box-sizing: border-box; /* Održava width i height preciznim */
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Sprečava skrolovanje */
+}
+
+
+/* Glavni kontejner */
+.feedback-container {
+  position: fixed; /* I ovo osigurava da je kontejner iznad ostalog sadržaja */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* Viši z-index za karticu */
+}
+
+/* Kartica sa pozadinskom slikom */
+.feedback-card {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  max-width: 500px;
+  width: 90%;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  z-index: 10000; /* Da bude iznad overlay-a */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 15px;
+  margin-right:10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+
+
+}
+
+.feedback-message {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.feedback-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.feedback-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  color: white;
+  
+}
+
+.primary-btn {
+  background-color: #c099da;
+}
+
+.primary-btn:hover {
+  background-color: #a278c4;
+}
+
+.secondary-btn {
+  background-color: #6c757d;
+}
+
+.secondary-btn:hover {
+  background-color: #555b60;
+}
+.feedback-background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5; 
+  z-index: -1; 
+  border-radius: 15px; 
+  
+}
+.purple-text{
+  color: #9b7ab6;
 }

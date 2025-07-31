@@ -5,6 +5,9 @@
             <a  mat-raised-button [routerLink]="['/']" style="margin-right: 3vh;"><img class="logo" src="assets/icons/traveltaleslogo3.svg"/></a>
 
             <div class="links">
+                <a mat-raised-button class="hover-icon" [routerLink]="['about-us']">
+                    About us
+                </a>
                 <a mat-raised-button  class="hover-icon" 
                    (mouseenter)="openToursMenu()">
                     Tours <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
@@ -17,6 +20,10 @@
                    (mouseenter)="openClubsMenu()">Clubs
                    <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
                 </a>
+                <a *ngIf="user && (user.role === 'tourist')" mat-raised-button  class="hover-icon" 
+                (mouseenter)="openHelpMenu()">Help
+                <mat-icon class="icon-down" style="vertical-align: middle; margin-left: 5px;">arrow_drop_down</mat-icon>
+             </a>
             </div>
         </div>
         
@@ -67,7 +74,7 @@
         <div class="menu-list-container" *ngIf="user && (user.role === 'author')" style="margin-right: 15vh;">
             <ul class="menu-list">
                 <li><h1 >Tour details <i class="fas fa-arrow-right"></i></h1></li>
-                <li *ngIf="user && (user.role === 'author')"><a href="equipment">View all equipment</a></li>
+                <!-- <li *ngIf="user && (user.role === 'author')"><a href="equipment">View all equipment</a></li> -->
                 <li *ngIf="user && (user.role === 'author')" ><a href="mykeypoints">View all keypoints</a></li>
             </ul>
 
@@ -76,20 +83,22 @@
             <ul class="menu-list">
                 <li><h1 >Objects to visit <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'author')"><a href="object-view">View all objects</a></li>
-                <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Record the equipment</a></li>
+                <li *ngIf="user && (user.role === 'author')"><a href="sales">View my sales</a></li>
+                <!-- <li *ngIf="user && (user.role === 'tourist')" ><a href="['/']">Record the equipment</a></li> -->
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-overview">Browse tours</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="purchased-tours">My tours</a></li>
+                <li *ngIf="user && canCreateEncounter()"><a href="admin-encounters">Create encounter</a></li>
             </ul>
 
         </div>
-        <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
+        <!-- <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
             <ul class="menu-list">
                 <li><h1 >Feedback on the tour <i class="fas fa-arrow-right"></i></h1></li>
                 <li *ngIf="user && (user.role === 'tourist')"><a href="tourReviews">Leave a review</a></li>
                 <li *ngIf="user && (user.role === 'tourist')" ><a href="tour-preferences">Set preferred tours</a></li>
             </ul>
 
-        </div>
+        </div> -->
 
         <div class="menu-list-container" *ngIf="user && (user.role === 'tourist')" >
             <ul class="menu-list">
@@ -103,6 +112,9 @@
             <ul class="menu-list">
                 <li *ngIf="user && (user.role === 'administrator')"><a href="problem">View problems</a></li>
                 <li *ngIf="user && (user.role === 'administrator')"><a href="public-status-request">Key Points and Objects public requests</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="admin-encounters">Encounters</a></li>
+                <li *ngIf="user && (user.role === 'administrator')"><a href="request-encounters">Requests for encounters</a></li>
+                <!-- <li *ngIf="user && (user.role === 'administrator')"><a href="equipment">Record equipment</a></li> -->
             </ul>
 
         </div>
@@ -128,7 +140,7 @@
         <li><h1 >Create your blog and view comments <i class="fas fa-arrow-right"></i></h1></li>
 
         
-        <li *ngIf="user && (user.role === 'author' || user.role==='tourist')"><a href="blogPost">Blogs with comments</a></li>
+        <!-- <li *ngIf="user && (user.role === 'author' || user.role==='tourist')"><a href="blogPost">Blogs with comments</a></li> -->
         <li *ngIf="user && (user.role === 'author' || user.role==='tourist')"><a href="blogPost">View all</a></li>
     </ul>
 </div>
@@ -155,22 +167,39 @@
     
             
             <li *ngIf="user && (user.role==='tourist')"><a href="club">View your clubs</a></li>
-            <li *ngIf="user && (user.role==='tourist')"><a href="clubJoinRequest">View all join requests</a></li>
+            <!-- <li *ngIf="user && (user.role==='tourist')"><a href="clubJoinRequest">View all join requests</a></li> -->
         </ul>
 </div>
 </div>
 
 
+<!-- Help Menu -->
+<div class="menu-container" *ngIf="isHelpMenuOpen">
+    <div class="menu-header">
+        <span class="menu-title">Help</span>
+        <span class="menu-description">If you need help with using the app, ask our ChatBot!</span>
+
+    </div>
+
+    <div class="menu-list-container" *ngIf="user && user.username === ''" style="margin-right: 15vh;">
+        <ul class="menu-list">
+            <li><h1 >Basic information about clubs <i class="fas fa-arrow-right"></i></h1></li>
+            <li ><a  (click)="scrollDown($event)">View more</a></li>
+        </ul>
+
+    </div>
+    <div class="menu-list-container" *ngIf="user && (user.role==='tourist')">
+        <ul class="menu-list">
+            <li><h1 >Help options <i class="fas fa-arrow-right"></i></h1></li>
+    
+            
+            <li *ngIf="user && (user.role==='tourist')"><a href="chatbot">ChatBot</a></li>
+         
+        </ul>
+</div>
 </div>
 
-
-
-
-
-
-       
-            
-            
+</div>
 
             <!-- Button for authors to view their keypoints -->
             <!-- <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['mykeypoints']">My Keypoints</button> -->
@@ -195,3 +224,4 @@
             
             <!-- Button for tourists and authors to access their profile -->
             <!-- <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button [routerLink]="['profile']">Profile</button> -->
+<app-custom-popup></app-custom-popup>

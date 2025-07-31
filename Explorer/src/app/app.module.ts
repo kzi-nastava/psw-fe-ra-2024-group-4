@@ -30,11 +30,19 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { EncounterModule } from './feature-modules/encounters/encounters.module';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PaymentsModule } from './feature-modules/payments/payments.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSliderModule } from '@angular/material/slider';
+import { matExpansionAnimations, MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
+import { MatRadioModule } from '@angular/material/radio'; 
+import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
+import { PopupsModule } from './feature-modules/badges/popups/popups.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent    
   ],
   imports: [
     CommonModule,
@@ -63,7 +71,16 @@ import { EncounterModule } from './feature-modules/encounters/encounters.module'
     MatMenuModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    EncounterModule
+    EncounterModule,
+    MatSlideToggleModule,
+    PaymentsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule ,
+    MatExpansionModule,
+    MatRadioModule, 
+    ChatBotModule,
+    PopupsModule    
   ],
   providers: [
     {

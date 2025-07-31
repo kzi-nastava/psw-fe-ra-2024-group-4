@@ -37,10 +37,12 @@
   <div class="card-container">
     <div *ngFor="let invitation of invitations" class="invitation-card">
       <div class="card-content">
-        
-        <p class="member-name"><strong class="letters">MEMBER:</strong> {{ invitation.username }}</p>
+        <p class="member-name">
+          <strong class="letters"><i class="fas fa-user"></i> MEMBER:</strong> 
+          {{ invitation.username }}
+        </p>
         <p class="status">
-          <strong class="letters">STATUS: </strong>
+          <strong class="letters"><i class="fas fa-info-circle"></i> STATUS:</strong>
           <span [ngClass]="{
             'status-processing': invitation.status === 0,
             'status-accepted': invitation.status === 1,
@@ -50,6 +52,7 @@
           </span>
         </p>
       </div>
+      
     </div>
   </div>
 </div>
@@ -57,3 +60,14 @@
 
 
 </main>
+
+<div class="chat-container">
+  <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+    ? 
+  </a>
+
+  <div *ngIf="isChatOpen" class="chat-box">
+    <p>{{chatMessage}}</p>
+  </div>
+</div>

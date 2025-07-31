@@ -1,29 +1,114 @@
 
-  <h2>Club Members</h2>
+<div class="main">
 
-<div *ngFor="let member of members" class="member-cards">
-    <div *ngIf="member.id === ownerId"  class="member-card owner-card">
-        <!-- Prikaz vlasnika -->
-     
-        <div class="member-image">
-            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
-        </div>
-        <div class="member-info">
-            <div class="username">{{ member.username }}</div>
-            <div class="name">{{ member.name }} {{ member.surname }}</div>
-            <div class="email">{{ member.email }}</div>
-            <div>
-                <i class="fas fa-star" style="color: yellow;"></i> OWNER
+    <!-- <div class="owner-container">
+        <div *ngFor="let member of members" >
+            <div *ngIf="member.id === ownerId" class="member-cards">
+
+                <div class="card">
+                    <div class="cover-photo">
+                        <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="profile">
+                    </div>
+                    <h3 class="profile-name">{{ member.name }} {{ member.surname }}</h3>
+                    <p>@{{member.username}}</p>
+                    <div>
+                        <i class="fas fa-star" style="color: yellow;"></i> OWNER
+                    </div>
+                    <p class="about">{{member.motto}}</p>
+                    <div >
+                        <span class="email-icon">&#9993;</span>
+                        <span>{{member.email}}</span>
+                    </div>
+                </div>
+    
             </div>
-       
+        </div> 
+    </div> -->
+    <div class="owner-section" *ngIf="clubOwner">
+        <div class="owner-main">
+            <img
+                *ngIf="clubOwner.imageUrl"
+                [src]="getImage(clubOwner.imageUrl)"
+                class="owner-pfp-placeholder"
+            />
+            <img *ngIf="!clubOwner.imageUrl"
+            [src]="'assets/images/userPlaceholder.png'"
+            class="owner-pfp-placeholder"
+            />
+            <div class="owner-contact">
+                <div>
+                    @{{clubOwner.username}}
+                </div>
+                <div>
+                    <mat-icon class="owner-contact-mail"> mail_outline</mat-icon>{{clubOwner.email}}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="owner-info">
+            <p class="owner-name">{{clubOwner.surname}} {{clubOwner.name}}, Owner</p>
+            <p class="owner-text">
+                {{ clubOwner.biography ? clubOwner.biography : 'Biography not added yet.' }}
+              </p>
+
+            <div class="highlighted-section">
+              <p class="owner-motto">"{{clubOwner.motto ? clubOwner.motto: 'Motto not added yet.'}}"</p>
+            </div>
+        </div>
+        <div class="owner-secondary">
+            <img style="border-radius:10px" *ngIf="clubOwner?.id && memberBackgrounds[clubOwner.id]" 
+                [src]="getImage(memberBackgrounds[clubOwner.id])" 
+                alt="Club Owner Background">
+        </div>
+
     </div>
+
+    <div class="header">
+        <h2 class="club-members-title"><mat-icon class="members-icon">supervisor_account</mat-icon>Club Members</h2>
+        <p class="club-members-description">{{members.length-1}} members</p>
+    </div>
+
+
+    <div class="members-container"> 
+        <div   >
+            <div class="member-cards">
+            
+                <ng-container *ngFor="let member of members">
+                    <div class="card"  *ngIf="member.id !== ownerId" >
+
+                        <div class="cover-photo">
+                            <img style="border-radius: 11.67px 11.67px 0 0" [src]="getImage(memberBackgrounds[member.id])">
+                            <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="profile">
+                            <img *ngIf="!member.imageUrl"  [src]="'assets/images/userPlaceholder.png'"alt="Prof pict" class="profile">
+                        </div>
+                        <h3 class="profile-name">@{{member.username}}</h3>
+                        <div class="user-card-about">
+                            <p class="user-card-name">{{ member.name }} {{ member.surname }}</p>
+                            <div >
+                                <span class="email-icon">&#9993;</span>
+                                <span>{{member.email}}</span>
+                            </div>
+                            <p class="about">"{{member.motto ? member.motto: 'Motto not added yet.'}}"</p>
+    
+                        </div>
+    
+                        <button *ngIf="currentUserId === ownerId" (click)="removeMember(member.id)" class="remove-button">
+                            <i class="fas fa-user-minus"></i>Remove
+                        </button>
+                    </div>
+                </ng-container>
+
+
+            </div>
+        </div> 
     </div>
 </div>
-
+<!--  stara verzija liste
 <div class="members-container">
 <div *ngFor="let member of members"  >
     <div *ngIf="member.id !== ownerId" class="member-card">
-        <!-- Prikaz ostalih članova -->
+       
         <div class="member-image">
             <img *ngIf="member.imageUrl" [src]="getImage(member.imageUrl)" alt="Prof pict" class="member-avatar" />
         </div>
@@ -37,8 +122,20 @@
         </div>
     </div>
 </div>
-</div>
+</div> -->
 
 <ng-template #noMembers>
     <p>No members found.</p>
 </ng-template>
+
+<div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+      (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
+  </div>
+  

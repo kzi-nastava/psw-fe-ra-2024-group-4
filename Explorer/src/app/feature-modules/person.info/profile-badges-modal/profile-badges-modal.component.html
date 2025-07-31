@@ -1,0 +1,55 @@
+<h2 mat-dialog-title class="badge-header">Your Achievements</h2>
+<div class="badge-scroll-wrapper">
+  
+
+<!-- Rare badge showcase with animation -->
+<div class="rare-badges-container">
+  <h3 class="rare-title">Legendary Badges</h3>
+  <div class="rare-badges">
+    <div
+      class="badge rare"
+      *ngFor="let group of rareBadges"
+      [matTooltip]="group.levels[0].tooltip"
+      matTooltipPosition="above"
+      [ngClass]="{
+        'owned': hasBadge(group.levels[0].fileName),
+        'unowned': !hasBadge(group.levels[0].fileName)
+      }"
+    >
+      <img
+        [src]="'assets/pictures/' + group.levels[0].fileName"
+        alt="Rare Badge"
+      />
+      <p>{{ hasBadge(group.levels[0].fileName) ? '★ Legendary' : 'Locked' }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Regular grouped badges with levels -->
+<div class="badge-groups-container">
+  <div class="badge-group" *ngFor="let group of normalBadgeGroups">
+    <h3>{{ group.title }}</h3>
+    <div class="badge-levels">
+      <div
+        class="badge"
+        *ngFor="let level of group.levels"
+        [matTooltip]="level.tooltip"
+        matTooltipPosition="above"
+        [ngClass]="{
+          'owned': hasBadge(level.fileName),
+          'unowned': !hasBadge(level.fileName)
+        }"
+      >
+        <img
+          [src]="'assets/pictures/' + level.fileName"
+          [alt]="level.level || 'Rare Badge'"
+          [ngClass]="{
+            'rare-glow': level.level === ''
+          }"
+        />
+        <p>{{ hasBadge(level.fileName) ? level.level || '★' : 'Locked' }}</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
