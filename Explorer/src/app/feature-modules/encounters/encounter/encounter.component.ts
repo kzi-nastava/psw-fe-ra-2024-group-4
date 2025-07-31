@@ -14,6 +14,12 @@ export class EncounterComponent {
 
   encounter: Encounter | null = null;
   activationSuccess = false;
+  
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Click "Activate" to activate the encounter. The encounter details include its title, description, XP, status, type, and other specific data depending on the encounter type. For Social encounters, the required participants and radius are displayed. For Hidden Location encounters, the activation radius and an image are shown. For Misc encounters, an action description is provided. If the encounter does not exist for this location, it will notify you accordingly.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
 
   constructor(private service: EncounterServiceService, 
     @Inject(MAT_DIALOG_DATA) public keyPoint: KeyPoint,

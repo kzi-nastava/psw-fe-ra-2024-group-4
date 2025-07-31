@@ -1,48 +1,40 @@
-
 <div class="mykeypoints-page">
-
-<div class="mykeypoints-container">
-    
-
-    <table class="keypoints-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of keyPoints">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.description }}</td>
-                <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
-                <td>{{ getStatusLabel(item.publicStatus) }}</td>
-                <td>
-                    <div class="buttons">
-                        <button color="primary" matTooltip="Add Encounter" (click)="addEncounter(item)"  mat-icon-button>
-                            <mat-icon>add</mat-icon>
-                        </button>
-                        <button color="primary" matTooltip="Edit KeyPoint" (click)="onEditClicked(item)"  mat-icon-button>
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                    </div>
-                    
-                </td>
-            </tr>
-           
-        </tbody>
-    </table>
-     <xp-keypoint-form *ngIf="shouldEdit" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint] = "selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
-  
-</div>
+    <div class="mykeypoints-container">
+        <table class="keypoints-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Longitude</th>
+                    <th>Latitude</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of keyPoints">
+                    <td><img [src]="getImage(item.image)" alt="Item Image" height="100"></td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.longitude.toPrecision(6) }}</td>
+                    <td>{{ item.latitude.toPrecision(6) }}</td>
+                    <td class="description-column">{{ item.description }}</td>
+                    <td>{{ getStatusLabel(item.publicStatus) }}</td>
+                    <td>
+                        <div class="buttons">
+                            <button color="primary" matTooltip="Add Encounter" (click)="addEncounter(item)" class="equal-height" mat-button>
+                                Add Encounter
+                            </button>
+                            <button color="primary" matTooltip="Edit KeyPoint" (click)="onEditClicked(item)" class="equal-height" mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+                        
+                    </td>
+                </tr>
+            
+            </tbody>
+        </table>
+        <xp-keypoint-form *ngIf="shouldEdit" (keypointsUpdated)="getKeyPoints()" [shouldEdit]="shouldEdit" [keypoint] = "selectedKeyPoint" [registeringObj]="registeringObj"></xp-keypoint-form>
+    </div>
 </div>

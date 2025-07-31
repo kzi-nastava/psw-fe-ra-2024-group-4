@@ -11,6 +11,13 @@ export class TourSelectionDialogComponent {
   tours: Tour[] = [];
   selectedTours: Tour[] = [];
 
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Here you can view and select the tours you want to include in your package. Click on any tour to select it, and it will be marked with a check (✓). Once you have selected your tours, click the "Add Tours" button to finalize your choices. If you need any help, feel free to ask!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { tours: Tour[], selectedTours: Tour[] },
     private dialogRef: MatDialogRef<TourSelectionDialogComponent>

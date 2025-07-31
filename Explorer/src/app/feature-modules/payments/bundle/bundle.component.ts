@@ -18,6 +18,13 @@ export class BundleComponent implements OnInit {
   bundles: Bundle[] = [];
   user: User|null=null;
   
+  
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page displays a list of bundles. Each bundle shows its name, status (Draft, Published, or Archived), and price. You can perform actions like deleting a draft, publishing a bundle if eligible, or archiving a published bundle.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: PaymentsService, private authService: AuthService, private tourService: TourService){}
   
   ngOnInit(): void {

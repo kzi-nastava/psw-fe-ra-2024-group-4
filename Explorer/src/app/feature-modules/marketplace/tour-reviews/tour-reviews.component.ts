@@ -9,6 +9,13 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
   styleUrls: ['./tour-reviews.component.css']
 })
 export class TourReviewsComponent implements OnInit{
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'This page displays a list of reviews for the tours. You can view details like the tour ID, tourist ID, rating, comment, attendance date, review date, and image paths. You can also edit or delete existing reviews and add new ones.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: MarketplaceService) { }
   
   tourReviews : TourReview[] = [];

@@ -1,0 +1,127 @@
+.content-container {
+    max-width: 800px; /* širina za oba bloka */
+    margin: 0 auto;
+  }
+  
+  .problem-description-container {
+    position: relative;           /* Omogućava pozicioniranje child elemenata */
+    background-size: contain;     /* Cela slika vidljiva */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    margin-top: -100px;
+    &.img{
+        //height: 115%;
+    };
+  }
+
+  
+  .text-content {
+    position: absolute;
+    top: 50%;                     /* Vertikalno centriraj */
+    left: 50%;                    /* Horizontalno centriraj */
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  }
+  .description-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .club-description-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .club-description-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .club-description-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.4;
+  }
+  
+  .edit-btn {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Modal (isto ostaje) */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .modal-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .modal-buttons button:hover {
+    background-color: #0056b3;
+  }
+  .editable-description {
+    width: 100%;
+    height: 120px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: left;          /* tekst nije centriran */
+    resize: vertical;          /* korisnik može da menja visinu */
+    overflow-y: auto;          /* scroll ako ima više teksta */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    line-height: 1.4;
+    box-sizing: border-box;
+  }
+  
+  

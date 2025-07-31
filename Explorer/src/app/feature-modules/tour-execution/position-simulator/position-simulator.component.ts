@@ -16,8 +16,9 @@ import { Tour } from '../../tour-authoring/model/tour.model';
 import { CartService } from '../../payments/cart-overview.service';
 import { PurchaseService } from '../../tour-authoring/tour-purchase-token.service';
 import { EncounterServiceService } from '../../encounters/encounter.service.service';
-import { Encounter } from '../../encounters/model/encounter.model';
+import { Encounter, EncounterType } from '../../encounters/model/encounter.model';
 import { Router } from '@angular/router';
+import { TourObject } from '../../tour-authoring/model/object.model';
 
 @Component({
   selector: 'xp-position-simulator',
@@ -41,12 +42,13 @@ export class PositionSimulatorComponent implements OnInit {
   chatMessage: string = 'You can put your location on the map to get started.';
   encounters: Encounter[] = [];
   activeEncounters: Encounter[] = [];
+  objects: TourObject[] = [];
   hoveredEncounter: any = null;
   uttr: SpeechSynthesisUtterance;
   
 
   constructor(private service: TourExecutionService, private authService: AuthService,
-    private authorService: TourAuthoringService, private purchaseService: PurchaseService, 
+    private tourAuthoringService: TourAuthoringService, private purchaseService: PurchaseService, 
     private tourExecutionService: TourExecutionService, private encounterService: EncounterServiceService,
     private dialog: MatDialog,
     private router: Router){
@@ -75,18 +77,12 @@ export class PositionSimulatorComponent implements OnInit {
 
   playKeypointAudio(text: string): void
   {
-  
     this.uttr.text = text;
     window.speechSynthesis.speak(this.uttr);
   }
 
-
-
-  
-
   stopKeypointAudio(): void
   {
-    
     window.speechSynthesis.cancel();
   }
 
@@ -133,7 +129,6 @@ export class PositionSimulatorComponent implements OnInit {
       this.tour = result;
       console.log(this.tour);
     })
-
   }
 
   getCurrentPosition(): void {
@@ -143,6 +138,7 @@ export class PositionSimulatorComponent implements OnInit {
         console.log('Current Position:', this.currentPosition);
         this.checkProximityToKeyPoints(); 
         this.checkProximityToChallenges();
+        this.checkProximityToObjects();
         if (this.activeEncounters.length > 0) {
           let activeUncompleted = this.activeEncounters
             .filter(encounter => encounter.instances?.some(instance => 
@@ -159,36 +155,44 @@ export class PositionSimulatorComponent implements OnInit {
   
             // Check if within 30 meters initially
             const distance = this.calculateDistance(lat1, lon1, lat2, lon2);
-            // TODO proveriti da li je zavrsen - ako jeste ne zovi
             if (distance <= 30) { // 30 meters
-              alert("Nasli ste skrivenu lokaciju od izazova " + encounter.title);
-              console.log(`Encounter "${encounter.title}" is within 30 meters, starting timer.`);
+              // Show SweetAlert to notify user they are near the encounter
+              Swal.fire({
+                title: `You are near the hidden location of the challenge "${encounter.title}"!`,
+                icon: 'info',
+                confirmButtonText: 'OK',
+              }).then(result => {
+                console.log(`Encounter "${encounter.title}" is within 30 meters, starting timer.`);
+                  // Start a timer to check if the user is still within 30 meters after 30 seconds
+                  setTimeout(() => {
+                    this.service.getPositionByTourist(this.user.id).subscribe(updatedPosition => {
+                      if (updatedPosition && updatedPosition.latitude !== undefined && updatedPosition.longitude !== undefined) {
+                        const updatedLat2 = updatedPosition.latitude;
+                        const updatedLon2 = updatedPosition.longitude;
   
-              // Start a timer to check if the user is still within 30 meters after 30 seconds
-              setTimeout(() => {
-                // Re-check current position after 30 seconds
-                this.service.getPositionByTourist(this.user.id).subscribe(updatedPosition => {
-                  if (updatedPosition && updatedPosition.latitude !== undefined && updatedPosition.longitude !== undefined) {
-                    const updatedLat2 = updatedPosition.latitude;
-                    const updatedLon2 = updatedPosition.longitude;
-  
-                    // Recalculate the distance after 30 seconds
-                    const updatedDistance = this.calculateDistance(lat1, lon1, updatedLat2, updatedLon2);
-                    if (updatedDistance <= 30) {
-                      // Complete the encounter if still within 30 meters
-                      alert("Izazov " + encounter.title +" zavrsena!");
-                      this.encounterService.completeEncounter(encounter.id!);
-                      console.log(`Encounter "${encounter.title}" completed.`);
-                    } else {
-                      console.log(`User moved out of the 30-meter range after 30 seconds.`);
-                    }
-                  } else {
-                    console.error('Error fetching updated position after 30 seconds.');
-                  }
-                }, error => {
-                  console.error('Error fetching updated position:', error);
-                });
-              }, 20000); // 30 seconds in milliseconds
+                        // Recalculate the distance after 30 seconds
+                        const updatedDistance = this.calculateDistance(lat1, lon1, updatedLat2, updatedLon2);
+                        if (updatedDistance <= 30) {
+                          // Complete the encounter if still within 30 meters
+                          Swal.fire({
+                            title: `Challenge "${encounter.title}" completed!`,
+                            text: "Congratulations, you have completed the challenge!",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                          });
+                          this.encounterService.completeEncounter(encounter.id!);
+                          console.log(`Encounter "${encounter.title}" completed.`);
+                        } else {
+                          console.log(`User moved out of the 30-meter range after 30 seconds.`);
+                        }
+                      } else {
+                        console.error('Error fetching updated position after 30 seconds.');
+                      }
+                    }, error => {
+                      console.error('Error fetching updated position:', error);
+                    });
+                  }, 20000); // 20 seconds for initial check
+              });
             }
           }
         }
@@ -219,7 +223,7 @@ export class PositionSimulatorComponent implements OnInit {
 
     const distance = R * c; // in meters
     return distance;
-}
+  }
 
   checkProximityToKeyPoints(): void {
     if (!this.currentPosition) {
@@ -257,86 +261,138 @@ export class PositionSimulatorComponent implements OnInit {
         console.error('Invalid key point data:', keyPoint);
       }
     });
-} 
+  } 
 
-checkProximityToChallenges(): void {
-  if (!this.currentPosition) {
+  checkProximityToObjects(): void {
+    if (!this.currentPosition) {
       console.error('Invalid current position:', this.currentPosition);
       return;
+    }
+
+    const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
+
+    this.tourAuthoringService.getObjectsInRadius(0.2, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+      next: (data: TourObject[]) => {
+        this.objects = data;
+      },
+      error: ((err) => {
+        console.error("Error loading objects:", err);
+      })
+    })
   }
 
-  if (!this.selectedTourPoints.length) {
+  checkProximityToChallenges(): void {
+    if (!this.currentPosition) {
+      console.error('Invalid current position:', this.currentPosition);
+      return;
+    }
+  
+    if (!this.selectedTourPoints.length) {
       console.error('No selected tour points:', this.selectedTourPoints);
       return;
-  }
-
-  const currentLatLng = L.latLng(this.currentPosition.latitude, this.currentPosition.longitude);
-
-  this.selectedTourPoints.forEach(keyPoint => {
+    }
+  
+    const currentLatLng = L.latLng(
+      this.currentPosition.latitude,
+      this.currentPosition.longitude
+    );
+  
+    // --- Merge of HEAD + dev logic for keyPoints ---
+    this.selectedTourPoints.forEach((keyPoint) => {
       if (keyPoint && keyPoint.latitude && keyPoint.longitude) {
-          const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
-          const distance = currentLatLng.distanceTo(keyPointLatLng);
-
-          if (distance < 50 && keyPoint.id !== undefined) {
-              console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
-              const enc = this.findEncounterForKeyPoint(keyPoint);
-              if(enc?.miscData){ // testirati!
-                this.handleMiscEncounter(keyPoint);
-              }
-              this.completeChallenge(keyPoint);
+        const keyPointLatLng = L.latLng(keyPoint.latitude, keyPoint.longitude);
+        const distance = currentLatLng.distanceTo(keyPointLatLng);
+  
+        // from dev: If we're within 50 meters, complete the challenge
+        if (distance < 50 && keyPoint.id !== undefined) {
+          console.log(`User is close to the challenge at key point: ${keyPoint.name}`);
+  
+          // If the 'encounter' has some 'miscData', handle it
+          const enc = this.findEncounterForKeyPoint(keyPoint);
+          if (enc?.miscData) {
+            this.handleMiscEncounter(keyPoint);
           }
+  
+          // Then mark the challenge as completed
+          this.completeChallenge(keyPoint);
+        }
       } else {
-          console.error('Invalid key point data:', keyPoint);
+        console.error('Invalid key point data:', keyPoint);
       }
-  });
-
+    });
   
-  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
-    next: ((data) => {
-      this.encounters = data.results;
-  
-      this.encounters.forEach(encounter => {
-        console.log(`Checking instances for encounter: ${encounter.title}`);
-  
-        const userInstance = encounter.instances?.find(
-          instance => instance.userId === this.user.id
-        );
-  
-        if (userInstance?.status === 1) {
-          console.log(`Encounter "${encounter.title}" is already completed by this user. Skipping.`);
-          return; 
-        }
-  
-        if (userInstance?.status === 0) {
-          console.log(`Encounter "${encounter.title}" is already active for this user. Skipping.`);
-          return; 
-        }
-  
-        for (const keyPoint of this.selectedTourPoints) {
-          if (keyPoint.longitude === encounter.longitude && keyPoint.latitude === encounter.latitude) {
-            return; 
-          }
-        }
+    // --- Merged encounter-service subscription logic ---
+    // Adjust the radius if you want 0.1, 0.2, 2, or something else.
+    this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude)
+      .subscribe({
+        next: (data) => {
+          this.encounters = data.results;
           
-        if (encounter.id !== undefined && !this.processedEncounters.has(encounter.id)) {
-          console.log(`User is close to encounter: ${encounter.title}`);
-          this.showEncounterDialogNoKeypoint(encounter);
-          if (!encounter.miscData) {
-            this.completeChallengeNoKeypoint(encounter);
-          } 
-        }
-      });
-      this.removeFarEncounters(); 
-    }),
-    error: ((err) => {
-      console.error("Error loading encounters:", err);
-    })
-  });
+          this.encounters.forEach((encounter) => {
+            console.log(`Checking instances for encounter: ${encounter.title}`);
   
-}
+            // If you need distance-based skipping for encounters, you can do something like:
+            const distance = this.calculateDistance(
+              this.currentPosition.latitude, 
+              this.currentPosition.longitude,
+              encounter.latitude, 
+              encounter.longitude
+            );
+  
+            // For example, skip if the encounter is more than 15m away
+            if (distance > 15) {
+              return;
+            }
+  
+            // check user instance status
+            const userInstance = encounter.instances?.find(
+              (instance) => instance.userId === this.user.id
+            );
+  
+            if (userInstance?.status === 1) {
+              console.log(`Encounter "${encounter.title}" is already completed by this user. Skipping.`);
+              return;
+            }
+            if (userInstance?.status === 0) {
+              console.log(`Encounter "${encounter.title}" is already active for this user. Skipping.`);
+              return;
+            }
+  
+            // If this encounter matches any known keyPoint, skip no-keypoint handling
+            for (const keyPoint of this.selectedTourPoints) {
+              if (
+                keyPoint.longitude === encounter.longitude &&
+                keyPoint.latitude === encounter.latitude
+              ) {
+                return;
+              }
+            }
+  
+            // Encounter is close, has not been processed, and isn't a known keyPoint
+            if (encounter.id !== undefined && !this.processedEncounters.has(encounter.id)) {
+              console.log(`User is close to encounter: ${encounter.title}`);
+              this.showEncounterDialogNoKeypoint(encounter);
+  
+              // If there's no additional "miscData", just complete the challenge
+              if (!encounter.miscData) {
+                this.completeChallengeNoKeypoint(encounter);
+              }
+            }
+          });
+  
+          // Clean up or remove far-away encounters from the list if needed
+          this.removeFarEncounters();
+        },
+        error: (err) => {
+          console.error('Error loading encounters:', err);
+        }
+      }
+    );
+  }
+  
 
 private removeFarEncounters(): void {
-  this.encounterService.getInRadius(0.1, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
+  this.encounterService.getInRadius(5, this.currentPosition.latitude, this.currentPosition.longitude).subscribe({
     next: (data) => {
       const encountersInRadius = data.results.map(encounter => encounter.id); 
 
@@ -437,6 +493,10 @@ completeChallenge(keyPoint: KeyPoint): void {
 completeChallengeNoKeypoint(encounter: Encounter): void {
   if (encounter.id === undefined) {
     console.error('Encounter ID is undefined, cannot complete challenge.');
+    return;
+  }
+
+  if(encounter.type === EncounterType.HiddenLocation) {
     return;
   }
 
@@ -569,7 +629,7 @@ showEncounterDialogNoKeypoint(encounter: Encounter): void {
       if(!encounter.miscData){
         this.completeChallengeNoKeypoint(encounter);
       }
-      else{
+      else {
         this.handleMiscEncounter(encounter);
       }
       console.log(`Encounter "${encounter.title}" was successfully activated.`);
@@ -639,7 +699,7 @@ showKeypointSecret(keyPoint: KeyPoint): void {
       next: (result: PositionSimulator) => 
       {
        
-        alert("Position updated");
+        // alert("Position updated");
         if (this.tourExecution?.id) {
           this.updateLastActivity(this.tourExecution.id); 
         }
@@ -661,7 +721,7 @@ showKeypointSecret(keyPoint: KeyPoint): void {
     this.service.addPosition(newPosition).subscribe({
       next: (result: PositionSimulator) => 
       {
-        alert("Position created");
+        // alert("Position created");
         window.location.reload();
         
     

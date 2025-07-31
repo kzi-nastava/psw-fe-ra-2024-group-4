@@ -35,6 +35,13 @@ export class PostFormComponent implements OnChanges{
   getImage(imageUrl: string | undefined): string {
     return imageUrl ? environment.webroot + imageUrl : 'assets/images/placeholder.png';
   }
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Welcome! Here you can create a new post or edit an existing one. Add a title, description, and an image, and style the text using Markdown. Click the "Create Post" button to publish your post or "Update Post" to save changes to an existing one.';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: PostService,private authService: AuthService){
     this.authService.user$.subscribe((user) => {
       this.user = user; 

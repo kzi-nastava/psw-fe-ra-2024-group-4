@@ -203,7 +203,9 @@ export class KeypointFormComponent implements OnInit {
       keypoint.id = this.keypoint.id;
       console.log('Updated keypoint: ', keypoint);
       this.service.updateKeyPoint(keypoint).subscribe({
-        next: () => {this.keypointsUpdated.emit(); alert("uslo");}
+        next: () => {this.keypointsUpdated.emit(); 
+                //alert("uslo");
+              }
 
       });
     }

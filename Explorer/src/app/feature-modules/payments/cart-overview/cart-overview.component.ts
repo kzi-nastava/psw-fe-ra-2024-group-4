@@ -41,12 +41,12 @@ export class CartOverviewComponent implements OnInit {
   paymentRecord: PaymentRecord = {} as PaymentRecord;
   toursByOrderItem: { [key: number]: TourOverview[] } = {};
 
-
   promoCode: string = '';
   purchaseNotification: Notification;
   private userSubscription: Subscription | null = null;
   
   isChatOpen: boolean = false; 
+  isCouponInputVisible: boolean = false;
   chatMessage: string = 'Welcome to your shopping cart! You can remove any items you no longer want by clicking the trash icon next to them.Once you are ready, click Checkout to complete your purchase.';  
   toggleChat(isChat: boolean): void {
     this.isChatOpen = isChat;
@@ -105,13 +105,16 @@ export class CartOverviewComponent implements OnInit {
   getCachedTours(orderId: number): TourOverview[] {
     return this.toursByOrderItem[orderId] || [];
   }
-
+  toggleCouponInput(): void {
+    this.isCouponInputVisible = !this.isCouponInputVisible;
+  }
 
   loadCurrentCart(userId: number)
   {
     this.cartService.getCartsByUser(userId).subscribe({
       next: (result: ShoppingCart[]) => {
           this.currentCart = result[0];
+          console.log('cur cart:', this.currentCart);
           this.loadCartItems();
       }
     })
@@ -335,7 +338,10 @@ refreshTourDetails(): void {
                         this.cartService.createToken(this.purchaseToken).subscribe({
                           next: (result: TourPurchaseToken) => {
                             this.loadUserWallet(this.userId || -1);
-                            Swal.fire('Success', 'Created token!', 'success');
+                            Swal.fire('Success', 'Tour added to your tours!', 'success').then(() => {
+                              // Preusmeravanje na stranicu "My Tours"
+                              this.router.navigate(['/purchased-tours']);
+                            });
         
                           },
                           error: (err: any) => {
@@ -371,7 +377,7 @@ refreshTourDetails(): void {
                   
                   this.cartService.createToken(this.purchaseToken).subscribe({
                     next: (result: TourPurchaseToken) => {
-                      Swal.fire('Success', 'Created token!', 'success');
+                      Swal.fire('Success', 'Created token! Tour added to your tours!', 'success');
   
                     },
                     error: (err: any) => {
@@ -482,7 +488,13 @@ refreshTourDetails(): void {
         },
         error: (err) => {
           console.error(`Error fetching authorId for tourId ${item.tourId}:`, err);
-          alert("Author information is missing for some items. Please try again later.");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Missing Information',
+            text: 'Author information is missing for some items. Please try again later.',
+            confirmButtonText: 'OK' 
+          });
+          
         },
       });
     });

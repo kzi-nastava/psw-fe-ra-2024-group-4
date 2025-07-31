@@ -1,0 +1,204 @@
+.badge-groups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 0;
+  overflow: visible;
+}
+
+
+.rare-badges,
+.rare-badges-container,
+.badge-group,
+.badge-levels,
+.badge-scroll-wrapper {
+  overflow: visible;
+}
+
+::ng-deep .mat-dialog-content {
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+html {
+  overflow: hidden;
+}
+
+
+
+.badge-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-group h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+  padding-left: 10px;
+}
+
+.badge-levels {
+  display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;
+  overflow-x: visible; /* dozvoljava senku */
+  padding-left: 10px;
+  position: relative; /* obavezno da bi z-index radio */
+}
+
+/* BADGE STYLE */
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.badge img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  image-rendering: auto; /* ili: crisp-edges / high-quality */
+  border-radius: 50%;
+  padding: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.badge.owned img {
+  box-shadow: 0 0 10px 3px gold;
+}
+
+.badge.unowned img {
+  filter: grayscale(100%) brightness(60%);
+  opacity: 0.6;
+}
+
+.custom-badge-dialog .mat-dialog-container {
+  overflow: hidden !important;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 900px;
+}
+
+.badge-scroll-wrapper {
+  overflow-y: auto;
+  max-height: calc(90vh - 100px);
+  padding: 0 24px 60px 24px;
+}
+body {
+  overflow: hidden; /* sprečava scroll celog sajta kad se modal otvori */
+}
+
+.badge p {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
+.badge img.rare-glow {
+  animation: glowPulse 2s infinite;
+  border: 2px solid gold;
+  border-radius: 50%;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px 6px rgba(255, 215, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.3);
+  }
+}
+
+.rare-badges-container {
+  background: linear-gradient(135deg, #eac9f1, #d4c2f0, #f6d4eb, #d0e0ff);
+  background-size: 400% 400%;
+  animation: aurora 10s ease infinite;
+  padding: 20px;
+  border-radius: 16px;
+  margin: 0 12px 30px 12px;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.4);
+  overflow: visible;
+}
+
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rare-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.rare-badges {
+  display: flex;
+  justify-content: center; /* centriranje */
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.rare-badges .badge {
+  flex: 0 0 auto;
+}
+
+.badge-group {
+  background-color: #ececec; /* svetlosiva */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.badge-group h3 {
+  font-size: 17px;
+  margin-bottom: 12px;
+  color: #444;
+  text-align: center;
+}
+
+.badge-header {
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  color: #4a4a4a;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}

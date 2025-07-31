@@ -1,9 +1,12 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { Encounter, EncounterStatus, EncounterType, SocialDataDto, HiddenLocationDataDto, MiscDataDto, RequestStatus} from '../model/encounter.model';
 import { EncounterServiceService } from '../encounter.service.service';
 import { concat, interval } from 'rxjs';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { MapComponent } from 'src/app/shared/map/map.component';
+import { MatDialog } from '@angular/material/dialog';
+import { HiddenMap } from '../hidden-map/hidden-map.component';
 
 @Component({
   selector: 'xp-admin-encounter',
@@ -11,6 +14,14 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
   styleUrls: ['./admin-encounter.component.css']
 })
 export class AdminEncounterComponent implements OnInit {
+  @Input() labelPosition: 'before' | 'after' = 'before';
+
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Create a new encounter by selecting the type, adding a title, description, and setting up additional details. Depending on the encounter type, you can specify participants, activation radius, or even select a hidden location on the map. Once you fill in the necessary fields, click "Create Encounter" to publish it!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
 
   constructor(private encounterService: EncounterServiceService, private authService: AuthService) {}
 
@@ -20,9 +31,9 @@ export class AdminEncounterComponent implements OnInit {
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]  // Dynamically fetch the encounter types
   selectedEncounterType: string = "Social";  // Default type
 
-  social: { requiredParticipants: 0, radius: 0 } = { requiredParticipants: 0, radius: 0 };  // Default values
-  hiddenLocation: { imageUrl: '', activationRadius: 0 , imageBase64: '', latitude: number, longitude: number} = { imageUrl: '', activationRadius: 0, imageBase64: '', latitude: 0, longitude: 0}; // Default values
-  misc: { actionDescription: '' } = { actionDescription: '' };  // Default values  
+  social: SocialDataDto = { requiredParticipants: 0, radius: 0 };  // Default values
+  hiddenLocation: HiddenLocationDataDto = { imageUrl: '', activationRadius: 0, imageBase64: '', latitude: 0, longitude: 0}; // Default values
+  misc: MiscDataDto = { actionDescription: '' };  // Default values  
 
   encounter: Encounter = {
     title: '',
@@ -39,24 +50,21 @@ export class AdminEncounterComponent implements OnInit {
     instances: [],
     isRequired: false
   };
+
+  readonly dialog = inject(MatDialog);
+  readonly hiddenLat = signal(0);
+  readonly hiddenLon = signal(0);
   
+  address: string = "No address selected";
 
   // Event handler for latitude change
   onLatitudeChanged(lat: number): void {
-    if(this.isChosingSecretLocation) {
-      this.hiddenLocation.latitude = lat;
-      return;
-    } 
     this.encounter.latitude = lat;
     console.log('Latitude changed:', this.encounter.latitude);
   }
 
   // Event handler for longitude change
   onLongitudeChanged(lng: number): void {
-    if(this.isChosingSecretLocation) {
-      this.hiddenLocation.longitude = lng;
-      return;
-    } 
     this.encounter.longitude = lng;
     console.log('Longitude changed:', this.encounter.longitude);
   }
@@ -69,20 +77,20 @@ export class AdminEncounterComponent implements OnInit {
     //ovaj deo iznad je zakomentarisan jer mislim da nije prakticno da se prikazuju samo izazovi na 1km od centra NS
     //i ovo ispod je malo bzv, mislim da bi trebalo da imamo na backu dobavljanje svih encountera bez radijusa i lat i long
     //ali nije moj posao pa nisam ispravljala
-      const globalRadius = 20000; // 20.000 km pokriva celu planetu
-      this.authService.user$.subscribe((user: User) => {
-        this.user = user;
-      })
-      this.encounterService.getInRadius(globalRadius, 0, 0).subscribe({
-      next: ((data) => {
-        console.log("Odgovor sa servera:", data);
-        console.log("Uspesno uzete na pocetku");
-        this.encounters = data.results;
-        console.log("Encounters prosleđeni u xp-map:", this.encounters);
-      }),
-      error: (err) => {
-        console.error('Error loading tours:', err);
-      }
+    const globalRadius = 20000; // 20.000 km pokriva celu planetu
+    this.authService.user$.subscribe((user: User) => {
+      this.user = user;
+    })
+    this.encounterService.getInRadius(globalRadius, 0, 0).subscribe({
+    next: ((data) => {
+      console.log("Odgovor sa servera:", data);
+      console.log("Uspesno uzete na pocetku");
+      this.encounters = data.results;
+      console.log("Encounters prosleđeni u xp-map:", this.encounters);
+    }),
+    error: (err) => {
+      console.error('Error loading tours:', err);
+    }
     });
   }
 
@@ -189,6 +197,7 @@ export class AdminEncounterComponent implements OnInit {
         console.log("Uspesno uzete na pocetku");
         this.encounters = data.results;
         console.log("Encounters prosleđeni u xp-map:", this.encounters);
+        location.reload();
       }),
       error: (err) => {
         console.error('Error loading tours:', err);
@@ -198,12 +207,27 @@ export class AdminEncounterComponent implements OnInit {
 
   onMapClick(event: any) {
     // Update the form with the clicked map coordinates
-    if (this.isChosingSecretLocation) {
-      this.hiddenLocation.longitude = event.longitude;
-      this.hiddenLocation.latitude = event.latitude;
-      return;
-    }
     this.encounter.longitude = event.longitude;
     this.encounter.latitude = event.latitude;
+  }
+
+  openHiddenLocationMap() {
+    const hiddenMapDialog = this.dialog.open(HiddenMap, {
+      width: '80%',
+      height: '80%',
+      data: {
+        latitude: this.hiddenLocation.latitude,
+        longitude: this.hiddenLocation.longitude,
+        address: this.address
+      }
+    });
+  
+    hiddenMapDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.hiddenLocation.latitude = result.latitude;
+        this.hiddenLocation.longitude = result.longitude;
+        this.address = result.address;
+      }
+    });
   }
 }

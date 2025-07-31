@@ -1,0 +1,22 @@
+/* Ensure SweetAlert is properly layered */
+.swal2-popup-custom {
+    z-index: 1050 !important; /* Popup stays below confetti */
+  }
+  
+  /* Confetti container scaling for focus */
+  #confetti-container svg {
+    transform: scale(0.5);
+    transform-origin: center;
+  }
+  
+  #confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1100; /* Higher than SweetAlert */
+    pointer-events: none;
+  }
+  
+  

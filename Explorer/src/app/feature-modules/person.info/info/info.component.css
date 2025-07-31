@@ -159,3 +159,202 @@ input.mat-input-element {
     background: rgba(255, 255, 255, 0.9); /* Svetlija pozadina unutar polja */
     border-radius: 8px;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.ad-container {
+    position: fixed;
+    top: 14%;
+    left: 2%;
+    width: 500px;
+    height: 140px;
+    background: rgba(255, 255, 255, 0.95); /* Beležimo laganu transparentnost */
+    border-radius: 2px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    animation: slideIn 0.8s ease-in-out;
+    z-index: 1000;
+    overflow: hidden;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.ad-container.hidden {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.ad-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    gap: 10px; /* Razmak između slike i teksta */
+}
+
+.ad-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-image: url('https://i.pinimg.com/736x/9e/19/2b/9e192b681a87705e4cb7a32dd11002b9.jpg'); Slika kao pozadina */
+    background-image: url('https://img.freepik.com/premium-vector/london-vector-with-tourists-travel-theme-cartoon-people-city_507816-540.jpg?w=996'); /* Slika kao pozadina */
+
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3; /* Samo pozadina ima transparentnost */
+    filter: brightness(70%);
+    z-index: -1;
+}
+
+.ad-image {
+    width: 150px; /* Širina levog pravougaonika */
+    height: 100%; /* Visina odgovara kartici */
+    background-size: cover; /* Pokriva ceo prostor bez izobličenja */
+    background-position: center; /* Pozicija slike */
+    /* border-radius: 2px 0 0 2px; Zaobljeni uglovi levo */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); Blaga senka */
+}
+
+
+
+.ad-text {
+    flex: 1; /* Tekst zauzima preostali prostor */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centriraj tekst vertikalno */
+    text-align: left;
+    color: #333;
+}
+
+.ad-text p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 10px 0; /* Razmak između teksta i dugmeta */
+    font-weight: 600; /* Boldovan tekst */
+    color: #222;
+}
+
+.ad-text .highlight {
+    font-weight: 800; /* Još jače naglašavanje ključnih delova */
+   /* color: #0056b3; /* Tamnoplava za naglašavanje */
+   color: #3882d1;
+
+}
+
+.ad-text button {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 16px;
+    margin-left: 5px;
+    border-radius: 8px;
+    background: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: flex-start; /* Dugme levo ispod teksta */
+}
+
+.ad-text button:hover {
+    background: #003f8a; /* Tamnija plava prilikom hovera */
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none; /* Bez pozadine */
+    border: none; /* Bez ivica */
+    font-size: 18px; /* Veličina simbola */
+    cursor: pointer;
+    color: #555; /* Početna boja X-a */
+    transition: transform 0.2s ease, color 0.3s ease; /* Dodajemo animacije samo za X */
+    z-index: 1000; /* Visok indeks za prikaz iznad svega */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover efekat - menja se samo boja X-a */
+.close-btn:hover {
+    color: #000; /* Promena boje X-a na crnu */
+    transform: scale(1.1); /* Povećanje X-a */
+}
+
+/* Klik efekat - X menja boju u ljubičastu */
+.close-btn:active {
+    color: rgb(192, 153, 218); /* Ljubičasta boja samo za X pri kliku */
+    transform: scale(1); /* Vraćanje na normalnu veličinu */
+}
+
+.fixed-circle {
+    position: fixed;
+    bottom: 7vh;
+    right: 8vh;
+    width: 10vh;
+    height: 10vh;
+    background-color: rgb(192, 153, 218);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 9999; 
+    color: white; 
+    font-size: 5vh; 
+    font-weight: bold;
+  }
+  
+  .fixed-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .chat-box {
+    position: fixed;
+    bottom: 21vh; 
+    right: 7vh;
+    width: 200px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    border-width: #4b464a;
+    border-width: 5px;
+    border: 1px solid #ef7ad9;
+    z-index: 9999;
+  }
+  
+  .chat-box::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 4vh;
+    width: 4vh;
+    height: 4vh;
+    background-color: #fff;
+    border-left: 1px solid #ef7ad9;
+    border-bottom: 1px solid #ef7ad9;
+    transform: rotate(-45deg);
+  }
+  

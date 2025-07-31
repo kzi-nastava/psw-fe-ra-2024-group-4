@@ -1,14 +1,14 @@
 <header>
-    <h1>Create Tour</h1>
+    <h1>Create Tour or Bundle</h1>
   </header>
   
-  <div class="container">
+  <div class="container" >
     <mat-tab-group class="center-container">
       <!-- Tab for Tours -->
       <mat-tab label="Tours">
-        <div class="tour-form-container">
+        <div class="tour-form-container" >
           <form [formGroup]="tourForm">
-            <div>
+            <div class="form-style">
               <mat-form-field>
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" type="text" required />
@@ -43,7 +43,7 @@
             </div>
           </form>
   
-          <div class="tags-container">
+          <div  id="tags-container" class="form-style">
             <header><h3>Select Tags</h3></header>
             <mat-selection-list>
               <div *ngFor="let tag of tourTags; let index = index">
@@ -65,5 +65,15 @@
         
       </mat-tab>
     </mat-tab-group>
+  </div>
+  <div class="chat-container">
+    <a (mouseenter)="toggleChat(true)" 
+    (mouseleave)="toggleChat(false)" class="fixed-circle">
+      ? 
+    </a>
+  
+    <div *ngIf="isChatOpen" class="chat-box">
+      <p>{{chatMessage}}</p>
+    </div>
   </div>
   

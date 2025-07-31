@@ -5,6 +5,6 @@ export interface Club{
     image:string,
     userId?:number,
     userIds: number[] | null,
-    imageBase64: string,
+    imageBase64?: string,
     tags: number[]
 }

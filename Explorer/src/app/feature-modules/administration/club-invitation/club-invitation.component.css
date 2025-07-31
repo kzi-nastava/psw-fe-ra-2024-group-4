@@ -18,14 +18,23 @@
     gap: 20px;
     flex-wrap: wrap;
   }
-  .letters{
-    font-size: 12px; /* Veličina slova */
-      font-family: 'Arial'; /* Profesinalan serif font */
-      font-weight: 700; /* Debela slova */
-      letter-spacing: 2px; /* Razmak između slova */
-      color: #333; /* Tamno siva boja za ozbiljan izgled */
-      text-transform: uppercase; /* Velika slova */
+  /* .letters{
+    font-size: 12px;
+      font-family: 'Arial'; 
+      font-weight: 700; 
+      letter-spacing: 2px; 
+      color: #333; 
+      text-transform: uppercase; 
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+  } */
+
+  .letters {
+    font-family: 'Roboto Slab', serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
   }
   
   /* Invite List and Processing List Styles */
@@ -33,7 +42,11 @@
     flex: 1;
     max-width: 45%;
   }
+  .member-name, .status {
+    margin-bottom: 10px;
+  }
   
+
   h2.heading {
     text-align: center;
     margin-bottom: 10px;
@@ -102,7 +115,7 @@
   /* Buttons */
   .btn-invite {
     padding: 8px 16px;
-    background-color: rgb(192, 153, 218);;
+    background-color: rgb(192, 153, 218);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -130,7 +143,7 @@
   }
   
   .invitation-card {
-    background-color: white;
+    background-color: rgb(192, 153, 218);
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
@@ -142,17 +155,107 @@
   .invitation-card:hover {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
+
+  .card-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #444;
+    padding: 15px;
+    text-align: left;
+    background: linear-gradient(145deg, #f9f9f9, #eaeaea);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  /* Hover efekat za karticu */
+  .card-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  .card-content:before {
+    content: '📩';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+  }
+  .card-content i {
+    margin-right: 8px;
+    color: #888;
+  }
+  .status span {
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+  }
   
   /* Status Classes */
   .status-processing {
     color: orange;
+    font-family: 'Poppins', sans-serif;
   }
   
   .status-accepted {
     color: green;
+    font-family: 'Poppins', sans-serif;
   }
   
   .status-denied {
     color: red;
+    font-family: 'Poppins', sans-serif;
+  }
+  .fixed-circle {
+    position: fixed;
+    bottom: 7vh;
+    right: 8vh;
+    width: 10vh;
+    height: 10vh;
+    background-color: rgb(192, 153, 218);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 9999; 
+    color: white; 
+    font-size: 5vh; 
+    font-weight: bold;
   }
   
+  .fixed-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .chat-box {
+    position: fixed;
+    bottom: 21vh; 
+    right: 7vh;
+    width: 200px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    border-width: #4b464a;
+    border-width: 5px;
+    border: 1px solid #ef7ad9;
+    z-index: 9999;
+  }
+  
+  .chat-box::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 4vh;
+    width: 4vh;
+    height: 4vh;
+    background-color: #fff;
+    border-left: 1px solid #ef7ad9;
+    border-bottom: 1px solid #ef7ad9;
+    transform: rotate(-45deg);
+  }

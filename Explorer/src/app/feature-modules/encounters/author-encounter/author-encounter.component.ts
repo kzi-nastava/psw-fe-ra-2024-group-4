@@ -53,6 +53,13 @@ export class AuthorEncounterComponent {
 
   encounterTypes: string[] = ["Social", "HiddenLocation", "Misc"]
   
+
+  isChatOpen: boolean = false; 
+  chatMessage: string = 'Create a new encounter by providing a title, description, and XP. Depending on the encounter type, you can specify additional details like required participants, radius, or upload an image for hidden locations. Choose the appropriate encounter type (Social, HiddenLocation, or Misc) and fill in the necessary fields. Once ready, click "Submit" to create your encounter!';
+  toggleChat(isChat: boolean): void {
+    this.isChatOpen = isChat;
+  }
+
   constructor(private service: EncounterServiceService,@Inject(MAT_DIALOG_DATA) public keyPoint: KeyPoint, private dialogRef: MatDialogRef<AuthorEncounterComponent>){
     this.encounter.latitude = this.keyPoint.latitude
     this.encounter.longitude = this.keyPoint.longitude
