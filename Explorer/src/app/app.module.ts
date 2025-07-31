@@ -37,14 +37,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { matExpansionAnimations, MatExpansionModule } from '@angular/material/expansion'; // Dodat modul za mat-accordion i mat-expansion-panel
 import { MatRadioModule } from '@angular/material/radio'; 
-
 import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
-
-
+import { PopupsModule } from './feature-modules/badges/popups/popups.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent    
   ],
   imports: [
     CommonModule,
@@ -82,7 +80,7 @@ import { ChatBotModule } from './feature-modules/chat-bot/chat-bot.module';
     MatExpansionModule,
     MatRadioModule, 
     ChatBotModule,
-
+    PopupsModule    
   ],
   providers: [
     {

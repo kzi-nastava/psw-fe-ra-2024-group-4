@@ -23,6 +23,7 @@ import { PurposeComponent } from './about-us/purpose/purpose.component';
 import { AboutAppComponent } from './about-us/about-app/about-app.component';
 import { FooterComponent } from './footer/footer.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { PopupsModule } from '../badges/popups/popups.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MarkdownModule } from 'ngx-markdown';
     MatInputModule, 
     AdministrationModule ,
     MatTabsModule,
-    MarkdownModule
+    MarkdownModule,
+    PopupsModule
 ],
   exports: [
     NavbarComponent,
